@@ -1,0 +1,74 @@
+import { lazy } from 'react';
+import { Outlet, useRoutes } from 'react-router-dom';
+import LoadSuspenseScreen from './components/LoadSuspenseScreen';
+import CommonLayout from '@App/component/Layout/CommonLayout';
+import commonRoutes from './common';
+import PrivateRouter from './components/PrivateRouter';
+import adminRoute from './admin';
+import PublicRouter from './components/PublicRoute';
+
+const Home = LoadSuspenseScreen(lazy(() => import('@App/pages/common/Home')));
+const Login = LoadSuspenseScreen(lazy(() => import('@App/pages/Login')));
+const Register = LoadSuspenseScreen(lazy(() => import('@App/pages/Register')));
+
+const routes = [
+   // Trang người dùng
+   {
+      path: '/',
+      element: <CommonLayout />,
+      children: [
+         {
+            index: true,
+            element: <Home />,
+         },
+         commonRoutes,
+      ],
+   },
+
+   // Trang Admin
+   {
+      path: '/admin',
+      element: (
+         <PrivateRouter>
+            <Outlet />
+         </PrivateRouter>
+      ),
+      children: [
+         {
+            index: true,
+            element: <h1>Trang admin </h1>,
+         },
+         adminRoute,
+      ],
+   },
+
+   //acount Login + register
+   {
+      path: 'account',
+      element: <PublicRouter />,
+      children: [
+         {
+            path: 'login',
+            element: <Login />,
+         },
+         {
+            path: 'register',
+            element: <Register />,
+         },
+      ],
+   },
+
+   {
+      path: '*',
+      element: (
+         <h1>
+            404 <br />
+            Trang web không tồn tại
+         </h1>
+      ),
+   },
+];
+
+export default function Routers() {
+   return useRoutes(routes);
+}
