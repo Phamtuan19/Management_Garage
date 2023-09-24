@@ -14,7 +14,6 @@ const createInstance = (baseURL: string) => {
 
    axiosInstance.interceptors.request.use(
       (requestConfig: InternalAxiosRequestConfig<any>): InternalAxiosRequestConfig => {
-         
          return requestConfig;
       },
 

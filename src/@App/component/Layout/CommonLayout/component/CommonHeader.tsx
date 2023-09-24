@@ -1,9 +1,9 @@
-import { Stack, styled } from '@mui/material';
+import { Stack, styled } from "@mui/material";
 
 function CommonHeader() {
    return (
       <CommonHeaderNav>
-         <Stack padding={24} spacing={2}></Stack>
+         {/* <Stack padding={24} spacing={2}></Stack> */}
       </CommonHeaderNav>
    );
 }
@@ -16,7 +16,7 @@ const CommonHeaderNav = styled('nav')(({ theme }) => ({
    left: 0,
    backgroundColor: '#fff',
    boxShadow: theme.base.header.boxShadow,
-   zIndex: 99999,
+   zIndex: 500,
 }));
 
 export default CommonHeader;
