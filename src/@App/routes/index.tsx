@@ -6,6 +6,7 @@ import commonRoutes from './common';
 import PrivateRouter from './components/PrivateRouter';
 import adminRoute from './admin';
 import PublicRouter from './components/PublicRoute';
+import routePath from '@App/configs/routerPath';
 
 const Home = LoadSuspenseScreen(lazy(() => import('@App/pages/common/Home')));
 const Login = LoadSuspenseScreen(lazy(() => import('@App/pages/Login')));
@@ -44,7 +45,7 @@ const routes = [
 
    //acount Login + register
    {
-      path: 'account',
+      path: routePath.account.path,
       element: <PublicRouter />,
       children: [
          {

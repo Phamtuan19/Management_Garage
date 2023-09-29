@@ -5,6 +5,13 @@ const base: Base = {
       pagination: '#fde428',
       background: {
          default: '#e9ecef',
+         white: '#FFFFFF',
+      },
+      color: {
+         main: '#5624d0',
+         light: '#000',
+         dark: '#000',
+         contrastText: '#fff',
       },
       text: {
          main: '#343a4d',

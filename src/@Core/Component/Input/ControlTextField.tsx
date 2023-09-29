@@ -1,29 +1,31 @@
 import React from 'react';
-import { Box, TextField } from '@mui/material';
-import { Controller, Control, FieldValues, FieldPathByValue } from 'react-hook-form';
+import { Box, SxProps, TextField, Theme } from '@mui/material';
+import { Controller, Control, FieldValues } from 'react-hook-form';
 
 interface ControllerTextFieldProps<TFieldValues extends FieldValues = FieldValues> {
    name: string;
    placeholder?: string;
    defaultValue?: string;
+   sx?: SxProps<Theme> | undefined;
    control: Control<TFieldValues>;
 }
 
 function ControlTextField<TFieldValues extends FieldValues = FieldValues>(
    props: ControllerTextFieldProps<TFieldValues>,
 ): React.ReactNode {
-   const { name, placeholder, defaultValue, control } = props;
+   const { name, placeholder, defaultValue, sx, control } = props;
    return (
       <Controller
          render={({ field, fieldState: { error } }) => {
             return (
-               <Box>
+               <React.Fragment>
                   <TextField
                      fullWidth
                      id={name}
                      variant="outlined"
-                     size="medium"
+                     size="small"
                      error={Boolean(error)}
+                     sx={sx}
                      placeholder={placeholder}
                      {...field}
                   />
@@ -32,7 +34,7 @@ function ControlTextField<TFieldValues extends FieldValues = FieldValues>(
                         {error.message}
                      </Box>
                   )}
-               </Box>
+               </React.Fragment>
             );
          }}
          defaultValue={(defaultValue || '') as any}
