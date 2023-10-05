@@ -1,6 +1,6 @@
 import { lazy } from 'react';
 import { Outlet, useRoutes } from 'react-router-dom';
-import LoadSuspenseScreen from './components/LoadSuspenseScreen';
+import Loadable from './components/loadable';
 import CommonLayout from '@App/component/Layout/CommonLayout';
 import commonRoutes from './common';
 import PrivateRouter from './components/PrivateRouter';
@@ -8,9 +8,9 @@ import adminRoute from './admin';
 import PublicRouter from './components/PublicRoute';
 import routePath from '@App/configs/routerPath';
 
-const Home = LoadSuspenseScreen(lazy(() => import('@App/pages/common/Home')));
-const Login = LoadSuspenseScreen(lazy(() => import('@App/pages/Login')));
-const Register = LoadSuspenseScreen(lazy(() => import('@App/pages/Register')));
+const Home = Loadable(lazy(() => import('@App/pages/common/Home')));
+const Login = Loadable(lazy(() => import('@App/pages/Login')));
+const Register = Loadable(lazy(() => import('@App/pages/Register')));
 
 const routes = [
    // Trang người dùng

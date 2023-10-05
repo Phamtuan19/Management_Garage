@@ -1,5 +1,5 @@
 import { lazy } from 'react';
-import LoadSuspenseScreen from '../components/LoadSuspenseScreen';
+import LoadSuspenseScreen from '../components/loadable';
 
 const Profile = LoadSuspenseScreen(lazy(() => import('@App/pages/common/Profile')));
 
