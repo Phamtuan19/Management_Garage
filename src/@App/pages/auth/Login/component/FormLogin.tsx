@@ -8,6 +8,7 @@ import * as yup from 'yup';
 import ControlLabel from '@Core/Component/Input/ControlLabel';
 import ControlTextField from '@Core/Component/Input/ControlTextField';
 import React from 'react';
+import Regexs from '@Core/Configs/Regexs';
 
 const ValidationFormLogin = yup.object({
    email: yup.string().required(),
