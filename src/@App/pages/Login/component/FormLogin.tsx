@@ -33,7 +33,7 @@ function FormLogin() {
       <Box width="100%">
          <form onSubmit={handleSubmit(onSubmitForm)}>
             <Box mb={1}>
-               <ControlLabel title="Email" />
+               <ControlLabel title="Email" sx={{ width: '500px' }} />
                <ControlTextField name="email" control={control} />
             </Box>
             <Box mb={2}>

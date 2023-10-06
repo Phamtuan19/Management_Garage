@@ -31,7 +31,7 @@ function Login() {
             <Typography variant="h4" fontWeight={600}>
                Welcome back
             </Typography>
-            <Box component="p">Enter your Untitled account details</Box>
+            <Box component="p" >Enter your Untitled account details</Box>
             <Box width={300}>
                <Stack width="100%" gap={2}>
                   {SOCIALS.map((item, index) => (
