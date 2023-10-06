@@ -9,8 +9,8 @@ import PublicRouter from './components/PublicRoute';
 import routePath from '@App/configs/routerPath';
 
 const Home = Loadable(lazy(() => import('@App/pages/common/Home')));
-const Login = Loadable(lazy(() => import('@App/pages/Login')));
-const Register = Loadable(lazy(() => import('@App/pages/Register')));
+const Login = Loadable(lazy(() => import('@App/pages/auth/Login')));
+const Register = Loadable(lazy(() => import('@App/pages/auth/Register')));
 
 const routes = [
    // Trang người dùng
