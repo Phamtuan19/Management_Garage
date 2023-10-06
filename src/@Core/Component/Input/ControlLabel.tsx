@@ -1,14 +1,15 @@
-import { Typography, Box } from '@mui/material';
+import { Typography, Box, SxProps, Theme } from '@mui/material';
 import React from 'react';
 
 interface ControlLabelProps {
    title?: string;
    required?: boolean;
+   sx?: SxProps<Theme> | undefined;
    children?: React.ReactNode;
 }
 
 function ControlLabel(props: ControlLabelProps) {
-   const { title, required, children } = props;
+   const { title, required, sx, children } = props;
 
    return (
       <Typography
@@ -20,6 +21,7 @@ function ControlLabel(props: ControlLabelProps) {
             padding: '5px 0',
             fontWeight: 500,
             gap: 1,
+            ...sx,
          }}
       >
          {title && title} {children && children}
