@@ -1,24 +1,21 @@
+import React from 'react';
 import { Box } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import LoginIcon from '@mui/icons-material/Login';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
 
 import ControlLabel from '@Core/Component/Input/ControlLabel';
 import ControlTextField from '@Core/Component/Input/ControlTextField';
-import React from 'react';
-import Regexs from '@Core/Configs/Regexs';
-
-const ValidationFormLogin = yup.object({
-   email: yup.string().required(),
-   password: yup.string().required().min(6),
-});
-
-type FormLoginProps = yup.InferType<typeof ValidationFormLogin>;
+import { useAuth } from '@App/redux/slices/auth.slice';
+import TextFleidPassword from '@Core/Component/Input/ControlTextFieldPassword';
+import { FormLoginProps, ValidationFormLogin } from '../utils/yup.validate';
+import loginService from '@App/services/auth.service';
 
 function FormLogin() {
-   const { handleSubmit, control } = useForm<FormLoginProps>({
+   const { authLogin } = useAuth();
+
+   const { handleSubmit, setError, control } = useForm<FormLoginProps>({
       resolver: yupResolver(ValidationFormLogin),
       defaultValues: {
          email: '',
@@ -26,20 +23,28 @@ function FormLogin() {
       },
    });
 
-   const onSubmitForm = (data: FormLoginProps) => {
-      console.log(data);
+   const handleSubmitForm = async (data: FormLoginProps) => {
+      try {
+         const res = await loginService.login(data);
+         console.log(res);
+      } catch (error: any) {
+         const message = error?.response.data.message;
+         Object.keys(message).forEach((key) => {
+            setError(key as 'email' | 'password', { type: 'password', message: message[key] });
+         });
+      }
    };
 
    return (
       <Box width="100%">
-         <form onSubmit={handleSubmit(onSubmitForm)}>
+         <form onSubmit={handleSubmit(handleSubmitForm)}>
             <Box mb={1}>
                <ControlLabel title="Email" sx={{ width: '500px' }} />
                <ControlTextField name="email" control={control} />
             </Box>
             <Box mb={2}>
                <ControlLabel title="Mật khẩu" />
-               <ControlTextField name="password" control={control} />
+               <TextFleidPassword name="password" control={control} />
             </Box>
             <LoadingButton fullWidth variant="contained" type="submit" startIcon={<LoginIcon />}>
                Đăng nhập
@@ -48,4 +53,5 @@ function FormLogin() {
       </Box>
    );
 }
+
 export default React.memo(FormLogin);

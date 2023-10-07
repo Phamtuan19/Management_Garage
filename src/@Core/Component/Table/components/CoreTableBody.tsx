@@ -12,7 +12,6 @@ function CoreTableBody<T>(props: TabelHeaderProps<T>) {
    const renderTableBody = () => {
       const { rows } = table.getRowModel();
 
-      console.log(rows);
       const allColumns = table.getAllColumns();
 
       if (isLoading) {

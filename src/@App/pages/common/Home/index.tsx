@@ -1,9 +1,9 @@
+import { useEffect, useMemo } from 'react';
 import useToastMessage from '@App/redux/slices/toastMessage.slice';
-import TableCore from '@Core/Component/Table';
 import { Box, Button } from '@mui/material';
 import { createColumnHelper } from '@tanstack/react-table';
-import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
+import testService from '@App/services/test.service';
 
 interface TypeRowsData {
    [x: string]: any;
@@ -63,6 +63,12 @@ function Home() {
             header: 'age',
          }),
       ];
+   }, []);
+
+   useEffect(() => {
+      (async () => {
+         const res = await testService.testApi();
+      })();
    }, []);
 
    return (
