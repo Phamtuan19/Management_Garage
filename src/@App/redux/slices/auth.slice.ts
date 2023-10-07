@@ -21,6 +21,15 @@ const actionRefreshToken = createAsyncThunk('auth/refreshToken', async () => {
    console.log('refresh token');
 });
 
+const actionGetUser = createAsyncThunk('auth/getUser', async () => {
+   try {
+      const res = await loginService.getUser();
+      return res;
+   } catch (error) {
+      throw new Error('');
+   }
+});
+
 interface InitialState<U> {
    user: Array<U> | null;
    isAuhthentication: boolean;
@@ -45,7 +54,17 @@ const authSlice = createSlice({
          console.log(action);
       },
    },
-   extraReducers: (builder) => {},
+   extraReducers: (builder) => {
+      builder
+         .addCase(actionGetUser.fulfilled, (state, action) => {
+            state.isInitialized = true;
+            state.isAuhthentication = true;
+         })
+         .addCase(actionGetUser.rejected, (state, _) => {
+            state.isInitialized = true;
+            state.isAuhthentication = false;
+         });
+   },
 });
 
 const { actionLoginReducer } = authSlice.actions;
@@ -62,7 +81,11 @@ export const useAuth = () => {
       dispatch(actionLoginReducer(data));
    };
 
-   return { auth, authRefreshToken, authLogin };
+   const authGetUser = () => {
+      dispatch(actionGetUser());
+   };
+
+   return { auth, authRefreshToken, authLogin, authGetUser };
 };
 
 export default authSlice;
