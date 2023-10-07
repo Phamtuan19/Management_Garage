@@ -40,7 +40,7 @@ const routes = [
             element: <h1>Trang admin </h1>,
          },
          adminRoute,
-      ],
+      ], 
    },
 
    //acount Login + register

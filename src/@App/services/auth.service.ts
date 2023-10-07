@@ -6,6 +6,7 @@ export const authPathUrl: ServicePathUrl = {
    LOGIN: 'login',
    REGISTER: 'register',
    REFRESH_TOKEN: 'refresh-token',
+   USER: 'user',
 };
 
 class LoginService extends BaseService {
@@ -18,6 +19,10 @@ class LoginService extends BaseService {
    refreshToken() {
       return this.request.post(this.BASE_ENDPOINT + '/' + authPathUrl.REFRESH_TOKEN);
       // return this.request.post(this.BASE_ENDPOINT + '/' + authPathUrl.REFRESH_TOKEN);
+   }
+
+   getUser() {
+      return this.request.get(this.BASE_ENDPOINT + '/' + authPathUrl.USER);
    }
 }
 
