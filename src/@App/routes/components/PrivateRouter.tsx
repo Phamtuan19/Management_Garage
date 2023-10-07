@@ -6,7 +6,7 @@ import { Navigate } from 'react-router-dom';
 export default function PrivateRouter(props: { children: React.ReactNode }) {
    const { auth } = useAuth();
 
-   if (!auth.isAuhthentication && auth.isInitialized && auth.userPermission === ROLE[1]) {
+   if (!auth.isAuhthentication && auth.isInitialized && auth.userPermission !== ROLE[1]) {
       return <Navigate to="/" replace />;
    }
 
