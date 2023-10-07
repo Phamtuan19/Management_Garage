@@ -8,6 +8,7 @@ import * as yup from 'yup';
 
 import TextFleidPassword from '@Core/Component/Input/ControlTextFieldPassword';
 
+
 const schemaValidator = yup.object({
    lastName: yup.string().required('Họ không được để trống'),
    firstName: yup.string().required('Tên không được để trống'),
