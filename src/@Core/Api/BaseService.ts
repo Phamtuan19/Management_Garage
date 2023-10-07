@@ -47,7 +47,7 @@ class BaseService {
     * @param {Object} query
     * @returns
     */
-   get<Q>(query?: TypeRequestParams | Q): Promise<Array<Q>> {
+   get<G>(query?: TypeRequestParams | G): Promise<Array<G>> {
       const params = {
          ...this.requestParams,
          ...query,
@@ -59,7 +59,7 @@ class BaseService {
     * @param {string} id
     * @returns
     */
-   find<T>(id: string): Promise<T> {
+   find<F>(id: string): Promise<F> {
       const url = `${this.BASE_ENDPOINT}/${id}`;
       return this.request.get(url);
    }
@@ -68,7 +68,7 @@ class BaseService {
     * @param {Object} data
     * @returns
     */
-   create<T>(data: TData): Promise<T> {
+   create<C>(data: TData): Promise<C> {
       return this.request.post(this.BASE_ENDPOINT, data);
    }
 
@@ -76,9 +76,8 @@ class BaseService {
     * @param {Object} data
     * @returns
     */
-   update<T>(data: TData, id?: string, method: 'put' | 'patch' = 'put'): Promise<T> {
+   update<U>(data: TData, id?: string, method: 'put' | 'patch' = 'put'): Promise<U> {
       const updateId = id || data[this.PRIMARY_KEY];
-
       return this.request[method](`${this.BASE_ENDPOINT}/${updateId}`, data);
    }
 
@@ -86,7 +85,7 @@ class BaseService {
     * @param {Object} data
     * @returns
     */
-   save<T>(data: TData): Promise<T> {
+   save<S>(data: TData): Promise<S> {
       // kiểm tra xem có id nếu có thì update còn chưa thì tạo mới
       if (data.hasOwnProperty(this.PRIMARY_KEY) && data[this.PRIMARY_KEY]) {
          return this.update(data);

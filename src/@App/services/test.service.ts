@@ -1,10 +1,9 @@
 import BaseService from '@Core/Api/BaseService';
-
 class TestService extends BaseService {
-   BASE_ENDPOINT = 'posts';
+   BASE_ENDPOINT = 'booking';
 
-   getPosts() {
-      return this.get();
+   testApi() {
+      return this.request.get(this.BASE_ENDPOINT + '/products');
    }
 }
 
