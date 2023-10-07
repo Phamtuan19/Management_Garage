@@ -25,7 +25,7 @@ function ControlTextField<TFieldValues extends FieldValues = FieldValues>(
                      variant="outlined"
                      size="small"
                      error={Boolean(error)}
-                     sx={sx}
+                     sx={{ mb: 0.5, ...sx }}
                      placeholder={placeholder}
                      {...field}
                   />

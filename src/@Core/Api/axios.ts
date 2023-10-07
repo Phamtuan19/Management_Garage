@@ -1,5 +1,12 @@
-import { errorMessage } from '@Core/Helper/message';
 import axios, { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
+import HttpStatusCode from '@Core/Configs/HttpStatusCode';
+import { errorMessage } from '@Core/Helper/message';
+// import queryString from 'query-string';
+
+// Tạo hàm tùy chỉnh để biến đổi params thành chuỗi truy vấn URL
+// const customParamsSerializer = (params: Record<string, any>): string => {
+//    return queryString.stringify(params);
+// };
 
 const createInstance = (baseURL: string) => {
    const config = {
@@ -8,6 +15,7 @@ const createInstance = (baseURL: string) => {
          'X-Requested-With': 'XMLHttpRequest',
       },
       withCredentials: false,
+      // paramsSerializer: customParamsSerializer,
    };
 
    const axiosInstance = axios.create(config);
@@ -23,6 +31,7 @@ const createInstance = (baseURL: string) => {
    );
 
    axiosInstance.interceptors.response.use(
+      // success response
       (response: AxiosResponse): AxiosResponse => {
          if (response && response.data) {
             return response.data;
@@ -30,11 +39,24 @@ const createInstance = (baseURL: string) => {
             return response;
          }
       },
-      async (error: Error | AxiosError<unknown, any>) => {
-         if (axios.isAxiosError(error) && error.response?.status === 400) {
-            errorMessage(error);
-            console.log(error.message);
-         }
+
+      // error response
+      async (error: Error | AxiosError<unknown, any>): Promise<AxiosResponse<any, any>> => {
+         // if (axios.isAxiosError(error)) {
+         // const originalRequest = error.config;
+         // const currentRequestUrl = originalRequest!.url;
+         // console.log(error.response!.status === HttpStatusCode.UNAUTHORIZED);
+         // if (
+         //    error.response!.status === HttpStatusCode.UNAUTHORIZED &&
+         //    currentRequestUrl !== authPathUrl.REFRESH_TOKEN
+         // ) {
+         //    console.log('object');
+         //    // const refreshTokenRequest = createInstance(import.meta.env.BASE_URL + '/' + 'api');
+         //    // const res = await refreshTokenRequest.get('auth/refresh-token');
+         //    // console.log(res);
+         // }
+         // }
+         errorMessage(error);
 
          return Promise.reject(error);
       },
