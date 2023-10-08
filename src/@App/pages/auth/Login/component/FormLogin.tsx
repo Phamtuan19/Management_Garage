@@ -2,7 +2,7 @@ import React from 'react';
 import { Box } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import LoginIcon from '@mui/icons-material/Login';
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import ControlLabel from '@Core/Component/Input/ControlLabel';
@@ -23,7 +23,7 @@ function FormLogin() {
       },
    });
 
-   const handleSubmitForm = async (data: FormLoginProps) => {
+   const handleSubmitForm: SubmitHandler<FormLoginProps> = async (data: FormLoginProps) => {
       try {
          const res = await loginService.login(data);
          console.log(res);
