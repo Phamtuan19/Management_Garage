@@ -4,7 +4,7 @@ import { useState } from 'react';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import { Link, NavLink } from 'react-router-dom';
 import routePath from '@App/configs/routerPath';
-import { menuCommonCofig } from '@App/configs/menuConfig';
+import { menuCommonConfig } from '@App/configs/menuConfig';
 function CommonHeader() {
    const [isLogin, setLogin] = useState(true);
    return (
@@ -54,7 +54,7 @@ function CommonHeader() {
                </Typography>
 
                <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                  {menuCommonCofig.map((page) => (
+                  {menuCommonConfig.map((page) => (
                      <Button
                         key={page.id}
                         sx={{
@@ -62,7 +62,7 @@ function CommonHeader() {
                            color: '#000',
                            backgroundColor: '#fff',
                            display: 'block',
-                           
+
                            ':hover': { backgroundColor: '#fff' },
                            mx: '5px',
                         }}

@@ -1,7 +1,7 @@
-const menuCommonCofig = [
+const menuCommonConfig = [
    {
       id: 1,
-      title: 'khóa học',
+      title: 'Khóa học',
       link: '',
    },
    {
@@ -16,4 +16,4 @@ const menuCommonCofig = [
    },
 ];
 
-export { menuCommonCofig };
+export { menuCommonConfig };
