@@ -40,7 +40,7 @@ const routes = [
             element: <h1>Trang admin </h1>,
          },
          adminRoute,
-      ], 
+      ],
    },
 
    //acount Login + register
@@ -49,11 +49,11 @@ const routes = [
       element: <PublicRouter />,
       children: [
          {
-            path: 'login',
+            path: routePath.account.login,
             element: <Login />,
          },
          {
-            path: 'register',
+            path: routePath.account.register,
             element: <Register />,
          },
       ],

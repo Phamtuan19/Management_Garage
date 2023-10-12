@@ -1,10 +1,12 @@
-import { Box, Button, Container, IconButton, Menu, MenuItem, Stack, Toolbar, Typography, styled } from '@mui/material';
+import { Avatar, Box, Button, Container, IconButton, Toolbar, Typography, styled } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useState } from 'react';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
+import { Link, NavLink } from 'react-router-dom';
+import routePath from '@App/configs/routerPath';
+import { menuCommonCofig } from '@App/configs/menuConfig';
 function CommonHeader() {
-   const pages = ['Khóa học', 'Lộ trình', 'Bài viết'];
-   const [isLogin, setLogin] = useState(false);
+   const [isLogin, setLogin] = useState(true);
    return (
       <CommonHeaderNav>
          <Container maxWidth={'xl'}>
@@ -12,15 +14,16 @@ function CommonHeader() {
                <Typography
                   variant={'h6'}
                   component="a"
-                  href="#"
+                  href=""
                   sx={{
                      mr: 2,
                      display: { xs: 'none', md: 'flex' },
                      fontFamily: 'monospace',
                      fontWeight: 700,
                      letterSpacing: '.3rem',
-                     color: 'inherit',
                      textDecoration: 'none',
+                     color: 'inherit',
+                     alignItems: 'center',
                   }}
                >
                   Elearning
@@ -38,8 +41,8 @@ function CommonHeader() {
                   sx={{
                      mr: 2,
                      display: { xs: 'flex', md: 'none' },
-                     flexGrow: 1,
                      fontFamily: 'monospace',
+                     flexGrow: 1,
                      fontWeight: 700,
                      letterSpacing: '.3rem',
                      color: 'inherit',
@@ -51,24 +54,27 @@ function CommonHeader() {
                </Typography>
 
                <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                  {pages.map((page) => (
+                  {menuCommonCofig.map((page) => (
                      <Button
-                        key={page}
+                        key={page.id}
                         sx={{
                            my: 0,
                            color: '#000',
                            backgroundColor: '#fff',
                            display: 'block',
+                           
                            ':hover': { backgroundColor: '#fff' },
                            mx: '5px',
                         }}
+                        component={NavLink}
+                        to={page.link}
                      >
-                        {page}
+                        {page.title}
                      </Button>
                   ))}
                </Box>
                {isLogin ? (
-                  <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
+                  <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex', alignItems: 'center' } }}>
                      <Typography
                         variant="caption"
                         sx={{
@@ -79,7 +85,20 @@ function CommonHeader() {
                      >
                         Khóa học của tôi
                      </Typography>
-                     <NotificationsActiveIcon />
+                     <Avatar
+                        variant="square"
+                        sx={{
+                           bgcolor: '#fff',
+                           borderRadius: 10,
+                           color: 'black',
+                           cursor: 'pointer',
+                           ':hover': {
+                              bgcolor: '#c7d0dd47',
+                           },
+                        }}
+                     >
+                        <NotificationsActiveIcon />
+                     </Avatar>
                   </Box>
                ) : (
                   <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
@@ -91,6 +110,8 @@ function CommonHeader() {
                            backgroundColor: 'gray',
                            borderRadius: 10,
                         }}
+                        component={NavLink}
+                        to={routePath.account.path + '/' + routePath.account.login}
                      >
                         Đăng nhập
                      </Button>
@@ -108,6 +129,8 @@ const CommonHeaderNav = styled('nav')(({ theme }) => ({
    position: 'fixed',
    top: 0,
    left: 0,
+   display: 'flex',
+   alignItems: 'center',
    backgroundColor: '#fff',
    boxShadow: theme.base.header.boxShadow,
    zIndex: 500,
