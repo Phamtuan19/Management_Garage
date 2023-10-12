@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { ThemeProvider } from '@mui/material/styles';
+import { SnackbarProvider } from 'notistack';
 import { QueryClientProvider, QueryClient, focusManager } from '@tanstack/react-query';
 
 import App from './@App/App';
@@ -24,9 +25,11 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
          <QueryClientProvider client={queryClient}>
             <OriginalInitialization>
                <ThemeProvider theme={theme}>
-                  <InitApp>
-                     <App />
-                  </InitApp>
+                  <SnackbarProvider maxSnack={3}>
+                     <InitApp>
+                        <App />
+                     </InitApp>
+                  </SnackbarProvider>
                </ThemeProvider>
                <ToasMessage />
             </OriginalInitialization>

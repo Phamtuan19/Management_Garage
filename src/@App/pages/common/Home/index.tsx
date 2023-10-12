@@ -85,7 +85,7 @@ function Home() {
       <>
          <Link to="/profile">Trang Profile</Link>
          <Box>trang home</Box>
-         <Button onClick={handleClick}>Click Me</Button>
+         <Button onClick={() => setToastMessage({ message: 'Click Me!!!!', status: 'success' })}>Click Me</Button>
 
          {/* <TableCore columns={columns} data={rows} /> */}
       </>
