@@ -14,7 +14,7 @@ const createInstance = (baseURL: string) => {
       headers: {
          'X-Requested-With': 'XMLHttpRequest',
       },
-      withCredentials: false,
+      // withCredentials: false,
       // paramsSerializer: customParamsSerializer,
    };
 
@@ -34,10 +34,10 @@ const createInstance = (baseURL: string) => {
       // success response
       (response: AxiosResponse): AxiosResponse => {
          if (response && response.data) {
+            console.log(response.data);
             return response.data;
-         } else {
-            return response;
          }
+         return response;
       },
 
       // error response

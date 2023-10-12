@@ -1,9 +1,11 @@
 import { useEffect, useMemo } from 'react';
 import useToastMessage from '@App/redux/slices/toastMessage.slice';
 import { Box, Button } from '@mui/material';
-import { createColumnHelper } from '@tanstack/react-table';
+import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
 import { Link } from 'react-router-dom';
 import testService from '@App/services/test.service';
+import TableCore from '@Core/Component/Table';
+import loginService from '@App/services/auth.service';
 
 interface TypeRowsData {
    [x: string]: any;
@@ -65,21 +67,27 @@ function Home() {
       ];
    }, []);
 
-   useEffect(() => {
-      (async () => {
-         const res = await testService.testApi();
-      })();
-   }, []);
+   // useEffect(() => {
+   //    (async () => {
+   //       // const res = await testService.testApi();
+   //       const resUser = await loginService.getUser();
+   //       console.log('object');
+   //       console.log(resUser);
+   //    })();
+   // }, []);
+
+   const handleClick = async () => {
+      const resUser = await loginService.getUser();
+      console.log(resUser);
+   };
 
    return (
       <>
          <Link to="/profile">Trang Profile</Link>
          <Box>trang home</Box>
-         <Button onClick={() => setToastMessage({ message: 'click like me toast message', status: 'success' })}>
-            Click Me
-         </Button>
+         <Button onClick={handleClick}>Click Me</Button>
 
-         {/* <TableCore columns={columns as any} data={rows} /> */}
+         {/* <TableCore columns={columns} data={rows} /> */}
       </>
    );
 }
