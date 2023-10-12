@@ -1,6 +1,6 @@
 import { Box, styled } from '@mui/material';
 import { Outlet } from 'react-router-dom';
-import CommonHeader from './component/CommonHeader';
+import CommonHeader from './components/Header';
 
 function CommonLayout() {
    return (
