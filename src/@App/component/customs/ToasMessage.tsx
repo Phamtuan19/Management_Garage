@@ -16,7 +16,7 @@ function ToasMessage() {
    return (
       <React.Fragment>
          {toastMessage.message && Object.keys(toastMessage).length > 0 ? (
-            <Snackbar
+            <Snackbar 
                open={Object.keys(toastMessage).length > 0}
                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
                autoHideDuration={3500}

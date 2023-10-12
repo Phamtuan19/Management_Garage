@@ -2,15 +2,19 @@ import { ServicePathUrl } from '@App/types/servicePathUrl';
 import BaseService from '@Core/Api/BaseService';
 
 export const authPathUrl: ServicePathUrl = {
-   BASE: 'auth',
+   BASE: 'account',
    LOGIN: 'login',
    REGISTER: 'register',
    REFRESH_TOKEN: 'refresh-token',
-   USER: 'user',
+   USER: '',
 };
 
 class LoginService extends BaseService {
    BASE_ENDPOINT = authPathUrl.BASE;
+
+   register(data: { lastName: string; firstName: string; email: string; password: string }) {
+      return this.request.post(this.BASE_URL + '/' + this.BASE_ENDPOINT + '/' + authPathUrl.REGISTER, data);
+   }
 
    login(data: { email: string; password: string }) {
       return this.request.post(this.BASE_ENDPOINT + '/' + authPathUrl.LOGIN, data);

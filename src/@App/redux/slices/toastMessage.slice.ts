@@ -23,7 +23,6 @@ export const toastMessage = createSlice({
    initialState,
    reducers: {
       actionSetToastMessage: (state, action: PayloadAction<ToastMessage>) => {
-         console.log(action);
          state.toastMessage = action.payload;
       },
    },
