@@ -1,7 +1,20 @@
-import { Box, Divider, Paper, Stack, Typography, styled } from '@mui/material';
+import { Box, Button, Divider, Paper, Stack, Typography, styled } from '@mui/material';
 import FormRegister from './component/FormRegister';
 import { Link } from 'react-router-dom';
 import routePath from '@App/configs/routerPath';
+import svg from '@App/assets/svg';
+import LazyLoadingImage from '@App/component/customs/LazyLoadingImage';
+
+const SOCIALS = [
+   {
+      img: svg.google,
+      title: 'Google',
+   },
+   {
+      img: svg.facebook,
+      title: 'Facebook',
+   },
+];
 
 function Register() {
    return (
@@ -13,11 +26,32 @@ function Register() {
             alignItems: 'center',
          }}
       >
-         <WrapperBoxFormLogin elevation={1}>
-            <Typography variant="h5" fontWeight={600}>
-               Đăng ký và bắt đầu học
+         <WrapperBoxFormLogin elevation={2}>
+            <Typography variant="h4" fontSize={32} mb={2} fontWeight={600}>
+               Register and start studying
             </Typography>
             <FormRegister />
+            <Stack width="100%" gap={2} direction="row" margin="12px 0">
+               {SOCIALS.map((item, index) => (
+                  <Button
+                     key={index}
+                     component={Link}
+                     to=""
+                     variant="outlined"
+                     sx={{
+                        width: '100%',
+                        position: 'relative',
+                        justifyContent: 'center',
+                        padding: '10px 24px',
+                        borderRadius: 10,
+                        borderColor: '#dce0e3',
+                     }}
+                     startIcon={<LazyLoadingImage w="18px" h="18px" src={item.img} alt="" />}
+                  >
+                     {item.title}
+                  </Button>
+               ))}
+            </Stack>
             <Typography component="p" textAlign="center">
                Bạn đã có tài khoản? Hãy{' '}
                <Box
@@ -42,9 +76,9 @@ function Register() {
 const WrapperBoxFormLogin = styled(Paper)(({ theme }) => ({
    width: 'max-content',
    minWidth: 400,
-   padding: '36px 24px',
+   padding: '32px 48px 24px 48px ',
    display: 'flex',
-   gap: 24,
+   gap: 12,
    alignItems: 'center',
    flexDirection: 'column',
    backgroundColor: theme.base.background.white,

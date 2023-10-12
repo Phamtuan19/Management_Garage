@@ -1,4 +1,3 @@
-import useToastMessage from '@App/redux/slices/toastMessage.slice';
 
 export const errorMessage = (error: any) => {
    // const { setToastMessage } = useToastMessage();

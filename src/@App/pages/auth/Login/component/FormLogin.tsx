@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import LoginIcon from '@mui/icons-material/Login';
@@ -11,11 +11,14 @@ import { useAuth } from '@App/redux/slices/auth.slice';
 import TextFleidPassword from '@Core/Component/Input/ControlTextFieldPassword';
 import { FormLoginProps, ValidationFormLogin } from '../utils/yup.validate';
 import loginService from '@App/services/auth.service';
+import setErrorMessageHookForm from '@App/helpers/setErrorMessageHookForm';
+import useToastMessage from '@App/redux/slices/toastMessage.slice';
 
 function FormLogin() {
    const { authLogin } = useAuth();
-
-   const { handleSubmit, setError, control } = useForm<FormLoginProps>({
+   const [isLoading, setIsLoading] = useState<boolean>(false);
+   const { setToastMessage } = useToastMessage();
+   const { handleSubmit, setError, setValue, reset, control } = useForm<FormLoginProps>({
       resolver: yupResolver(ValidationFormLogin),
       defaultValues: {
          email: '',
@@ -24,15 +27,21 @@ function FormLogin() {
    });
 
    const handleSubmitForm: SubmitHandler<FormLoginProps> = async (data: FormLoginProps) => {
+      setIsLoading(true);
       try {
          const res = await loginService.login(data);
-         console.log(res);
+         // authLogin()
+         const message = res.data && res.data.message ? res.data.message : '';
+         setToastMessage({ message: message, status: 'success' });
+         reset();
       } catch (error: any) {
-         const message = error?.response.data.message;
-         Object.keys(message).forEach((key) => {
-            setError(key as 'email' | 'password', { type: 'password', message: message[key] });
+         setError('email', {
+            type: 'error',
+            message: error.response.data.message,
          });
+         setValue('password', '');
       }
+      setIsLoading(false);
    };
 
    return (
@@ -46,7 +55,7 @@ function FormLogin() {
                <ControlLabel title="Mật khẩu" />
                <TextFleidPassword name="password" control={control} />
             </Box>
-            <LoadingButton fullWidth variant="contained" type="submit" startIcon={<LoginIcon />}>
+            <LoadingButton fullWidth variant="contained" type="submit" startIcon={<LoginIcon />} loading={isLoading}>
                Đăng nhập
             </LoadingButton>
          </form>
