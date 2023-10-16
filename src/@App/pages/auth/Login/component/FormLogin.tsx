@@ -11,7 +11,6 @@ import { useAuth } from '@App/redux/slices/auth.slice';
 import TextFleidPassword from '@Core/Component/Input/ControlTextFieldPassword';
 import { FormLoginProps, ValidationFormLogin } from '../utils/yup.validate';
 import loginService from '@App/services/auth.service';
-import setErrorMessageHookForm from '@App/helpers/setErrorMessageHookForm';
 import useToastMessage from '@App/redux/slices/toastMessage.slice';
 
 function FormLogin() {
