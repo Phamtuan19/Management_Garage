@@ -140,7 +140,7 @@ const Footer = () => {
                         </Typography>
                         <Box component="form"
                             sx={{
-                                '& > :not(style)': { m: 1, width: '40ch' }
+                                '& > :not(style)': { m: 1, width: '41ch' }
                             }}>
                             <TextField color="warning" id="outlined-basic" label="Email" variant="outlined" />
                         </Box>
