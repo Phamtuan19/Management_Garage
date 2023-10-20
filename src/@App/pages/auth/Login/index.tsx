@@ -1,23 +1,33 @@
 import svg from '@App/assets/svg';
 import LazyLoadingImage from '@App/component/customs/LazyLoadingImage';
 import { Box, Button, Divider, Paper, Stack, Typography, styled } from '@mui/material';
+import { redirect } from 'react-router-dom';
 
 import { Link } from 'react-router-dom';
 import FormLogin from './component/FormLogin';
 import routePath from '@App/configs/routerPath';
+import loginService from '@App/services/auth.service';
 
 const SOCIALS = [
    {
       img: svg.google,
       title: 'Log in with Google',
+      href: '/api/account/google/login',
    },
    {
       img: svg.facebook,
       title: 'Log in with Facebook',
+      href: '',
    },
 ];
 
 function Login() {
+   const handleApiLoginGoogle = async () => {
+      const rest = await loginService.loginGoogle();
+      console.log(rest.data.url);
+      return redirect(rest.data.url);
+   };
+
    return (
       <Stack
          sx={{
@@ -31,14 +41,12 @@ function Login() {
             <Typography variant="h4" fontWeight={600}>
                Welcome back
             </Typography>
-            <Box component="p" >Enter your Untitled account details</Box>
+            <Box component="p">Enter your Untitled account details</Box>
             <Box width={300}>
                <Stack width="100%" gap={2}>
                   {SOCIALS.map((item, index) => (
                      <Button
                         key={index}
-                        component={Link}
-                        to=""
                         variant="outlined"
                         sx={{
                            position: 'relative',
@@ -52,6 +60,7 @@ function Login() {
                               <LazyLoadingImage w="18px" h="18px" src={item.img} alt="" />
                            </Box>
                         }
+                        onClick={handleApiLoginGoogle}
                      >
                         <Typography component="span" color="#35414c" fontSize={16} fontWeight={500}>
                            {item.title}
