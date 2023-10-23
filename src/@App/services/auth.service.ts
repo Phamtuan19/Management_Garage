@@ -6,7 +6,7 @@ export const authPathUrl: ServicePathUrl = {
    LOGIN: 'login',
    REGISTER: 'register',
    REFRESH_TOKEN: 'refresh-token',
-   USER: '',
+   USER: 'profile',
 };
 
 class LoginService extends BaseService {

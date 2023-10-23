@@ -24,7 +24,9 @@ const actionRefreshToken = createAsyncThunk('auth/refreshToken', async () => {
 const actionGetUser = createAsyncThunk('auth/getUser', async () => {
    try {
       const res = await loginService.getUser();
-      return res;
+      const user = res.data;
+      // localStorage.setItem(import.meta.env.VITE_AUTH_TOKEN, user.avatar);
+      return user;
    } catch (error) {
       throw new Error('');
    }
@@ -50,13 +52,20 @@ const authSlice = createSlice({
    name: 'auth',
    initialState,
    reducers: {
-      actionLoginReducer: (state, action: PayloadAction) => {
-         console.log(action);
+      actionLoginReducer: (state, action) => {
+         const { role, ...user } = action.payload;
+         state.user = user;
+         state.userPermission = role;
+         state.isInitialized = true;
+         state.isAuhthentication = true;
       },
    },
    extraReducers: (builder) => {
       builder
          .addCase(actionGetUser.fulfilled, (state, action) => {
+            const { role, ...user } = action.payload;
+            state.user = user;
+            state.userPermission = role;
             state.isInitialized = true;
             state.isAuhthentication = true;
          })
