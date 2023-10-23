@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, SxProps, TextField, Theme } from '@mui/material';
+import { Box, FormHelperText, SxProps, TextField, Theme } from '@mui/material';
 import { Control, Controller, FieldValues, useWatch } from 'react-hook-form';
 
 interface TextFleidPasswordProps<TFieldValues extends FieldValues = FieldValues> {
@@ -76,11 +76,7 @@ function TextFleidPassword<TFieldValues extends FieldValues = FieldValues>(
                               </Box>
                            )}
                         </Box>
-                        {error && (
-                           <Box component="span" color="red">
-                              {error.message}
-                           </Box>
-                        )}
+                        {error && <FormHelperText variant="standard">{error.message}</FormHelperText>}
                      </React.Fragment>
                   );
                }}

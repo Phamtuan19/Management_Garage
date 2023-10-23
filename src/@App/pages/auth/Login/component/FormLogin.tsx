@@ -11,12 +11,9 @@ import { useAuth } from '@App/redux/slices/auth.slice';
 import TextFleidPassword from '@Core/Component/Input/ControlTextFieldPassword';
 import { FormLoginProps, ValidationFormLogin } from '../utils/yup.validate';
 import loginService from '@App/services/auth.service';
-import useToastMessage from '@App/redux/slices/toastMessage.slice';
 
 function FormLogin() {
-   const { authLogin } = useAuth();
    const [isLoading, setIsLoading] = useState<boolean>(false);
-   const { setToastMessage } = useToastMessage();
    const { handleSubmit, setError, setValue, reset, control } = useForm<FormLoginProps>({
       resolver: yupResolver(ValidationFormLogin),
       defaultValues: {
@@ -30,8 +27,8 @@ function FormLogin() {
       try {
          const res = await loginService.login(data);
          // authLogin()
-         const message = res.data && res.data.message ? res.data.message : '';
-         setToastMessage({ message: message, status: 'success' });
+         // const message = res.data && res.data.message ? res.data.message : '';
+         // setToastMessage({ message: message, status: 'success' });
          reset();
       } catch (error: any) {
          setError('email', {
@@ -52,7 +49,7 @@ function FormLogin() {
             </Box>
             <Box mb={2}>
                <ControlLabel title="Mật khẩu" />
-               <TextFleidPassword name="password" control={control} />
+               <TextFleidPassword name="password" control={control}  />
             </Box>
             <LoadingButton fullWidth variant="contained" type="submit" startIcon={<LoginIcon />} loading={isLoading}>
                Đăng nhập

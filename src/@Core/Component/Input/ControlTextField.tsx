@@ -1,6 +1,6 @@
 import React from 'react';
-import { Box, SxProps, TextField, Theme } from '@mui/material';
 import { Controller, Control, FieldValues } from 'react-hook-form';
+import { FormHelperText, SxProps, TextField, Theme } from '@mui/material';
 
 interface ControllerTextFieldProps<TFieldValues extends FieldValues = FieldValues> {
    name: string;
@@ -29,11 +29,7 @@ function ControlTextField<TFieldValues extends FieldValues = FieldValues>(
                      placeholder={placeholder}
                      {...field}
                   />
-                  {error && (
-                     <Box component="span" color="red">
-                        {error.message}
-                     </Box>
-                  )}
+                  {error && <FormHelperText variant="standard">{error.message}</FormHelperText>}
                </React.Fragment>
             );
          }}
