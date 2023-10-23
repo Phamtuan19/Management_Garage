@@ -1,6 +1,7 @@
-import axios, { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
+import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import HttpStatusCode from '@Core/Configs/HttpStatusCode';
 import { errorMessage } from '@Core/Helper/message';
+import middleware from './Middleware';
 // import queryString from 'query-string';
 
 // Tạo hàm tùy chỉnh để biến đổi params thành chuỗi truy vấn URL
@@ -8,8 +9,8 @@ import { errorMessage } from '@Core/Helper/message';
 //    return queryString.stringify(params);
 // };
 
-const createInstance = (baseURL: string) => {
-   const config = {
+const createInstance = <T, D>(baseURL: string) => {
+   const config: AxiosRequestConfig<T> = {
       baseURL: baseURL,
       headers: {
          'X-Requested-With': 'XMLHttpRequest',
@@ -18,10 +19,11 @@ const createInstance = (baseURL: string) => {
       // paramsSerializer: customParamsSerializer,
    };
 
-   const axiosInstance = axios.create(config);
+   const axiosInstance: AxiosInstance = axios.create(config);
 
    axiosInstance.interceptors.request.use(
-      (requestConfig: InternalAxiosRequestConfig<any>): InternalAxiosRequestConfig => {
+      (requestConfig: InternalAxiosRequestConfig<T>) => {
+         middleware(requestConfig);
          return requestConfig;
       },
 
@@ -32,16 +34,16 @@ const createInstance = (baseURL: string) => {
 
    axiosInstance.interceptors.response.use(
       // success response
-      (response: AxiosResponse): AxiosResponse => {
+      (response: AxiosResponse<T, D>): AxiosResponse<T, D> => {
          if (response && response.data) {
             console.log(response.data);
-            return response.data;
+            return response.data; // Return the entire response object
          }
          return response;
       },
 
       // error response
-      async (error: Error | AxiosError<unknown, any>): Promise<AxiosResponse<any, any>> => {
+      async (error: Error | AxiosError<T>): Promise<AxiosError<T>> => {
          // if (axios.isAxiosError(error)) {
          // const originalRequest = error.config;
          // const currentRequestUrl = originalRequest!.url;
