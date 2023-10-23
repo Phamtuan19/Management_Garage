@@ -1,5 +1,4 @@
 import { useEffect, useMemo } from 'react';
-import useToastMessage from '@App/redux/slices/toastMessage.slice';
 import { Box, Button } from '@mui/material';
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
 import { Link } from 'react-router-dom';
@@ -28,8 +27,6 @@ const rows = [
 ];
 
 function Home() {
-   const { setToastMessage } = useToastMessage();
-
    const columnHelper = createColumnHelper<TypeRowsData>();
 
    const columns = useMemo(() => {
@@ -76,16 +73,10 @@ function Home() {
    //    })();
    // }, []);
 
-   const handleClick = async () => {
-      const resUser = await loginService.getUser();
-      console.log(resUser);
-   };
-
    return (
       <>
          <Link to="/profile">Trang Profile</Link>
          <Box>trang home</Box>
-         <Button onClick={() => setToastMessage({ message: 'Click Me!!!!', status: 'success' })}>Click Me</Button>
 
          {/* <TableCore columns={columns} data={rows} /> */}
       </>

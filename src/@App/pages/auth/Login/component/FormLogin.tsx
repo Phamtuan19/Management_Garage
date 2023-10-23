@@ -11,12 +11,13 @@ import { useAuth } from '@App/redux/slices/auth.slice';
 import TextFleidPassword from '@Core/Component/Input/ControlTextFieldPassword';
 import { FormLoginProps, ValidationFormLogin } from '../utils/yup.validate';
 import loginService from '@App/services/auth.service';
-import useToastMessage from '@App/redux/slices/toastMessage.slice';
+import { successMessage } from '@Core/Helper/message';
+import useLocalStorage from '@App/hooks/useLocalStorage';
 
 function FormLogin() {
+   const { setLocalStorage } = useLocalStorage();
    const { authLogin } = useAuth();
    const [isLoading, setIsLoading] = useState<boolean>(false);
-   const { setToastMessage } = useToastMessage();
    const { handleSubmit, setError, setValue, reset, control } = useForm<FormLoginProps>({
       resolver: yupResolver(ValidationFormLogin),
       defaultValues: {
@@ -29,9 +30,11 @@ function FormLogin() {
       setIsLoading(true);
       try {
          const res = await loginService.login(data);
-         // authLogin()
-         const message = res.data && res.data.message ? res.data.message : '';
-         setToastMessage({ message: message, status: 'success' });
+         console.log(res.data.token);
+         localStorage.setItem(import.meta.env.VITE_AUTH_TOKEN, res.data.token);
+         authLogin(res.data.data);
+         const message = (res.data && res.data.message) || 'Đăng nhập thành công.';
+         successMessage(message);
          reset();
       } catch (error: any) {
          setError('email', {

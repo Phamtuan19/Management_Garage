@@ -12,7 +12,7 @@ type NonNullableData<T> = T extends null | undefined ? never : T;
 
 interface UseLocalStorageType<T> {
    key: string;
-   dataLocal: NonNullableData<T>;
+   data: NonNullableData<T>;
 }
 
 const useLocalStorage = () => {
@@ -27,8 +27,11 @@ const useLocalStorage = () => {
 
    const setLocalStorage = <T>(props: UseLocalStorageType<T>) => {
       try {
-         const { key, dataLocal } = props;
-         return localStorage.setItem(key, JSON.stringify(dataLocal));
+         const { key, data } = props;
+         if (import.meta.env.VITE_AUTH_TOKEN === key) {
+            return localStorage.setItem(key, data as string);
+         }
+         return localStorage.setItem(key, JSON.stringify(data));
       } catch (_) {
          console.error('đã có lỗi xảy ra');
       }

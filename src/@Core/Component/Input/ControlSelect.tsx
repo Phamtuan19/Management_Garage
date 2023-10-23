@@ -1,5 +1,5 @@
 import React from 'react';
-import { MenuItem, Select } from '@mui/material';
+import { FormHelperText, MenuItem, Select } from '@mui/material';
 import { Control, Controller, FieldValues } from 'react-hook-form';
 
 interface ControlSelectProps<TFieldValues extends FieldValues = FieldValues> {
@@ -17,15 +17,18 @@ function ControlSelect(props: ControlSelectProps<FieldValues>): React.ReactNode 
       <Controller
          render={({ field, fieldState: { error } }) => {
             return (
-               <Select fullWidth variant="outlined" id={name} error={Boolean(error)} size="medium" {...field}>
-                  {options.map((option, index) => {
-                     return (
-                        <MenuItem key={index} value={option[_id]}>
-                           {option[_value]}
-                        </MenuItem>
-                     );
-                  })}
-               </Select>
+               <React.Fragment>
+                  <Select fullWidth variant="outlined" id={name} error={Boolean(error)} size="medium" {...field}>
+                     {options.map((option, index) => {
+                        return (
+                           <MenuItem key={index} value={option[_id]}>
+                              {option[_value]}
+                           </MenuItem>
+                        );
+                     })}
+                  </Select>
+                  {error && <FormHelperText variant="standard">{error.message}</FormHelperText>}
+               </React.Fragment>
             );
          }}
          defaultValue={defaultValue || ''}

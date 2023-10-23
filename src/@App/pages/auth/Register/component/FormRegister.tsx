@@ -10,11 +10,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import loginService from '@App/services/auth.service';
 import setErrorMessageHookForm from '@App/helpers/setErrorMessageHookForm';
 import { useState } from 'react';
-import useToastMessage from '@App/redux/slices/toastMessage.slice';
 
 function FormRegister() {
    const [isLoading, setIsLoading] = useState<boolean>(false);
-   const { setToastMessage } = useToastMessage();
    const { handleSubmit, setError, setValue, reset, control } = useForm<FormRegisterProps>({
       resolver: yupResolver(validationFormRegister),
       defaultValues: {
@@ -28,9 +26,9 @@ function FormRegister() {
    const onSubmitForm = async (data: FormRegisterProps) => {
       setIsLoading(true);
       try {
-         const res = await loginService.register(data);
-         const message = res.data && res.data.message ? res.data.message : '';
-         setToastMessage({ message: message, status: 'success' });
+         await loginService.register(data);
+         // const message = res.data && res.data.message ? res.data.message : '';
+         // setToastMessage({ message: message, status: 'success' });
          reset();
       } catch (error: any) {
          setErrorMessageHookForm(setError, error.response.data.message);

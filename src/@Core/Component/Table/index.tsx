@@ -3,12 +3,12 @@ import { ColumnDef, getCoreRowModel, useReactTable } from '@tanstack/react-table
 import CoreTableBody from './components/CoreTableBody';
 import CoreTableHeader from './components/CoreTableHeader';
 
-interface TableCoreProps<T> {
-   data: T[];
-   columns: ColumnDef<T>[];
+interface TableCoreProps<TData, TValue> {
+   data: TData[];
+   columns: ColumnDef<TData, TValue>[];
 }
 
-function TableCore<T>(props: TableCoreProps<T>) {
+function TableCore<TData, TValue>(props: TableCoreProps<TData, TValue>) {
    const { data, columns } = props;
 
    const table = useReactTable({
@@ -18,14 +18,12 @@ function TableCore<T>(props: TableCoreProps<T>) {
    });
 
    return (
-      <Box>
-         <CoreTableContainer>
-            <Table sx={{ minWidth: 'max-content', width: '100%', height: '100%' }}>
-               <CoreTableHeader table={table as any} />
-               <CoreTableBody table={table} />
-            </Table>
-         </CoreTableContainer>
-      </Box>
+      <CoreTableContainer>
+         <Table sx={{ minWidth: 'max-content', width: '100%', height: '100%' }}>
+            <CoreTableHeader table={table as any} />
+            <CoreTableBody table={table} />
+         </Table>
+      </CoreTableContainer>
    );
 }
 

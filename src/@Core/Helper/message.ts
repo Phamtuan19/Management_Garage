@@ -1,12 +1,22 @@
+import { AxiosError } from 'axios';
+import { toast } from 'react-toastify';
 
-export const errorMessage = (error: any) => {
-   // const { setToastMessage } = useToastMessage();
+export const successMessage = (message = 'Thành công!') => {
+   toast.success(message);
+};
 
-   if (error) {
-      if (error.response.data.message) {
+export const errorMessage = (error: Error | AxiosError<unknown, any>) => {
+   if (error instanceof AxiosError) {
+      if (error.response?.data.message) {
          console.error('---------------- Server Error', error.response.data.message);
+         toast.error(error.response.data.message);
       } else {
          console.error('---------------- Api Error', error.message);
+         toast.error(error.message);
       }
+   } else if (typeof error === 'string') {
+      toast.error(error);
+   } else {
+      toast.error('Có lỗi xảy ra!');
    }
 };
