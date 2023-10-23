@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form';
 import TextFleidPassword from '@Core/Component/Input/ControlTextFieldPassword';
 import { FormRegisterProps, validationFormRegister } from '../utils';
 import { yupResolver } from '@hookform/resolvers/yup';
-import loginService from '@App/services/auth.service';
+import authService from '@App/services/auth.service';
 import setErrorMessageHookForm from '@App/helpers/setErrorMessageHookForm';
 import { useState } from 'react';
 
@@ -26,7 +26,7 @@ function FormRegister() {
    const onSubmitForm = async (data: FormRegisterProps) => {
       setIsLoading(true);
       try {
-         await loginService.register(data);
+         await authService.register(data);
          // const message = res.data && res.data.message ? res.data.message : '';
          // setToastMessage({ message: message, status: 'success' });
          reset();

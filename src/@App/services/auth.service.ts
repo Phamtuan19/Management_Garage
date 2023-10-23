@@ -7,9 +7,10 @@ export const authPathUrl: ServicePathUrl = {
    REGISTER: 'register',
    REFRESH_TOKEN: 'refresh-token',
    USER: 'profile',
+   GOOGLE: 'google/login',
 };
 
-class LoginService extends BaseService {
+class AuthService extends BaseService {
    BASE_ENDPOINT = authPathUrl.BASE;
 
    register(data: { lastName: string; firstName: string; email: string; password: string }) {
@@ -20,9 +21,12 @@ class LoginService extends BaseService {
       return this.request.post(this.BASE_ENDPOINT + '/' + authPathUrl.LOGIN, data);
    }
 
+   google() {
+      return this.request.get(this.BASE_ENDPOINT + '/' + authPathUrl.GOOGLE);
+   }
+
    refreshToken() {
-      return this.request.post(this.BASE_ENDPOINT + '/' + authPathUrl.REFRESH_TOKEN);
-      // return this.request.post(this.BASE_ENDPOINT + '/' + authPathUrl.REFRESH_TOKEN);
+      return this.request.get(this.BASE_ENDPOINT + '/' + authPathUrl.REFRESH_TOKEN);
    }
 
    getUser() {
@@ -30,6 +34,6 @@ class LoginService extends BaseService {
    }
 }
 
-const loginService = new LoginService();
+const authService = new AuthService();
 
-export default loginService;
+export default authService;

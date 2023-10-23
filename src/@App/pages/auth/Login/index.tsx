@@ -1,23 +1,49 @@
-import svg from '@App/assets/svg';
 import LazyLoadingImage from '@App/component/customs/LazyLoadingImage';
 import { Box, Button, Divider, Paper, Stack, Typography, styled } from '@mui/material';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import GoogleIcon from '@mui/icons-material/Google';
 
-import { Link } from 'react-router-dom';
+import { Link, redirect, useNavigate } from 'react-router-dom';
 import FormLogin from './component/FormLogin';
 import routePath from '@App/configs/routerPath';
+import authService from '@App/services/auth.service';
+import { useMutation, useQueries } from '@tanstack/react-query';
 
 const SOCIALS = [
    {
-      img: svg.google,
+      id: 1,
+      img: GoogleIcon,
       title: 'Log in with Google',
    },
    {
-      img: svg.facebook,
-      title: 'Log in with Facebook',
+      id: 2,
+      img: GitHubIcon,
+      title: 'Log in with Github',
    },
 ];
 
 function Login() {
+   const results = useQueries({
+      queries: [
+         {
+            queryKey: ['getUrlLoginGoogle'],
+            queryFn: async () => {
+               const rest = await authService.google();
+               return rest.data.url;
+            },
+         },
+         {
+            queryKey: ['getUrlLoginGoogle'],
+            queryFn: async () => {
+               const rest = await authService.google();
+               return rest.data.url;
+            },
+         },
+      ],
+   });
+
+   console.log(results);
+
    return (
       <Stack
          sx={{
@@ -31,33 +57,33 @@ function Login() {
             <Typography variant="h4" fontWeight={600}>
                Welcome back
             </Typography>
-            <Box component="p" >Enter your Untitled account details</Box>
+            <Box component="p">Enter your Untitled account details</Box>
             <Box width={300}>
                <Stack width="100%" gap={2}>
-                  {SOCIALS.map((item, index) => (
-                     <Button
-                        key={index}
-                        component={Link}
-                        to=""
-                        variant="outlined"
-                        sx={{
-                           position: 'relative',
-                           justifyContent: 'center',
-                           padding: '10px',
-                           borderRadius: 10,
-                           borderColor: '#dce0e3',
-                        }}
-                        startIcon={
-                           <Box position="absolute" top="50%" left="30px" style={{ transform: 'translateY(-41%)' }}>
-                              <LazyLoadingImage w="18px" h="18px" src={item.img} alt="" />
-                           </Box>
-                        }
-                     >
-                        <Typography component="span" color="#35414c" fontSize={16} fontWeight={500}>
-                           {item.title}
-                        </Typography>
-                     </Button>
-                  ))}
+                  {SOCIALS.map((item, index) => {
+                     const Comp = item.img;
+                     return (
+                        <Box component="form" action={results[index].data} method="GET" key={index}>
+                           <Button
+                              fullWidth
+                              type="submit"
+                              variant="outlined"
+                              sx={{
+                                 position: 'relative',
+                                 justifyContent: 'center',
+                                 padding: '10px',
+                                 borderRadius: 10,
+                                 borderColor: '#dce0e3',
+                              }}
+                              startIcon={<Comp />}
+                           >
+                              <Typography component="span" color="#35414c" fontSize={16} fontWeight={500}>
+                                 {item.title}
+                              </Typography>
+                           </Button>
+                        </Box>
+                     );
+                  })}
 
                   <Divider sx={{ my: 1, opacity: 0.5, fontWeight: 'medium' }}>Hoặc</Divider>
 

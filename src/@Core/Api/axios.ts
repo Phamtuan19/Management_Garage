@@ -34,10 +34,9 @@ const createInstance = <T, D>(baseURL: string) => {
 
    axiosInstance.interceptors.response.use(
       // success response
-      (response: AxiosResponse<T, D>): AxiosResponse<T, D> => {
+      (response: AxiosResponse<T, D>): any => {
          if (response && response.data) {
-            console.log(response.data);
-            return response.data; // Return the entire response object
+            return response.data;
          }
          return response;
       },

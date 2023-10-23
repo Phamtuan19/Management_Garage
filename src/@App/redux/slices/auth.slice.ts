@@ -1,14 +1,14 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-// import loginService from '@App/services/Auth.service';
+// import authService from '@App/services/Auth.service';
 import { RootState } from '../rootReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { errorMessage } from '@Core/Helper/message';
-import loginService from '@App/services/auth.service';
+import authService from '@App/services/auth.service';
 
 // const actionLogin = createAsyncThunk('auth/login', async (data: { email: string; password: string }) => {
 //    try {
-//       const res = await loginService.login(data);
+//       const res = await authService.login(data);
 //       return res;
 //    } catch (error: any) {
 //       const message = error.response.data.message;
@@ -17,13 +17,13 @@ import loginService from '@App/services/auth.service';
 // });
 
 const actionRefreshToken = createAsyncThunk('auth/refreshToken', async () => {
-   // const res = await loginService.refreshToken();
+   // const res = await authService.refreshToken();
    console.log('refresh token');
 });
 
 const actionGetUser = createAsyncThunk('auth/getUser', async () => {
    try {
-      const res = await loginService.getUser();
+      const res = await authService.getUser();
       const user = res.data;
       // localStorage.setItem(import.meta.env.VITE_AUTH_TOKEN, user.avatar);
       return user;

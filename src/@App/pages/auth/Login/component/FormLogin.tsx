@@ -10,7 +10,7 @@ import ControlTextField from '@Core/Component/Input/ControlTextField';
 import { useAuth } from '@App/redux/slices/auth.slice';
 import TextFleidPassword from '@Core/Component/Input/ControlTextFieldPassword';
 import { FormLoginProps, ValidationFormLogin } from '../utils/yup.validate';
-import loginService from '@App/services/auth.service';
+import authService from '@App/services/auth.service';
 import { successMessage } from '@Core/Helper/message';
 import useLocalStorage from '@App/hooks/useLocalStorage';
 
@@ -29,7 +29,7 @@ function FormLogin() {
    const handleSubmitForm: SubmitHandler<FormLoginProps> = async (data: FormLoginProps) => {
       setIsLoading(true);
       try {
-         const res = await loginService.login(data);
+         const res = await authService.login(data);
          console.log(res.data.token);
          localStorage.setItem(import.meta.env.VITE_AUTH_TOKEN, res.data.token);
          authLogin(res.data.data);

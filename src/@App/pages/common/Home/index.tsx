@@ -4,7 +4,7 @@ import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
 import { Link } from 'react-router-dom';
 import testService from '@App/services/test.service';
 import TableCore from '@Core/Component/Table';
-import loginService from '@App/services/auth.service';
+import authService from '@App/services/auth.service';
 
 interface TypeRowsData {
    [x: string]: any;
@@ -67,7 +67,7 @@ function Home() {
    // useEffect(() => {
    //    (async () => {
    //       // const res = await testService.testApi();
-   //       const resUser = await loginService.getUser();
+   //       const resUser = await authService.getUser();
    //       console.log('object');
    //       console.log(resUser);
    //    })();
