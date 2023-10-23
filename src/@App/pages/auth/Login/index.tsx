@@ -3,22 +3,46 @@ import { Box, Button, Divider, Paper, Stack, Typography, styled } from '@mui/mat
 import GitHubIcon from '@mui/icons-material/GitHub';
 import GoogleIcon from '@mui/icons-material/Google';
 
-import { Link } from 'react-router-dom';
+import { Link, redirect, useNavigate } from 'react-router-dom';
 import FormLogin from './component/FormLogin';
 import routePath from '@App/configs/routerPath';
+import authService from '@App/services/auth.service';
+import { useMutation, useQueries } from '@tanstack/react-query';
 
 const SOCIALS = [
    {
+      id: 1,
       img: GoogleIcon,
       title: 'Log in with Google',
    },
    {
+      id: 2,
       img: GitHubIcon,
       title: 'Log in with Github',
    },
 ];
 
 function Login() {
+   const results = useQueries({
+      queries: [
+         {
+            queryKey: ['getUrlLoginGoogle'],
+            queryFn: async () => {
+               const rest = await authService.google();
+               return rest.data.url;
+            },
+         },
+         {
+            queryKey: ['getUrlLoginGoogle'],
+            queryFn: async () => {
+               const rest = await authService.google();
+               return rest.data.url;
+            },
+         },
+      ],
+   });
+
+   console.log(results);
 
    return (
       <Stack
@@ -39,22 +63,25 @@ function Login() {
                   {SOCIALS.map((item, index) => {
                      const Comp = item.img;
                      return (
-                        <Button
-                           key={index}
-                           variant="outlined"
-                           sx={{
-                              position: 'relative',
-                              justifyContent: 'center',
-                              padding: '10px',
-                              borderRadius: 10,
-                              borderColor: '#dce0e3',
-                           }}
-                           startIcon={<Comp />}
-                        >
-                           <Typography component="span" color="#35414c" fontSize={16} fontWeight={500}>
-                              {item.title}
-                           </Typography>
-                        </Button>
+                        <Box component="form" action={results[index].data} method="GET" key={index}>
+                           <Button
+                              fullWidth
+                              type="submit"
+                              variant="outlined"
+                              sx={{
+                                 position: 'relative',
+                                 justifyContent: 'center',
+                                 padding: '10px',
+                                 borderRadius: 10,
+                                 borderColor: '#dce0e3',
+                              }}
+                              startIcon={<Comp />}
+                           >
+                              <Typography component="span" color="#35414c" fontSize={16} fontWeight={500}>
+                                 {item.title}
+                              </Typography>
+                           </Button>
+                        </Box>
                      );
                   })}
 

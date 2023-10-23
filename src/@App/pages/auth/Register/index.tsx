@@ -1,16 +1,19 @@
-import { Box, Button, Divider, Paper, Stack, Typography, styled } from '@mui/material';
+import { Box, Button, Paper, Stack, Typography, styled } from '@mui/material';
 import FormRegister from './component/FormRegister';
 import { Link } from 'react-router-dom';
 import routePath from '@App/configs/routerPath';
 import svg from '@App/assets/svg';
 import LazyLoadingImage from '@App/component/customs/LazyLoadingImage';
+import authService from '@App/services/auth.service';
 
 const SOCIALS = [
    {
+      id: 1,
       img: svg.google,
       title: 'Google',
    },
    {
+      id: 2,
       img: svg.facebook,
       title: 'Facebook',
    },
