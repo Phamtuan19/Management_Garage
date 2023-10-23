@@ -9,7 +9,7 @@ export const authPathUrl: ServicePathUrl = {
    USER: 'profile',
 };
 
-class LoginService extends BaseService {
+class AuthService extends BaseService {
    BASE_ENDPOINT = authPathUrl.BASE;
 
    register(data: { lastName: string; firstName: string; email: string; password: string }) {
@@ -22,7 +22,6 @@ class LoginService extends BaseService {
 
    refreshToken() {
       return this.request.post(this.BASE_ENDPOINT + '/' + authPathUrl.REFRESH_TOKEN);
-      // return this.request.post(this.BASE_ENDPOINT + '/' + authPathUrl.REFRESH_TOKEN);
    }
 
    getUser() {
@@ -30,6 +29,6 @@ class LoginService extends BaseService {
    }
 }
 
-const loginService = new LoginService();
+const authService = new AuthService();
 
-export default loginService;
+export default authService;
