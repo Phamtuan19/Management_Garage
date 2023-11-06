@@ -1,7 +1,6 @@
 const routePath = {
    account: {
-      path: 'account',
-      login: 'login',
+      login: 'sign-in',
       register: 'register',
    },
 };

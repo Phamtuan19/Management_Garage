@@ -1,6 +1,6 @@
 import { ThemeOptions } from '@mui/material/styles';
 
-export interface Base extends ThemeOptions {
+interface Base extends ThemeOptions {
    [x: string]: any;
    base: {
       pagination: string;
@@ -26,9 +26,6 @@ export interface Base extends ThemeOptions {
          boxShadow: string;
          [x: string]: any;
       };
-      table: {
-         [x: string]: any;
-      };
-      shadow: string[];
+      [x: string]: any;
    };
 }

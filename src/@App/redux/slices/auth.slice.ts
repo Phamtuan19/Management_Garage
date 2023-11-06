@@ -59,6 +59,12 @@ const authSlice = createSlice({
          state.isInitialized = true;
          state.isAuhthentication = true;
       },
+
+      actionLogoutReducer: (state) => {
+         state.user = null;
+         state.userPermission = null;
+         state.isAuhthentication = false;
+      },
    },
    extraReducers: (builder) => {
       builder
@@ -76,7 +82,7 @@ const authSlice = createSlice({
    },
 });
 
-const { actionLoginReducer } = authSlice.actions;
+const { actionLoginReducer, actionLogoutReducer } = authSlice.actions;
 
 export const useAuth = () => {
    const dispatch: any = useDispatch();
@@ -94,7 +100,12 @@ export const useAuth = () => {
       dispatch(actionGetUser());
    };
 
-   return { auth, authRefreshToken, authLogin, authGetUser };
+   const authLogout = () => {
+      localStorage.removeItem('authToken');
+      dispatch(actionLogoutReducer());
+   };
+
+   return { auth, authRefreshToken, authLogin, authGetUser, authLogout };
 };
 
 export default authSlice;

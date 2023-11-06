@@ -57,8 +57,6 @@ const createInstance = <T, D>(baseURL: string) => {
          //    // console.log(res);
          // }
          // }
-         errorMessage(error);
-
          return Promise.reject(error);
       },
    );

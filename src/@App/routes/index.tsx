@@ -1,63 +1,58 @@
 import { lazy } from 'react';
 import { Outlet, useRoutes } from 'react-router-dom';
 import Loadable from './components/loadable';
-import CommonLayout from '@App/component/Layout/CommonLayout';
-import commonRoutes from './common';
-import PrivateRouter from './components/PrivateRouter';
-import adminRoute from './admin';
-import PublicRouter from './components/PublicRoute';
 import routePath from '@App/configs/routerPath';
+import PrivateRouter from './components/PrivateRouter';
+import PublicRouter from './components/PublicRoute';
+import Layout from '@App/component/Layout';
 
-const Home = Loadable(lazy(() => import('@App/pages/common/Home')));
 const Login = Loadable(lazy(() => import('@App/pages/auth/Login')));
 const Register = Loadable(lazy(() => import('@App/pages/auth/Register')));
 
 const routes = [
-   // Trang người dùng
+   /**
+    * Route page admin Pivate
+    */
    {
       path: '/',
-      element: <CommonLayout />,
-      children: [
-         {
-            index: true,
-            element: <Home />,
-         },
-         commonRoutes,
-      ],
-   },
-
-   // Trang Admin
-   {
-      path: '/admin',
       element: (
          <PrivateRouter>
-            <Outlet />
+            <Layout />
          </PrivateRouter>
       ),
       children: [
          {
             index: true,
-            element: <h1>Trang admin </h1>,
+            element: <h1>Trang home</h1>,
          },
-         adminRoute,
       ],
    },
 
-   //acount Login + register
+   /**
+    * Route Public
+    * Route sign-in
+    * Route
+    */
    {
-      path: routePath.account.path,
-      element: <PublicRouter />,
-      children: [
-         {
-            path: routePath.account.login,
-            element: <Login />,
-         },
-         {
-            path: routePath.account.register,
-            element: <Register />,
-         },
-      ],
+      path: routePath.account.login,
+      element: (
+         <PublicRouter>
+            <Login />
+         </PublicRouter>
+      ),
    },
+   {
+      path: routePath.account.login,
+      element: (
+         <PublicRouter>
+            <Register />
+         </PublicRouter>
+      ),
+   },
+
+   /**
+    * Nod found route 404
+    */
 
    {
       path: '*',

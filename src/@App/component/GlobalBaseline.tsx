@@ -5,7 +5,7 @@ export default function GlobalBaseline() {
       <GlobalStyles
          styles={() => ({
             html: {
-               overflowY: 'scroll',
+               overflowY: 'auto',
             },
             'html, body, #root': {
                boxSizing: 'border-box',

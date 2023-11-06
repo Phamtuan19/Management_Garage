@@ -9,41 +9,7 @@ import routePath from '@App/configs/routerPath';
 import authService from '@App/services/auth.service';
 import { useMutation, useQueries } from '@tanstack/react-query';
 
-const SOCIALS = [
-   {
-      id: 1,
-      img: GoogleIcon,
-      title: 'Log in with Google',
-   },
-   {
-      id: 2,
-      img: GitHubIcon,
-      title: 'Log in with Github',
-   },
-];
-
 function Login() {
-   const results = useQueries({
-      queries: [
-         {
-            queryKey: ['getUrlLoginGoogle'],
-            queryFn: async () => {
-               const rest = await authService.google();
-               return rest.data.url;
-            },
-         },
-         {
-            queryKey: ['getUrlLoginGoogle'],
-            queryFn: async () => {
-               const rest = await authService.google();
-               return rest.data.url;
-            },
-         },
-      ],
-   });
-
-   console.log(results);
-
    return (
       <Stack
          sx={{
@@ -60,40 +26,12 @@ function Login() {
             <Box component="p">Enter your Untitled account details</Box>
             <Box width={300}>
                <Stack width="100%" gap={2}>
-                  {SOCIALS.map((item, index) => {
-                     const Comp = item.img;
-                     return (
-                        <Box component="form" action={results[index].data} method="GET" key={index}>
-                           <Button
-                              fullWidth
-                              type="submit"
-                              variant="outlined"
-                              sx={{
-                                 position: 'relative',
-                                 justifyContent: 'center',
-                                 padding: '10px',
-                                 borderRadius: 10,
-                                 borderColor: '#dce0e3',
-                              }}
-                              startIcon={<Comp />}
-                           >
-                              <Typography component="span" color="#35414c" fontSize={16} fontWeight={500}>
-                                 {item.title}
-                              </Typography>
-                           </Button>
-                        </Box>
-                     );
-                  })}
-
-                  <Divider sx={{ my: 1, opacity: 0.5, fontWeight: 'medium' }}>Hoặc</Divider>
-
                   <FormLogin />
-
                   <Typography component="p" textAlign="center">
                      Bạn không có tài khoản? Hãy{' '}
                      <Box
                         component={Link}
-                        to={'/' + routePath.account.path + '/' + routePath.account.register}
+                        to={'/' + routePath.account.register }
                         sx={{
                            color: '#5624d0',
                            textDecoration: 'none',

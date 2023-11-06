@@ -3,6 +3,7 @@
 const typography = {
    fontFamily: ['"Roboto"', 'sans-serif'].join(','),
    fontSize: 15,
+   margin: 0,
 };
 
 export default typography;
