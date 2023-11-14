@@ -5,6 +5,8 @@ import routePath from '@App/configs/routerPath';
 import PrivateRouter from './components/PrivateRouter';
 import PublicRouter from './components/PublicRoute';
 import Layout from '@App/component/Layout';
+import ListUserRoute from './components/listUser';
+import CreateUserRouter from './components/createUserRouter';
 
 const Login = Loadable(lazy(() => import('@App/pages/auth/Login')));
 const Register = Loadable(lazy(() => import('@App/pages/auth/Register')));
@@ -24,6 +26,34 @@ const routes = [
          {
             index: true,
             element: <h1>Trang home</h1>,
+         },
+      ],
+   },
+   {
+      path: '/personnels',
+      element: (
+
+         <Layout />
+
+      ),
+      children: [
+         {
+            index: true,
+            element: <ListUserRoute />,
+         },
+      ],
+   },
+   {
+      path: '/personnels/create',
+      element: (
+
+         <Layout />
+
+      ),
+      children: [
+         {
+            index: true,
+            element: <CreateUserRouter />,
          },
       ],
    },
