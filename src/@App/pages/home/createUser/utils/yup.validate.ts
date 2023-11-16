@@ -23,7 +23,7 @@ export const ValidationFormCreate = yup.object({
         .required(messageValidate.required('SDT')),
     cmnd: yup
         .string()
-        .required(messageValidate.required('Giới tính')),
+        .required(messageValidate.required('CMND')),
     status: yup
         .string()
         .required(messageValidate.required('Trạng thái')),

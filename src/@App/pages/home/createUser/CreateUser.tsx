@@ -10,14 +10,14 @@ import { useState } from "react";
 function CreateUser() {
 
     // select radio gender
-    const [selectGender, setSelectGender] = useState('');
+    const [selectGender, setSelectGender] = useState('nam');
     const handleChangeGender = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSelectGender((event.target as HTMLInputElement).value);
     };
 
 
     // select radio status
-    const [selectStatus, setSelectStatus] = useState('');
+    const [selectStatus, setSelectStatus] = useState('present');
     const handleChangeStatus = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSelectStatus((event.target as HTMLInputElement).value);
     };
@@ -75,7 +75,7 @@ function CreateUser() {
                                 <FormLabel id="demo-controlled-radio-buttons-group">Giới tính</FormLabel>
                                 <RadioGroup
                                     aria-labelledby="demo-controlled-radio-buttons-group"
-                                    name="controlled-radio-buttons-group"
+                                    name="controlled-radio-buttons-group gender"
                                     value={selectGender}
                                     onChange={handleChangeGender}
                                 >
@@ -89,11 +89,11 @@ function CreateUser() {
                                 <FormLabel id="demo-controlled-radio-buttons-group">Trạng thái</FormLabel>
                                 <RadioGroup
                                     aria-labelledby="demo-controlled-radio-buttons-group"
-                                    name="controlled-radio-buttons-group"
+                                    name="controlled-radio-buttons-group status"
                                     value={selectStatus}
                                     onChange={handleChangeStatus}
                                 >
-                                    <FormControlLabel value="desent" control={<Radio />} label="Có mặt" />
+                                    <FormControlLabel value="present" control={<Radio />} label="Có mặt" />
                                     <FormControlLabel value="absent" control={<Radio />} label="Vắng mặt" />
                                 </RadioGroup>
                             </FormControl>
