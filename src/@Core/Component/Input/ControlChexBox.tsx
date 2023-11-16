@@ -11,7 +11,6 @@ interface ControlCheckbox<TFieldValues extends FieldValues = FieldValues> {
 
 function ControlChexBox<TFieldValues extends FieldValues = FieldValues>(props: ControlCheckbox<TFieldValues>) {
    const { name, _id, titleLabel, required, control } = props;
-
    return (
       <Controller
          render={({ field }) => {
