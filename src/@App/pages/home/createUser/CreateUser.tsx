@@ -6,6 +6,7 @@ import ControlLabel from "@Core/Component/Input/ControlLabel";
 import ControlTextField from "@Core/Component/Input/ControlTextField";
 import { LoadingButton } from "@mui/lab";
 import { useState } from "react";
+import ControlSelect from "@Core/Component/Input/ControlSelect";
 
 function CreateUser() {
 
@@ -28,10 +29,8 @@ function CreateUser() {
             name: '',
             email: '',
             address: '',
-            gender: '',
             sdt: '',
             cmnd: '',
-            status: '',
             role: '',
         },
     });
@@ -41,8 +40,6 @@ function CreateUser() {
     return (
         <Box width={'75%'} marginLeft={20} >
             <ControlLabel title="Thêm Mới Nhân Viên" sx={{ fontSize: '40px' }} />
-
-
             <form onSubmit={handleSubmit(onSubmitForm)} >
                 <Box mb={1} >
                     <ControlLabel title="Tên" sx={{ width: '500px' }} />
@@ -65,8 +62,21 @@ function CreateUser() {
                     <ControlTextField name="cmnd" control={control} />
                 </Box>
                 <Box mb={3}>
-                    <ControlLabel title="Chức vụ" />
-                    <ControlTextField name="role" control={control} />
+                    <ControlLabel title="Bộ phận" />
+                    <ControlSelect
+                        options={[
+                            { id: 1, lable: 'Bộ phận sửa chữa' },
+                            { id: 2, lable: 'Bộ phận Kho' },
+                            { id: 3, lable: 'Bộ phận Bảo dưỡng' },
+                            { id: 4, lable: 'Bộ phận chăm sóc khách hàng' },
+                            { id: 5, lable: 'Bộ phận QC' }
+                        ]}
+                        _id="id"
+                        _value="lable"
+                        defaultValue=''
+                        name="role"
+                        control={control}
+                    />
                 </Box>
                 <Box>
                     <Stack direction="row" alignItems="center" spacing={10}>

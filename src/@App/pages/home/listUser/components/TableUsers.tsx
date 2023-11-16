@@ -6,6 +6,8 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { Button } from '@mui/material';
+
 
 export default function TableUsers() {
     return (
@@ -20,12 +22,25 @@ export default function TableUsers() {
                         <TableCell >SĐT</TableCell>
                         <TableCell >CMND</TableCell>
                         <TableCell >Trạng thái</TableCell>
-                        <TableCell >Chức Vụ</TableCell>
+                        <TableCell >Bộ phận</TableCell>
                         <TableCell >Chức năng</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
-
+                    <TableRow>
+                        <TableCell>Thiên</TableCell>
+                        <TableCell>thien@gmail.com</TableCell>
+                        <TableCell>Nam Định</TableCell>
+                        <TableCell>Nam</TableCell>
+                        <TableCell>9999999999</TableCell>
+                        <TableCell>9999999999</TableCell>
+                        <TableCell>Có mặt</TableCell>
+                        <TableCell>Bộ phận QC</TableCell>
+                        <TableCell>
+                            <Button variant='contained' color='warning' sx={{ marginRight: '10px' }}>Sửa</Button>
+                            <Button variant='contained' color='error'>Xóa</Button>
+                        </TableCell>
+                    </TableRow>
                 </TableBody>
             </Table>
         </TableContainer>

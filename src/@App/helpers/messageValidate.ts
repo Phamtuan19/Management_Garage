@@ -19,6 +19,7 @@ const messageValidate = {
    },
    email: 'Email không đúng định dạng',
    phone: 'Số điện thoại không đúng định dạng',
+   cmnd: 'cmnd không đúng định dạng',
 };
 
 export default messageValidate;

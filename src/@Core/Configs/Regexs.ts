@@ -5,6 +5,7 @@ class Regexs {
    phoneVn = /(84|0[35789])[0-9]{8}\b/g;
    characterCharacter = /[!@#$%^&*()_+{}\[\]:;<>,.?~\\|=]/;
    number = /^[1-9]\d*$/;
+   cmnd = /^[1-9]{11}\b/g;
 }
 
 export default new Regexs();

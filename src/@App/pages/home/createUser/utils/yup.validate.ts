@@ -15,21 +15,19 @@ export const ValidationFormCreate = yup.object({
     address: yup
         .string()
         .required(messageValidate.required('Địa chỉ')),
-    gender: yup
-        .string()
-        .required(messageValidate.required('Giới tính')),
     sdt: yup
         .string()
-        .required(messageValidate.required('SDT')),
+        .required(messageValidate.required('SDT'))
+        .matches(Regexs.phoneVn, messageValidate.phone),
+
     cmnd: yup
         .string()
-        .required(messageValidate.required('CMND')),
-    status: yup
-        .string()
-        .required(messageValidate.required('Trạng thái')),
+        .required(messageValidate.required('CMND'))
+        .matches(Regexs.cmnd, messageValidate.cmnd),
+
     role: yup
         .string()
-        .required(messageValidate.required('Chức vụ')),
+        .required(messageValidate.required('Bộ phận ')),
 
 });
 
