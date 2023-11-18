@@ -1,49 +1,37 @@
 import { useAuth } from '@App/redux/slices/auth.slice';
 import React, { useMemo } from 'react';
-import { Outlet } from 'react-router-dom';
 import { PermissionAccessType } from '../route';
 
 /**
  * @param module - The component's module is loaded.
  * @param action - The component's action has been loaded.
- * @param fullScreen - Whether to show a full-screen loading splash or a small loading spinner.
- *
+ * @param type - Type of the component: "route" or "page".
+ * @param fallback - The fallback content to display when permission is not granted.
  */
-
 const PermissionAccess = ({
    children,
    module,
    action,
-   isPage = false,
+   type,
    fallback = <h1>Bạn không có quyền truy cập</h1>,
 }: PermissionAccessType): React.ReactNode => {
    const { userPermission } = useAuth();
 
    const hasPermissionAndOperation = useMemo(() => {
-      if (userPermission) {
-         const hasModules = Object.keys(userPermission!);
+      const hasModules = Object.keys(userPermission || {});
 
-         const moduleAccess = hasModules.includes(module!);
+      if (hasModules.includes(module!)) {
+         const moduleActions = userPermission![module!];
 
-         if (moduleAccess && isPage) {
-            const hasAction = userPermission[module!]?.includes(action!);
-
-            if (hasAction) return true;
-
-            return false;
+         if (moduleActions && moduleActions.includes(action!)) {
+            return children;
          }
-
-         if (moduleAccess) return true;
-
-         return false;
       }
-   }, [userPermission, module, action, isPage]);
 
-   if (hasPermissionAndOperation) {
-      return children || <Outlet />;
-   }
+      return false;
+   }, [userPermission, module, action, type, children]);
 
-   return !isPage && fallback;
+   return hasPermissionAndOperation || (type === 'route' && fallback);
 };
 
 export default PermissionAccess;

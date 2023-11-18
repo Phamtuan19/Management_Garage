@@ -2,8 +2,6 @@ import * as yup from 'yup';
 
 const MODULE_PAGE = {
    DOASHBOARD: 'doashboard',
-   USERS: 'users',
-   PRODUCTS: 'products',
    PERSONNELS: 'personnels',
 } as const;
 

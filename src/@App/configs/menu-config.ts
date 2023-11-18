@@ -19,7 +19,7 @@ const menuConfig: MenuConfigItem[] = [
       title: 'Nhân viên',
       link: 'personnels',
       icon: PeopleIcon,
-      module: MODULE_PAGE.USERS,
+      module: MODULE_PAGE.PERSONNELS,
       children: [
          {
             id: 2.1,

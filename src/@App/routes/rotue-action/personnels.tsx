@@ -18,11 +18,7 @@ const personnelRoute: RouteObject = {
       {
          path: ROUTE_PATH.PERSONNELS + ROUTE_PATH.CREATE,
          element: (
-            <PermissionAccess
-               module={MODULE_PAGE.PERSONNELS}
-               action={PAGE_ACTION.CREATE}
-               path={ROUTE_PATH.PERSONNELS + ROUTE_PATH.CREATE}
-            >
+            <PermissionAccess module={MODULE_PAGE.PERSONNELS} action={PAGE_ACTION.CREATE} type="route">
                <PersonnelCreate />
             </PermissionAccess>
          ),

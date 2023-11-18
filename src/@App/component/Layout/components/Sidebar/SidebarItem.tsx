@@ -61,14 +61,12 @@ const SidebarItem = () => {
                      </AccordionSummary>
                      <AccordionDetails sx={{ pt: 0.5 }}>
                         {item.children.map((item_children) => {
-                           console.log(item.module);
                            return (
                               <PermissionAccess
                                  key={item_children.id}
                                  module={item.module as ModulePagePropsType}
                                  action={item_children.action as PageActionPropsType}
-                                 // path={item_children.link as string}
-                                 isPage
+                                 type="action"
                               >
                                  <Box
                                     component={NavLink}
@@ -118,7 +116,7 @@ const SidebarItem = () => {
                <PermissionAccess
                   module={item.module as ModulePagePropsType}
                   action={item.action as PageActionPropsType}
-                  isPage
+                  type="action"
                   key={item.id}
                >
                   <Box component={ExtendNavLink} to={item.link} end>
