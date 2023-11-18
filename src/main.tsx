@@ -16,6 +16,8 @@ import GlobalBaseline from '@App/component/GlobalBaseline';
 import ScrollbarBase from '@App/component/customs/ScrollbarBase';
 import OriginalInitialization from '@App/component/customs/LazyLoading/OriginalInitialization';
 
+import './style.css';
+
 const queryClient = new QueryClient();
 focusManager.setFocused(false);
 

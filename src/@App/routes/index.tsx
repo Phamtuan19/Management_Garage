@@ -1,17 +1,20 @@
-import { lazy } from 'react';
-import { Outlet, useRoutes } from 'react-router-dom';
+import { RouteObject, useRoutes } from 'react-router-dom';
 import Loadable from './components/loadable';
-import routePath from '@App/configs/routerPath';
 import PrivateRouter from './components/PrivateRouter';
 import PublicRouter from './components/PublicRoute';
 import Layout from '@App/component/Layout';
 import ListUserRoute from './components/listUser';
 import CreateUserRouter from './components/createUserRouter';
+import MODULE_PAGE from '@App/configs/module-page';
+import PAGE_ACTION from '@App/configs/page-action';
+import ROUTE_PATH from '@App/configs/router-path';
+import personnelRoute from './rotue-action/personnels';
+import PermissionAccess from './components/PermissionAccess';
 
-const Login = Loadable(lazy(() => import('@App/pages/auth/Login')));
-const Register = Loadable(lazy(() => import('@App/pages/auth/Register')));
+const SignIn = Loadable('auth/SignIn');
+const Doashboard = Loadable('Doashboard');
 
-const routes = [
+const routes: RouteObject[] = [
    /**
     * Route page admin Pivate
     */
@@ -25,8 +28,13 @@ const routes = [
       children: [
          {
             index: true,
-            element: <h1>Trang home</h1>,
+            element: (
+               <PermissionAccess module={MODULE_PAGE.DOASHBOARD} action={PAGE_ACTION.VIEW} type="route">
+                  <Doashboard />
+               </PermissionAccess>
+            ),
          },
+         personnelRoute,
       ],
    },
    {
@@ -64,18 +72,10 @@ const routes = [
     * Route
     */
    {
-      path: routePath.account.login,
+      path: ROUTE_PATH.SIGN_IN,
       element: (
          <PublicRouter>
-            <Login />
-         </PublicRouter>
-      ),
-   },
-   {
-      path: routePath.account.login,
-      element: (
-         <PublicRouter>
-            <Register />
+            <SignIn />
          </PublicRouter>
       ),
    },

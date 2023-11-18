@@ -1,6 +1,6 @@
 import { ThemeOptions } from '@mui/material/styles';
 
-interface Base extends ThemeOptions {
+interface BaseType extends ThemeOptions {
    [x: string]: any;
    base: {
       pagination: string;

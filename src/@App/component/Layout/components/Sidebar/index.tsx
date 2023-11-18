@@ -11,7 +11,6 @@ interface SidebarProps {
 const Sidebar = ({ openSidebar, setOpenSidebar }: SidebarProps) => {
    const theme = useTheme();
    const lgDown = useMediaQuery(theme.breakpoints.down('lg'));
-   console.log(lgDown);
    return (
       <>
          {!lgDown && (

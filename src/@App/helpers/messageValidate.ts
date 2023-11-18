@@ -17,9 +17,9 @@ const messageValidate = {
    maxNumber: (name: string, max: string | number) => {
       return `${name} không được lớn hơn ${max}`;
    },
-   email: 'Email không đúng định dạng',
-   phone: 'Số điện thoại không đúng định dạng',
-   cmnd: 'cmnd không đúng định dạng',
+   format: (name: string) => {
+      return `${name} không đúng định dạng.`;
+   },
 };
 
 export default messageValidate;

@@ -1,16 +1,15 @@
-import LazyLoadingImage from '@App/component/customs/LazyLoadingImage';
 import { Avatar, Box, IconButton, ListItemIcon, Menu, MenuItem, Tooltip, styled, Stack } from '@mui/material';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
-import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
+// import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import { useState } from 'react';
 
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import { Link } from 'react-router-dom';
 import { useAuth } from '@App/redux/slices/auth.slice';
+import LazyLoadingImage from '@App/component/customs/LazyLoadingImage';
 
-const logo: string =
-   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5yXcK1TTWq6lnf487hNmzxalkYg03kFgL-A&usqp=CAU';
+const logo: string = 'https://react.vristo.sbthemes.com/assets/images/logo.svg';
 
 interface HeaderProps {
    setOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
@@ -38,15 +37,21 @@ const Header = ({ setOpenSidebar }: HeaderProps) => {
             <Stack
                sx={{
                   width: '100%',
-                  pl: 3,
-                  py: '6px',
+                  display: 'flex',
                   flexDirection: 'row',
                   justifyContent: 'space-between',
                   alignItems: 'center',
                }}
             >
-               <Box component={Link} to="/">
-                  <LazyLoadingImage src={logo as string} w="70" h="50" />
+               <Box
+                  component={Link}
+                  to="/"
+                  sx={{ display: 'flex', textDecoration: 'none', alignItems: 'center', gap: 1 }}
+               >
+                  <Box sx={{ width: 32, height: 28 }}>
+                     <LazyLoadingImage src={logo} />
+                  </Box>
+                  <Box sx={{ fontWeight: 600, fontSize: 32 }}>Gara</Box>
                </Box>
                <Box sx={{ cursor: 'pointer' }} onClick={() => setOpenSidebar((prev: boolean) => !prev)}>
                   <KeyboardDoubleArrowLeftIcon />
@@ -104,6 +109,7 @@ const Nav = styled('div')(({ theme }) => ({
    position: 'fixed',
    top: 0,
    right: 0,
+   left: 0,
    display: 'flex',
    //  width: `calc(100% - ${theme.base.sidebar.width}px)`,
    width: '100%',
@@ -112,8 +118,10 @@ const Nav = styled('div')(({ theme }) => ({
    backgroundColor: theme.base.header.backgroundColor,
 }));
 
-const AsideBrand = styled('div')(({ theme }) => ({
-   width: theme.base.sidebar.width + 'px',
+const AsideBrand = styled(Box)(({ theme }) => ({
+   flex: 1,
+   maxWidth: theme.base.sidebar.width + 'px',
+   padding: '6px 0px 6px 24px',
    display: 'flex',
    justifyContent: 'space-between',
    alignItems: 'center',
@@ -153,5 +161,9 @@ const stylePaperProps = {
       },
    },
 };
+
+const LogoImage = styled('img')(({ theme }) => ({
+   width: '100%',
+}));
 
 export default Header;
