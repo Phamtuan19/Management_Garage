@@ -7,6 +7,8 @@ import { NavLink, useLocation } from 'react-router-dom';
 import menuConfig from '@App/configs/menu-config';
 import { useEffect, useState } from 'react';
 import PermissionAccess from '@App/routes/components/PermissionAccess';
+import { ModulePagePropsType } from '@App/configs/module-page';
+import { PageActionPropsType } from '@App/configs/page-action';
 
 const SidebarItem = () => {
    const location = useLocation();
@@ -63,8 +65,8 @@ const SidebarItem = () => {
                            return (
                               <PermissionAccess
                                  key={item_children.id}
-                                 module={item.module}
-                                 action={item_children.action}
+                                 module={item.module as ModulePagePropsType}
+                                 action={item_children.action as PageActionPropsType}
                                  // path={item_children.link as string}
                                  isPage
                               >
@@ -113,7 +115,12 @@ const SidebarItem = () => {
             }
 
             return (
-               <PermissionAccess module={item.module} action={item.action} isPage key={item.id}>
+               <PermissionAccess
+                  module={item.module as ModulePagePropsType}
+                  action={item.action as PageActionPropsType}
+                  isPage
+                  key={item.id}
+               >
                   <Box component={ExtendNavLink} to={item.link} end>
                      <Box
                         sx={{

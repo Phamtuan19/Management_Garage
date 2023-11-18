@@ -27,7 +27,7 @@ const routes: RouteObject[] = [
          {
             index: true,
             element: (
-               <PermissionAccess module={MODULE_PAGE.DOASHBOARD} action={PAGE_ACTION.VIEW} path={ROUTE_PATH.DOASHBOARD}>
+               <PermissionAccess module={MODULE_PAGE.DOASHBOARD} action={PAGE_ACTION.VIEW}>
                   <Doashboard />
                </PermissionAccess>
             ),
