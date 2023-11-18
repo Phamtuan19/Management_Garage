@@ -58,18 +58,18 @@ const SidebarItem = () => {
                         </Box>
                      </AccordionSummary>
                      <AccordionDetails sx={{ pt: 0.5 }}>
-                        {item.children.map((item) => {
+                        {item.children.map((item_children) => {
                            return (
                               <PermissionAccess
-                                 key={item.id}
+                                 key={item_children.id}
                                  module={item.module}
-                                 action={item.action}
-                                 path={item.link}
+                                 action={item_children.action}
+                                 path={item_children.link}
                                  isMenu
                               >
                                  <Box
                                     component={NavLink}
-                                    to={item.link}
+                                    to={item_children.link}
                                     sx={({ base }) => ({
                                        py: 1,
                                        pl: 2,
@@ -100,7 +100,7 @@ const SidebarItem = () => {
                                           fontWeight: '400',
                                        })}
                                     >
-                                       {item.title}
+                                       {item_children.title}
                                     </Typography>
                                  </Box>
                               </PermissionAccess>

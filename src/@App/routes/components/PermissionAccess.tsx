@@ -1,6 +1,7 @@
 import { useAuth } from '@App/redux/slices/auth.slice';
 import React, { useMemo } from 'react';
 import { Outlet } from 'react-router-dom';
+import { PermissionAccessType } from '../route';
 
 /**
  * @param module - The component's module is loaded.
@@ -19,16 +20,24 @@ const PermissionAccess = ({
    const { userPermission } = useAuth();
 
    const hasPermissionAndOperation = useMemo(() => {
-      const hasModules = Object.keys(userPermission!);
+      if (userPermission) {
+         const hasModules = Object.keys(userPermission!);
 
-      const moduleAccess = hasModules.includes(module);
+         const moduleAccess = hasModules.includes(module);
 
-      if (moduleAccess) {
-         return true;
+         if (moduleAccess && isMenu) {
+            const hasAction = userPermission[module!]?.includes(action);
+
+            if (hasAction) return true;
+
+            return false;
+         }
+
+         if (moduleAccess) return true;
+
+         return false;
       }
-
-      return false;
-   }, [userPermission, module, action]);
+   }, [userPermission, module, action, isMenu]);
 
    if (hasPermissionAndOperation) {
       return children || <Outlet />;
