@@ -39,7 +39,7 @@ const initialState: InitialState<any> = {
    user: null,
    isAuhthentication: false,
    isInitialized: false,
-   userPermission: permission,
+   userPermission: null,
    loading: false,
 };
 

@@ -6,6 +6,7 @@ import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import { NavLink, useLocation } from 'react-router-dom';
 import menuConfig from '@App/configs/menu-config';
 import { useEffect, useState } from 'react';
+import PermissionAccess from '@App/routes/components/PermissionAccess';
 
 const SidebarItem = () => {
    const location = useLocation();
@@ -59,43 +60,50 @@ const SidebarItem = () => {
                      <AccordionDetails sx={{ pt: 0.5 }}>
                         {item.children.map((item) => {
                            return (
-                              <Box
-                                 component={NavLink}
+                              <PermissionAccess
                                  key={item.id}
-                                 to={item.link}
-                                 sx={({ base }) => ({
-                                    py: 1,
-                                    pl: 2,
-                                    ml: 1,
-                                    display: 'flex',
-                                    gap: '0 8px',
-                                    flexDirection: 'row',
-                                    alignItems: 'center',
-                                    textDecoration: 'none',
-                                    color: base.color.text,
-                                    borderRadius: '5px',
-                                    '&:hover': {
-                                       // '& .MuiSvgIcon-root': {
-                                       //    color: '#0072E5',
-                                       // },
-                                    },
-                                    '&.active': {
-                                       backgroundColor: '#f3f5f7',
-                                    },
-                                 })}
-                                 end
+                                 module={item.module}
+                                 action={item.action}
+                                 path={item.link}
+                                 isMenu
                               >
-                                 <FiberManualRecordIcon sx={{ fontSize: '8px' }} />
-                                 <Typography
+                                 <Box
+                                    component={NavLink}
+                                    to={item.link}
                                     sx={({ base }) => ({
+                                       py: 1,
+                                       pl: 2,
+                                       ml: 1,
+                                       display: 'flex',
+                                       gap: '0 8px',
+                                       flexDirection: 'row',
+                                       alignItems: 'center',
+                                       textDecoration: 'none',
                                        color: base.color.text,
-                                       fontSize: '16px',
-                                       fontWeight: '400',
+                                       borderRadius: '5px',
+                                       '&:hover': {
+                                          // '& .MuiSvgIcon-root': {
+                                          //    color: '#0072E5',
+                                          // },
+                                       },
+                                       '&.active': {
+                                          backgroundColor: '#f3f5f7',
+                                       },
                                     })}
+                                    end
                                  >
-                                    {item.title}
-                                 </Typography>
-                              </Box>
+                                    <FiberManualRecordIcon sx={{ fontSize: '8px' }} />
+                                    <Typography
+                                       sx={({ base }) => ({
+                                          color: base.color.text,
+                                          fontSize: '16px',
+                                          fontWeight: '400',
+                                       })}
+                                    >
+                                       {item.title}
+                                    </Typography>
+                                 </Box>
+                              </PermissionAccess>
                            );
                         })}
                      </AccordionDetails>
@@ -104,24 +112,26 @@ const SidebarItem = () => {
             }
 
             return (
-               <Box component={ExtendNavLink} to={item.link} key={item.id} end>
-                  <Box
-                     sx={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        justifyContent: 'start',
-                        alignItems: 'center',
-                        py: 1,
-                        pl: 1,
-                        gap: 2,
-                        width: '100%',
-                        borderRadius: '5px',
-                     }}
-                  >
-                     <Icon sx={{ width: '20px', height: '20px' }} />
-                     <Typography sx={{ display: 'block', fontSize: '16px' }}>{item.title}</Typography>
+               <PermissionAccess module={item.module} action={item.action} path={item.link} isMenu key={item.id}>
+                  <Box component={ExtendNavLink} to={item.link} end>
+                     <Box
+                        sx={{
+                           display: 'flex',
+                           flexDirection: 'row',
+                           justifyContent: 'start',
+                           alignItems: 'center',
+                           py: 1,
+                           pl: 1,
+                           gap: 2,
+                           width: '100%',
+                           borderRadius: '5px',
+                        }}
+                     >
+                        <Icon sx={{ width: '20px', height: '20px' }} />
+                        <Typography sx={{ display: 'block', fontSize: '16px' }}>{item.title}</Typography>
+                     </Box>
                   </Box>
-               </Box>
+               </PermissionAccess>
             );
          })}
       </Stack>

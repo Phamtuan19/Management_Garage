@@ -1,15 +1,15 @@
-import { lazy } from 'react';
 import { RouteObject, useRoutes } from 'react-router-dom';
 import Loadable from './components/loadable';
 import PrivateRouter from './components/PrivateRouter';
 import PublicRouter from './components/PublicRoute';
 import Layout from '@App/component/Layout';
-import RoutePermission from './components/RoutePermission';
 import MODULE_PAGE from '@App/configs/module-page';
 import PAGE_ACTION from '@App/configs/page-action';
 import ROUTE_PATH from '@App/configs/router-path';
+import personnelRoute from './rotue-action/personnels';
+import PermissionAccess from './components/PermissionAccess';
 
-const Login = Loadable('auth/Login/');
+const SignIn = Loadable('auth/SignIn');
 const Doashboard = Loadable('Doashboard');
 
 const routes: RouteObject[] = [
@@ -27,11 +27,12 @@ const routes: RouteObject[] = [
          {
             index: true,
             element: (
-               <RoutePermission module={MODULE_PAGE.DOASHBOARD} action={PAGE_ACTION.view} path={ROUTE_PATH.DOASHBOARD}>
+               <PermissionAccess module={MODULE_PAGE.DOASHBOARD} action={PAGE_ACTION.VIEW} path={ROUTE_PATH.DOASHBOARD}>
                   <Doashboard />
-               </RoutePermission>
+               </PermissionAccess>
             ),
          },
+         personnelRoute,
       ],
    },
 
@@ -44,7 +45,7 @@ const routes: RouteObject[] = [
       path: ROUTE_PATH.SIGN_IN,
       element: (
          <PublicRouter>
-            <Login />
+            <SignIn />
          </PublicRouter>
       ),
    },

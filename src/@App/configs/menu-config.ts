@@ -3,6 +3,7 @@ import PeopleIcon from '@mui/icons-material/People';
 import PAGE_ACTION from './page-action';
 import MODULE_PAGE from './module-page';
 import { MenuConfigItem } from './config';
+import ROUTE_PATH from './router-path';
 
 const menuConfig: MenuConfigItem[] = [
    {
@@ -10,6 +11,7 @@ const menuConfig: MenuConfigItem[] = [
       title: 'Trang chủ',
       link: '/',
       icon: HomeIcon,
+      action: PAGE_ACTION.VIEW,
       module: MODULE_PAGE.DOASHBOARD,
    },
    {
@@ -23,34 +25,13 @@ const menuConfig: MenuConfigItem[] = [
             id: 2.1,
             title: 'Danh sách',
             link: '/personnels',
-            action: PAGE_ACTION.view,
+            action: PAGE_ACTION.VIEW,
          },
          {
             id: 2.2,
             title: 'Thêm mới',
-            link: '/personnels/create',
-            action: PAGE_ACTION.create,
-         },
-      ],
-   },
-   {
-      id: 3,
-      title: 'Sản phẩm',
-      link: '/products',
-      icon: PeopleIcon,
-      module: MODULE_PAGE.USERS,
-      children: [
-         {
-            id: 3.1,
-            title: 'Danh sách',
-            link: '/products',
-            action: PAGE_ACTION.view,
-         },
-         {
-            id: 3.2,
-            title: 'Thêm mới',
-            link: '/products/create',
-            action: PAGE_ACTION.create,
+            link: ROUTE_PATH.PERSONNELS + ROUTE_PATH.CREATE,
+            action: PAGE_ACTION.CREATE,
          },
       ],
    },

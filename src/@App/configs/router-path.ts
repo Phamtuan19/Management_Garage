@@ -4,10 +4,11 @@ const ROUTE_PATH = {
    DOASHBOARD: '/',
 
    // module personnels
-   PERSONNELS: 'personnels',
-   PERSONNELS_CREATE: 'personnels/create',
+   PERSONNELS: '/personnels',
 
    SIGN_IN: '/sign-in',
+
+   CREATE: '/create',
 } as const;
 
 export const routePathSchema = yup.string().oneOf(Object.values(ROUTE_PATH)).required();

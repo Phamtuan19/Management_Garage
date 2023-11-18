@@ -1,10 +1,10 @@
 import * as yup from 'yup';
 
 const PAGE_ACTION = {
-   view: 'view',
-   create: 'create',
-   show: 'show',
-   edit: 'edit',
+   VIEW: 'view',
+   CREATE: 'create',
+   SHOW: 'show',
+   EDIT: 'edit',
 } as const;
 
 export const pageActionSchema = yup.string().oneOf(Object.values(PAGE_ACTION)).required();

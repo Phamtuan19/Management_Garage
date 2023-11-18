@@ -11,7 +11,8 @@ type LoadableProps = JSX.IntrinsicAttributes;
  */
 
 function Loadable<P extends LoadableProps>(path: string) {
-   const ComponentLazy = lazy(() => import(`@App/pages/${path}`));
+   const newPath = path.split('.').includes('tsx') ? path + '.tsx' : path;
+   const ComponentLazy = lazy(() => import(`../../pages/${newPath}`));
 
    const LoadableComponent: React.FC<P> = (props) => (
       <Suspense fallback={<LazyLoadingScreen />}>

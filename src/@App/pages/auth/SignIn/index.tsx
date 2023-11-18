@@ -1,10 +1,7 @@
 import { Box, Paper, Stack, Typography, styled } from '@mui/material';
-
-import { Link } from 'react-router-dom';
 import FormLogin from './component/FormLogin';
-import ROUTE_PATH from '@App/configs/router-path';
 
-function Login() {
+function SignIn() {
    return (
       <Stack
          sx={{
@@ -22,22 +19,6 @@ function Login() {
             <Box width={300}>
                <Stack width="100%" gap={2}>
                   <FormLogin />
-                  <Typography component="p" textAlign="center">
-                     Bạn không có tài khoản? Hãy{' '}
-                     <Box
-                        component={Link}
-                        to={'/' + ROUTE_PATH.REGISTER}
-                        sx={{
-                           color: '#5624d0',
-                           textDecoration: 'none',
-                           '&:hover': {
-                              textDecoration: 'revert',
-                           },
-                        }}
-                     >
-                        đăng ký
-                     </Box>
-                  </Typography>
                </Stack>
             </Box>
          </WrapperBoxFormLogin>
@@ -56,4 +37,4 @@ const WrapperBoxFormLogin = styled(Paper)(({ theme }) => ({
    borderRadius: 10,
 }));
 
-export default Login;
+export default SignIn;
