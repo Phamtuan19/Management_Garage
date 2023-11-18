@@ -6,10 +6,11 @@ interface LoadingImageProps {
    alt?: string;
    w?: string;
    h?: string;
+   style?: string;
 }
 
 function LazyLoadingImage(props: LoadingImageProps) {
-   const { src, alt, w, h } = props;
+   const { src, alt, w, h, style } = props;
 
    return (
       <LazyLoadImage
@@ -17,6 +18,7 @@ function LazyLoadingImage(props: LoadingImageProps) {
          alt={alt}
          width={w || '100%'}
          height={h || '100%'}
+         style={style}
       />
    );
 }

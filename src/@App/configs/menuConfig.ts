@@ -21,13 +21,13 @@ const menuConfig = [
    {
       id: 2,
       title: 'Nhân viên',
-      link: '',
+      link: 'personnels',
       icon: PeopleIcon,
       role: 'user',
       children: [
          {
             id: 2.1,
-            title: 'Danh sách nhân viên',
+            title: 'Danh sách',
             link: '/personnels',
             role: PAGEACTION.view,
          },
@@ -35,6 +35,27 @@ const menuConfig = [
             id: 2.2,
             title: 'Thêm mới',
             link: '/personnels/create',
+            role: PAGEACTION.create,
+         },
+      ],
+   },
+   {
+      id: 3,
+      title: 'Sản phẩm',
+      link: '/products',
+      icon: PeopleIcon,
+      role: 'user',
+      children: [
+         {
+            id: 3.1,
+            title: 'Danh sách',
+            link: '/products',
+            role: PAGEACTION.view,
+         },
+         {
+            id: 3.2,
+            title: 'Thêm mới',
+            link: '/products/create',
             role: PAGEACTION.create,
          },
       ],

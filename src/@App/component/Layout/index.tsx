@@ -37,9 +37,9 @@ const WrapperContent = styled('main')(({ theme }) => ({
    },
 }));
 
-const Content = styled('div')(({theme}) => ({
-   padding: '24px',
-   minHeight: `calc(100vh - ${theme.base.header.height}px - 111px)`,
+const Content = styled('div')(({ theme }) => ({
+   padding: '12px',
+   minHeight: `calc(100vh - ${theme.base.header.height}px - 48px)`,
 }));
 
 export default Layout;

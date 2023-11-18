@@ -1,0 +1,28 @@
+@import url('https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-regular-webfont.woff');
+
+/*
+* Load Font
+*/
+
+@font-face {
+   font-family: SFArmenianRounded;
+   src: url(@Core/font/SF-Armenian-Rounded.ttf);
+}
+@font-face {
+   font-family: SFArmenian;
+   src: url(@Core/font/SF-Armenian.ttf);
+}
+@font-face {
+   font-family: SF-Pro;
+   src: url(@Core/font/SF-Pro.ttf);
+}
+
+* {
+   padding: 0;
+   margin: 0;
+   box-sizing: border-box;
+}
+
+html, body {
+   font-family: SF-Pro;
+}

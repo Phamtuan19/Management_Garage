@@ -5,6 +5,7 @@ import routePath from '@App/configs/routerPath';
 import PrivateRouter from './components/PrivateRouter';
 import PublicRouter from './components/PublicRoute';
 import Layout from '@App/component/Layout';
+import Doashboard from '@App/pages/Doashboard';
 
 const Login = Loadable(lazy(() => import('@App/pages/auth/Login')));
 
@@ -26,7 +27,15 @@ const routes = [
       children: [
          {
             index: true,
-            element: <h1>Trang user</h1>,
+            element: <Doashboard />,
+         },
+         {
+            path: 'personnels',
+            element: <Doashboard />,
+         },
+         {
+            path: 'personnels/create',
+            element: <h1>Trang thêm người dùng</h1>,
          },
       ],
    },

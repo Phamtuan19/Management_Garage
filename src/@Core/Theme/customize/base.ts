@@ -1,7 +1,7 @@
-import { Base } from '../interface';
-import COLOR from '../color';
 
-const base: Base = {
+import { BaseType } from '../interface';
+
+const base: BaseType = {
    base: {
       pagination: '#fde428',
       background: {
@@ -15,7 +15,13 @@ const base: Base = {
       text: {
          main: '#343a4d',
          primary: '#0b70db',
-         // ...COLOR,
+
+         white: '#FFFFFF',
+         black: '#111111',
+         gray1: '#DADADA',
+         gray2: '#555555',
+         error: '#FF0000',
+         bgLight: '#ffffff1a',
       },
       sidebar: {
          backgroundColor: '#fff',
