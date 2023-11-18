@@ -1,4 +1,3 @@
-import { ServicePathUrl } from '@App/types/servicePathUrl';
 import BaseService from '@Core/Api/BaseService';
 
 export const authPathUrl: ServicePathUrl = {

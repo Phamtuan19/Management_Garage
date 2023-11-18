@@ -1,4 +1,5 @@
 import { Base } from '../interface';
+import COLOR from '../color';
 
 const base: Base = {
    base: {
@@ -8,12 +9,13 @@ const base: Base = {
          white: '#FFFFFF',
       },
       color: {
-         text: '#000',
-         contrastText: '#fff',
+         text: '#111111',
+         contrastText: '#FFFFFF',
       },
       text: {
          main: '#343a4d',
          primary: '#0b70db',
+         // ...COLOR,
       },
       sidebar: {
          backgroundColor: '#fff',

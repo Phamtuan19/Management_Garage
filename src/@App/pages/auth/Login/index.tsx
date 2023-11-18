@@ -31,7 +31,7 @@ function Login() {
                      Bạn không có tài khoản? Hãy{' '}
                      <Box
                         component={Link}
-                        to={'/' + routePath.account.register }
+                        to={'/' + routePath.register.path}
                         sx={{
                            color: '#5624d0',
                            textDecoration: 'none',

@@ -1,7 +1,7 @@
 import { Stack, Checkbox, Typography, Box } from '@mui/material';
 import { Control, Controller, FieldValues } from 'react-hook-form';
 
-interface ControlCheckbox<TFieldValues extends FieldValues = FieldValues> {
+interface ControllerChexBoxPropsType<TFieldValues extends FieldValues = FieldValues> {
    name: string;
    _id?: string;
    titleLabel?: string;
@@ -9,7 +9,7 @@ interface ControlCheckbox<TFieldValues extends FieldValues = FieldValues> {
    control: Control<TFieldValues>;
 }
 
-function ControlChexBox<TFieldValues extends FieldValues = FieldValues>(props: ControlCheckbox<TFieldValues>) {
+function ControllerChexBox<TFieldValues extends FieldValues = FieldValues>(props: ControllerChexBoxPropsType<TFieldValues>) {
    const { name, _id, titleLabel, required, control } = props;
 
    return (
@@ -35,4 +35,4 @@ function ControlChexBox<TFieldValues extends FieldValues = FieldValues>(props: C
    );
 }
 
-export default ControlChexBox;
+export default ControllerChexBox;

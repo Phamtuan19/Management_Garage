@@ -1,61 +1,59 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Box } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import LoginIcon from '@mui/icons-material/Login';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import ControlLabel from '@Core/Component/Input/ControlLabel';
-import ControlTextField from '@Core/Component/Input/ControlTextField';
 import { useAuth } from '@App/redux/slices/auth.slice';
-import TextFleidPassword from '@Core/Component/Input/ControlTextFieldPassword';
-import { FormLoginProps, ValidationFormLogin } from '../utils/yup.validate';
+import { FormLoginProps, validationFormLogin } from '../utils/yup.validate';
 import authService from '@App/services/auth.service';
 import { successMessage } from '@Core/Helper/message';
-import useLocalStorage from '@App/hooks/useLocalStorage';
+import { useMutation } from '@tanstack/react-query';
+import ControllerTextFieldPassword from '@Core/Component/Input/ControllerTextFieldPassword';
+import ControllerLabel from '@Core/Component/Input/ControllerLabel';
+import ControllerTextField from '@Core/Component/Input/ControllerTextField';
 
 function FormLogin() {
-   const { setLocalStorage } = useLocalStorage();
    const { authLogin } = useAuth();
-   const [isLoading, setIsLoading] = useState<boolean>(false);
    const { handleSubmit, setError, setValue, reset, control } = useForm<FormLoginProps>({
-      resolver: yupResolver(ValidationFormLogin),
-      defaultValues: {
-         email: '',
-         password: '',
-      },
+      resolver: yupResolver(validationFormLogin),
+      defaultValues: validationFormLogin.getDefault(),
    });
 
-   const handleSubmitForm: SubmitHandler<FormLoginProps> = async (data: FormLoginProps) => {
-      setIsLoading(true);
-      try {
+   const { mutate: handleLogin, isLoading } = useMutation({
+      mutationFn: async (data: FormLoginProps) => {
          const res = await authService.login(data);
-         console.log(res.data.token);
-         localStorage.setItem(import.meta.env.VITE_AUTH_TOKEN, res.data.token);
-         authLogin(res.data.data);
-         const message = (res.data && res.data.message) || 'Đăng nhập thành công.';
+         return res.data;
+      },
+      onSuccess: (response) => {
+         localStorage.setItem(import.meta.env.VITE_AUTH_TOKEN, response.token);
+         authLogin(response.data);
+         const message = (response && response.message) || 'Đăng nhập thành công.';
          successMessage(message);
          reset();
-      } catch (error: any) {
+      },
+      onError: (error: any) => {
          setError('email', {
             type: 'error',
             message: error.response.data.message,
          });
          setValue('password', '');
-      }
-      setIsLoading(false);
-   };
+      },
+   });
+
+   const handleSubmitForm: SubmitHandler<FormLoginProps> = async (data: FormLoginProps) => handleLogin(data);
 
    return (
       <Box width="100%">
          <form onSubmit={handleSubmit(handleSubmitForm)}>
             <Box mb={1}>
-               <ControlLabel title="Email" sx={{ width: '500px' }} />
-               <ControlTextField name="email" control={control} />
+               <ControllerLabel title="Email" sx={{ width: '500px' }} />
+               <ControllerTextField name="email" control={control} />
             </Box>
             <Box mb={2}>
-               <ControlLabel title="Mật khẩu" />
-               <TextFleidPassword name="password" control={control} />
+               <ControllerLabel title="Mật khẩu" />
+               <ControllerTextFieldPassword name="password" control={control} />
             </Box>
             <LoadingButton fullWidth variant="contained" type="submit" startIcon={<LoginIcon />} loading={isLoading}>
                Đăng nhập

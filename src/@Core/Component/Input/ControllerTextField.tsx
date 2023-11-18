@@ -10,7 +10,7 @@ interface ControllerTextFieldProps<TFieldValues extends FieldValues = FieldValue
    control: Control<TFieldValues>;
 }
 
-function ControlTextField<TFieldValues extends FieldValues = FieldValues>(
+function ControllerTextField<TFieldValues extends FieldValues = FieldValues>(
    props: ControllerTextFieldProps<TFieldValues>,
 ): React.ReactNode {
    const { name, placeholder, defaultValue, sx, control } = props;
@@ -29,7 +29,11 @@ function ControlTextField<TFieldValues extends FieldValues = FieldValues>(
                      placeholder={placeholder}
                      {...field}
                   />
-                  {error && <FormHelperText variant="standard">{error.message}</FormHelperText>}
+                  {error && (
+                     <FormHelperText variant="standard" sx={{ color: '#F00', ml: 1 }}>
+                        {error.message}
+                     </FormHelperText>
+                  )}
                </React.Fragment>
             );
          }}
@@ -40,4 +44,4 @@ function ControlTextField<TFieldValues extends FieldValues = FieldValues>(
    );
 }
 
-export default ControlTextField;
+export default ControllerTextField;

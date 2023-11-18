@@ -1,5 +1,5 @@
 import { lazy } from 'react';
-import { Outlet, useRoutes } from 'react-router-dom';
+import { useRoutes } from 'react-router-dom';
 import Loadable from './components/loadable';
 import routePath from '@App/configs/routerPath';
 import PrivateRouter from './components/PrivateRouter';
@@ -7,7 +7,10 @@ import PublicRouter from './components/PublicRoute';
 import Layout from '@App/component/Layout';
 
 const Login = Loadable(lazy(() => import('@App/pages/auth/Login')));
-const Register = Loadable(lazy(() => import('@App/pages/auth/Register')));
+
+const PremissionPage = {
+   home: [],
+};
 
 const routes = [
    /**
@@ -23,7 +26,7 @@ const routes = [
       children: [
          {
             index: true,
-            element: <h1>Trang home</h1>,
+            element: <h1>Trang user</h1>,
          },
       ],
    },
@@ -34,18 +37,10 @@ const routes = [
     * Route
     */
    {
-      path: routePath.account.login,
+      path: routePath.login.path,
       element: (
          <PublicRouter>
             <Login />
-         </PublicRouter>
-      ),
-   },
-   {
-      path: routePath.account.login,
-      element: (
-         <PublicRouter>
-            <Register />
          </PublicRouter>
       ),
    },

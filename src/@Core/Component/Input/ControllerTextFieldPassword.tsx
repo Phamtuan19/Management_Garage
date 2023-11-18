@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Box, FormHelperText, SxProps, TextField, Theme } from '@mui/material';
 import { Control, Controller, FieldValues, useWatch } from 'react-hook-form';
 
-interface TextFleidPasswordProps<TFieldValues extends FieldValues = FieldValues> {
+interface ControllerTextFieldPasswordProps<TFieldValues extends FieldValues = FieldValues> {
    name: string;
    placeholder?: string;
    defaultValue?: string;
@@ -10,8 +10,8 @@ interface TextFleidPasswordProps<TFieldValues extends FieldValues = FieldValues>
    control: Control<TFieldValues>;
 }
 
-function TextFleidPassword<TFieldValues extends FieldValues = FieldValues>(
-   props: TextFleidPasswordProps<TFieldValues>,
+function ControllerTextFieldPassword<TFieldValues extends FieldValues = FieldValues>(
+   props: ControllerTextFieldPasswordProps<TFieldValues>,
 ) {
    const { name, placeholder, defaultValue, sx, control } = props;
 
@@ -89,4 +89,4 @@ function TextFleidPassword<TFieldValues extends FieldValues = FieldValues>(
    );
 }
 
-export default TextFleidPassword;
+export default ControllerTextFieldPassword;

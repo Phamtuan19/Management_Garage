@@ -2,7 +2,7 @@ import React from 'react';
 import { FormHelperText, MenuItem, Select } from '@mui/material';
 import { Control, Controller, FieldValues } from 'react-hook-form';
 
-interface ControlSelectProps<TFieldValues extends FieldValues = FieldValues> {
+interface ControllerSelectProps<TFieldValues extends FieldValues = FieldValues> {
    options: { [key: string]: any }[];
    name: string;
    _id: string;
@@ -11,7 +11,7 @@ interface ControlSelectProps<TFieldValues extends FieldValues = FieldValues> {
    control: Control<TFieldValues>;
 }
 
-function ControlSelect(props: ControlSelectProps<FieldValues>): React.ReactNode {
+function ControllerSelect(props: ControllerSelectProps<FieldValues>): React.ReactNode {
    const { options, name, defaultValue, _id, _value, control } = props;
    return (
       <Controller
@@ -37,4 +37,4 @@ function ControlSelect(props: ControlSelectProps<FieldValues>): React.ReactNode 
       />
    );
 }
-export default ControlSelect;
+export default ControllerSelect;

@@ -1,14 +1,14 @@
 import { Typography, Box, SxProps, Theme } from '@mui/material';
 import React from 'react';
 
-interface ControlLabelProps {
+interface ControllerLabelProps {
    title?: string;
    required?: boolean;
    sx?: SxProps<Theme> | undefined;
    children?: React.ReactNode;
 }
 
-function ControlLabel(props: ControlLabelProps) {
+function ControllerLabel(props: ControllerLabelProps) {
    const { title, required, sx, children } = props;
 
    return (
@@ -34,4 +34,4 @@ function ControlLabel(props: ControlLabelProps) {
    );
 }
 
-export default ControlLabel;
+export default ControllerLabel;
