@@ -1,13 +1,8 @@
-import LazyLoadingImage from '@App/component/customs/LazyLoadingImage';
-import { Box, Button, Divider, Paper, Stack, Typography, styled } from '@mui/material';
-import GitHubIcon from '@mui/icons-material/GitHub';
-import GoogleIcon from '@mui/icons-material/Google';
+import { Box, Paper, Stack, Typography, styled } from '@mui/material';
 
-import { Link, redirect, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import FormLogin from './component/FormLogin';
-import routePath from '@App/configs/routerPath';
-import authService from '@App/services/auth.service';
-import { useMutation, useQueries } from '@tanstack/react-query';
+import ROUTE_PATH from '@App/configs/router-path';
 
 function Login() {
    return (
@@ -31,7 +26,7 @@ function Login() {
                      Bạn không có tài khoản? Hãy{' '}
                      <Box
                         component={Link}
-                        to={'/' + routePath.register.path}
+                        to={'/' + ROUTE_PATH.REGISTER}
                         sx={{
                            color: '#5624d0',
                            textDecoration: 'none',

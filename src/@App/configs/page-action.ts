@@ -1,14 +1,14 @@
 import * as yup from 'yup';
 
-const PAGEACTION = {
+const PAGE_ACTION = {
    view: 'view',
    create: 'create',
    show: 'show',
    edit: 'edit',
 } as const;
 
-export const pageActionSchema = yup.string().oneOf(Object.values(PAGEACTION));
+export const pageActionSchema = yup.string().oneOf(Object.values(PAGE_ACTION)).required();
 
 export type PageActionPropsType = yup.InferType<typeof pageActionSchema>;
 
-export default PAGEACTION;
+export default PAGE_ACTION;

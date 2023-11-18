@@ -6,8 +6,8 @@ import { useAuth } from './redux/slices/auth.slice';
 import LazyLoadingFullScreen from './component/customs/LazyLoading/LazyLoadingFullScreen';
 
 function App() {
-   const { auth } = useAuth();
-   if (!auth.isInitialized) return <LazyLoadingFullScreen />;
+   const { isInitialized } = useAuth();
+   if (!isInitialized) return <LazyLoadingFullScreen />;
 
    return (
       <CoreComfirmProvider>

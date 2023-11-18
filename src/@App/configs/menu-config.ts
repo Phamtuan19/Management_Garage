@@ -1,41 +1,35 @@
 import HomeIcon from '@mui/icons-material/Home';
 import PeopleIcon from '@mui/icons-material/People';
-import PAGEACTION from './pageAction';
+import PAGE_ACTION from './page-action';
+import MODULE_PAGE from './module-page';
+import { MenuConfigItem } from './config';
 
-export interface MenuConfigItem {
-   id: number;
-   title: string;
-   link: string;
-   icon: any;
-   children?: MenuConfigItem[];
-}
-
-const menuConfig = [
+const menuConfig: MenuConfigItem[] = [
    {
       id: 1,
       title: 'Trang chủ',
       link: '/',
       icon: HomeIcon,
-      role: [],
+      module: MODULE_PAGE.DOASHBOARD,
    },
    {
       id: 2,
       title: 'Nhân viên',
       link: 'personnels',
       icon: PeopleIcon,
-      role: 'user',
+      module: MODULE_PAGE.USERS,
       children: [
          {
             id: 2.1,
             title: 'Danh sách',
             link: '/personnels',
-            role: PAGEACTION.view,
+            action: PAGE_ACTION.view,
          },
          {
             id: 2.2,
             title: 'Thêm mới',
             link: '/personnels/create',
-            role: PAGEACTION.create,
+            action: PAGE_ACTION.create,
          },
       ],
    },
@@ -44,19 +38,19 @@ const menuConfig = [
       title: 'Sản phẩm',
       link: '/products',
       icon: PeopleIcon,
-      role: 'user',
+      module: MODULE_PAGE.USERS,
       children: [
          {
             id: 3.1,
             title: 'Danh sách',
             link: '/products',
-            role: PAGEACTION.view,
+            action: PAGE_ACTION.view,
          },
          {
             id: 3.2,
             title: 'Thêm mới',
             link: '/products/create',
-            role: PAGEACTION.create,
+            action: PAGE_ACTION.create,
          },
       ],
    },

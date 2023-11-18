@@ -1,19 +1,18 @@
 import { lazy } from 'react';
-import { useRoutes } from 'react-router-dom';
+import { RouteObject, useRoutes } from 'react-router-dom';
 import Loadable from './components/loadable';
-import routePath from '@App/configs/routerPath';
 import PrivateRouter from './components/PrivateRouter';
 import PublicRouter from './components/PublicRoute';
 import Layout from '@App/component/Layout';
-import Doashboard from '@App/pages/Doashboard';
+import RoutePermission from './components/RoutePermission';
+import MODULE_PAGE from '@App/configs/module-page';
+import PAGE_ACTION from '@App/configs/page-action';
+import ROUTE_PATH from '@App/configs/router-path';
 
-const Login = Loadable(lazy(() => import('@App/pages/auth/Login')));
+const Login = Loadable('auth/Login/');
+const Doashboard = Loadable('Doashboard');
 
-const PremissionPage = {
-   home: [],
-};
-
-const routes = [
+const routes: RouteObject[] = [
    /**
     * Route page admin Pivate
     */
@@ -27,15 +26,11 @@ const routes = [
       children: [
          {
             index: true,
-            element: <Doashboard />,
-         },
-         {
-            path: 'personnels',
-            element: <Doashboard />,
-         },
-         {
-            path: 'personnels/create',
-            element: <h1>Trang thêm người dùng</h1>,
+            element: (
+               <RoutePermission module={MODULE_PAGE.DOASHBOARD} action={PAGE_ACTION.view} path={ROUTE_PATH.DOASHBOARD}>
+                  <Doashboard />
+               </RoutePermission>
+            ),
          },
       ],
    },
@@ -46,7 +41,7 @@ const routes = [
     * Route
     */
    {
-      path: routePath.login.path,
+      path: ROUTE_PATH.SIGN_IN,
       element: (
          <PublicRouter>
             <Login />

@@ -3,6 +3,8 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../rootReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import authService from '@App/services/auth.service';
+import { PageActionPropsType } from '@App/configs/page-action';
+import MODULE_PAGE, { ModulePagePropsType } from '@App/configs/module-page';
 
 const actionRefreshToken = createAsyncThunk('auth/refreshToken', async () => {
    console.log('refresh token');
@@ -11,21 +13,25 @@ const actionRefreshToken = createAsyncThunk('auth/refreshToken', async () => {
 const actionGetUser = createAsyncThunk('auth/getUser', async () => {
    try {
       const res = await authService.getUser();
-      // localStorage.setItem(import.meta.env.VITE_AUTH_TOKEN, user.avatar);
       return res.data;
    } catch (error: any) {
       throw new Error(error);
    }
 });
 
-const permission = {
-   user: ['view', 'show', 'edit', 'create'],
+const permission: UserPermission = {
+   [MODULE_PAGE.USERS]: ['view', 'show', 'edit', 'create'],
 };
+
+type UserPermission = {
+   [key in ModulePagePropsType]?: PageActionPropsType[];
+};
+
 interface InitialState<U> {
    user: Array<U> | null;
    isAuhthentication: boolean;
    isInitialized: boolean;
-   userPermission: string | null;
+   userPermission: UserPermission | null;
    loading: boolean;
 }
 
@@ -33,7 +39,7 @@ const initialState: InitialState<any> = {
    user: null,
    isAuhthentication: false,
    isInitialized: false,
-   userPermission: null,
+   userPermission: permission,
    loading: false,
 };
 
@@ -94,7 +100,7 @@ export const useAuth = () => {
       dispatch(actionLogoutReducer());
    };
 
-   return { auth, authRefreshToken, authLogin, authGetUser, authLogout };
+   return { ...auth, authRefreshToken, authLogin, authGetUser, authLogout };
 };
 
 export default authSlice;

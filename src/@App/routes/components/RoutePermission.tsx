@@ -1,22 +1,39 @@
 import { useAuth } from '@App/redux/slices/auth.slice';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Outlet } from 'react-router-dom';
 
-interface RoutePermission {
-   children: React.ReactNode;
-   role?: string | string[];
-}
+/**
+ * @param module - The component's module is loaded.
+ * @param action - The component's action has been loaded.
+ * @param fullScreen - Whether to show a full-screen loading splash or a small loading spinner.
+ * 
+ */
 
-const test = ['view', 'show', 'edit', 'create'];
+const RoutePermission = ({
+   children,
+   module,
+   action,
+   fallback = <h1>Bạn không có quyền truy cập</h1>,
+}: RoutePermission): React.ReactNode => {
+   const { userPermission } = useAuth();
 
-const RoutePermission = ({ children, role }: RoutePermission) => {
-   const {
-      auth: { userPermission },
-   } = useAuth();
+   const hasPermissionAndOperation = useMemo(() => {
+      const hasModules = Object.keys(userPermission!);
 
-   console.log(userPermission);
+      const moduleAccess = hasModules.includes(module);
 
-   return <div>{children || <Outlet />}</div>;
+      if (moduleAccess) {
+         return true;
+      }
+
+      return false;
+   }, [userPermission, module, action]);
+
+   if (hasPermissionAndOperation) {
+      return children || <Outlet />;
+   }
+
+   return fallback;
 };
 
 export default RoutePermission;

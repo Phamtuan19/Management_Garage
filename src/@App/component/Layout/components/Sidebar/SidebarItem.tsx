@@ -4,7 +4,7 @@ import MuiAccordion, { AccordionProps } from '@mui/material/Accordion';
 import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import { NavLink, useLocation } from 'react-router-dom';
-import menuConfig from '@App/configs/menuConfig';
+import menuConfig from '@App/configs/menu-config';
 import { useEffect, useState } from 'react';
 
 const SidebarItem = () => {
