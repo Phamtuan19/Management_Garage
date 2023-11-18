@@ -20,7 +20,8 @@ const actionGetUser = createAsyncThunk('auth/getUser', async () => {
 });
 
 const permission: UserPermission = {
-   [MODULE_PAGE.USERS]: ['show', 'edit', 'create'],
+   [MODULE_PAGE.USERS]: ['view', 'show', 'edit', 'create'],
+   [MODULE_PAGE.DOASHBOARD]: ['view'],
 };
 
 type UserPermission = {

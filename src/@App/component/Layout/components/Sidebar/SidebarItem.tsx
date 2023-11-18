@@ -59,13 +59,14 @@ const SidebarItem = () => {
                      </AccordionSummary>
                      <AccordionDetails sx={{ pt: 0.5 }}>
                         {item.children.map((item_children) => {
+                           console.log(item.module);
                            return (
                               <PermissionAccess
                                  key={item_children.id}
                                  module={item.module}
                                  action={item_children.action}
-                                 path={item_children.link}
-                                 isMenu
+                                 // path={item_children.link as string}
+                                 isPage
                               >
                                  <Box
                                     component={NavLink}
@@ -112,7 +113,7 @@ const SidebarItem = () => {
             }
 
             return (
-               <PermissionAccess module={item.module} action={item.action} path={item.link} isMenu key={item.id}>
+               <PermissionAccess module={item.module} action={item.action} isPage key={item.id}>
                   <Box component={ExtendNavLink} to={item.link} end>
                      <Box
                         sx={{

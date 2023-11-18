@@ -14,7 +14,7 @@ const PermissionAccess = ({
    children,
    module,
    action,
-   isMenu = false,
+   isPage = false,
    fallback = <h1>Bạn không có quyền truy cập</h1>,
 }: PermissionAccessType): React.ReactNode => {
    const { userPermission } = useAuth();
@@ -23,10 +23,10 @@ const PermissionAccess = ({
       if (userPermission) {
          const hasModules = Object.keys(userPermission!);
 
-         const moduleAccess = hasModules.includes(module);
+         const moduleAccess = hasModules.includes(module!);
 
-         if (moduleAccess && isMenu) {
-            const hasAction = userPermission[module!]?.includes(action);
+         if (moduleAccess && isPage) {
+            const hasAction = userPermission[module!]?.includes(action!);
 
             if (hasAction) return true;
 
@@ -37,13 +37,13 @@ const PermissionAccess = ({
 
          return false;
       }
-   }, [userPermission, module, action, isMenu]);
+   }, [userPermission, module, action, isPage]);
 
    if (hasPermissionAndOperation) {
       return children || <Outlet />;
    }
 
-   return !isMenu && fallback;
+   return !isPage && fallback;
 };
 
 export default PermissionAccess;
