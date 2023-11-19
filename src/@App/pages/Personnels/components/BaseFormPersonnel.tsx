@@ -58,7 +58,7 @@ const BaseFormPersonnel = () => {
                   titlePath="lable"
                   defaultValue=""
                   name="role"
-                  control={control as any}
+                  control={control}
                />
             </Grid>
             <Grid item md={3}>
