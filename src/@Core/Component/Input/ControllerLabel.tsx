@@ -17,16 +17,19 @@ function ControllerLabel(props: ControllerLabelProps) {
          sx={{
             display: 'flex',
             alignItems: 'center',
-            fontSize: 14,
+            fontSize: 15,
             padding: '5px 0',
             fontWeight: 500,
-            gap: 1,
+            gap: 0.5,
+            pt: 0,
+            pb: 0.5,
+            pl: 0.5,
             ...sx,
          }}
       >
-         {title && title} {children && children}
+         {title} {children}
          {required && (
-            <Box component="span" sx={{ color: 'red', fontSize: 24 }}>
+            <Box component="span" sx={{ color: 'red', fontSize: 16, lineHeight: 1.4 }}>
                *
             </Box>
          )}

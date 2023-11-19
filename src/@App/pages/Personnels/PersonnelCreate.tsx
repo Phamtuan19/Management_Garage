@@ -1,5 +1,12 @@
+import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
+import BaseFormPersonnel from './components/BaseFormPersonnel';
+
 const PersonnelCreate = () => {
-   return <div>Trang tạo mới Personnel</div>;
+   return (
+      <BaseBreadcrumbs arialabel="Personnels">
+         <BaseFormPersonnel />
+      </BaseBreadcrumbs>
+   );
 };
 
 export default PersonnelCreate;

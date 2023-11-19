@@ -3,13 +3,12 @@ import Loadable from './components/loadable';
 import PrivateRouter from './components/PrivateRouter';
 import PublicRouter from './components/PublicRoute';
 import Layout from '@App/component/Layout';
-import ListUserRoute from './components/listUser';
-import CreateUserRouter from './components/createUserRouter';
 import MODULE_PAGE from '@App/configs/module-page';
 import PAGE_ACTION from '@App/configs/page-action';
 import ROUTE_PATH from '@App/configs/router-path';
-import personnelRoute from './rotue-action/personnels';
 import PermissionAccess from './components/PermissionAccess';
+
+import personnelRoute from './rotue-action/personnels';
 
 const SignIn = Loadable('auth/SignIn');
 const Doashboard = Loadable('Doashboard');
@@ -35,34 +34,6 @@ const routes: RouteObject[] = [
             ),
          },
          personnelRoute,
-      ],
-   },
-   {
-      path: '/personnels',
-      element: (
-
-         <Layout />
-
-      ),
-      children: [
-         {
-            index: true,
-            element: <ListUserRoute />,
-         },
-      ],
-   },
-   {
-      path: '/personnels/create',
-      element: (
-
-         <Layout />
-
-      ),
-      children: [
-         {
-            index: true,
-            element: <CreateUserRouter />,
-         },
       ],
    },
 
