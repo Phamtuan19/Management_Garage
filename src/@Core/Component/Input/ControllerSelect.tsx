@@ -8,7 +8,7 @@ interface ControllerSelectProps<TFieldValues extends FieldValues = FieldValues> 
    valuePath: string;
    titlePath: string;
    defaultValue?: string;
-   control: Control<TFieldValues>;
+   control: Control<TFieldValues | any>;
 }
 
 function ControllerSelect(props: ControllerSelectProps<FieldValues>): React.ReactNode {
