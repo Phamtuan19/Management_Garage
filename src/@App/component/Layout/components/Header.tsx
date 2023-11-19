@@ -162,8 +162,4 @@ const stylePaperProps = {
    },
 };
 
-const LogoImage = styled('img')(({ theme }) => ({
-   width: '100%',
-}));
-
 export default Header;

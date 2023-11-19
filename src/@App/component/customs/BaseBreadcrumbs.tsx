@@ -1,5 +1,5 @@
 import Breadcrumbs from '@mui/material/Breadcrumbs';
-import { Box, Container, Typography, styled } from '@mui/material';
+import { Box, Typography, styled } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 
 interface BaseBreadcrumbsPropsType {
