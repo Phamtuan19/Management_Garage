@@ -7,7 +7,6 @@ import ControllerTextField from '@Core/Component/Input/ControllerTextField';
 import ControllerSelect from '@Core/Component/Input/ControllerSelect';
 import { LoadingButton } from '@mui/lab';
 import ControllerRadioGroup from '@Core/Component/Input/ControllerRadioGroup';
-import ControllerTextarea from '@Core/Component/Input/ControllerTextarea';
 
 const BaseFormPersonnel = () => {
    const {
@@ -92,9 +91,7 @@ const BaseFormPersonnel = () => {
                   control={control}
                />
             </Grid>
-            <Grid item xs={12}>
-               <ControllerTextarea name="node" control={control} />
-            </Grid>
+
             <Grid item xs={12}>
                <LoadingButton type="submit">Thêm</LoadingButton>
             </Grid>
