@@ -80,7 +80,6 @@ const Header = ({ setOpenSidebar }: HeaderProps) => {
                   id="account-menu"
                   open={open}
                   onClose={handleClose}
-                  onClick={handleClickLogout}
                   sx={{ zIndex: 999999 }}
                   PaperProps={stylePaperProps}
                   transformOrigin={{ horizontal: 'right', vertical: 'top' }}
@@ -92,7 +91,7 @@ const Header = ({ setOpenSidebar }: HeaderProps) => {
                      </ListItemIcon>
                      Settings
                   </MenuItem>
-                  <MenuItem onClick={handleClose}>
+                  <MenuItem onClick={handleClickLogout}>
                      <ListItemIcon>
                         <Logout fontSize="small" />
                      </ListItemIcon>

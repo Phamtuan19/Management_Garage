@@ -12,10 +12,9 @@ function SignIn() {
          }}
       >
          <WrapperBoxFormLogin elevation={1}>
-            <Typography variant="h4" fontWeight={600}>
+            <Typography variant="h4" fontWeight={600} mb={2}>
                Welcome back
             </Typography>
-            <Box component="p">Enter your Untitled account details</Box>
             <Box width={300}>
                <Stack width="100%" gap={2}>
                   <FormLogin />

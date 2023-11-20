@@ -7,7 +7,7 @@ import { Button } from '@mui/material';
 const Doashboard = () => {
    return (
       <BaseBreadcrumbs arialabel="Doashboard">
-         <PermissionAccess module={MODULE_PAGE.PERSONNELS} action={PAGE_ACTION.VIEW} type="action">
+         <PermissionAccess module={MODULE_PAGE.PERSONNELS} action={PAGE_ACTION.VIEW} type="component">
             <Button>Permission Access</Button>
          </PermissionAccess>
       </BaseBreadcrumbs>

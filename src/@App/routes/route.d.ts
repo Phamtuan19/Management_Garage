@@ -5,7 +5,7 @@ interface PermissionAccessType {
    action: PageActionPropsType;
    module: ModulePagePropsType;
    path?: string;
-   type: 'route' | 'action';
+   type: 'route' | 'component';
    children: React.ReactNode;
    fallback?: React.ReactNode;
 }
