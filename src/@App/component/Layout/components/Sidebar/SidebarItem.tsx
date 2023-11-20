@@ -66,7 +66,7 @@ const SidebarItem = () => {
                                  key={item_children.id}
                                  module={item.module as ModulePagePropsType}
                                  action={item_children.action as PageActionPropsType}
-                                 type="action"
+                                 type="component"
                               >
                                  <Box
                                     component={NavLink}
@@ -116,7 +116,7 @@ const SidebarItem = () => {
                <PermissionAccess
                   module={item.module as ModulePagePropsType}
                   action={item.action as PageActionPropsType}
-                  type="action"
+                  type="component"
                   key={item.id}
                >
                   <Box component={ExtendNavLink} to={item.link} end>

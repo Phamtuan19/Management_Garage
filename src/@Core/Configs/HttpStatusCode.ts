@@ -1,4 +1,6 @@
-export default {
+import * as yup from 'yup';
+
+const HttpStatusCode = {
    CONTINUE: 100,
    /**
     * This code is sent in response to an Upgrade request header by the client, and indicates the protocol the server is switching too.
@@ -227,4 +229,12 @@ export default {
     * The 511 status code indicates that the client needs to authenticate to gain network access.
     */
    NETWORK_AUTHENTICATION_REQUIRED: 511,
-};
+} as const;
+
+const HttpStatusCodeStrings = Object.values(HttpStatusCode).map((value) => value.toString());
+
+export const HttpStatusCodeSchema = yup.string().oneOf(HttpStatusCodeStrings).required();
+
+export type HttpStatusCodeSType = yup.InferType<typeof HttpStatusCodeSchema>;
+
+export default HttpStatusCode;

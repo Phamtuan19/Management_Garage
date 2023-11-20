@@ -23,7 +23,7 @@ class BaseService {
 
    PRIMARY_KEY: string = 'id';
 
-   DEFAULT_SORT = 'asc';
+   DEFAULT_SORT: 'asc' | 'desc' = 'asc';
 
    request!: AxiosInstance;
 
@@ -52,6 +52,7 @@ class BaseService {
          ...this.requestParams,
          ...query,
       };
+
       return this.request.get(this.BASE_ENDPOINT, { params });
    }
 

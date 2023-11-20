@@ -13,6 +13,7 @@ const actionRefreshToken = createAsyncThunk('auth/refreshToken', async () => {
 const actionGetUser = createAsyncThunk('auth/getUser', async () => {
    try {
       const res = await authService.getUser();
+      console.log(res);
       return res.data;
    } catch (error: any) {
       throw new Error(error);

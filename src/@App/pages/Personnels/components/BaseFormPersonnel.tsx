@@ -92,9 +92,7 @@ const BaseFormPersonnel = () => {
                />
             </Grid>
             <Grid item xs={12}>
-               <LoadingButton size="large" variant="contained" type="submit">
-                  Thêm
-               </LoadingButton>
+               <LoadingButton type="submit">Thêm</LoadingButton>
             </Grid>
          </Grid>
       </form>
