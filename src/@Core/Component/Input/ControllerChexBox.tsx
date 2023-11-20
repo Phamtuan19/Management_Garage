@@ -9,7 +9,9 @@ interface ControllerChexBoxPropsType<TFieldValues extends FieldValues = FieldVal
    control: Control<TFieldValues>;
 }
 
-function ControllerChexBox<TFieldValues extends FieldValues = FieldValues>(props: ControllerChexBoxPropsType<TFieldValues>) {
+function ControllerChexBox<TFieldValues extends FieldValues = FieldValues>(
+   props: ControllerChexBoxPropsType<TFieldValues>,
+) {
    const { name, _id, titleLabel, required, control } = props;
    return (
       <Controller
@@ -20,7 +22,7 @@ function ControllerChexBox<TFieldValues extends FieldValues = FieldValues>(props
                   <Typography component="label" id={_id} sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
                      {titleLabel}
                      {required && (
-                        <Box component="span" sx={{ color: 'red', fontSize: 24 }}>
+                        <Box component="span" sx={({ palette }) => ({ color: palette.error.main, fontSize: 24 })}>
                            *
                         </Box>
                      )}

@@ -29,7 +29,7 @@ function ControllerLabel(props: ControllerLabelProps) {
       >
          {title} {children}
          {required && (
-            <Box component="span" sx={{ color: 'red', fontSize: 16, lineHeight: 1.4 }}>
+            <Box component="span" sx={({ palette }) => ({ color: palette.error.main, fontSize: 16, lineHeight: 1.4 })}>
                *
             </Box>
          )}

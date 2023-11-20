@@ -36,7 +36,7 @@ function ControllerSelect(props: ControllerSelectProps<FieldValues>): React.Reac
                      })}
                   </Select>
                   {error && (
-                     <FormHelperText variant="standard" sx={{ color: '#F00' }}>
+                     <FormHelperText variant="standard" sx={({ palette }) => ({ color: palette.error.main, ml: 1 })}>
                         {error.message}
                      </FormHelperText>
                   )}

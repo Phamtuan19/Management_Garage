@@ -30,7 +30,7 @@ function ControllerTextField<TFieldValues extends FieldValues = FieldValues>(
                      {...rest}
                   />
                   {error && (
-                     <FormHelperText variant="standard" sx={{ color: '#F00', ml: 1 }}>
+                     <FormHelperText variant="standard" sx={({ palette }) => ({ color: palette.error.main, ml: 1 })}>
                         {error.message}
                      </FormHelperText>
                   )}

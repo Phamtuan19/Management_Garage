@@ -39,9 +39,9 @@ const palette = {
       contrastText: '#FFFFFF',
    },
    error: {
-      main: '#d32f2f',
-      light: '#ef5350',
-      dark: '#c62828',
+      main: '#F00',
+      light: '#F00',
+      dark: '#F00',
       contrastText: '#FFFFFF',
    },
    warning: {

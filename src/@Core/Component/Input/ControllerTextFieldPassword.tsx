@@ -76,7 +76,14 @@ function ControllerTextFieldPassword<TFieldValues extends FieldValues = FieldVal
                               </Box>
                            )}
                         </Box>
-                        {error && <FormHelperText variant="standard">{error.message}</FormHelperText>}
+                        {error && (
+                           <FormHelperText
+                              variant="standard"
+                              sx={({ palette }) => ({ color: palette.error.main, ml: 1 })}
+                           >
+                              {error.message}
+                           </FormHelperText>
+                        )}
                      </React.Fragment>
                   );
                }}
