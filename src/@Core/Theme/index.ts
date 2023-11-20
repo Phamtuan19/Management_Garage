@@ -30,7 +30,7 @@ const theme = createTheme({
       MuiTextField: {
          defaultProps: {
             variant: 'outlined',
-            size: 'medium',
+            size: 'small',
          },
          styleOverrides: {
             root: {
@@ -43,7 +43,7 @@ const theme = createTheme({
       MuiSelect: {
          defaultProps: {
             variant: 'outlined',
-            size: 'medium',
+            size: 'small',
          },
       },
    },

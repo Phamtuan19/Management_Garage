@@ -6,8 +6,9 @@ import Layout from '@App/component/Layout';
 import MODULE_PAGE from '@App/configs/module-page';
 import PAGE_ACTION from '@App/configs/page-action';
 import ROUTE_PATH from '@App/configs/router-path';
-import personnelRoute from './rotue-action/personnels';
 import PermissionAccess from './components/PermissionAccess';
+
+import personnelRoute from './rotue-action/personnels';
 
 const SignIn = Loadable('auth/SignIn');
 const Doashboard = Loadable('Doashboard');

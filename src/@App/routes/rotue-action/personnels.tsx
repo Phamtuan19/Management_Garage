@@ -6,6 +6,7 @@ import { Outlet, RouteObject } from 'react-router-dom';
 import PermissionAccess from '../components/PermissionAccess';
 
 const PersonnelCreate = Loadable('Personnels/PersonnelCreate');
+const Personnel = Loadable('Personnels');
 
 const personnelRoute: RouteObject = {
    path: ROUTE_PATH.PERSONNELS,
@@ -13,7 +14,7 @@ const personnelRoute: RouteObject = {
    children: [
       {
          index: true,
-         element: <h1>Trang thêm người dùng</h1>,
+         element: <Personnel />,
       },
       {
          path: ROUTE_PATH.PERSONNELS + ROUTE_PATH.CREATE,

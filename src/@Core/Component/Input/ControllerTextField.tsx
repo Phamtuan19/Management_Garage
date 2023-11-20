@@ -13,7 +13,7 @@ interface ControllerTextFieldProps<TFieldValues extends FieldValues = FieldValue
 function ControllerTextField<TFieldValues extends FieldValues = FieldValues>(
    props: ControllerTextFieldProps<TFieldValues>,
 ): React.ReactNode {
-   const { name, placeholder, defaultValue, sx, control } = props;
+   const { name, placeholder, defaultValue, sx, control, ...rest } = props;
    return (
       <Controller
          render={({ field, fieldState: { error } }) => {
@@ -23,11 +23,11 @@ function ControllerTextField<TFieldValues extends FieldValues = FieldValues>(
                      fullWidth
                      id={name}
                      variant="outlined"
-                     size="small"
                      error={Boolean(error)}
                      sx={{ mb: 0.5, ...sx }}
                      placeholder={placeholder}
                      {...field}
+                     {...rest}
                   />
                   {error && (
                      <FormHelperText variant="standard" sx={{ color: '#F00', ml: 1 }}>

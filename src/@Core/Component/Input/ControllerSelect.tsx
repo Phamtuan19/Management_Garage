@@ -5,29 +5,41 @@ import { Control, Controller, FieldValues } from 'react-hook-form';
 interface ControllerSelectProps<TFieldValues extends FieldValues = FieldValues> {
    options: { [key: string]: any }[];
    name: string;
-   _id: string;
-   _value: string;
+   valuePath: string;
+   titlePath: string;
    defaultValue?: string;
-   control: Control<TFieldValues>;
+   control: Control<TFieldValues | any>;
 }
 
 function ControllerSelect(props: ControllerSelectProps<FieldValues>): React.ReactNode {
-   const { options, name, defaultValue, _id, _value, control } = props;
+   const { options, name, defaultValue, valuePath, titlePath, control, ...rest } = props;
    return (
       <Controller
          render={({ field, fieldState: { error } }) => {
             return (
                <React.Fragment>
-                  <Select fullWidth variant="outlined" id={name} error={Boolean(error)} size="medium" {...field}>
+                  <Select
+                     fullWidth
+                     variant="outlined"
+                     id={name}
+                     error={Boolean(error)}
+                     size="small"
+                     {...field}
+                     {...rest}
+                  >
                      {options.map((option, index) => {
                         return (
-                           <MenuItem key={index} value={option[_id]}>
-                              {option[_value]}
+                           <MenuItem key={index} value={option[valuePath]}>
+                              {option[titlePath]}
                            </MenuItem>
                         );
                      })}
                   </Select>
-                  {error && <FormHelperText variant="standard">{error.message}</FormHelperText>}
+                  {error && (
+                     <FormHelperText variant="standard" sx={{ color: '#F00' }}>
+                        {error.message}
+                     </FormHelperText>
+                  )}
                </React.Fragment>
             );
          }}
