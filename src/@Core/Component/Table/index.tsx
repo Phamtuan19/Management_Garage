@@ -1,5 +1,5 @@
-import { Box, Table, TableContainer, styled } from '@mui/material';
-import { ColumnDef, getCoreRowModel, useReactTable } from '@tanstack/react-table';
+import { Table, TableContainer, styled } from '@mui/material';
+import { ColumnDef, createColumnHelper, getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import CoreTableBody from './components/CoreTableBody';
 import CoreTableHeader from './components/CoreTableHeader';
 
@@ -7,6 +7,8 @@ interface TableCoreProps<TData, TValue> {
    data: TData[];
    columns: ColumnDef<TData, TValue>[];
 }
+
+export const columnHelper = createColumnHelper();
 
 function TableCore<TData, TValue>(props: TableCoreProps<TData, TValue>) {
    const { data, columns } = props;
@@ -34,7 +36,7 @@ const CoreTableContainer = styled(TableContainer)(({ theme }) => ({
    margin: '12px 0px',
    display: 'flex',
    flexDirection: 'column',
-   backgroundColor: theme.base.table.background.default,
+   backgroundColor: theme.base.background.default,
 }));
 
 export default TableCore;
