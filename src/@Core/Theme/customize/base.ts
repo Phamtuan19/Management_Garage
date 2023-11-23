@@ -32,7 +32,7 @@ const base: BaseType = {
       header: {
          height: 62,
          backgroundColor: '#FFFFFF',
-         zIndex: 1299,
+         zIndex: 9999,
          boxShadow: '0 2px 4px rgba(0,0,0,.08), 0 4px 12px rgba(0,0,0,.08)',
       },
    },

@@ -36,7 +36,7 @@ function CoreTableHeader<T>(props: TabelHeaderProps<T>): React.ReactElement {
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
    '&:nth-of-type(odd)': {
-      backgroundColor: theme.base.background.default,
+      backgroundColor: theme.base.table.background.default,
    },
    '& .MuiTableCell-root': {
       padding: '12px 14px',

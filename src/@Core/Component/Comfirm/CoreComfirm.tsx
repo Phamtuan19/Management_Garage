@@ -17,7 +17,7 @@ interface ConfigType {
 const ComfirmContext: Context<any> = createContext(null);
 
 export const useConfirm = () => {
-   const confirm: (props: ConfigType) => void = useContext(ComfirmContext);
+   const confirm = useContext(ComfirmContext);
    if (!confirm) {
       throw new Error('useConfirm must be used within a ComfirmProvider');
    }
@@ -76,16 +76,16 @@ function CoreComfirmProvider(props: { children: React.ReactNode }) {
             )}
             <Divider sx={{ margin: '10px' }} />
             <DialogActions>
-               <Button size="medium" variant="outlined" color="primary" className="text-gray-400" onClick={handleClose}>
+               <Button size="small" variant="outlined" color="primary" className="text-gray-400" onClick={handleClose}>
                   Đóng
                </Button>
                <LoadingButton
                   variant="contained"
                   loading={loading}
                   className="text-white"
-                  sx={({ palette }) => ({ backgroundColor: config.color ? config.color : palette.primary.main })}
+                  // color={config.color ? config.color : 'primary'}
                   onClick={handleConfirm}
-                  size="medium"
+                  size="small"
                >
                   {config?.confirmOk ?? 'Xoá'}
                </LoadingButton>

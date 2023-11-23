@@ -38,83 +38,77 @@ const SidebarItem = () => {
                const locationPath = location.pathname.includes(item.link);
 
                return (
-                  <PermissionAccess
-                     module={item.module as ModulePagePropsType}
-                     action={item.action as PageActionPropsType}
-                     type="component"
+                  <Accordion
                      key={item.id}
+                     expanded={expanded.includes(item.link)}
+                     onChange={() => handleChange(item.link)}
                   >
-                     <Accordion
-                        expanded={expanded.includes(item.link)}
-                        onChange={() => handleChange(item.link)}
-                     >
-                        <AccordionSummary locationpath={locationPath.toString()}>
-                           <Box
-                              sx={{
-                                 display: 'flex',
-                                 flexDirection: 'row',
-                                 alignItems: 'center',
-                                 gap: 2,
-                                 py: 1,
-                              }}
-                           >
-                              <Icon sx={{ width: '20px', height: '20px' }} />
-                              <Typography sx={{ fontSize: '16px', fontWeight: locationPath ? 600 : 400 }}>
-                                 {item.title}
-                              </Typography>
-                           </Box>
-                        </AccordionSummary>
-                        <AccordionDetails sx={{ pt: 0.5 }}>
-                           {item.children.map((item_children) => {
-                              return (
-                                 <PermissionAccess
-                                    key={item_children.id}
-                                    module={item.module as ModulePagePropsType}
-                                    action={item_children.action as PageActionPropsType}
-                                    type="component"
+                     <AccordionSummary locationpath={locationPath.toString()}>
+                        <Box
+                           sx={{
+                              display: 'flex',
+                              flexDirection: 'row',
+                              alignItems: 'center',
+                              gap: 2,
+                              py: 1,
+                           }}
+                        >
+                           <Icon sx={{ width: '20px', height: '20px' }} />
+                           <Typography sx={{ fontSize: '16px', fontWeight: locationPath ? 600 : 400 }}>
+                              {item.title}
+                           </Typography>
+                        </Box>
+                     </AccordionSummary>
+                     <AccordionDetails sx={{ pt: 0.5 }}>
+                        {item.children.map((item_children) => {
+                           return (
+                              <PermissionAccess
+                                 key={item_children.id}
+                                 module={item.module as ModulePagePropsType}
+                                 action={item_children.action as PageActionPropsType}
+                                 type="component"
+                              >
+                                 <Box
+                                    component={NavLink}
+                                    to={item_children.link}
+                                    sx={({ base }) => ({
+                                       py: 1,
+                                       pl: 2,
+                                       ml: 1,
+                                       display: 'flex',
+                                       gap: '0 8px',
+                                       flexDirection: 'row',
+                                       alignItems: 'center',
+                                       textDecoration: 'none',
+                                       color: base.color.text,
+                                       borderRadius: '5px',
+                                       '&:hover': {
+                                          // '& .MuiSvgIcon-root': {
+                                          //    color: '#0072E5',
+                                          // },
+                                       },
+                                       '&.active': {
+                                          backgroundColor: '#f3f5f7',
+                                       },
+                                    })}
+                                    end
                                  >
-                                    <Box
-                                       component={NavLink}
-                                       to={item_children.link}
+                                    <FiberManualRecordIcon sx={{ fontSize: '8px' }} />
+                                    <Typography
                                        sx={({ base }) => ({
-                                          py: 1,
-                                          pl: 2,
-                                          ml: 1,
-                                          display: 'flex',
-                                          gap: '0 8px',
-                                          flexDirection: 'row',
-                                          alignItems: 'center',
-                                          textDecoration: 'none',
                                           color: base.color.text,
-                                          borderRadius: '5px',
-                                          '&:hover': {
-                                             // '& .MuiSvgIcon-root': {
-                                             //    color: '#0072E5',
-                                             // },
-                                          },
-                                          '&.active': {
-                                             backgroundColor: '#f3f5f7',
-                                          },
+                                          fontSize: '16px',
+                                          fontWeight: '400',
                                        })}
-                                       end
                                     >
-                                       <FiberManualRecordIcon sx={{ fontSize: '8px' }} />
-                                       <Typography
-                                          sx={({ base }) => ({
-                                             color: base.color.text,
-                                             fontSize: '16px',
-                                             fontWeight: '400',
-                                          })}
-                                       >
-                                          {item_children.title}
-                                       </Typography>
-                                    </Box>
-                                 </PermissionAccess>
-                              );
-                           })}
-                        </AccordionDetails>
-                     </Accordion>
-                  </PermissionAccess>
+                                       {item_children.title}
+                                    </Typography>
+                                 </Box>
+                              </PermissionAccess>
+                           );
+                        })}
+                     </AccordionDetails>
+                  </Accordion>
                );
             }
 

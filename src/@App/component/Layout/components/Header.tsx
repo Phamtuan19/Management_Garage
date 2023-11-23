@@ -8,7 +8,6 @@ import Logout from '@mui/icons-material/Logout';
 import { Link } from 'react-router-dom';
 import { useAuth } from '@App/redux/slices/auth.slice';
 import LazyLoadingImage from '@App/component/customs/LazyLoadingImage';
-import { useConfirm } from '@Core/Component/Comfirm/CoreComfirm';
 
 const logo: string = 'https://react.vristo.sbthemes.com/assets/images/logo.svg';
 
@@ -18,7 +17,6 @@ interface HeaderProps {
 
 const Header = ({ setOpenSidebar }: HeaderProps) => {
    const { authLogout } = useAuth();
-   const confirm = useConfirm();
    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
    const open = Boolean(anchorEl);
    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -29,15 +27,8 @@ const Header = ({ setOpenSidebar }: HeaderProps) => {
    };
 
    const handleClickLogout = () => {
+      authLogout();
       handleClose();
-      confirm({
-         title: 'Đăng xuất',
-         content: 'Bạn có chắc muốn đăng xuất?',
-         confirmOk: 'Đăng xuất',
-         callback: () => {
-            authLogout();
-         },
-      });
    };
 
    return (
