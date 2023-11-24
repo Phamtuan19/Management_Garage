@@ -10,7 +10,7 @@ const actionRefreshToken = createAsyncThunk('auth/refreshToken', async () => {
    console.log('refresh token');
 });
 
-const actionGetUser = createAsyncThunk('auth/getUser', async () => { 
+const actionGetUser = createAsyncThunk('auth/getUser', async () => {
    try {
       const res = await authService.getUser();
       console.log(res);
@@ -21,8 +21,8 @@ const actionGetUser = createAsyncThunk('auth/getUser', async () => {
 });
 
 const permission: UserPermission = {
-   // [MODULE_PAGE.DOASHBOARD]: ['view'],
-   // [MODULE_PAGE.PERSONNELS]: ['view', 'show', 'edit', 'create'],
+   [MODULE_PAGE.DOASHBOARD]: ['view'],
+   [MODULE_PAGE.PERSONNELS]: ['view', 'create', 'update', 'edit', 'show'],
 };
 
 type UserPermission = {

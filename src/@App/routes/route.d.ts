@@ -6,6 +6,7 @@ interface PermissionAccessType {
    module: ModulePagePropsType;
    path?: string;
    type: 'route' | 'component' | 'menu';
+   aceptPermission?: boolean;
    children: React.ReactNode;
    fallback?: React.ReactNode;
 }
