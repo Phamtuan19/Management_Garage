@@ -23,6 +23,10 @@ const PermissionAccess = ({
       if (hasModules.includes(module!)) {
          const moduleActions = userPermission![module!];
 
+         if (type === 'menu') {
+            return true;
+         }
+
          if (moduleActions && moduleActions.includes(action!)) {
             return children;
          }

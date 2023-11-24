@@ -17,7 +17,7 @@ const menuConfig: MenuConfigItem[] = [
    {
       id: 2,
       title: 'Nhân viên',
-      link: 'personnels',
+      link: ROUTE_PATH.PERSONNELS,
       icon: PeopleIcon,
       module: MODULE_PAGE.PERSONNELS,
       children: [

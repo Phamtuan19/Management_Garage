@@ -10,7 +10,7 @@ const actionRefreshToken = createAsyncThunk('auth/refreshToken', async () => {
    console.log('refresh token');
 });
 
-const actionGetUser = createAsyncThunk('auth/getUser', async () => {
+const actionGetUser = createAsyncThunk('auth/getUser', async () => { 
    try {
       const res = await authService.getUser();
       console.log(res);
@@ -21,8 +21,8 @@ const actionGetUser = createAsyncThunk('auth/getUser', async () => {
 });
 
 const permission: UserPermission = {
-   [MODULE_PAGE.PERSONNELS]: ['view', 'show', 'edit', 'create'],
-   [MODULE_PAGE.DOASHBOARD]: ['view'],
+   // [MODULE_PAGE.DOASHBOARD]: ['view'],
+   // [MODULE_PAGE.PERSONNELS]: ['view', 'show', 'edit', 'create'],
 };
 
 type UserPermission = {
@@ -52,7 +52,7 @@ const authSlice = createSlice({
       actionLoginReducer: (state, action) => {
          const { role, ...user } = action.payload;
          state.user = user;
-         state.userPermission = role || permission;
+         state.userPermission = permission;
          state.isInitialized = true;
          state.isAuhthentication = true;
       },
@@ -68,7 +68,7 @@ const authSlice = createSlice({
          .addCase(actionGetUser.fulfilled, (state, action) => {
             const { role, ...user } = action.payload;
             state.user = user;
-            state.userPermission = role || permission;
+            state.userPermission = permission;
             state.isInitialized = true;
             state.isAuhthentication = true;
          })

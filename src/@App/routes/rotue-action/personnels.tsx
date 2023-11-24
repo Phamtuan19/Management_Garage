@@ -14,7 +14,11 @@ const personnelRoute: RouteObject = {
    children: [
       {
          index: true,
-         element: <Personnel />,
+         element: (
+            <PermissionAccess module={MODULE_PAGE.PERSONNELS} action={PAGE_ACTION.VIEW} type="route">
+               <Personnel />
+            </PermissionAccess>
+         ),
       },
       {
          path: ROUTE_PATH.PERSONNELS + ROUTE_PATH.CREATE,
