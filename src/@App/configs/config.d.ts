@@ -8,5 +8,6 @@ interface MenuConfigItem {
    icon?: any;
    module?: ModulePagePropsType;
    action?: PageActionPropsType;
+   aceptPermission?: boolean;
    children?: MenuConfigItem[];
 }

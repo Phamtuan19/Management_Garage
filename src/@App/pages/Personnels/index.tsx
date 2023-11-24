@@ -5,15 +5,15 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { Button, Grid, TextField } from '@mui/material';
+import { Box, Button, Grid, TextField } from '@mui/material';
+import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 
 export default function Personnels() {
    return (
-      <Grid direction="column" columnSpacing={4}>
+      <BaseBreadcrumbs arialabel="">
          <TextField placeholder="Search" name="search" size="small" sx={{ marginBottom: '20px' }} />
-
          <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <Table sx={{ width: '100%' }} aria-label="simple table">
                <TableHead>
                   <TableRow>
                      <TableCell>Tên</TableCell>
@@ -49,6 +49,6 @@ export default function Personnels() {
                </TableBody>
             </Table>
          </TableContainer>
-      </Grid>
+      </BaseBreadcrumbs>
    );
 }

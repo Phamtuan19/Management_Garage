@@ -36,6 +36,7 @@ const SidebarItem = () => {
             const Icon = item.icon;
             if (item.children) {
                const locationPath = location.pathname.includes(item.link);
+
                return (
                   <PermissionAccess
                      module={item.module as ModulePagePropsType}

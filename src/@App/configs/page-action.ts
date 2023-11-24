@@ -3,6 +3,7 @@ import * as yup from 'yup';
 const PAGE_ACTION = {
    VIEW: 'view',
    CREATE: 'create',
+   UPDATE: 'update',
    SHOW: 'show',
    EDIT: 'edit',
 } as const;

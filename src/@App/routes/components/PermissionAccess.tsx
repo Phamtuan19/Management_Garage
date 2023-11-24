@@ -8,6 +8,7 @@ import { PermissionAccessType } from '../route';
  * @param type - Type of the component: "route" or "page".
  * @param fallback - The fallback content to display when permission is not granted.
  */
+
 const PermissionAccess = ({
    children,
    module,
@@ -18,24 +19,31 @@ const PermissionAccess = ({
    const { userPermission } = useAuth();
 
    const hasPermissionAndOperation = useMemo(() => {
-      const hasModules = Object.keys(userPermission || {});
+      const hasModules = Object.keys(userPermission || []);
+      const moduleActions = userPermission![module!];
+
+      if (type === 'menu') {
+         if (!hasModules.includes(module!)) return false;
+
+         if (moduleActions && moduleActions.length === 0) return false;
+
+         return true;
+      }
 
       if (hasModules.includes(module!)) {
-         const moduleActions = userPermission![module!];
-
-         if (type === 'menu') {
-            return true;
-         }
-
          if (moduleActions && moduleActions.includes(action!)) {
-            return children;
+            return true;
          }
       }
 
       return false;
    }, [userPermission, module, action, type, children]);
 
-   return hasPermissionAndOperation || (type === 'route' && fallback);
+   if (type === 'route') {
+      if (!hasPermissionAndOperation) return fallback;
+   }
+
+   return hasPermissionAndOperation ? children : null;
 };
 
 export default PermissionAccess;
