@@ -6,6 +6,7 @@ const PAGE_ACTION = {
    UPDATE: 'update',
    SHOW: 'show',
    EDIT: 'edit',
+   DELETE: 'delete',
 } as const;
 
 export const pageActionSchema = yup.string().oneOf(Object.values(PAGE_ACTION)).required();

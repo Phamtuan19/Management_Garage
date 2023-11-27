@@ -44,7 +44,7 @@ const SidebarItem = () => {
                      type="menu"
                      key={item.id}
                   >
-                     <Accordion expanded={expanded.includes(item.link)} onChange={() => handleChange(item.link)}>
+                     <Accordion expanded={expanded.includes(item.link.split('/')[1])} onChange={() => handleChange(item.link.split('/')[1])}>
                         <AccordionSummary locationpath={locationPath.toString()}>
                            <Box
                               sx={{

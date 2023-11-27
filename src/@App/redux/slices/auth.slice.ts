@@ -4,7 +4,7 @@ import { RootState } from '../rootReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import authService from '@App/services/auth.service';
 import { PageActionPropsType } from '@App/configs/page-action';
-import MODULE_PAGE, { ModulePagePropsType } from '@App/configs/module-page';
+import { ModulePagePropsType } from '@App/configs/module-page';
 
 const actionRefreshToken = createAsyncThunk('auth/refreshToken', async () => {
    console.log('refresh token');
@@ -13,17 +13,11 @@ const actionRefreshToken = createAsyncThunk('auth/refreshToken', async () => {
 const actionGetUser = createAsyncThunk('auth/getUser', async () => {
    try {
       const res = await authService.getUser();
-      console.log(res);
       return res.data;
    } catch (error: any) {
       throw new Error(error);
    }
 });
-
-const permission: UserPermission = {
-   [MODULE_PAGE.DOASHBOARD]: ['view'],
-   [MODULE_PAGE.PERSONNELS]: ['view', 'create', 'update', 'edit', 'show'],
-};
 
 type UserPermission = {
    [key in ModulePagePropsType]?: PageActionPropsType[];
@@ -50,9 +44,10 @@ const authSlice = createSlice({
    initialState,
    reducers: {
       actionLoginReducer: (state, action) => {
-         const { role, ...user } = action.payload;
+         const { access: permissionAccess, ...user } = action.payload;
+         console.log(action.payload);
          state.user = user;
-         state.userPermission = permission;
+         state.userPermission = JSON.parse(permissionAccess);
          state.isInitialized = true;
          state.isAuhthentication = true;
       },
@@ -66,9 +61,9 @@ const authSlice = createSlice({
    extraReducers: (builder) => {
       builder
          .addCase(actionGetUser.fulfilled, (state, action) => {
-            const { role, ...user } = action.payload;
+            const { access: permissionAccess, ...user } = action.payload;
             state.user = user;
-            state.userPermission = permission;
+            state.userPermission = JSON.parse(permissionAccess);
             state.isInitialized = true;
             state.isAuhthentication = true;
          })
