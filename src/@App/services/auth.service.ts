@@ -1,4 +1,3 @@
-import { ServicePathUrl } from '@App/types/servicePathUrl';
 import BaseService from '@Core/Api/BaseService';
 
 export const authPathUrl: ServicePathUrl = {
@@ -12,6 +11,11 @@ export const authPathUrl: ServicePathUrl = {
 
 class AuthService extends BaseService {
    BASE_ENDPOINT = authPathUrl.BASE;
+
+   constructor() {
+      super();
+      this.setRequest();
+   }
 
    register(data: { lastName: string; firstName: string; email: string; password: string }) {
       return this.request.post(this.BASE_URL + '/' + this.BASE_ENDPOINT + '/' + authPathUrl.REGISTER, data);

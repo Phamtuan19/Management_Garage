@@ -1,63 +1,59 @@
-import { lazy } from 'react';
-import { Outlet, useRoutes } from 'react-router-dom';
+import { RouteObject, useRoutes } from 'react-router-dom';
 import Loadable from './components/loadable';
-import CommonLayout from '@App/component/Layout/CommonLayout';
-import commonRoutes from './common';
 import PrivateRouter from './components/PrivateRouter';
-import adminRoute from './admin';
 import PublicRouter from './components/PublicRoute';
-import routePath from '@App/configs/routerPath';
+import Layout from '@App/component/Layout';
+import MODULE_PAGE from '@App/configs/module-page';
+import PAGE_ACTION from '@App/configs/page-action';
+import ROUTE_PATH from '@App/configs/router-path';
+import PermissionAccess from './components/PermissionAccess';
 
-const Home = Loadable(lazy(() => import('@App/pages/common/Home')));
-const Login = Loadable(lazy(() => import('@App/pages/auth/Login')));
-const Register = Loadable(lazy(() => import('@App/pages/auth/Register')));
+import personnelRoute from './rotue-action/personnels';
 
-const routes = [
-   // Trang người dùng
+const SignIn = Loadable('auth/SignIn');
+const Doashboard = Loadable('Doashboard');
+
+const routes: RouteObject[] = [
+   /**
+    * Route page admin Pivate
+    */
    {
       path: '/',
-      element: <CommonLayout />,
-      children: [
-         {
-            index: true,
-            element: <Home />,
-         },
-         commonRoutes,
-      ],
-   },
-
-   // Trang Admin
-   {
-      path: '/admin',
       element: (
          <PrivateRouter>
-            <Outlet />
+            <Layout />
          </PrivateRouter>
       ),
       children: [
          {
             index: true,
-            element: <h1>Trang admin </h1>,
+            element: (
+               <PermissionAccess module={MODULE_PAGE.DOASHBOARD} action={PAGE_ACTION.VIEW} type="route">
+                  <Doashboard />
+               </PermissionAccess>
+            ),
          },
-         adminRoute,
+         personnelRoute,
       ],
    },
 
-   //acount Login + register
+   /**
+    * Route Public
+    * Route sign-in
+    * Route
+    */
    {
-      path: routePath.account.path,
-      element: <PublicRouter />,
-      children: [
-         {
-            path: routePath.account.login,
-            element: <Login />,
-         },
-         {
-            path: routePath.account.register,
-            element: <Register />,
-         },
-      ],
+      path: ROUTE_PATH.SIGN_IN,
+      element: (
+         <PublicRouter>
+            <SignIn />
+         </PublicRouter>
+      ),
    },
+
+   /**
+    * Nod found route 404
+    */
 
    {
       path: '*',

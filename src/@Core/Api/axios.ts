@@ -1,7 +1,8 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
-import HttpStatusCode from '@Core/Configs/HttpStatusCode';
-import { errorMessage } from '@Core/Helper/message';
+// import HttpStatusCode from '@Core/Configs/HttpStatusCode';
+// import { errorMessage } from '@Core/Helper/message';
 import middleware from './Middleware';
+import { AxiosResponseData } from './type';
 // import queryString from 'query-string';
 
 // Tạo hàm tùy chỉnh để biến đổi params thành chuỗi truy vấn URL
@@ -9,7 +10,7 @@ import middleware from './Middleware';
 //    return queryString.stringify(params);
 // };
 
-const createInstance = <T, D>(baseURL: string) => {
+const createInstance = <T extends { data: AxiosResponseData }, D>(baseURL: string) => {
    const config: AxiosRequestConfig<T> = {
       baseURL: baseURL,
       headers: {
@@ -57,8 +58,6 @@ const createInstance = <T, D>(baseURL: string) => {
          //    // console.log(res);
          // }
          // }
-         errorMessage(error);
-
          return Promise.reject(error);
       },
    );

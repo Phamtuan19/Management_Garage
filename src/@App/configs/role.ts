@@ -1,3 +1,9 @@
-const ROLE = ['admin', '*'];
+import * as yup from 'yup';
 
-export default ROLE;
+const ROLES = ['ADMIN', 'USER', '*'] as const;
+
+export const RolesSchema = yup.string().oneOf(ROLES);
+
+export type RolePropsType = yup.InferType<typeof RolesSchema>;
+
+export default ROLES;

@@ -1,14 +1,13 @@
-import ROLE from '@App/configs/role';
 import { useAuth } from '@App/redux/slices/auth.slice';
 import React from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 
-export default function PrivateRouter(props: { children: React.ReactNode }) {
-   const { auth } = useAuth();
+export default function PrivateRouter({ children }: { children?: React.ReactNode }) {
+   const { isAuhthentication, isInitialized, userPermission } = useAuth();
 
-   if (!auth.isAuhthentication && auth.isInitialized && auth.userPermission !== ROLE[1]) {
-      return <Navigate to="/" replace />;
+   if (!isAuhthentication && isInitialized && !userPermission) {
+      return <Navigate to="/sign-in" replace />;
    }
 
-   return props.children;
+   return children || <Outlet />;
 }

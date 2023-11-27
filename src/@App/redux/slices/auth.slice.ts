@@ -1,42 +1,33 @@
-import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-// import authService from '@App/services/Auth.service';
 import { RootState } from '../rootReducer';
 import { useDispatch, useSelector } from 'react-redux';
-import { errorMessage } from '@Core/Helper/message';
 import authService from '@App/services/auth.service';
-
-// const actionLogin = createAsyncThunk('auth/login', async (data: { email: string; password: string }) => {
-//    try {
-//       const res = await authService.login(data);
-//       return res;
-//    } catch (error: any) {
-//       const message = error.response.data.message;
-//       return message;
-//    }
-// });
+import { PageActionPropsType } from '@App/configs/page-action';
+import { ModulePagePropsType } from '@App/configs/module-page';
 
 const actionRefreshToken = createAsyncThunk('auth/refreshToken', async () => {
-   // const res = await authService.refreshToken();
    console.log('refresh token');
 });
 
 const actionGetUser = createAsyncThunk('auth/getUser', async () => {
    try {
       const res = await authService.getUser();
-      const user = res.data;
-      // localStorage.setItem(import.meta.env.VITE_AUTH_TOKEN, user.avatar);
-      return user;
-   } catch (error) {
-      throw new Error('');
+      return res.data;
+   } catch (error: any) {
+      throw new Error(error);
    }
 });
+
+type UserPermission = {
+   [key in ModulePagePropsType]?: PageActionPropsType[];
+};
 
 interface InitialState<U> {
    user: Array<U> | null;
    isAuhthentication: boolean;
    isInitialized: boolean;
-   userPermission: string | null;
+   userPermission: UserPermission | null;
    loading: boolean;
 }
 
@@ -53,19 +44,26 @@ const authSlice = createSlice({
    initialState,
    reducers: {
       actionLoginReducer: (state, action) => {
-         const { role, ...user } = action.payload;
+         const { access: permissionAccess, ...user } = action.payload;
+         console.log(action.payload);
          state.user = user;
-         state.userPermission = role;
+         state.userPermission = JSON.parse(permissionAccess);
          state.isInitialized = true;
          state.isAuhthentication = true;
+      },
+
+      actionLogoutReducer: (state) => {
+         state.user = null;
+         state.userPermission = null;
+         state.isAuhthentication = false;
       },
    },
    extraReducers: (builder) => {
       builder
          .addCase(actionGetUser.fulfilled, (state, action) => {
-            const { role, ...user } = action.payload;
+            const { access: permissionAccess, ...user } = action.payload;
             state.user = user;
-            state.userPermission = role;
+            state.userPermission = JSON.parse(permissionAccess);
             state.isInitialized = true;
             state.isAuhthentication = true;
          })
@@ -76,7 +74,7 @@ const authSlice = createSlice({
    },
 });
 
-const { actionLoginReducer } = authSlice.actions;
+const { actionLoginReducer, actionLogoutReducer } = authSlice.actions;
 
 export const useAuth = () => {
    const dispatch: any = useDispatch();
@@ -94,7 +92,12 @@ export const useAuth = () => {
       dispatch(actionGetUser());
    };
 
-   return { auth, authRefreshToken, authLogin, authGetUser };
+   const authLogout = () => {
+      localStorage.removeItem(import.meta.env.VITE_AUTH_TOKEN);
+      dispatch(actionLogoutReducer());
+   };
+
+   return { ...auth, authRefreshToken, authLogin, authGetUser, authLogout };
 };
 
 export default authSlice;
