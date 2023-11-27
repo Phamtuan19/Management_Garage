@@ -35,6 +35,27 @@ const menuConfig: MenuConfigItem[] = [
          },
       ],
    },
+   {
+      id: 3,
+      title: 'Quyền truy cập',
+      link: ROUTE_PATH.PERMISSIONS,
+      icon: PeopleIcon,
+      module: MODULE_PAGE.PERMISSIONS,
+      children: [
+         {
+            id: 3.1,
+            title: 'Danh sách',
+            link: ROUTE_PATH.PERMISSIONS,
+            action: PAGE_ACTION.VIEW,
+         },
+         {
+            id: 3.2,
+            title: 'Thêm mới',
+            link: ROUTE_PATH.PERMISSIONS + ROUTE_PATH.CREATE,
+            action: PAGE_ACTION.CREATE,
+         },
+      ],
+   },
 ];
 
 export default menuConfig;

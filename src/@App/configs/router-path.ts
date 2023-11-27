@@ -6,6 +6,8 @@ const ROUTE_PATH = {
    // module personnels
    PERSONNELS: '/personnels',
 
+   PERMISSIONS: '/permissions',
+
    SIGN_IN: '/sign-in',
 
    CREATE: '/create',

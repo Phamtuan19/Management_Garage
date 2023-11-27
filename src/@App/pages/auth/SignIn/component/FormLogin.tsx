@@ -27,7 +27,7 @@ function FormLogin() {
          return res.data;
       },
       onSuccess: (response) => {
-         localStorage.setItem(import.meta.env.VITE_AUTH_TOKEN, response.token);
+         localStorage.setItem(import.meta.env.VITE_AUTH_TOKEN, response.access_token);
          authLogin(response.data);
          const message = (response && response.message) || 'Đăng nhập thành công.';
          successMessage(message);
