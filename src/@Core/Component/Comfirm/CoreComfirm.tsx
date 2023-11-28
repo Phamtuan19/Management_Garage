@@ -21,7 +21,12 @@ export const useConfirm = () => {
    if (!confirm) {
       throw new Error('useConfirm must be used within a ComfirmProvider');
    }
-   return confirm;
+
+   const coreConfirm = (props: ConfigType) => {
+      return confirm(props);
+   };
+
+   return coreConfirm;
 };
 
 function CoreComfirmProvider(props: { children: React.ReactNode }) {
@@ -51,7 +56,7 @@ function CoreComfirmProvider(props: { children: React.ReactNode }) {
             await config?.callback();
          } catch (error) {}
          setLoading(false);
-         // handleClose();
+         handleClose();
       }
    };
 
