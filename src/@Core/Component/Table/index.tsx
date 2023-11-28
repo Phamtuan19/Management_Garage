@@ -1,8 +1,22 @@
+/*
+ * Created Date: 28-11-2023, 21:00 pm
+ * Author: Phạm Anh tuấn
+ * Email:
+ * -----
+ * Last Modified:
+ * Modified By:
+ * -----
+ * Copyright
+ * -----
+ * HISTORY:
+ * Date      	By	Comments
+ * ----------	---	----------------------------------------------------------
+ */
+
 import { Box, Pagination, Table, TableContainer, styled } from '@mui/material';
 import { ColumnDef, createColumnHelper, getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import CoreTableBody from './components/CoreTableBody';
 import CoreTableHeader from './components/CoreTableHeader';
-import { useState } from 'react';
 import ScrollbarBase from '@App/component/customs/ScrollbarBase';
 
 interface TableCoreProps<TData, TValue> {
@@ -11,12 +25,13 @@ interface TableCoreProps<TData, TValue> {
    isLoading?: boolean;
    isPagination?: boolean;
    pageCount?: number;
+   height?: number;
 }
 
 export const columnHelper = createColumnHelper();
 
 function TableCore<TData, TValue>(props: TableCoreProps<TData, TValue>) {
-   const { data, columns, isLoading = false, isPagination = true, pageCount = 1 } = props;
+   const { data, columns, isLoading = false, isPagination = true, pageCount = 1, height = 410 } = props;
 
    const table = useReactTable({
       data: data,
@@ -25,7 +40,9 @@ function TableCore<TData, TValue>(props: TableCoreProps<TData, TValue>) {
    });
 
    return (
-      <CoreTableContainer sx={{ height: '460px' }}>
+      <CoreTableContainer
+         sx={{ position: 'relative', height: '100%', width: '100%', display: 'flex', flexDirection: 'column' }}
+      >
          <ScrollbarBase
             sx={{
                'body::-webkit-scrollbar-track': {
@@ -33,11 +50,16 @@ function TableCore<TData, TValue>(props: TableCoreProps<TData, TValue>) {
                   borderRadius: 10,
                   backgroundColor: '#F5F5F5',
                },
+               width: '100%',
                flex: 1,
-               height: '100%',
+               height,
             }}
          >
-            <Table stickyHeader sx={{ minWidth: 'max-content', width: '100%' }} size="small">
+            <Table
+               stickyHeader
+               sx={{ position: 'relative', minWidth: 'max-content', width: '100%', height: '100%', maxHeight: '600px' }}
+               size="small"
+            >
                <CoreTableHeader table={table as any} />
                <CoreTableBody table={table} isLoading={isLoading} />
             </Table>
@@ -51,6 +73,7 @@ function TableCore<TData, TValue>(props: TableCoreProps<TData, TValue>) {
                   justifyContent: 'flex-end',
                   p: 1.5,
                   backgroundColor: '#FFFFFF',
+                  borderTop: '1px solid #D1D5DB',
                })}
             >
                <Pagination onChange={(_, page) => {}} count={pageCount} variant="outlined" shape="rounded" />
@@ -66,7 +89,7 @@ const CoreTableContainer = styled(TableContainer)(({ theme }) => ({
    margin: '12px 0px',
    display: 'flex',
    flexDirection: 'column',
-   backgroundColor: theme.base.background.default,
+   // backgroundColor: theme.base.background.default,
    border: '1px solid #D1D5DB',
    borderRadius: '8px',
 }));
