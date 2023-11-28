@@ -1,3 +1,18 @@
+/*
+ * Created Date: 28-11-2023, 21:00 pm
+ * Author: Phạm Anh tuấn
+ * Email:
+ * -----
+ * Last Modified:
+ * Modified By:
+ * -----
+ * Copyright
+ * -----
+ * HISTORY:
+ * Date      	By	Comments
+ * ----------	---	----------------------------------------------------------
+ */
+
 import { Box, TableCell, TableRow, Typography, styled, tableCellClasses } from '@mui/material';
 import TableHead from '@mui/material/TableHead';
 import { Table, flexRender } from '@tanstack/react-table';
@@ -10,7 +25,7 @@ interface TabelHeaderProps<T> {
 function CoreTableHeader<T>(props: TabelHeaderProps<T>): React.ReactElement {
    const { table } = props;
    return (
-      <TableHead>
+      <TableHead sx={{ position: 'sticky', top: 0, left: 0, width: '100%', zIndex: 1 }}>
          {table.getHeaderGroups().map((headerGroup, index) => {
             return (
                <StyledTableRow key={index}>

@@ -1,12 +1,19 @@
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import permissionService from '@App/services/modulePermission.service';
 import TableCore, { columnHelper } from '@Core/Component/Table';
+import { CoreTableActionDelete, CoreTableActionEdit } from '@Core/Component/Table/components/CoreTableAction';
 import { Box, Button, TextField } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 
+const dataTest = [
+   {
+      access: 'access 1',
+   },
+];
+
 const ModulePremission = () => {
-   const { data: modulePermissions, isLoading } = useQuery(['getPermissionList'], async () => {
+   const { data: modulePermissions, isFetching: isLoading } = useQuery(['getPermissionList'], async () => {
       const res = await permissionService.get();
 
       return res.data;
@@ -25,7 +32,13 @@ const ModulePremission = () => {
          columnHelper.accessor('', {
             header: 'Thao tác',
             cell: ({ row }) => {
-               return <Box>{/* <Core row={row} callback={(id) => callback(id)} /> */}</Box>;
+               console.log(row);
+               return (
+                  <Box>
+                     <CoreTableActionDelete />
+                     <CoreTableActionEdit />
+                  </Box>
+               );
             },
          }),
       ];
@@ -37,7 +50,7 @@ const ModulePremission = () => {
             <TextField size="small" />
          </Box>
 
-         <TableCore columns={columns} data={(modulePermissions as any) || []} isLoading={isLoading} />
+         <TableCore columns={columns} data={(modulePermissions as any) || dataTest || []} isLoading={isLoading} />
       </BaseBreadcrumbs>
    );
 };
