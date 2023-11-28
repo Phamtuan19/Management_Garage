@@ -1,8 +1,20 @@
 import React, { Context, createContext, useState, useContext, useCallback } from 'react';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Paper, Typography } from '@mui/material';
+import {
+   Box,
+   Button,
+   Dialog,
+   DialogActions,
+   DialogContent,
+   DialogTitle,
+   Divider,
+   Paper,
+   Typography,
+} from '@mui/material';
 import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
 import { LoadingButton } from '@mui/lab';
 import styled from 'styled-components';
+import LazyLoadingImage from '@App/component/customs/LazyLoadingImage';
+import svg from '@App/assets/svg';
 
 interface ConfigType {
    title?: string | null;
@@ -63,26 +75,41 @@ function CoreComfirmProvider(props: { children: React.ReactNode }) {
    return (
       <ComfirmContext.Provider value={confirm}>
          {props.children}
-         <Dialog open={open} PaperComponent={StyledPaper} keepMounted onClose={handleClose} maxWidth="sm">
+         <Dialog
+            open={open}
+            PaperComponent={StyledPaper}
+            keepMounted
+            onClose={handleClose}
+            maxWidth="sm"
+            sx={{
+               zIndex: 9999,
+            }}
+         >
             {config?.title && (
                <DialogTitle
                   className="text-center"
                   variant="h4"
-                  sx={{ '& .MuiTypography-root ': { fontSize: '19px', fontWeight: '600' } }}
+                  sx={{ '& .MuiTypography-root ': { fontSize: '18px', fontWeight: '600' } }}
                >
                   {config?.title}
                </DialogTitle>
             )}
             {config?.content && (
-               <DialogContent sx={{ fontSize: '18px', display: 'flex', alignItems: 'center' }}>
-                  {config?.isIcon && (config?.icon ?? <DeleteForeverRoundedIcon fontSize="large" color="error" />)}
-                  <Typography>{config?.content}</Typography>
+               <DialogContent
+                  sx={{ fontSize: '18px', display: 'flex', alignItems: 'center', flexDirection: 'column', gap: 2 }}
+               >
+                  <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                     {config?.isIcon && (config?.icon ?? <Box component={LazyLoadingImage} src={svg.confirmDelete} />)}
+                  </Box>
+                  <Typography component="h6" sx={{ display: 'block', fontSize: '16px', fontWeight: 600 }}>
+                     {config?.content}
+                  </Typography>
                </DialogContent>
             )}
             <Divider sx={{ margin: '10px' }} />
             <DialogActions>
-               <Button size="small" variant="outlined" color="primary" className="text-gray-400" onClick={handleClose}>
-                  Đóng
+               <Button size="medium" variant="outlined" color="primary" className="text-gray-400" onClick={handleClose}>
+                  Hủy bỏ
                </Button>
                <LoadingButton
                   variant="contained"
@@ -90,9 +117,9 @@ function CoreComfirmProvider(props: { children: React.ReactNode }) {
                   className="text-white"
                   // color={config.color ? config.color : 'primary'}
                   onClick={handleConfirm}
-                  size="small"
+                  size="medium"
                >
-                  {config?.confirmOk ?? 'Xoá'}
+                  {config?.confirmOk ?? 'Xác nhận'}
                </LoadingButton>
             </DialogActions>
          </Dialog>
@@ -104,6 +131,7 @@ const StyledPaper = styled(Paper)({
    padding: '10px',
    minWidth: '25rem',
    maxWidth: '100%',
+   zIndex: 9999,
 });
 
 export default CoreComfirmProvider;
