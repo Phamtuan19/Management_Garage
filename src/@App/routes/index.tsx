@@ -9,6 +9,7 @@ import ROUTE_PATH from '@App/configs/router-path';
 import PermissionAccess from './components/PermissionAccess';
 
 import personnelRoute from './rotue-action/personnels';
+import modulePermissionRoute from './rotue-action/modulePermission';
 
 const SignIn = Loadable('auth/SignIn');
 const Doashboard = Loadable('Doashboard');
@@ -34,6 +35,7 @@ const routes: RouteObject[] = [
             ),
          },
          personnelRoute,
+         modulePermissionRoute,
       ],
    },
 

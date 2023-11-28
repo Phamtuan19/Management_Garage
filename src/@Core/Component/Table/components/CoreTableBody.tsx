@@ -1,4 +1,4 @@
-import { Box, TableBody, TableCell, TableRow, styled } from '@mui/material';
+import { TableBody, TableCell, TableRow, styled } from '@mui/material';
 import { Table as TypeReactTable, flexRender } from '@tanstack/react-table';
 
 interface TabelHeaderProps<T> {
@@ -10,7 +10,7 @@ function CoreTableBody<T>(props: TabelHeaderProps<T>) {
    const { table, isLoading } = props;
 
    const renderTableBody = () => {
-      const { rows } = table.getRowModel();
+      const { rows } = table && table.getRowModel();
 
       const allColumns = table.getAllColumns();
 
@@ -18,6 +18,13 @@ function CoreTableBody<T>(props: TabelHeaderProps<T>) {
       }
 
       if (rows.length === 0) {
+         return (
+            <StyledTableRow>
+               <StyledTableCell align="center" colSpan={allColumns.length} sx={{ py: 2 }}>
+                  Không tìm thấy dữ liệu!
+               </StyledTableCell>
+            </StyledTableRow>
+         );
       }
 
       return rows.map((row, index) => (
@@ -25,7 +32,7 @@ function CoreTableBody<T>(props: TabelHeaderProps<T>) {
             {row.getVisibleCells().map((cell, index) => (
                <StyledTableCell
                   key={index}
-                  component="th"
+                  // component="th"
                   {...{
                      style: {
                         width: cell.column.getSize(),
@@ -44,7 +51,7 @@ function CoreTableBody<T>(props: TabelHeaderProps<T>) {
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
    '&:nth-of-type(odd)': {
-      backgroundColor: theme.base.table.background.default,
+      backgroundColor: theme.base.background.default,
    },
    '& .MuiTableCell-root': {
       padding: '12px 14px',

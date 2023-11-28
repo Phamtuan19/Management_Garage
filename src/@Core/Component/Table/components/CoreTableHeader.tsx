@@ -19,7 +19,10 @@ function CoreTableHeader<T>(props: TabelHeaderProps<T>): React.ReactElement {
                         <StyledTableCell key={index}>
                            {header.isPlaceholder ? null : (
                               <Box sx={{ display: 'flex', alignItems: 'center', whiteSpace: 'nowrap' }}>
-                                 <Typography sx={{ fontWeight: 600, width: 'max-content' }}>
+                                 <Typography
+                                    component="h6"
+                                    sx={{ fontWeight: 600, width: 'max-content', fontSize: '14px', p: 0 }}
+                                 >
                                     {flexRender(header.column.columnDef.header, header.getContext())}
                                  </Typography>
                               </Box>
@@ -36,7 +39,7 @@ function CoreTableHeader<T>(props: TabelHeaderProps<T>): React.ReactElement {
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
    '&:nth-of-type(odd)': {
-      backgroundColor: theme.base.table.background.default,
+      backgroundColor: theme.base.background.default,
    },
    '& .MuiTableCell-root': {
       padding: '12px 14px',
@@ -46,9 +49,9 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
    [`&.${tableCellClasses.head}`]: {
       backgroundColor: '#FFF',
-      color: '#475569',
+      color: theme.base.text.main,
       fontSize: '14px',
-      padding: '16px 14px',
+      padding: '12px',
       position: 'relative',
       zIndex: 1,
    },

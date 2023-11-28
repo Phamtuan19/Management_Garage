@@ -1,5 +1,6 @@
 import { AxiosInstance } from 'axios';
 import createInstance from './axios';
+import { AxiosResponseData } from './type';
 
 interface TypeRequestParams {
    page_index: number;
@@ -47,7 +48,7 @@ class BaseService {
     * @param {Object} query
     * @returns
     */
-   get<G>(query?: TypeRequestParams | G): Promise<Array<G>> {
+   get<G>(query?: TypeRequestParams | G): Promise<AxiosResponseData> {
       const params = {
          ...this.requestParams,
          ...query,
