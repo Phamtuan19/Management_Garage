@@ -1,8 +1,14 @@
-export interface CoreTableContrainerProps {
+interface CoreTableContrainerProps {
    isLoading?: boolean;
    children: React.ReactNode;
 }
 
-export interface CoreWrapperTableProps {
+interface CoreWrapperTableProps {
    children: React.ReactNode;
+}
+interface HookCoreTabeProps {
+   data: { [key: string]: string }[] | { [key: string]: string } | null;
+   pageSize: number;
+   pageIndex: number;
+   total: number;
 }

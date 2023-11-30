@@ -30,9 +30,11 @@ const SidebarItem = () => {
       setExpanded([location.pathname.split('/')[1]]);
    }, [location.pathname]);
 
+   const menu = menuConfig();
+
    return (
       <Stack sx={{ gap: 0.5, pt: 1 }}>
-         {menuConfig.map((item) => {
+         {menu.map((item) => {
             const Icon = item.icon;
             if (item.children) {
                const locationPath = location.pathname.includes(item.link);
@@ -44,7 +46,10 @@ const SidebarItem = () => {
                      type="menu"
                      key={item.id}
                   >
-                     <Accordion expanded={expanded.includes(item.link)} onChange={() => handleChange(item.link)}>
+                     <Accordion
+                        expanded={expanded.includes(item.link.split('/')[1])}
+                        onChange={() => handleChange(item.link.split('/')[1])}
+                     >
                         <AccordionSummary locationpath={locationPath.toString()}>
                            <Box
                               sx={{

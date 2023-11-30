@@ -1,17 +1,12 @@
-import { Box } from '@mui/material';
+import { Box, SxProps, Theme } from '@mui/material';
+import 'simplebar-react/dist/simplebar.min.css';
+import SimpleBar from 'simplebar-react';
 import React from 'react';
 
-function ScrollbarBase(props: { children?: React.ReactNode }) {
+function ScrollbarBase(props: { children?: React.ReactNode; sx: SxProps<Theme> | undefined }) {
+   const { children, ...resProps } = props;
    return (
-      <Box
-         sx={{
-            'body::-webkit-scrollbar-track': {
-               webkitBoxShadow: 'inset 0 0 6px rgba(0,0,0,0.3)',
-               borderRadius: 10,
-               backgroundColor: '#F5F5F5',
-            },
-         }}
-      >
+      <Box component={SimpleBar} {...resProps}>
          {props.children}
       </Box>
    );

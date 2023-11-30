@@ -36,6 +36,8 @@ class AuthService extends BaseService {
    getUser() {
       return this.request.get(this.BASE_ENDPOINT + '/' + authPathUrl.USER);
    }
+
+   
 }
 
 const authService = new AuthService();

@@ -1,6 +1,5 @@
-import { yupResolver } from '@hookform/resolvers/yup';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { ValidationFormCreate, validationFormCreate } from '../utils/personnel.schema';
+import { Control, FieldValues, SubmitHandler, UseFormHandleSubmit } from 'react-hook-form';
+import { ValidationFormCreate } from '../utils/personnel.schema';
 import { FormControl, Grid } from '@mui/material';
 import ControllerLabel from '@Core/Component/Input/ControllerLabel';
 import ControllerTextField from '@Core/Component/Input/ControllerTextField';
@@ -8,22 +7,17 @@ import ControllerSelect from '@Core/Component/Input/ControllerSelect';
 import { LoadingButton } from '@mui/lab';
 import ControllerRadioGroup from '@Core/Component/Input/ControllerRadioGroup';
 
-const BaseFormPersonnel = () => {
-   const {
-      handleSubmit,
-      control,
-      formState: { errors },
-   } = useForm<ValidationFormCreate>({
-      resolver: yupResolver(validationFormCreate),
-      defaultValues: validationFormCreate.getDefault(),
-   });
+interface BaseFormPersonnelPropType<TFieldValues extends FieldValues = FieldValues> {
+   handleSubmit: UseFormHandleSubmit<ValidationFormCreate>;
+   onSubmitForm: SubmitHandler<ValidationFormCreate>;
+   control: Control<TFieldValues>;
+}
 
-   const onSubmitForm: SubmitHandler<ValidationFormCreate> = (data) => {
-      console.log(data);
-   };
-
-   console.log(errors);
-
+const BaseFormPersonnel = <TFieldValues extends FieldValues = FieldValues>({
+   handleSubmit,
+   onSubmitForm,
+   control,
+}: BaseFormPersonnelPropType<TFieldValues>) => {
    return (
       <form onSubmit={handleSubmit(onSubmitForm)}>
          <Grid container spacing={2}>
@@ -73,7 +67,7 @@ const BaseFormPersonnel = () => {
                      ]}
                      valuePath="id"
                      titlePath="title"
-                     control={control as any}
+                     control={control}
                   />
                </FormControl>
             </Grid>
@@ -93,7 +87,9 @@ const BaseFormPersonnel = () => {
             </Grid>
 
             <Grid item xs={12}>
-               <LoadingButton type="submit">Thêm</LoadingButton>
+               <LoadingButton type="submit" variant="contained">
+                  Thêm
+               </LoadingButton>
             </Grid>
          </Grid>
       </form>

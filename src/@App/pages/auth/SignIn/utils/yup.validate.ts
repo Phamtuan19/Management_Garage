@@ -8,14 +8,14 @@ export const validationFormLogin = yup.object({
       .required(messageValidate.required('Email'))
       .matches(Regexs.email, messageValidate.format('email'))
       .max(100, messageValidate.maxText('Email', 100))
-      .default(''),
+      .default('admin@gmail.com'),
    password: yup
       .string()
       .required(messageValidate.required('Mật khẩu'))
-      // .min(6, messageValidate.minText('Mật khẩu', 6))
-      // .matches(Regexs.uppercaseCharacters, 'Mật khẩu phải có ít nhất 1 ký tự viết hoa')
-      // .matches(Regexs.characterCharacter, 'Mật khẩu phải có ít nhất 1 ký đặc biệt')
-      .default(''),
+      .min(6, messageValidate.minText('Mật khẩu', 6))
+      .matches(Regexs.uppercaseCharacters, 'Mật khẩu phải có ít nhất 1 ký tự viết hoa')
+      .matches(Regexs.characterCharacter, 'Mật khẩu phải có ít nhất 1 ký đặc biệt')
+      .default('Admin@123'),
 });
 
 export type FormLoginProps = yup.InferType<typeof validationFormLogin>;

@@ -4,5 +4,9 @@ interface AxiosResponseData {
    success: boolean;
    statusCode: HttpStatusCodeSType;
    message: string;
-   data: { [key: string]: string }[] | { [key: string]: string } | null;
+   data: AxiosResponseDataType;
+}
+
+interface AxiosResponseDataType {
+   [key: string]: { [key: string]: string }[] | { [key: string]: string } | null | undefined;
 }
