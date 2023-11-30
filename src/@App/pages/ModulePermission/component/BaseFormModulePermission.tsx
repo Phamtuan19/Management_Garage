@@ -1,6 +1,6 @@
 import { SubmitHandler, UseFormReturn } from 'react-hook-form';
 import { PermissionSchemaType } from '../utils/permission.schema';
-import { Box, Button, Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 import ControllerLabel from '@Core/Component/Input/ControllerLabel';
 import ControllerTextField from '@Core/Component/Input/ControllerTextField';
 import { useParams } from 'react-router-dom';
@@ -46,7 +46,7 @@ const BaseFormModulePermission = ({ form, onSubmit }: BaseFormModulePermissionPr
             </Grid>
             <Grid item xs={12}>
                <LoadingButton type="submit" variant="contained">
-                  Thêm mới
+                  {id ? 'Cập nhật' : 'Thêm mới'}
                </LoadingButton>
             </Grid>
          </Grid>

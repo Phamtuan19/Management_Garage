@@ -10,7 +10,7 @@ import { successMessage } from '@Core/Helper/message';
 const breadcrumbs = [
    {
       title: 'Dánh sách module',
-      link: 'permissions',
+      link: '/permissions',
    },
 ];
 
