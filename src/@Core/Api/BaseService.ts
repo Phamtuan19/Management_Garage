@@ -1,4 +1,4 @@
-import { AxiosInstance } from 'axios';
+import { Axios, AxiosInstance } from 'axios';
 import createInstance from './axios';
 import { AxiosResponseData } from './type';
 
@@ -61,7 +61,7 @@ class BaseService {
     * @param {string} id
     * @returns
     */
-   find<F>(id: string): Promise<F> {
+   find<F>(id: string): Promise<AxiosResponseData> {
       const url = `${this.BASE_ENDPOINT}/${id}`;
       return this.request.get(url);
    }
@@ -80,7 +80,7 @@ class BaseService {
     */
    update<U>(data: TData, id?: string, method: 'put' | 'patch' = 'put'): Promise<U> {
       const updateId = id || data[this.PRIMARY_KEY];
-      return this.request[method](`${this.BASE_ENDPOINT}/update/${updateId}`, data);
+      return this.request[method as keyof typeof Axios](`${this.BASE_ENDPOINT}/update/${updateId}`, data);
    }
 
    /**

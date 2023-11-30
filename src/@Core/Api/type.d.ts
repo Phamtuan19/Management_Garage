@@ -8,6 +8,5 @@ interface AxiosResponseData {
 }
 
 interface AxiosResponseDataType {
-   [key: string]: { [key: string]: string }[] | { [key: string]: string } | null;
-   [key: string]: { [key: string]: string };
+   [key: string]: { [key: string]: string }[] | { [key: string]: string } | null | undefined;
 }

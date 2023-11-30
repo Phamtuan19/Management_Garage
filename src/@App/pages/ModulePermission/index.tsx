@@ -66,7 +66,7 @@ const ModulePremission = () => {
    }, []);
 
    return (
-      <BaseBreadcrumbs arialabel="Danh sách module permission">
+      <BaseBreadcrumbs arialabel="Danh sách nhóm quyền">
          <Box>
             <TextField size="small" />
          </Box>

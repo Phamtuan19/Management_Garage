@@ -6,7 +6,7 @@ interface MenuConfigItem {
    title: string;
    link: string;
    icon?: any;
-   module?: ModulePagePropsType;
+   module?: string;
    action?: PageActionPropsType;
    aceptPermission?: boolean;
    children?: MenuConfigItem[];

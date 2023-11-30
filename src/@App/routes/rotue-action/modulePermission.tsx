@@ -7,6 +7,7 @@ import PermissionAccess from '../components/PermissionAccess';
 
 const Permission = Loadable('ModulePermission');
 const ModulePermissionCreate = Loadable('ModulePermission/ModulePermissionCreate');
+const ModulePermissionUpdate = Loadable('ModulePermission/ModulePermissionUpdate');
 
 const modulePermissionRoute: RouteObject = {
    path: ROUTE_PATH.PERMISSIONS,
@@ -25,6 +26,14 @@ const modulePermissionRoute: RouteObject = {
          element: (
             <PermissionAccess module={MODULE_PAGE.PERMISSIONS} action={PAGE_ACTION.CREATE} type="route">
                <ModulePermissionCreate />
+            </PermissionAccess>
+         ),
+      },
+      {
+         path: ':id',
+         element: (
+            <PermissionAccess module={MODULE_PAGE.PERMISSIONS} action={PAGE_ACTION.UPDATE} type="route">
+               <ModulePermissionUpdate />
             </PermissionAccess>
          ),
       },
