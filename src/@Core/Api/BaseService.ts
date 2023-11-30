@@ -71,7 +71,7 @@ class BaseService {
     * @returns
     */
    create<C>(data: TData): Promise<C> {
-      return this.request.post(this.BASE_ENDPOINT, data);
+      return this.request.post(this.BASE_ENDPOINT + '/create', data);
    }
 
    /**

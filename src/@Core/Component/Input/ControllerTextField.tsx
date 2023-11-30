@@ -6,6 +6,7 @@ interface ControllerTextFieldProps<TFieldValues extends FieldValues = FieldValue
    name: string;
    placeholder?: string;
    defaultValue?: string;
+   disabled?: boolean;
    sx?: SxProps<Theme> | undefined;
    control: Control<TFieldValues>;
 }
@@ -13,7 +14,7 @@ interface ControllerTextFieldProps<TFieldValues extends FieldValues = FieldValue
 function ControllerTextField<TFieldValues extends FieldValues = FieldValues>(
    props: ControllerTextFieldProps<TFieldValues>,
 ): React.ReactNode {
-   const { name, placeholder, defaultValue, sx, control, ...rest } = props;
+   const { name, placeholder, defaultValue, sx, control, disabled = false, ...rest } = props;
    return (
       <Controller
          render={({ field, fieldState: { error } }) => {
@@ -28,6 +29,7 @@ function ControllerTextField<TFieldValues extends FieldValues = FieldValues>(
                      placeholder={placeholder}
                      {...field}
                      {...rest}
+                     disabled={disabled}
                   />
                   {error && (
                      <FormHelperText variant="standard" sx={({ palette }) => ({ color: palette.error.main, ml: 1 })}>

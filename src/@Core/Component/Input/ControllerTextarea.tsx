@@ -1,9 +1,6 @@
 import { Control, Controller, FieldValues } from 'react-hook-form';
 import { FormControl, FormHelperText, styled } from '@mui/material';
 import { TextareaAutosize } from '@mui/base';
-import PropTypes from 'prop-types';
-import React from 'react';
-
 /**
  * @param {*} props
  * @interface  Props<T> extends Omit<TextFieldProps, 'name'> {name: FieldPath<T>control: Control<T>};

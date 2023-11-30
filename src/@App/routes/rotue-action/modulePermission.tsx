@@ -6,6 +6,7 @@ import { Outlet, RouteObject } from 'react-router-dom';
 import PermissionAccess from '../components/PermissionAccess';
 
 const Permission = Loadable('ModulePermission');
+const ModulePermissionCreate = Loadable('ModulePermission/ModulePermissionCreate');
 
 const modulePermissionRoute: RouteObject = {
    path: ROUTE_PATH.PERMISSIONS,
@@ -16,6 +17,14 @@ const modulePermissionRoute: RouteObject = {
          element: (
             <PermissionAccess module={MODULE_PAGE.PERMISSIONS} action={PAGE_ACTION.VIEW} type="route">
                <Permission />
+            </PermissionAccess>
+         ),
+      },
+      {
+         path: 'create',
+         element: (
+            <PermissionAccess module={MODULE_PAGE.PERMISSIONS} action={PAGE_ACTION.CREATE} type="route">
+               <ModulePermissionCreate />
             </PermissionAccess>
          ),
       },

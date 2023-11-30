@@ -33,10 +33,10 @@ function CoreTableHeader<T>(props: TabelHeaderProps<T>): React.ReactElement {
                      return (
                         <StyledTableCell key={index}>
                            {header.isPlaceholder ? null : (
-                              <Box sx={{ display: 'flex', alignItems: 'center', whiteSpace: 'nowrap' }}>
+                              <Box sx={{ display: 'flex', alignItems: 'center' }}>
                                  <Typography
                                     component="h6"
-                                    sx={{ fontWeight: 600, width: 'max-content', fontSize: '14px', p: 0 }}
+                                    sx={{ fontWeight: 600, width: 'fit-content', fontSize: '14px', p: 0 }}
                                  >
                                     {flexRender(header.column.columnDef.header, header.getContext())}
                                  </Typography>
