@@ -57,6 +57,7 @@ function TableCore<TData, TValue>(props: TableCoreProps<TData, TValue>) {
          >
             <Table
                stickyHeader
+               aria-label="sticky table"
                sx={{ position: 'relative', minWidth: 'max-content', width: '100%', height: '100%', maxHeight: '600px' }}
                size="small"
             >

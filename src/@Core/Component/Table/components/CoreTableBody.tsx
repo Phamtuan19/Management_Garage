@@ -33,15 +33,16 @@ function CoreTableBody<T>(props: TabelHeaderProps<T>) {
          return Array.from({ length: 7 }, (_, index) => index + 1).map((item) => {
             return (
                <StyledTableRow key={item}>
-                  <StyledTableCell>
-                     <Skeleton variant="rectangular" width="100%" height={25} />
-                  </StyledTableCell>
-                  <StyledTableCell>
-                     <Skeleton variant="rectangular" width="100%" height={25} />
-                  </StyledTableCell>
-                  <StyledTableCell>
-                     <Skeleton variant="rectangular" width="100%" height={25} />
-                  </StyledTableCell>
+                  {Array.from(
+                     { length: Number(table.getHeaderGroups()[0].headers.length) },
+                     (_, index) => index + 1,
+                  ).map((index) => {
+                     return (
+                        <StyledTableCell key={index}>
+                           <Skeleton variant="rectangular" width="100%" height={25} />
+                        </StyledTableCell>
+                     );
+                  })}
                </StyledTableRow>
             );
          });
@@ -62,7 +63,6 @@ function CoreTableBody<T>(props: TabelHeaderProps<T>) {
             {row.getVisibleCells().map((cell, index) => (
                <StyledTableCell
                   key={index}
-                  // component="th"
                   {...{
                      style: {
                         width: cell.column.getSize(),
@@ -90,7 +90,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
    maxWidth: 600,
-   border: 'none',
    whiteSpace: 'nowrap',
 }));
 

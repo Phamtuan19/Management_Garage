@@ -33,9 +33,9 @@ const palette = {
    },
 
    secondary: {
-      main: '#FFFFFF',
-      light: '#42a5f5',
-      dark: '#1565c0',
+      main: '#6c757d',
+      light: '#6c757d',
+      dark: '#6c757d',
       contrastText: '#FFFFFF',
    },
    error: {

@@ -1,7 +1,7 @@
 import BaseService from '@Core/Api/BaseService';
 
 const permissionServicePath = {
-   base: 'permission',
+   base: 'module',
 };
 
 class ModulePermissionService extends BaseService {
