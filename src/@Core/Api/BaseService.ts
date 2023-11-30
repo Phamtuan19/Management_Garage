@@ -80,7 +80,7 @@ class BaseService {
     */
    update<U>(data: TData, id?: string, method: 'put' | 'patch' = 'put'): Promise<U> {
       const updateId = id || data[this.PRIMARY_KEY];
-      return this.request[method](`${this.BASE_ENDPOINT}/${updateId}`, data);
+      return this.request[method](`${this.BASE_ENDPOINT}/update/${updateId}`, data);
    }
 
    /**
@@ -101,7 +101,7 @@ class BaseService {
     * @returns
     */
    delete(id: string): Promise<AxiosInstance> {
-      return this.request.delete(this.BASE_ENDPOINT + '/' + id);
+      return this.request.delete(this.BASE_ENDPOINT + '/delete/' + id);
    }
 }
 
