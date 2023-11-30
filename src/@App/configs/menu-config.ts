@@ -6,8 +6,8 @@ import ROUTE_PATH from './router-path';
 import { useSetting } from '@App/redux/slices/setting.slice';
 
 const menuConfig = (): MenuConfigItem[] => {
-   const { module_permission } = useSetting();
-   const permissions = Array.isArray(module_permission) ? {} : module_permission;
+   const { permissions } = useSetting();
+
    return [
       {
          id: 1,
