@@ -6,8 +6,6 @@ import PermissionAccess from '../components/PermissionAccess';
 import { useSetting } from '@App/redux/slices/setting.slice';
 
 const Permission = Loadable('ModulePermission');
-const ModulePermissionCreate = Loadable('ModulePermission/ModulePermissionCreate');
-const ModulePermissionUpdate = Loadable('ModulePermission/ModulePermissionUpdate');
 
 const modulePermissionRoute = (): RouteObject => {
    const { permissions } = useSetting();
@@ -21,22 +19,6 @@ const modulePermissionRoute = (): RouteObject => {
             element: (
                <PermissionAccess module={permissions.PERMISSIONS} action={PAGE_ACTION.VIEW} type="route">
                   <Permission />
-               </PermissionAccess>
-            ),
-         },
-         {
-            path: 'create',
-            element: (
-               <PermissionAccess module={permissions.PERMISSIONS} action={PAGE_ACTION.CREATE} type="route">
-                  <ModulePermissionCreate />
-               </PermissionAccess>
-            ),
-         },
-         {
-            path: ':id',
-            element: (
-               <PermissionAccess module={permissions.PERMISSIONS} action={PAGE_ACTION.UPDATE} type="route">
-                  <ModulePermissionUpdate />
                </PermissionAccess>
             ),
          },
