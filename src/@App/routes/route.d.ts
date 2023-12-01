@@ -3,7 +3,7 @@ import { PageActionPropsType } from '@App/configs/page-action';
 
 interface PermissionAccessType {
    action: PageActionPropsType;
-   module: ModulePagePropsType;
+   module: string;
    path?: string;
    type: 'route' | 'component' | 'menu';
    aceptPermission?: boolean;

@@ -48,11 +48,15 @@ export const useSetting = () => {
    const dispatch: any = useDispatch();
    const setting = useSelector((state: RootState) => state.setting);
 
+   const { module_permission } = setting;
+
+   const permissions = Array.isArray(module_permission) ? {} : module_permission;
+
    const getSettingInitApp = () => {
       dispatch(initSetting());
    };
 
-   return { ...setting, getSettingInitApp };
+   return { permissions, getSettingInitApp };
 };
 
 export default settingSlice;

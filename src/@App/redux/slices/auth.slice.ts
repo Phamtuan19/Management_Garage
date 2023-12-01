@@ -20,7 +20,7 @@ const actionGetUser = createAsyncThunk('auth/getUser', async () => {
 });
 
 type UserPermission = {
-   [key in ModulePagePropsType]?: PageActionPropsType[];
+   [key: string]: PageActionPropsType[];
 };
 
 interface InitialState<U> {
