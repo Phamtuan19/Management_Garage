@@ -6,8 +6,11 @@ import { Box, Chip, TextField } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import { CHIP_COLOR } from './utils';
+import { useNavigate } from 'react-router-dom';
+import ROUTE_PATH from '@App/configs/router-path';
 
 const ModulePremission = () => {
+   const navigate = useNavigate();
    const { data: modulePermissions, isFetching: isLoading } = useQuery(['getPermissionList'], async () => {
       const res = await permissionService.get();
       return res.data;
@@ -54,10 +57,12 @@ const ModulePremission = () => {
          columnHelper.accessor('', {
             header: 'Thao tác',
             cell: ({ row }) => {
+               const res = row.original;
+
                return (
                   <Box>
                      {/* <CoreTableActionDelete /> */}
-                     <CoreTableActionEdit />
+                     <CoreTableActionEdit callback={() => navigate(ROUTE_PATH.PERMISSIONS + '/' + res?.id)} />
                   </Box>
                );
             },

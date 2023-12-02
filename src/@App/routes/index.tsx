@@ -1,22 +1,20 @@
-import { RouteObject, useRoutes } from 'react-router-dom';
-import Loadable from './components/loadable';
-import PrivateRouter from './components/PrivateRouter';
-import PublicRouter from './components/PublicRoute';
 import Layout from '@App/component/Layout';
-import PAGE_ACTION from '@App/configs/page-action';
+import Loadable from './components/loadable';
 import ROUTE_PATH from '@App/configs/router-path';
-import PermissionAccess from './components/PermissionAccess';
+import PAGE_ACTION from '@App/configs/page-action';
+import MODULE_PAGE from '@App/configs/module-page';
+import PublicRouter from './components/PublicRoute';
+import PrivateRouter from './components/PrivateRouter';
+import { RouteObject, useRoutes } from 'react-router-dom';
+import PermissionAccessRoute from './components/PermissionAccessRoute';
 
 import personnelRoute from './rotue-action/personnels';
 import modulePermissionRoute from './rotue-action/modulePermission';
-import { useSetting } from '@App/redux/slices/setting.slice';
 
 const SignIn = Loadable('auth/SignIn');
 const Doashboard = Loadable('Doashboard');
 
 const routes = (): RouteObject[] => {
-   const { permissions } = useSetting();
-
    return [
       /**
        * Route page admin Private
@@ -32,13 +30,13 @@ const routes = (): RouteObject[] => {
             {
                index: true,
                element: (
-                  <PermissionAccess module={permissions.DOASHBOARD} action={PAGE_ACTION.VIEW} type="route">
+                  <PermissionAccessRoute module={MODULE_PAGE.DOASHBOARD} action={PAGE_ACTION.VIEW} type="route">
                      <Doashboard />
-                  </PermissionAccess>
+                  </PermissionAccessRoute>
                ),
             },
-            personnelRoute(),
-            modulePermissionRoute(),
+            personnelRoute,
+            modulePermissionRoute,
          ],
       },
 

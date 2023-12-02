@@ -9,7 +9,7 @@ import { PermissionAccessType } from '../route';
  * @param fallback - The fallback content to display when permission is not granted.
  */
 
-const PermissionAccess = ({
+const PermissionAccessRoute = ({
    children,
    module,
    action,
@@ -46,4 +46,4 @@ const PermissionAccess = ({
    return hasPermissionAndOperation ? children : null;
 };
 
-export default PermissionAccess;
+export default PermissionAccessRoute;
