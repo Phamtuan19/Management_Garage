@@ -1,14 +1,14 @@
-import { AccordionDetails, Box, Stack, Typography, styled } from '@mui/material';
-import MuiAccordionSummary, { AccordionSummaryProps } from '@mui/material/AccordionSummary';
-import MuiAccordion, { AccordionProps } from '@mui/material/Accordion';
-import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
-import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
-import { NavLink, useLocation } from 'react-router-dom';
-import menuConfig from '@App/configs/menu-config';
 import { useEffect, useState } from 'react';
-import PermissionAccess from '@App/routes/components/PermissionAccess';
+import menuConfig from '@App/configs/menu-config';
+import { NavLink, useLocation } from 'react-router-dom';
 import { ModulePagePropsType } from '@App/configs/module-page';
 import { PageActionPropsType } from '@App/configs/page-action';
+import MuiAccordion, { AccordionProps } from '@mui/material/Accordion';
+import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+import PermissionAccess from '@App/routes/components/PermissionAccessRoute';
+import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
+import { AccordionDetails, Box, Stack, Typography, styled } from '@mui/material';
+import MuiAccordionSummary, { AccordionSummaryProps } from '@mui/material/AccordionSummary';
 
 const SidebarItem = () => {
    const location = useLocation();
@@ -30,11 +30,9 @@ const SidebarItem = () => {
       setExpanded([location.pathname.split('/')[1]]);
    }, [location.pathname]);
 
-   const menu = menuConfig();
-
    return (
       <Stack sx={{ gap: 0.5, pt: 1 }}>
-         {menu.map((item) => {
+         {menuConfig.map((item) => {
             const Icon = item.icon;
             if (item.children) {
                const locationPath = location.pathname.includes(item.link);

@@ -59,8 +59,6 @@ const ModulePremission = () => {
             cell: ({ row }) => {
                const res = row.original;
 
-               console.log('action', res);
-
                return (
                   <Box>
                      {/* <CoreTableActionDelete /> */}
