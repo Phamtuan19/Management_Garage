@@ -63,7 +63,11 @@ const authSlice = createSlice({
          .addCase(actionGetUser.fulfilled, (state, action) => {
             const { access: permissionAccess, ...user } = action.payload;
             state.user = user;
-            state.userPermission = { permissions: ['view', 'create'], ...JSON.parse(permissionAccess) };
+            state.userPermission = {
+               permissions: ['view', 'create'],
+               distributors: ['view', 'create'],
+               ...JSON.parse(permissionAccess),
+            };
             state.isInitialized = true;
             state.isAuhthentication = true;
          })

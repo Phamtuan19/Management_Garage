@@ -15,9 +15,7 @@ const ModulePremission = () => {
       const res = await permissionService.get();
       return res.data;
    });
-
-   console.log(modulePermissions?.meta);
-
+   
    const columns = useMemo(() => {
       return [
          columnHelper.accessor((_row, index) => index + 1, {

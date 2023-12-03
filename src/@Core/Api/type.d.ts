@@ -10,3 +10,9 @@ interface AxiosResponseData {
 interface AxiosResponseDataType {
    [key: string]: { [key: string]: string }[] | { [key: string]: string } | null | undefined;
 }
+
+interface HandleErrorApi {
+   success: boolean;
+   statusCode: HttpStatusCodeSType;
+   message: { [key: string]: string[] };
+}
