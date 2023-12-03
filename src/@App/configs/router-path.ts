@@ -8,9 +8,12 @@ const ROUTE_PATH = {
 
    PERMISSIONS: '/permissions',
 
+   DISTRIBUTORS: '/distributors',
+
    SIGN_IN: '/sign-in',
 
    CREATE: '/create',
+   UPDATE: '/:id',
 } as const;
 
 export const routePathSchema = yup.string().oneOf(Object.values(ROUTE_PATH)).required();

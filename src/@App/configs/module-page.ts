@@ -5,6 +5,7 @@ const MODULE_PAGE = {
    PERSONNELS: 'personnels',
    PERMISSIONS: 'permissions',
    WAREHOUSE: 'warehouse',
+   DISTRIBUTORS: 'distributors',
 } as const;
 
 export const modulePageSchema = yup.string().oneOf(Object.values(MODULE_PAGE)).required();
