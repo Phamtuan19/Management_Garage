@@ -15,7 +15,7 @@ const ModulePremission = () => {
       const res = await permissionService.get();
       return res.data;
    });
-   
+
    const columns = useMemo(() => {
       return [
          columnHelper.accessor((_row, index) => index + 1, {
@@ -55,7 +55,7 @@ const ModulePremission = () => {
          columnHelper.accessor('', {
             header: 'Thao tác',
             cell: ({ row }) => {
-               const res = row.original;
+               const res: any = row.original;
 
                return (
                   <Box>
