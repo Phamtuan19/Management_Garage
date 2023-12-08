@@ -1,7 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { PageActionPropsType } from "@App/configs/page-action";
 import distributorsService from "@App/services/distributor.service";
-
+import authService from "@App/services/auth.service";
+import { RootState } from "../rootReducer";
+import { useDispatch, useSelector } from "react-redux";
 const initialState = {
     distributor: [],
     userPermission: null,
@@ -42,7 +44,8 @@ const distributorSlice = createSlice({
         builder.addCase(getDistributors.fulfilled, (state, action) => {
             const { distributor, access: permissionAccess } = action.payload;
             state.loading = false;
-            state.distributor = distributor;
+            state.distributors = distributor;
+            state.distributors = action.payload;
             state.userPermission = {
                 permissions: ['view', 'create', 'update', 'delete', 'show'],
                 distributors: ['view', 'create', 'update', 'delete', 'show'],

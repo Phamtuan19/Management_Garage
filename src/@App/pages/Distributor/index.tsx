@@ -4,11 +4,16 @@ import { useQuery } from '@tanstack/react-query';
 import { Box, TextField } from '@mui/material';
 import { useMemo } from 'react';
 import TableCore, { columnHelper } from '@Core/Component/Table';
-import { getDistributors } from '@App/redux/slices/distributor.slice';
 const Distributor = () => {
-   const { data: distributor, isFetching: isLoading } = useQuery(['getDistributorList'], async () => {
-      const res = await distributorService.getDistributors();
-      return res.data;
+   const { data: distributor, isFetching: isLoading } = useQuery(['distributor'], async () => {
+      try {
+         const res = await distributorService.get();
+         console.log('API Response:', res);
+         return res.data;
+      } catch (error) {
+         console.error('API Error:', error);
+         throw error;
+      }
    });
    const columns = useMemo(() => {
       return [
@@ -50,7 +55,7 @@ const Distributor = () => {
             },
          }),
       ]
-   });
+   }, []);
    return (
       <BaseBreadcrumbs arialabel="Danh sách nhà phân phối">
          <Box>
