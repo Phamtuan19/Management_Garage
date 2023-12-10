@@ -1,8 +1,7 @@
 import BaseService from '@Core/Api/BaseService';
 
 export const personnelPathUrl: ServicePathUrl = {
-   BASE: 'account',
-   USER: 'profile',
+   BASE: 'staff',
 };
 
 class PersonnelService extends BaseService {
@@ -12,12 +11,8 @@ class PersonnelService extends BaseService {
       super();
       this.setRequest();
    }
-
-   getUser() {
-      return this.request.get(this.BASE_ENDPOINT + '/' + personnelPathUrl.USER);
-   }
 }
 
-const   personnelService = new PersonnelService();
+const personnelService = new PersonnelService();
 
 export default personnelService;

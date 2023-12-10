@@ -1,5 +1,4 @@
-
-import { Box,Chip, Button, Grid, TextField } from '@mui/material';
+import { Box, Chip, Button, Grid, TextField, Avatar } from '@mui/material';
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import { useEffect, useMemo } from 'react';
 import personnelService from '@App/services/personnel.service';
@@ -10,19 +9,26 @@ import { RootState } from '@App/redux/rootReducer';
 import { getPersonnel } from '@App/redux/slices/Personnels';
 
 export default function Personnels() {
-   const { data: personnel, isFetching: isLoading } = useQuery(['getPersonnelList'], async () => {
-      const res = await personnelService.getUser();
+   const { data: personnels, isFetching: isLoading } = useQuery(['getPersonnelList'], async () => {
+      const res = await personnelService.get();
       return res.data;
    });
+
+   console.log(personnels);
 
    const columns = useMemo(() => {
       return [
          columnHelper.accessor('avatar', {
             header: 'Hình ảnh',
+            cell: ({ row }) => {
+               const personnel: any = row.original;
+
+               return <Avatar src={personnel.avatar} />;
+            },
          }),
          columnHelper.accessor('fullname', {
             header: 'Tên nhân viên',
-         }), 
+         }),
          columnHelper.accessor('email', {
             header: 'Email',
          }),
@@ -59,7 +65,7 @@ export default function Personnels() {
          <Box>
             <TextField size="small" />
          </Box>
-         <TableCore columns={columns} data={(personnel as any) || []} isLoading={isLoading} />
+         <TableCore columns={columns} data={(personnels?.data as any) || []} isLoading={isLoading} />
       </BaseBreadcrumbs>
    );
-};
+}
