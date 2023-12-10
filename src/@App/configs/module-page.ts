@@ -3,11 +3,11 @@ import * as yup from 'yup';
 const MODULE_PAGE = {
    DOASHBOARD: 'doashboard',
    PERSONNELS: 'personnels',
-   PERMISSIONS: 'permissions',
+   PERMISSIONS: 'permission',
    WAREHOUSE: 'warehouse',
-   DISTRIBUTORS: 'distributors',
+   DISTRIBUTORS: 'distributor',
    STAFF: 'staff',
-   MATERIACATALOG: 'materialCatalog',
+   MATERIACATALOG: 'materialsCatalog',
    MATERIAL: 'material',
    CAR: 'car',
 } as const;
