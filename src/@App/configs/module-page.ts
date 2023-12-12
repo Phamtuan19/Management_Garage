@@ -2,9 +2,9 @@ import * as yup from 'yup';
 
 const MODULE_PAGE = {
    DOASHBOARD: 'doashboard',
-   PERSONNELS: 'staff',
    PERMISSIONS: 'permission',
    WAREHOUSE: 'warehouse',
+   MATERIALSCATALOG: 'materialscatalog',
    DISTRIBUTORS: 'distributor',
    STAFF: 'staff',
    MATERIACATALOG: 'materialsCatalog',
