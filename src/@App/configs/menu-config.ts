@@ -37,6 +37,27 @@ const menuConfig: MenuConfigItem[] = [
       ],
    },
    {
+      id: 4,
+      title: 'Kho hàng',
+      link: ROUTE_PATH.DISTRIBUTORS,
+      icon: PeopleIcon,
+      module: MODULE_PAGE.MATERIALSCATALOG,
+      children: [
+         {
+            id: 2.1,
+            title: 'Danh sách',
+            link: ROUTE_PATH.DISTRIBUTORS,
+            action: PAGE_ACTION.VIEW,
+         },
+         {
+            id: 2.2,
+            title: 'Thêm mới',
+            link: ROUTE_PATH.DISTRIBUTORS + ROUTE_PATH.CREATE,
+            action: PAGE_ACTION.CREATE,
+         },
+      ],
+   },
+   {
       id: 2,
       title: 'Nhân viên',
       link: ROUTE_PATH.PERSONNELS,

@@ -3,7 +3,6 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import BaseFormDistributor from './components/BaseFormDistributor';
 import { DistributorSchema, distributorSchema } from './utils/distributor.schema';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Box } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
 import distributorService from '@App/services/distributor.service';
 import { errorMessage, successMessage } from '@Core/Helper/message';
@@ -24,6 +23,7 @@ const DistributorCreate = () => {
       },
       onSuccess: () => {
          successMessage('Tạo mới nhà phân phối thành công.');
+         form.reset();
       },
       onError: (err: AxiosError) => {
          const dataError = err.response?.data as HandleErrorApi;
@@ -40,9 +40,7 @@ const DistributorCreate = () => {
 
    return (
       <BaseBreadcrumbs arialabel="thêm nhà phân phối">
-         <Box p={1}>
-            <BaseFormDistributor form={form} onSubmitForm={onSubmitForm} isLoading={isLoading} />
-         </Box>
+         <BaseFormDistributor form={form} onSubmitForm={onSubmitForm} isLoading={isLoading} />
       </BaseBreadcrumbs>
    );
 };
