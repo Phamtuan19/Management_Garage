@@ -15,7 +15,7 @@ const ROUTE_PATH = {
    SIGN_IN: '/sign-in',
 
    CREATE: '/create',
-   
+
    UPDATE: '/:id',
 } as const;
 

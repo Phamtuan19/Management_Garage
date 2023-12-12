@@ -16,7 +16,7 @@ const menuConfig: MenuConfigItem[] = [
       module: MODULE_PAGE.DOASHBOARD,
    },
    {
-      id: 4,
+      id: 2,
       title: 'Nhà phân phối',
       link: ROUTE_PATH.DISTRIBUTORS,
       icon: PeopleIcon,
@@ -37,20 +37,20 @@ const menuConfig: MenuConfigItem[] = [
       ],
    },
    {
-      id: 4,
-      title: 'Kho hàng',
+      id: 3,
+      title: 'Danh mục vật tư',
       link: ROUTE_PATH.MATERIALSCATALOG,
       icon: PeopleIcon,
       module: MODULE_PAGE.MATERIALSCATALOG,
       children: [
          {
-            id: 2.1,
+            id: 3.1,
             title: 'Danh sách',
             link: ROUTE_PATH.MATERIALSCATALOG,
             action: PAGE_ACTION.VIEW,
          },
          {
-            id: 2.2,
+            id: 3.2,
             title: 'Thêm mới',
             link: ROUTE_PATH.MATERIALSCATALOG + ROUTE_PATH.CREATE,
             action: PAGE_ACTION.CREATE,
@@ -58,20 +58,20 @@ const menuConfig: MenuConfigItem[] = [
       ],
    },
    {
-      id: 2,
+      id: 4,
       title: 'Nhân viên',
       link: ROUTE_PATH.STAFF,
       icon: PeopleIcon,
       module: MODULE_PAGE.STAFF,
       children: [
          {
-            id: 2.1,
+            id: 4.1,
             title: 'Danh sách',
             link: '/personnels',
             action: PAGE_ACTION.VIEW,
          },
          {
-            id: 2.2,
+            id: 4.2,
             title: 'Thêm mới',
             link: ROUTE_PATH.STAFF + ROUTE_PATH.CREATE,
             action: PAGE_ACTION.CREATE,
@@ -79,7 +79,7 @@ const menuConfig: MenuConfigItem[] = [
       ],
    },
    {
-      id: 3,
+      id: 5,
       title: 'Quyền truy cập',
       link: ROUTE_PATH.PERMISSIONS,
       icon: PeopleIcon,
