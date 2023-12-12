@@ -44,8 +44,6 @@ const BaseFormDistributor = ({ form, onSubmitForm, isLoading }: BaseFormPersonne
       return [];
    });
 
-   console.log(watchProvince);
-
    return (
       <div>
          <form onSubmit={handleSubmit(onSubmitForm)}>
