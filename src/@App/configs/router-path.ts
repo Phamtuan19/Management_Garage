@@ -10,6 +10,8 @@ const ROUTE_PATH = {
 
    DISTRIBUTORS: '/distributors',
 
+   MATERIALSCATALOG: '/materials-catalog',
+
    SIGN_IN: '/sign-in',
 
    CREATE: '/create',
