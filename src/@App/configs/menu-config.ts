@@ -60,9 +60,9 @@ const menuConfig: MenuConfigItem[] = [
    {
       id: 2,
       title: 'Nhân viên',
-      link: ROUTE_PATH.PERSONNELS,
+      link: ROUTE_PATH.STAFF,
       icon: PeopleIcon,
-      module: MODULE_PAGE.PERSONNELS,
+      module: MODULE_PAGE.STAFF,
       children: [
          {
             id: 2.1,
@@ -73,7 +73,7 @@ const menuConfig: MenuConfigItem[] = [
          {
             id: 2.2,
             title: 'Thêm mới',
-            link: ROUTE_PATH.PERSONNELS + ROUTE_PATH.CREATE,
+            link: ROUTE_PATH.STAFF + ROUTE_PATH.CREATE,
             action: PAGE_ACTION.CREATE,
          },
       ],

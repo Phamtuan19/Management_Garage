@@ -2,11 +2,14 @@ import * as yup from 'yup';
 
 const MODULE_PAGE = {
    DOASHBOARD: 'doashboard',
-   PERSONNELS: 'personnels',
-   PERMISSIONS: 'permissions',
+   PERMISSIONS: 'permission',
    WAREHOUSE: 'warehouse',
-   DISTRIBUTORS: 'distributors',
    MATERIALSCATALOG: 'materialscatalog',
+   DISTRIBUTORS: 'distributor',
+   STAFF: 'staff',
+   MATERIACATALOG: 'materialsCatalog',
+   MATERIAL: 'material',
+   CAR: 'car',
 } as const;
 
 export const modulePageSchema = yup.string().oneOf(Object.values(MODULE_PAGE)).required();
