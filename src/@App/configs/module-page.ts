@@ -10,6 +10,7 @@ const MODULE_PAGE = {
    MATERIALSCATALOG: 'materialsCatalog', // module danh mục vật tư
    CAR: 'car', // module xe
    REPAIRSERVICE: 'repairServices', // module dịch vụ sửa chữa
+   USER:'user'
 } as const;
 
 export const modulePageSchema = yup.string().oneOf(Object.values(MODULE_PAGE)).required();
