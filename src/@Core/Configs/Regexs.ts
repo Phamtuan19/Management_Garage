@@ -21,6 +21,8 @@
  */
 
 class Regexs {
+   integer = /[^0-9]/g;
+   string = /[^a-zA-ZÀ-Ỹà-ỹĂăÂâĐđÊêÔôƠơƯư]/g;
    email =
       /^[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$/;
    uppercaseCharacters = /.*[A-Z].*/;
@@ -28,6 +30,7 @@ class Regexs {
    characterCharacter = /[!@#$%^&*()_+{}\[\]:;<>,.?~\\|=]/;
    number = /^[1-9]\d*$/;
    cmnd = /^[1-9]{11}\b/g;
+   bankNumber = /^(?:\d{10}|\d{19})$/;
 }
 
 export default new Regexs();

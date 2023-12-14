@@ -3,7 +3,7 @@ import 'simplebar-react/dist/simplebar.min.css';
 import SimpleBar from 'simplebar-react';
 import React from 'react';
 
-function ScrollbarBase(props: { children?: React.ReactNode; sx: SxProps<Theme> | undefined }) {
+function ScrollbarBase(props: { children?: React.ReactNode; sx?: SxProps<Theme> | undefined }) {
    const { children, ...resProps } = props;
    return (
       <Box component={SimpleBar} {...resProps}>
