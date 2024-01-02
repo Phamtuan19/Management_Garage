@@ -29,7 +29,7 @@ const DistributorUpdate = () => {
       defaultValues: distributorSchema.getDefault(),
    });
 
-   useQuery(
+   const { refetch: getDistributorDetail } = useQuery(
       ['getDistributorDetail', distributorId],
       async () => {
          const res = await distributorService.find(distributorId!);
@@ -48,6 +48,7 @@ const DistributorUpdate = () => {
       },
       onSuccess: () => {
          successMessage('Tạo mới nhà phân phối thành công.');
+         getDistributorDetail();
       },
       onError: (err: AxiosError) => {
          const dataError = err.response?.data as HandleErrorApi;
