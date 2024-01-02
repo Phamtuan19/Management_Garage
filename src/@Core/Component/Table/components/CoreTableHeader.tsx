@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 /*
  * Created Date: 28-11-2023, 21:00 pm
  * Author: Phạm Anh tuấn

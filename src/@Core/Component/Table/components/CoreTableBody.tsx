@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 /*
  * Created Date: 28-11-2023, 21:00 pm
  * Author: Phạm Anh tuấn
@@ -61,12 +62,7 @@ function CoreTableBody<T>(props: TabelHeaderProps<T>) {
       return rows.map((row, index) => (
          <StyledTableRow key={index}>
             {row.getVisibleCells().map((cell, index) => (
-               <StyledTableCell
-                  key={index}
-                  {...{
-                     
-                  }}
-               >
+               <StyledTableCell key={index} {...{}}>
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                </StyledTableCell>
             ))}
@@ -77,7 +73,7 @@ function CoreTableBody<T>(props: TabelHeaderProps<T>) {
    return <TableBody sx={{ height: '100%' }}>{renderTableBody()}</TableBody>;
 }
 
-const StyledTableRow = styled(TableRow)(({ }) => ({
+const StyledTableRow = styled(TableRow)(() => ({
    '&:nth-of-type(odd)': {
       backgroundColor: '#FFFFF',
    },
@@ -86,7 +82,7 @@ const StyledTableRow = styled(TableRow)(({ }) => ({
    },
 }));
 
-const StyledTableCell = styled(TableCell)(({ }) => ({
+const StyledTableCell = styled(TableCell)(() => ({
    maxWidth: 600,
    whiteSpace: 'nowrap',
 }));

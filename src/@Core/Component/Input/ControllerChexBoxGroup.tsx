@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/naming-convention */
 import { Stack, Checkbox, FormControlLabel, FormHelperText, SxProps, Theme } from '@mui/material';
 import React from 'react';
 import { Control, Controller, FieldValues } from 'react-hook-form';

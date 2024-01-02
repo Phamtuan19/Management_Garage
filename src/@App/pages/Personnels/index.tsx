@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { Box, TextField, Avatar } from '@mui/material';
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import { useMemo } from 'react';
@@ -10,8 +13,6 @@ export default function Personnels() {
       const res = await personnelService.get();
       return res.data;
    });
-
-   console.log(personnels);
 
    const columns = useMemo(() => {
       return [

@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-redundant-type-constituents */
 import { Control, Controller, FieldValues } from 'react-hook-form';
 import { FormControl, FormHelperText, styled } from '@mui/material';
 import { TextareaAutosize } from '@mui/base';
@@ -30,7 +33,7 @@ const ControllerTextarea = (props: ControllerTextareaPropsType<FieldValues>): JS
                      disabled={disabled}
                      {...field}
                      {...rest}
-                     sx={({ palette }) => ({ borderColor: Boolean(error) ? palette.error.main : '#d0d7de' })}
+                     sx={({ palette }) => ({ borderColor: error ? palette.error.main : '#d0d7de' })}
                   />
                   {error?.message && (
                      <FormHelperText variant="standard" sx={({ palette }) => ({ color: palette.error.main })}>
@@ -55,7 +58,7 @@ const ExtendTextareaAutosize = styled(TextareaAutosize)(({ theme }) => {
       '&:hover': {
          borderColor: theme.palette.primary,
       },
-      
+
       '&:focus-visible': {
          borderWidth: 2,
          borderColor: theme.palette.primary.main,

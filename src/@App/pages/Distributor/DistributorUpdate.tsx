@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import BaseFormDistributor from './components/BaseFormDistributor';
 import ROUTE_PATH from '@App/configs/router-path';
@@ -37,7 +38,7 @@ const DistributorUpdate = () => {
       },
       {
          onSuccess: (data) => {
-            setValueHookForm(form.setValue, data.distributor as any);
+            setValueHookForm(form.setValue, data.distributor as never);
          },
       },
    );
@@ -46,15 +47,15 @@ const DistributorUpdate = () => {
       mutationFn: async (data: Omit<DistributorSchema, 'province' | 'district' | 'ward'>) => {
          return await distributorService.update(data, distributorId);
       },
-      onSuccess: () => {
+      onSuccess: async () => {
          successMessage('Tạo mới nhà phân phối thành công.');
-         getDistributorDetail();
+         await getDistributorDetail();
       },
       onError: (err: AxiosError) => {
          const dataError = err.response?.data as HandleErrorApi;
 
          if (Number(dataError.statusCode) === Number(HttpStatusCode.BAD_REQUEST)) {
-            return setErrorMessageHookForm(form.setError, dataError.message);
+            return setErrorMessageHookForm(form.setError, dataError.message) as never;
          }
 
          return errorMessage(err);

@@ -127,7 +127,7 @@ const menuConfig: MenuConfigItem[] = [
             action: PAGE_ACTION.CREATE,
          },
       ],
-   }
+   },
 ];
 
 export default menuConfig;

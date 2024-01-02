@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ThemeOptions } from '@mui/material/styles';
 
 interface BaseType extends ThemeOptions {

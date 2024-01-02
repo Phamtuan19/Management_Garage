@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useAuth } from '@App/redux/slices/auth.slice';
 import React, { useEffect } from 'react';
 

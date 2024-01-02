@@ -1,3 +1,9 @@
+/* eslint-disable no-prototype-builtins */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/naming-convention */
 import { Axios, AxiosInstance } from 'axios';
 import createInstance from './axios';
 import { AxiosResponseData } from './type';
@@ -61,7 +67,7 @@ class BaseService {
     * @param {string} id
     * @returns
     */
-   find<F>(id: string): Promise<AxiosResponseData> {
+   find(id: string): Promise<AxiosResponseData> {
       const url = `${this.BASE_ENDPOINT}/${id}`;
       return this.request.get(url);
    }
@@ -70,7 +76,7 @@ class BaseService {
     * @param {Object} data
     * @returns
     */
-   create<C>(data: TData): Promise<AxiosResponseData> {
+   create(data: TData): Promise<AxiosResponseData> {
       return this.request.post(this.BASE_ENDPOINT + '/create', data);
    }
 
@@ -87,7 +93,7 @@ class BaseService {
     * @param {Object} data
     * @returns
     */
-   save<S>(data: TData): Promise<AxiosResponseData> {
+   save(data: TData): Promise<AxiosResponseData> {
       // kiểm tra xem có id nếu có thì update còn chưa thì tạo mới
       if (data.hasOwnProperty(this.PRIMARY_KEY) && data[this.PRIMARY_KEY]) {
          return this.update(data);

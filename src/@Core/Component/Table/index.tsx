@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/naming-convention */
 /*
  * Created Date: 28-11-2023, 21:00 pm
  * Author: Phạm Anh tuấn
@@ -68,7 +72,7 @@ function TableCore<TData, TValue>(props: TableCoreProps<TData, TValue>) {
 
          {isPagination && (
             <Box
-               sx={({}) => ({
+               sx={() => ({
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'flex-end',
@@ -77,14 +81,14 @@ function TableCore<TData, TValue>(props: TableCoreProps<TData, TValue>) {
                   borderTop: '1px solid #D1D5DB',
                })}
             >
-               <Pagination onChange={(_, page) => {}} count={pageCount} variant="outlined" shape="rounded" />
+               <Pagination onChange={(_, _page) => {}} count={pageCount} variant="outlined" shape="rounded" />
             </Box>
          )}
       </CoreTableContainer>
    );
 }
 
-const CoreTableContainer = styled(TableContainer)(({ theme }) => ({
+const CoreTableContainer = styled(TableContainer)(() => ({
    maxWidth: '100%',
    position: 'relative',
    margin: '12px 0px',

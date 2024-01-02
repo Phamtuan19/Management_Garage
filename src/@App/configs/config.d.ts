@@ -1,4 +1,4 @@
-import { ModulePagePropsType } from './module-page';
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { PageActionPropsType } from './page-action';
 
 interface MenuConfigItem {

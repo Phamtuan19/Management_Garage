@@ -1,4 +1,3 @@
-
 import { BaseType } from '../interface';
 
 const base: BaseType = {

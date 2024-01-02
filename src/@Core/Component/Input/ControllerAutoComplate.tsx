@@ -1,5 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { Autocomplete, Box, TextField } from '@mui/material';
 import React from 'react';
-import { Autocomplete, TextField, Box } from '@mui/material';
 import { type Control, Controller, type FieldValues, type Path } from 'react-hook-form';
 
 interface OptionProps {
@@ -53,6 +57,7 @@ function ControllerAutoComplate<TFieldValues extends FieldValues = FieldValues>(
                         renderOption={(props, option) => {
                            return (
                               <Box
+                                 component="span"
                                  sx={{ px: 2, py: 1, cursor: 'pointer', '&:hover': { bgcolor: '#DADADA' } }}
                                  key={option[valuePath]}
                                  {...props}
