@@ -1,9 +1,9 @@
 import HomeIcon from '@mui/icons-material/Home';
 import PeopleIcon from '@mui/icons-material/People';
+
 import PAGE_ACTION from './page-action';
 import ROUTE_PATH from './router-path';
 import MODULE_PAGE from './module-page';
-
 import { type MenuConfigItem } from './config';
 
 const menuConfig: MenuConfigItem[] = [

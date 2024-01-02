@@ -2,7 +2,6 @@
 import { Avatar, Box, IconButton, ListItemIcon, Menu, MenuItem, Tooltip, styled, Stack } from '@mui/material';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import { useState } from 'react';
-
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import { Link } from 'react-router-dom';

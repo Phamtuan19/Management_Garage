@@ -1,6 +1,7 @@
 import { styled, useTheme } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Drawer from '@mui/material/Drawer';
+
 import SidebarItem from './SidebarItem';
 
 interface SidebarProps {

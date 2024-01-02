@@ -1,10 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
-import BaseFormDistributor from './components/BaseFormDistributor';
 import ROUTE_PATH from '@App/configs/router-path';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { DistributorSchema, distributorSchema } from './utils/distributor.schema';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import distributorService from '@App/services/distributor.service';
 import { errorMessage, successMessage } from '@Core/Helper/message';
@@ -14,6 +12,9 @@ import HttpStatusCode from '@Core/Configs/HttpStatusCode';
 import setErrorMessageHookForm from '@App/helpers/setErrorMessageHookForm';
 import { useParams } from 'react-router-dom';
 import setValueHookForm from '@App/helpers/setValueHookForm';
+
+import { DistributorSchema, distributorSchema } from './utils/distributor.schema';
+import BaseFormDistributor from './components/BaseFormDistributor';
 
 const breadcrumbs = [
    {

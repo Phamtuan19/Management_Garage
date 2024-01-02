@@ -1,7 +1,5 @@
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import BaseFormDistributor from './components/BaseFormDistributor';
-import { DistributorSchema, distributorSchema } from './utils/distributor.schema';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useMutation } from '@tanstack/react-query';
 import distributorService from '@App/services/distributor.service';
@@ -10,6 +8,9 @@ import { HandleErrorApi } from '@Core/Api/axios-config';
 import { AxiosError } from 'axios';
 import HttpStatusCode from '@Core/Configs/HttpStatusCode';
 import setErrorMessageHookForm from '@App/helpers/setErrorMessageHookForm';
+
+import { DistributorSchema, distributorSchema } from './utils/distributor.schema';
+import BaseFormDistributor from './components/BaseFormDistributor';
 
 const DistributorCreate = () => {
    const form = useForm<DistributorSchema>({

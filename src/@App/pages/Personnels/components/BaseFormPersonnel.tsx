@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { Control, FieldValues, SubmitHandler, UseFormReturn } from 'react-hook-form';
-import { ValidationFormCreate } from '../utils/personnel.schema';
 import { FormControl, Grid, TextField } from '@mui/material';
 import ControllerLabel from '@Core/Component/Input/ControllerLabel';
 import ControllerTextField from '@Core/Component/Input/ControllerTextField';
 import ControllerSelect from '@Core/Component/Input/ControllerSelect';
 import { LoadingButton } from '@mui/lab';
 import ControllerRadioGroup from '@Core/Component/Input/ControllerRadioGroup';
+
+import { ValidationFormCreate } from '../utils/personnel.schema';
 
 interface BaseFormPersonnelPropType {
    form: UseFormReturn<ValidationFormCreate>;

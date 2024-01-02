@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { AxiosInstance } from 'axios';
+
 import createInstance from './axios';
 import { AxiosResponseData } from './axios-config';
 

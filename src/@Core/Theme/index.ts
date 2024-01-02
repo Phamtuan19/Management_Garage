@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { createTheme } from '@mui/material';
+
 import typography from './customize/typography';
 import base from './customize/base';
 import palette from './customize/palette';

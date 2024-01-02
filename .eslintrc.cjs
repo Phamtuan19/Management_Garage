@@ -43,6 +43,7 @@ module.exports = {
                   format: ['camelCase'],
                },
             ],
+            'react-hooks/exhaustive-deps': 'warn',
          },
       },
       {
@@ -53,7 +54,6 @@ module.exports = {
       },
    ],
    rules: {
-      'react-hooks/exhaustive-deps': 'warn',
       'no-console': 'warn',
       'no-unused-vars': 'warn',
       'no-undef': 'error',
@@ -68,5 +68,7 @@ module.exports = {
       'arrow-spacing': 'error',
       'no-multiple-empty-lines': ['error', { max: 1 }],
       'eol-last': ['error', 'always'],
+      'import/order': ['error', { 'newlines-between': 'always' }],
    },
+   plugins: ['import'],
 };

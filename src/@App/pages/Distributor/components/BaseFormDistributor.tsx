@@ -8,12 +8,13 @@ import ControllerLabel from '@Core/Component/Input/ControllerLabel';
 import ControllerTextField from '@Core/Component/Input/ControllerTextField';
 import { Box, Grid, Typography } from '@mui/material';
 import { SubmitHandler, UseFormReturn } from 'react-hook-form';
-import { DistributorSchema } from '../utils/distributor.schema';
 import { LoadingButton } from '@mui/lab';
 import ControllerAutoComplate from '@Core/Component/Input/ControllerAutoComplate';
 import { useQuery } from '@tanstack/react-query';
-import { getDistricts, getProvinces, getWards } from '../utils';
 import { useParams } from 'react-router-dom';
+
+import { getDistricts, getProvinces, getWards } from '../utils';
+import { DistributorSchema } from '../utils/distributor.schema';
 
 interface BaseFormPersonnelPropType {
    form: UseFormReturn<DistributorSchema>;

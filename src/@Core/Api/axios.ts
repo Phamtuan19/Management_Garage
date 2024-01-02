@@ -1,4 +1,5 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
+
 import middleware from './Middleware';
 import { AxiosResponseData } from './axios-config';
 

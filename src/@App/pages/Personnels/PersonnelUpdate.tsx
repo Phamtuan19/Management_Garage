@@ -1,7 +1,5 @@
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
-import BaseFormPersonnel from './components/BaseFormPersonnel';
 import ROUTER_PATH from '@App/configs/router-path';
-import { ValidationFormCreate, validationFormCreate } from './utils/personnel.schema';
 import { useParams } from 'react-router-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -11,6 +9,9 @@ import { successMessage, errorMessage } from '@Core/Helper/message';
 import { AxiosError } from 'axios';
 import setErrorMessageHookForm from '@App/helpers/setErrorMessageHookForm';
 import { HandleErrorApi } from '@Core/Api/axios-config';
+
+import { ValidationFormCreate, validationFormCreate } from './utils/personnel.schema';
+import BaseFormPersonnel from './components/BaseFormPersonnel';
 const breadcrumbs = [
    {
       title: 'Personnel',

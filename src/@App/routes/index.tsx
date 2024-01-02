@@ -1,13 +1,13 @@
 import Layout from '@App/component/Layout';
-import Loadable from './components/loadable';
 import ROUTE_PATH from '@App/configs/router-path';
 import PAGE_ACTION from '@App/configs/page-action';
 import MODULE_PAGE from '@App/configs/module-page';
+import { RouteObject, useRoutes } from 'react-router-dom';
+
 import PublicRouter from './components/PublicRoute';
 import PrivateRouter from './components/PrivateRouter';
-import { RouteObject, useRoutes } from 'react-router-dom';
+import Loadable from './components/loadable';
 import PermissionAccessRoute from './components/PermissionAccessRoute';
-
 import personnelRoute from './rotue-action/personnels';
 import modulePermissionRoute from './rotue-action/modulePermission';
 import distributorRoute from './rotue-action/distributor';

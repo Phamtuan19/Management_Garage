@@ -13,9 +13,10 @@ import { CoreTableActionEdit } from '@Core/Component/Table/components/CoreTableA
 import { Box, Chip, TextField } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
-import { CHIP_COLOR } from './utils';
 import { useNavigate } from 'react-router-dom';
 import ROUTE_PATH from '@App/configs/router-path';
+
+import { CHIP_COLOR } from './utils';
 
 const ModulePremission = () => {
    const navigate = useNavigate();

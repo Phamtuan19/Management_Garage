@@ -19,9 +19,10 @@
 
 import { Box, Pagination, Table, TableContainer, styled } from '@mui/material';
 import { ColumnDef, createColumnHelper, getCoreRowModel, useReactTable } from '@tanstack/react-table';
+import ScrollbarBase from '@App/component/customs/ScrollbarBase';
+
 import CoreTableBody from './components/CoreTableBody';
 import CoreTableHeader from './components/CoreTableHeader';
-import ScrollbarBase from '@App/component/customs/ScrollbarBase';
 
 interface TableCoreProps<TData, TValue> {
    data: TData[];
