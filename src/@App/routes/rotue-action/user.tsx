@@ -5,30 +5,30 @@ import { Outlet, RouteObject } from 'react-router-dom';
 import PermissionAccessRoute from '../components/PermissionAccessRoute';
 import MODULE_PAGE from '@App/configs/module-page';
 
-const PersonnelCreate = Loadable('Personnels/PersonnelCreate');
-const Personnel = Loadable('Personnels');
+const UserCreate = Loadable('User/UserCreate');
+const User = Loadable('Users');
 
-const personnelRoute: RouteObject = {
-   path: ROUTE_PATH.STAFF,
+const userRoute: RouteObject = {
+   path: ROUTE_PATH.USER,
    element: <Outlet />,
    children: [
       {
          index: true,
          element: (
-            <PermissionAccessRoute module={MODULE_PAGE.STAFF} action={PAGE_ACTION.VIEW} type="route">
-               <Personnel />
+            <PermissionAccessRoute module={MODULE_PAGE.USER} action={PAGE_ACTION.VIEW} type="route">
+               <User />
             </PermissionAccessRoute>
          ),
       },
       {
-         path: ROUTE_PATH.STAFF + ROUTE_PATH.CREATE,
+         path: ROUTE_PATH.USER + ROUTE_PATH.CREATE,
          element: (
-            <PermissionAccessRoute module={MODULE_PAGE.STAFF} action={PAGE_ACTION.CREATE} type="route">
-               <PersonnelCreate />
+            <PermissionAccessRoute module={MODULE_PAGE.USER} action={PAGE_ACTION.CREATE} type="route">
+               <UserCreate />
             </PermissionAccessRoute>
          ),
       },
    ],
 };
 
-export default personnelRoute;
+export default userRoute;

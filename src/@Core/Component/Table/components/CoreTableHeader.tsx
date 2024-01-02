@@ -36,7 +36,12 @@ function CoreTableHeader<T>(props: TabelHeaderProps<T>): React.ReactElement {
                               <Box sx={{ display: 'flex', alignItems: 'center' }}>
                                  <Typography
                                     component="h6"
-                                    sx={{ fontWeight: 600, width: 'fit-content', fontSize: '14px', p: 0 }}
+                                    sx={{
+                                       fontWeight: 600,
+                                       fontSize: '14px',
+                                       p: 0,
+                                       width: '100%',
+                                    }}
                                  >
                                     {flexRender(header.column.columnDef.header, header.getContext())}
                                  </Typography>
@@ -57,7 +62,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
       backgroundColor: theme.base.background.default,
    },
    '& .MuiTableCell-root': {
-      padding: '12px 14px',
+      padding: '6px 14px',
    },
 }));
 
