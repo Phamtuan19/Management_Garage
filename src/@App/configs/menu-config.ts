@@ -107,6 +107,27 @@ const menuConfig: MenuConfigItem[] = [
       module: MODULE_PAGE.PERMISSIONS,
       action: PAGE_ACTION.VIEW,
    },
+   {
+      id: 6,
+      title: 'Người dùng',
+      link: ROUTE_PATH.USER,
+      icon: PeopleIcon,
+      module: MODULE_PAGE.USER,
+      children: [
+         {
+            id: 5.1,
+            title: 'Danh sách',
+            link: '/users',
+            action: PAGE_ACTION.VIEW,
+         },
+         {
+            id: 5.2,
+            title: 'Thêm mới',
+            link: ROUTE_PATH.USER + ROUTE_PATH.CREATE,
+            action: PAGE_ACTION.CREATE,
+         },
+      ],
+   }
 ];
 
 export default menuConfig;

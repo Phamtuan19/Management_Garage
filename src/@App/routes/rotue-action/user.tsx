@@ -5,7 +5,7 @@ import { Outlet, RouteObject } from 'react-router-dom';
 import PermissionAccessRoute from '../components/PermissionAccessRoute';
 import MODULE_PAGE from '@App/configs/module-page';
 
-const UserCreate = Loadable('Users/UserCreate');
+const UserCreate = Loadable('User/UserCreate');
 const User = Loadable('Users');
 
 const userRoute: RouteObject = {
