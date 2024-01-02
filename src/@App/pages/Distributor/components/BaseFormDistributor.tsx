@@ -4,6 +4,9 @@ import { Box, Grid, Typography } from '@mui/material';
 import { SubmitHandler, UseFormReturn } from 'react-hook-form';
 import { DistributorSchema } from '../utils/distributor.schema';
 import { LoadingButton } from '@mui/lab';
+import ControllerAutoComplate from '@Core/Component/Input/ControllerAutoComplate';
+import { useQuery } from '@tanstack/react-query';
+import { getDistricts, getProvinces, getWards } from '../utils';
 
 interface BaseFormPersonnelPropType {
    form: UseFormReturn<DistributorSchema>;
@@ -12,7 +15,34 @@ interface BaseFormPersonnelPropType {
 }
 
 const BaseFormDistributor = ({ form, onSubmitForm, isLoading }: BaseFormPersonnelPropType) => {
-   const { control, handleSubmit } = form;
+   const { control, handleSubmit, watch, setValue } = form;
+
+   const watchProvince = watch('province');
+   const watchDistrict = watch('district');
+
+   const { data: provinces, isLoading: loadingProvinces } = useQuery(['getProvinces'], async () => {
+      const res = await getProvinces();
+      return res.map((item: any) => ({ value: item.code + '-' + item.name, title: item.name }));
+   });
+
+   const { data: districts, isLoading: isLoadingDistricts } = useQuery(['getDistrict', watchProvince], async () => {
+      if (Boolean(watchProvince)) {
+         const res = await getDistricts(watchProvince.split('-')[0]);
+         return res.map((item: any) => ({ value: item.code + '-' + item.name, title: item.name }));
+      }
+
+      setValue('district', '');
+      return [];
+   });
+
+   const { data: wards, isLoading: isLoadingWard } = useQuery(['getWards', watchDistrict], async () => {
+      if (Boolean(watchDistrict)) {
+         const res = await getWards(watchDistrict.split('-')[0]);
+         return res.map((item: any) => ({ value: item.code + '-' + item.name, title: item.name }));
+      }
+      setValue('ward', '');
+      return [];
+   });
 
    return (
       <div>
@@ -81,19 +111,40 @@ const BaseFormDistributor = ({ form, onSubmitForm, isLoading }: BaseFormPersonne
                <Grid item xs={12} md={3}>
                   <Box height="96.5px">
                      <ControllerLabel title="Tỉnh/Thành phố" required />
-                     <ControllerTextField name="province" control={control} />
+                     <ControllerAutoComplate
+                        name="province"
+                        valuePath="value"
+                        titlePath="title"
+                        loading={loadingProvinces}
+                        options={provinces || []}
+                        control={control}
+                     />
                   </Box>
                </Grid>
                <Grid item xs={12} md={3}>
                   <Box height="96.5px">
                      <ControllerLabel title="Quận/huyện" required />
-                     <ControllerTextField name="district" control={control} />
+                     <ControllerAutoComplate
+                        name="district"
+                        valuePath="value"
+                        titlePath="title"
+                        loading={isLoadingDistricts}
+                        options={districts || []}
+                        control={control}
+                     />
                   </Box>
                </Grid>
                <Grid item xs={12} md={3}>
                   <Box height="96.5px">
                      <ControllerLabel title="Xã/Phường" required />
-                     <ControllerTextField name="ward" control={control} />
+                     <ControllerAutoComplate
+                        name="ward"
+                        valuePath="value"
+                        titlePath="title"
+                        loading={isLoadingWard}
+                        options={wards || []}
+                        control={control}
+                     />
                   </Box>
                </Grid>
                <Grid item xs={12} md={3}>

@@ -50,7 +50,7 @@ const WarrperContainer = styled('div')({
 
 const Content = styled('div')(({ theme }) => ({
    marginTop: 8,
-   padding: 12,
+   padding: 16,
    border: '1px solid  #d1d5db5e',
    borderRadius: 5,
    backgroundColor: theme.base.background.white,

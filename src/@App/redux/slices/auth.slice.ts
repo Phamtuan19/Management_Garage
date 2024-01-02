@@ -45,7 +45,7 @@ const authSlice = createSlice({
    reducers: {
       actionLoginReducer: (state, action) => {
          const { access: permissionAccess, ...user } = action.payload;
-         console.log(action.payload);
+
          state.user = user;
          state.userPermission = JSON.parse(permissionAccess);
          state.isInitialized = true;
@@ -62,12 +62,9 @@ const authSlice = createSlice({
       builder
          .addCase(actionGetUser.fulfilled, (state, action) => {
             const { access: permissionAccess, ...user } = action.payload;
+
             state.user = user;
-            state.userPermission = {
-               permissions: ['view', 'create'],
-               distributors: ['view', 'create'],
-               ...JSON.parse(permissionAccess),
-            };
+            state.userPermission = JSON.parse(permissionAccess);
             state.isInitialized = true;
             state.isAuhthentication = true;
          })

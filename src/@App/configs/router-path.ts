@@ -4,15 +4,20 @@ const ROUTE_PATH = {
    DOASHBOARD: '/',
 
    // module personnels
-   PERSONNELS: '/personnels',
+   STAFF: '/personnels',
+
+   USER: '/users',
 
    PERMISSIONS: '/permissions',
 
    DISTRIBUTORS: '/distributors',
 
+   MATERIALSCATALOG: '/materials-catalog',
+
    SIGN_IN: '/sign-in',
 
    CREATE: '/create',
+
    UPDATE: '/:id',
 } as const;
 
