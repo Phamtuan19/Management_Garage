@@ -1,18 +1,17 @@
 import BaseService from '@Core/Api/BaseService';
 
-const personnelPath: ServicePathUrl = {
-   BASE: 'staff',
+export const personnelPathUrl: ServicePathUrl = {
+    BASE:'personnel',
+  
 };
-
 class PersonnelService extends BaseService {
-   BASE_ENDPOINT = personnelPath.BASE;
+    BASE_ENDPOINT = personnelPathUrl.BASE;
 
-   constructor() {
-      super();
-      this.setRequest();
-   }
+    constructor(){
+        super();
+        this.setRequest();
+    }
+   
 }
-
 const personnelService = new PersonnelService();
-
-export default personnelService;
+export default personnelService
