@@ -42,6 +42,8 @@ export const distributorSchema = yup.object({
 
    bank_branch: yup.string().trim().strict(true).default(''),
 
+   bank_name: yup.string().trim().strict(true).default(''),
+
    bank_account_name: yup.string().trim().strict(true).default(''),
 
    province: yup.string().trim().strict(true).default(''),

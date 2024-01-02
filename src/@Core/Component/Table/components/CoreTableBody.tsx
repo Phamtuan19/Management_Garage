@@ -64,9 +64,7 @@ function CoreTableBody<T>(props: TabelHeaderProps<T>) {
                <StyledTableCell
                   key={index}
                   {...{
-                     style: {
-                        width: cell.column.getSize(),
-                     },
+                     
                   }}
                >
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -79,16 +77,16 @@ function CoreTableBody<T>(props: TabelHeaderProps<T>) {
    return <TableBody sx={{ height: '100%' }}>{renderTableBody()}</TableBody>;
 }
 
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
+const StyledTableRow = styled(TableRow)(({ }) => ({
    '&:nth-of-type(odd)': {
       backgroundColor: '#FFFFF',
    },
    '& .MuiTableCell-root': {
-      padding: '12px 14px',
+      padding: '6px 12px',
    },
 }));
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
+const StyledTableCell = styled(TableCell)(({ }) => ({
    maxWidth: 600,
    whiteSpace: 'nowrap',
 }));

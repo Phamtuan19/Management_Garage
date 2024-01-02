@@ -30,7 +30,7 @@ class Regexs {
    characterCharacter = /[!@#$%^&*()_+{}\[\]:;<>,.?~\\|=]/;
    number = /^[1-9]\d*$/;
    cmnd = /^[1-9]{11}\b/g;
-   bankNumber = /^(?:\d{16}|\d{19})$/;
+   bankNumber = /^(?:\d{10}|\d{19})$/;
 }
 
 export default new Regexs();
