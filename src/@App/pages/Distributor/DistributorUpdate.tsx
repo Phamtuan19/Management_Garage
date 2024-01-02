@@ -12,6 +12,7 @@ import { HandleErrorApi } from '@Core/Api/type';
 import HttpStatusCode from '@Core/Configs/HttpStatusCode';
 import setErrorMessageHookForm from '@App/helpers/setErrorMessageHookForm';
 import { useParams } from 'react-router-dom';
+import setValueHookForm from '@App/helpers/setValueHookForm';
 
 const breadcrumbs = [
    {
@@ -28,23 +29,26 @@ const DistributorUpdate = () => {
       defaultValues: distributorSchema.getDefault(),
    });
 
-   useQuery(
+   const { refetch: getDistributorDetail } = useQuery(
       ['getDistributorDetail', distributorId],
       async () => {
          const res = await distributorService.find(distributorId!);
          return res.data;
       },
       {
-         onSuccess: (data) => {},
+         onSuccess: (data) => {
+            setValueHookForm(form.setValue, data.distributor as any);
+         },
       },
    );
 
    const { mutate: handleUpdateDistributor, isLoading } = useMutation({
-      mutationFn: async (data: DistributorSchema) => {
+      mutationFn: async (data: Omit<DistributorSchema, 'province' | 'district' | 'ward'>) => {
          return await distributorService.update(data, distributorId);
       },
       onSuccess: () => {
          successMessage('Tạo mới nhà phân phối thành công.');
+         getDistributorDetail();
       },
       onError: (err: AxiosError) => {
          const dataError = err.response?.data as HandleErrorApi;
@@ -57,7 +61,20 @@ const DistributorUpdate = () => {
       },
    });
 
-   const onSubmitForm: SubmitHandler<DistributorSchema> = (data) => handleUpdateDistributor(data);
+   const onSubmitForm: SubmitHandler<DistributorSchema> = (data) => {
+      const newData = {
+         name: data.name,
+         email: data.email,
+         phone: data.phone,
+         bank_number: data.bank_number,
+         bank_branch: data.bank_branch,
+         bank_name: data.bank_name,
+         bank_account_name: data.bank_account_name,
+         address: data.district + '+' + data.province + '+' + data.ward + '+' + data.address,
+      };
+
+      handleUpdateDistributor(newData);
+   };
 
    return (
       <BaseBreadcrumbs arialabel="Thêm mới" breadcrumbs={breadcrumbs}>

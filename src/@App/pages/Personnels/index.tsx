@@ -1,12 +1,9 @@
-import { Box, Chip, Button, Grid, TextField, Avatar } from '@mui/material';
+import { Box, TextField, Avatar } from '@mui/material';
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import personnelService from '@App/services/personnel.service';
 import { useQuery } from '@tanstack/react-query';
 import TableCore, { columnHelper } from '@Core/Component/Table';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '@App/redux/rootReducer';
-import { getPersonnel } from '@App/redux/slices/Personnels';
 
 export default function Personnels() {
    const { data: personnels, isFetching: isLoading } = useQuery(['getPersonnelList'], async () => {
@@ -46,8 +43,8 @@ export default function Personnels() {
          }),
          columnHelper.accessor('', {
             header: 'Thao tác',
-            cell: ({ row }) => {
-               const res: any = row.original;
+            cell: () => {
+               // const res: any = row.original;
 
                return (
                   <Box>
