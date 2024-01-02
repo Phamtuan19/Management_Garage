@@ -7,6 +7,7 @@ import { LoadingButton } from '@mui/lab';
 import ControllerAutoComplate from '@Core/Component/Input/ControllerAutoComplate';
 import { useQuery } from '@tanstack/react-query';
 import { getDistricts, getProvinces, getWards } from '../utils';
+import { useParams } from 'react-router-dom';
 
 interface BaseFormPersonnelPropType {
    form: UseFormReturn<DistributorSchema>;
@@ -15,6 +16,7 @@ interface BaseFormPersonnelPropType {
 }
 
 const BaseFormDistributor = ({ form, onSubmitForm, isLoading }: BaseFormPersonnelPropType) => {
+   const { id: distributorId } = useParams();
    const { control, handleSubmit, watch, setValue } = form;
 
    const watchProvince = watch('province');
@@ -155,7 +157,7 @@ const BaseFormDistributor = ({ form, onSubmitForm, isLoading }: BaseFormPersonne
                </Grid>
                <Grid item>
                   <LoadingButton type="submit" variant="contained" loading={isLoading}>
-                     Thêm mới
+                     {distributorId ? 'Cập nhật' : 'Thêm mới'}
                   </LoadingButton>
                </Grid>
             </Grid>
