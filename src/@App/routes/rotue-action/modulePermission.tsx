@@ -8,13 +8,13 @@ import MODULE_PAGE from '@App/configs/module-page';
 const Permission = Loadable('ModulePermission');
 
 const modulePermissionRoute: RouteObject = {
-   path: ROUTE_PATH.PERMISSIONS,
+   path: ROUTE_PATH.ROLES,
    element: <Outlet />,
    children: [
       {
          index: true,
          element: (
-            <PermissionAccessRoute module={MODULE_PAGE.PERMISSIONS} action={PAGE_ACTION.VIEW} type="route">
+            <PermissionAccessRoute module={MODULE_PAGE.ROLES} action={PAGE_ACTION.VIEW_ALL} type="route">
                <Permission />
             </PermissionAccessRoute>
          ),

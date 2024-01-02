@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { useEffect, useState } from 'react';
 import menuConfig from '@App/configs/menu-config';
 import { NavLink, useLocation } from 'react-router-dom';
@@ -36,7 +35,9 @@ const SidebarItem = () => {
    return (
       <Stack sx={{ gap: 0.5, pt: 1 }}>
          {menuConfig.map((item: MenuConfigItem) => {
-            const Icon = item.icon;
+            const Icon = item.icon as React.FC<{
+               sx?: Record<string, unknown>;
+            }>;
             if (item.children) {
                const isLocationPath = location.pathname.includes(item.link);
 
@@ -88,7 +89,7 @@ const SidebarItem = () => {
                                           flexDirection: 'row',
                                           alignItems: 'center',
                                           textDecoration: 'none',
-                                          color: base.color.text,
+                                          color: base.color.text as string,
                                           borderRadius: '5px',
                                           '&:hover': {
                                              // '& .MuiSvgIcon-root': {
@@ -104,7 +105,7 @@ const SidebarItem = () => {
                                        <FiberManualRecordIcon sx={{ fontSize: '8px' }} />
                                        <Typography
                                           sx={({ base }) => ({
-                                             color: base.color.text,
+                                             color: base.color.text as string,
                                              fontSize: '16px',
                                              fontWeight: '400',
                                           })}

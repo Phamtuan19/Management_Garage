@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
 /**
  *
  * @param {NonNullableData}
@@ -20,8 +19,8 @@ interface UseLocalStorageType<T> {
 const useLocalStorage = () => {
    const getLocalStorage = (key: string) => {
       try {
-         const value = localStorage.getItem(key);
-         return value ? JSON.parse(value) : value;
+         const value: string | null = localStorage.getItem(key);
+         return value ? (JSON.parse(value) as string | Record<string, unknown>) : value;
       } catch (_) {
          console.error('đã có lỗi xảy ra');
       }

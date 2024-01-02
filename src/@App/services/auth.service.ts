@@ -1,12 +1,10 @@
 import BaseService from '@Core/Api/BaseService';
 
-export const authPathUrl: ServicePathUrl = {
-   BASE: 'account',
-   LOGIN: 'login',
-   REGISTER: 'register',
+export const authPathUrl = {
+   BASE: 'auth',
+   LOGIN: 'sign-in',
    REFRESH_TOKEN: 'refresh-token',
-   USER: 'profile',
-   GOOGLE: 'google/login',
+   VERIFY: 'verify',
 };
 
 class AuthService extends BaseService {
@@ -17,24 +15,16 @@ class AuthService extends BaseService {
       this.setRequest();
    }
 
-   register(data: { lastName: string; firstName: string; email: string; password: string }) {
-      return this.request.post(this.BASE_URL + '/' + this.BASE_ENDPOINT + '/' + authPathUrl.REGISTER, data);
-   }
-
    login(data: { email: string; password: string }) {
       return this.request.post(this.BASE_ENDPOINT + '/' + authPathUrl.LOGIN, data);
-   }
-
-   google() {
-      return this.request.get(this.BASE_ENDPOINT + '/' + authPathUrl.GOOGLE);
    }
 
    refreshToken() {
       return this.request.get(this.BASE_ENDPOINT + '/' + authPathUrl.REFRESH_TOKEN);
    }
 
-   getUser() {
-      return this.request.get(this.BASE_ENDPOINT + '/' + authPathUrl.USER);
+   verify() {
+      return this.request.get(this.BASE_ENDPOINT + '/' + authPathUrl.VERIFY);
    }
 }
 

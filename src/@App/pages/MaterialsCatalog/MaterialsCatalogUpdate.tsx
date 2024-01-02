@@ -1,7 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable @typescript-eslint/no-floating-promises */
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import ROUTE_PATH from '@App/configs/router-path';
 import BaseFormMaterialsCatalog from './component/BaseFormMaterialsCatalog';
@@ -14,9 +10,9 @@ import { errorMessage, successMessage } from '@Core/Helper/message';
 import { AxiosError } from 'axios';
 import HttpStatusCode from '@Core/Configs/HttpStatusCode';
 import setErrorMessageHookForm from '@App/helpers/setErrorMessageHookForm';
-import { HandleErrorApi } from '@Core/Api/type';
 import { useParams } from 'react-router-dom';
 import setValueHookForm from '@App/helpers/setValueHookForm';
+import { HandleErrorApi } from '@Core/Api/axios-config';
 
 const breadcrumbs = [
    {
@@ -41,7 +37,7 @@ const MaterialsCatalogUpdate = () => {
       },
       {
          onSuccess: (data) => {
-            setValueHookForm(form.setValue, data as any);
+            setValueHookForm(form.setValue, data as never);
          },
       },
    );
@@ -50,9 +46,9 @@ const MaterialsCatalogUpdate = () => {
       mutationFn: async (data: MaterialsCatalogSchema) => {
          return await materialsCatalogService.update(data);
       },
-      onSuccess: () => {
+      onSuccess: async () => {
          successMessage('Tạo mới nhà phân phối thành công.');
-         getMaterialsCatalog();
+         await getMaterialsCatalog();
       },
       onError: (err: AxiosError) => {
          const dataError = err.response?.data as HandleErrorApi;

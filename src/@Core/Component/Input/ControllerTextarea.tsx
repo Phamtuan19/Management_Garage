@@ -1,6 +1,4 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-redundant-type-constituents */
 import { Control, Controller, FieldValues } from 'react-hook-form';
 import { FormControl, FormHelperText, styled } from '@mui/material';
 import { TextareaAutosize } from '@mui/base';
@@ -16,7 +14,7 @@ interface ControllerTextareaPropsType<TFieldValues extends FieldValues = FieldVa
    disabled?: boolean;
    placeholder?: string;
    defaultValue?: string;
-   control: Control<TFieldValues | any>;
+   control: Control<TFieldValues>;
 }
 
 const ControllerTextarea = (props: ControllerTextareaPropsType<FieldValues>): JSX.Element => {

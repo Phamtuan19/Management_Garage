@@ -1,10 +1,13 @@
-/* eslint-disable @typescript-eslint/ban-types */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-const setErrorMessageHookForm = (callback: Function, dataError: { [key: string]: string[] }) => {
+import { UseFormSetError, FieldValues, Path } from 'react-hook-form';
+
+const setErrorMessageHookForm = <T extends FieldValues>(
+   setError: UseFormSetError<T>,
+   dataError: { [key in keyof T]?: string[] },
+) => {
    return Object.keys(dataError).map((key) => {
-      return callback(key, {
+      return setError(key as Path<T>, {
          type: 'error',
-         message: dataError[key][0],
+         message: dataError[key as keyof T]?.[0] ?? '',
       });
    });
 };

@@ -4,11 +4,11 @@ const ROUTE_PATH = {
    DOASHBOARD: '/',
 
    // module personnels
-   STAFF: '/personnels',
+   PERSONNELS: '/personnel',
 
-   USER: '/users',
+   CUSTOMERS: '/customers',
 
-   PERMISSIONS: '/permissions',
+   ROLES: '/roles',
 
    DISTRIBUTORS: '/distributors',
 

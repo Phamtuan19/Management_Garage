@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/naming-convention */
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import permissionService from '@App/services/modulePermission.service';
@@ -26,7 +26,7 @@ const ModulePremission = () => {
 
    const columns = useMemo(() => {
       return [
-         columnHelper.accessor((_row, index) => index + 1, {
+         columnHelper.accessor((_, index) => index + 1, {
             id: 'STT',
             header: 'STT',
             cell: ({ getValue }) => {
@@ -68,7 +68,7 @@ const ModulePremission = () => {
                return (
                   <Box>
                      {/* <CoreTableActionDelete /> */}
-                     <CoreTableActionEdit callback={() => navigate(ROUTE_PATH.PERMISSIONS + '/' + res?.id)} />
+                     <CoreTableActionEdit callback={() => navigate(ROUTE_PATH.PERSONNELS + '/' + res?.id)} />
                   </Box>
                );
             },

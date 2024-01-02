@@ -8,14 +8,13 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import personnelService from '@App/services/personnel.service';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { successMessage, errorMessage } from '@Core/Helper/message';
-import { HandleErrorApi } from '@Core/Api/type';
 import { AxiosError } from 'axios';
-import HttpStatusCode from '@Core/Configs/HttpStatusCode';
 import setErrorMessageHookForm from '@App/helpers/setErrorMessageHookForm';
+import { HandleErrorApi } from '@Core/Api/axios-config';
 const breadcrumbs = [
    {
       title: 'Personnel',
-      link: ROUTER_PATH.PERMISSIONS,
+      link: ROUTER_PATH.ROLES,
    },
 ];
 const PersonnelUpdate = () => {
@@ -45,9 +44,7 @@ const PersonnelUpdate = () => {
       onError: (err: AxiosError) => {
          const dataError = err.response?.data as HandleErrorApi;
 
-         if (Number(dataError.statusCode) === Number(HttpStatusCode.BAD_REQUEST)) {
-            return setErrorMessageHookForm(form.setError, dataError.message) as never;
-         }
+         setErrorMessageHookForm(form.setError, dataError.message) as never;
 
          return errorMessage(err);
       },

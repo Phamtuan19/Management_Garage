@@ -16,7 +16,7 @@ const materialsCatalogRoute: RouteObject = {
       {
          index: true,
          element: (
-            <PermissionAccessRoute module={MODULE_PAGE.MATERIALSCATALOG} action={PAGE_ACTION.VIEW} type="route">
+            <PermissionAccessRoute module={MODULE_PAGE.MATERIALS_CATALOGS} action={PAGE_ACTION.VIEW_ALL} type="route">
                <MaterialsCatalog />
             </PermissionAccessRoute>
          ),
@@ -24,7 +24,7 @@ const materialsCatalogRoute: RouteObject = {
       {
          path: ROUTE_PATH.MATERIALSCATALOG + ROUTE_PATH.CREATE,
          element: (
-            <PermissionAccessRoute module={MODULE_PAGE.MATERIALSCATALOG} action={PAGE_ACTION.CREATE} type="route">
+            <PermissionAccessRoute module={MODULE_PAGE.MATERIALS_CATALOGS} action={PAGE_ACTION.CREATE} type="route">
                <MaterialsCatalogCreate />
             </PermissionAccessRoute>
          ),
@@ -32,7 +32,7 @@ const materialsCatalogRoute: RouteObject = {
       {
          path: ROUTE_PATH.MATERIALSCATALOG + ROUTE_PATH.UPDATE,
          element: (
-            <PermissionAccessRoute module={MODULE_PAGE.MATERIALSCATALOG} action={PAGE_ACTION.UPDATE} type="route">
+            <PermissionAccessRoute module={MODULE_PAGE.MATERIALS_CATALOGS} action={PAGE_ACTION.UPDATE} type="route">
                <MaterialsCatalogUpdate />
             </PermissionAccessRoute>
          ),

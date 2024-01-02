@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { LoadingButton } from '@mui/lab';
 import { Box, Grid } from '@mui/material';
-import { SubmitHandler, UseFormReturn } from 'react-hook-form';
+import { Control, FieldValues, SubmitHandler, UseFormReturn } from 'react-hook-form';
 import ControllerLabel from '@Core/Component/Input/ControllerLabel';
 import { MaterialsCatalogSchema } from '../utils/materialsCatalog.schema';
 import ControllerTextarea from '@Core/Component/Input/ControllerTextarea';
@@ -28,7 +28,7 @@ const BaseFormMaterialsCatalog = ({ form, isLoading, onSubmitForm }: BaseFormPer
             <Grid item xs={12}>
                <Box>
                   <ControllerLabel title="Mô tả" required />
-                  <ControllerTextarea name="description" control={control} />
+                  <ControllerTextarea name="description" control={control as unknown as Control<FieldValues>} />
                </Box>
             </Grid>
             <Grid item xs={12}>

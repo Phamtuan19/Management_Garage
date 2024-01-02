@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-return */
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import BaseFormDistributor from './components/BaseFormDistributor';
@@ -7,7 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useMutation } from '@tanstack/react-query';
 import distributorService from '@App/services/distributor.service';
 import { errorMessage, successMessage } from '@Core/Helper/message';
-import { HandleErrorApi } from '@Core/Api/type';
+import { HandleErrorApi } from '@Core/Api/axios-config';
 import { AxiosError } from 'axios';
 import HttpStatusCode from '@Core/Configs/HttpStatusCode';
 import setErrorMessageHookForm from '@App/helpers/setErrorMessageHookForm';
@@ -30,7 +29,7 @@ const DistributorCreate = () => {
          const dataError = err.response?.data as HandleErrorApi;
 
          if (Number(dataError.statusCode) === Number(HttpStatusCode.BAD_REQUEST)) {
-            return setErrorMessageHookForm(form.setError, dataError.message);
+            return setErrorMessageHookForm<DistributorSchema>(form.setError, dataError.message);
          }
 
          return errorMessage(err);

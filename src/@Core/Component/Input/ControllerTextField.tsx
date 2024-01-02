@@ -1,18 +1,16 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
-import { Controller, Control, FieldValues } from 'react-hook-form';
+import { Controller, Control, FieldValues, Path } from 'react-hook-form';
 import { FormHelperText, SxProps, TextField, Theme } from '@mui/material';
 import Regexs from '@Core/Configs/Regexs';
 
 interface ControllerTextFieldProps<TFieldValues extends FieldValues = FieldValues> {
    name: string;
    placeholder?: string;
-   defaultValue?: string;
+   defaultValue?: string | undefined;
    disabled?: boolean;
-   isNumber?: boolean;
-   isString?: boolean;
+   number?: boolean;
+   string?: boolean;
    sx?: SxProps<Theme> | undefined;
    control: Control<TFieldValues>;
 }
@@ -20,17 +18,7 @@ interface ControllerTextFieldProps<TFieldValues extends FieldValues = FieldValue
 function ControllerTextField<TFieldValues extends FieldValues = FieldValues>(
    props: ControllerTextFieldProps<TFieldValues>,
 ): React.ReactNode {
-   const {
-      name,
-      placeholder,
-      defaultValue,
-      sx,
-      control,
-      isNumber = false,
-      isString = false,
-      disabled = false,
-      ...rest
-   } = props;
+   const { name, placeholder, sx, control, number = false, string = false, disabled = false, ...rest } = props;
    return (
       <Controller
          render={({ field, fieldState: { error } }) => {
@@ -47,11 +35,11 @@ function ControllerTextField<TFieldValues extends FieldValues = FieldValues>(
                      {...rest}
                      disabled={disabled}
                      onInput={(event: React.ChangeEvent<HTMLInputElement>) => {
-                        if (isNumber) {
+                        if (number) {
                            event.target.value = event.target.value.replace(Regexs.integer, '');
                         }
 
-                        if (isString) {
+                        if (string) {
                            event.target.value = event.target.value.replace(Regexs.string, '');
                         }
 
@@ -66,8 +54,7 @@ function ControllerTextField<TFieldValues extends FieldValues = FieldValues>(
                </React.Fragment>
             );
          }}
-         defaultValue={(defaultValue || '') as any}
-         name={name as any}
+         name={name as Path<TFieldValues>}
          control={control}
       />
    );

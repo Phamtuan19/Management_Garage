@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import { Box, Typography, styled } from '@mui/material';
 import { NavLink } from 'react-router-dom';
@@ -24,11 +23,11 @@ const BaseBreadcrumbs = ({ arialabel, breadcrumbs, children }: BaseBreadcrumbsPr
                         sx={({ base }) => ({
                            textDecoration: 'none',
                            textTransform: 'capitalize',
-                           color: base.text.gray2,
+                           color: base.text.gray2 as string,
                            fontSize: '16px',
                            '&:hover': {
                               textDecoration: 'underline',
-                              color: base.text.black,
+                              color: base.text.black as string,
                            },
                         })}
                      >

@@ -9,7 +9,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import distributorService from '@App/services/distributor.service';
 import { errorMessage, successMessage } from '@Core/Helper/message';
 import { AxiosError } from 'axios';
-import { HandleErrorApi } from '@Core/Api/type';
+import { HandleErrorApi } from '@Core/Api/axios-config';
 import HttpStatusCode from '@Core/Configs/HttpStatusCode';
 import setErrorMessageHookForm from '@App/helpers/setErrorMessageHookForm';
 import { useParams } from 'react-router-dom';

@@ -33,7 +33,7 @@ const routes = (): RouteObject[] => {
             {
                index: true,
                element: (
-                  <PermissionAccessRoute module={MODULE_PAGE.DOASHBOARD} action={PAGE_ACTION.VIEW} type="route">
+                  <PermissionAccessRoute module={MODULE_PAGE.DOASHBOARD} action={PAGE_ACTION.VIEW_ALL} type="route">
                      <Doashboard />
                   </PermissionAccessRoute>
                ),

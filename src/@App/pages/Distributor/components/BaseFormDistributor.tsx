@@ -73,7 +73,7 @@ const BaseFormDistributor = ({ form, onSubmitForm, isLoading }: BaseFormPersonne
                <Grid item xs={12} md={3}>
                   <Box height="96.5px">
                      <ControllerLabel title="Tên nhà phân phối" required />
-                     <ControllerTextField isString name="name" control={control} />
+                     <ControllerTextField string name="name" control={control} />
                   </Box>
                </Grid>
                <Grid item xs={12} md={3}>
@@ -85,7 +85,7 @@ const BaseFormDistributor = ({ form, onSubmitForm, isLoading }: BaseFormPersonne
                <Grid item xs={12} md={3}>
                   <Box height="96.5px">
                      <ControllerLabel title="Số điện thoại" required />
-                     <ControllerTextField isNumber name="phone" control={control} />
+                     <ControllerTextField number name="phone" control={control} />
                   </Box>
                </Grid>
                <Grid item xs={12} md={3}></Grid>
@@ -98,7 +98,7 @@ const BaseFormDistributor = ({ form, onSubmitForm, isLoading }: BaseFormPersonne
                <Grid item xs={12} md={3}>
                   <Box height="96.5px">
                      <ControllerLabel title="Số tài khoản ngân hàng" required />
-                     <ControllerTextField isNumber name="bank_number" control={control} />
+                     <ControllerTextField number name="bank_number" control={control} />
                   </Box>
                </Grid>
                <Grid item xs={12} md={3}>

@@ -20,7 +20,12 @@ const PermissionAccessRoute = ({
    const { userPermission } = useAuth();
 
    const hasPermissionAndOperation = useMemo(() => {
+      if (userPermission === '*') {
+         return true;
+      }
+
       const hasModules = Object.keys(userPermission || []);
+
       const moduleActions = userPermission![module];
 
       if (type === 'menu') {
@@ -47,4 +52,4 @@ const PermissionAccessRoute = ({
    return hasPermissionAndOperation ? children : null;
 };
 
-export default PermissionAccessRoute;
+export default React.memo(PermissionAccessRoute);
