@@ -1,35 +1,31 @@
-
-import { Avatar, Box,  TextField } from '@mui/material';
+import { Box, TextField, Avatar } from '@mui/material';
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import { useMemo } from 'react';
-import TableCore, { columnHelper } from '@Core/Component/Table';
-import { useQuery } from '@tanstack/react-query';
-import { CoreTableActionDelete, CoreTableActionEdit } from '@Core/Component/Table/components/CoreTableAction';
-import { useNavigate } from 'react-router-dom';
 import personnelService from '@App/services/personnel.service';
+import { useQuery } from '@tanstack/react-query';
+import TableCore, { columnHelper } from '@Core/Component/Table';
 
 export default function Personnels() {
-   const navigate = useNavigate();
-   const { data: personnel, isFetching: isLoading } = useQuery(['getPersonnelList'], async () => {
-      const res = await personnelService.get();      
+   const { data: personnels, isFetching: isLoading } = useQuery(['getPersonnelList'], async () => {
+      const res = await personnelService.get();
       return res.data;
    });
+
+   console.log(personnels);
 
    const columns = useMemo(() => {
       return [
          columnHelper.accessor('avatar', {
             header: 'Hình ảnh',
             cell: ({ row }) => {
-               const res: any = row.original;
+               const personnel: any = row.original;
 
-               return (
-                  <Avatar src={res?.avatar}/>
-               );
+               return <Avatar src={personnel.avatar} />;
             },
          }),
          columnHelper.accessor('fullname', {
             header: 'Tên nhân viên',
-         }), 
+         }),
          columnHelper.accessor('email', {
             header: 'Email',
          }),
@@ -47,12 +43,12 @@ export default function Personnels() {
          }),
          columnHelper.accessor('', {
             header: 'Thao tác',
-            cell: ({ row }) => {
-               const res: any = row.original;
+            cell: () => {
+               // const res: any = row.original;
 
                return (
                   <Box>
-                     <CoreTableActionDelete />
+                     {/* <CoreTableActionDelete /> */}
                      {/* <CoreTableActionEdit callback={() => navigate(ROUTE_PATH.PERMISSIONS + '/' + res?.id)} /> */}
                   </Box>
                );
@@ -66,7 +62,7 @@ export default function Personnels() {
          <Box>
             <TextField size="small" />
          </Box>
-         <TableCore columns={columns} data={(personnel?.data as any) || []} isLoading={isLoading} />
+         <TableCore columns={columns} data={(personnels?.data as any) || []} isLoading={isLoading} />
       </BaseBreadcrumbs>
    );
 }
