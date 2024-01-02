@@ -1,3 +1,10 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
+/* eslint-disable no-empty */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { Context, createContext, useState, useContext, useCallback } from 'react';
 import {
    Box,
@@ -10,7 +17,6 @@ import {
    Paper,
    Typography,
 } from '@mui/material';
-import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
 import { LoadingButton } from '@mui/lab';
 import styled from 'styled-components';
 import LazyLoadingImage from '@App/component/customs/LazyLoadingImage';

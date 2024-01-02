@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import { Controller, Control, FieldValues } from 'react-hook-form';
 import { FormHelperText, SxProps, TextField, Theme } from '@mui/material';

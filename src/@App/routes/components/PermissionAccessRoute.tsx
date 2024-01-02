@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useAuth } from '@App/redux/slices/auth.slice';
 import React, { useMemo } from 'react';
 import { PermissionAccessType } from '../route';
@@ -20,18 +21,18 @@ const PermissionAccessRoute = ({
 
    const hasPermissionAndOperation = useMemo(() => {
       const hasModules = Object.keys(userPermission || []);
-      const moduleActions = userPermission![module!];
+      const moduleActions = userPermission![module];
 
       if (type === 'menu') {
-         if (!hasModules.includes(module!)) return false;
+         if (!hasModules.includes(module)) return false;
 
          if (moduleActions && moduleActions.length === 0) return false;
 
          return true;
       }
 
-      if (hasModules.includes(module!)) {
-         if (moduleActions && moduleActions.includes(action!)) {
+      if (hasModules.includes(module)) {
+         if (moduleActions && moduleActions.includes(action)) {
             return true;
          }
       }

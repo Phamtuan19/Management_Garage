@@ -9,7 +9,7 @@ export default defineConfig(({ command, mode }) => {
    const env = loadEnv(mode, process.cwd(), '');
 
    return {
-      plugins: [checker({ typescript: false }), react(),dynamicImport()],
+      plugins: [checker({ typescript: false }), react(), dynamicImport()],
       server: {
          port: 3000,
       },

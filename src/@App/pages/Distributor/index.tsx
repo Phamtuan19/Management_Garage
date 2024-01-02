@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-catch */
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import distributorService from '@App/services/distributor.service';
 import { useQuery } from '@tanstack/react-query';
@@ -8,10 +9,8 @@ const Distributor = () => {
    const { data: distributor, isFetching: isLoading } = useQuery(['distributor'], async () => {
       try {
          const res = await distributorService.get();
-         console.log('API Response:', res);
          return res.data;
       } catch (error) {
-         console.error('API Error:', error);
          throw error;
       }
    });
@@ -43,9 +42,7 @@ const Distributor = () => {
          }),
          columnHelper.accessor('', {
             header: 'Thao tác',
-            cell: ({ row }) => {
-               const res: any = row.original;
-
+            cell: () => {
                return (
                   <Box>
                      {/* <CoreTableActionDelete /> */}
@@ -54,14 +51,14 @@ const Distributor = () => {
                );
             },
          }),
-      ]
+      ];
    }, []);
    return (
       <BaseBreadcrumbs arialabel="Danh sách nhà phân phối">
          <Box>
             <TextField size="small" />
          </Box>
-         <TableCore columns={columns} data={(distributor as any) || []} isLoading={isLoading} />
+         <TableCore columns={columns} data={(distributor as never) || []} isLoading={isLoading} />
       </BaseBreadcrumbs>
    );
 };

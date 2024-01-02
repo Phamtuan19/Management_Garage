@@ -1,7 +1,6 @@
 import ControllerAutoComplate from '@Core/Component/Input/ControllerAutoComplate';
 import ControllerLabel from '@Core/Component/Input/ControllerLabel';
 import { Box, Grid } from '@mui/material';
-import React from 'react';
 import { Control } from 'react-hook-form';
 import { DistributorSchema } from '../utils/distributor.schema';
 

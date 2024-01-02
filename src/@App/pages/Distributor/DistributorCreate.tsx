@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import BaseFormDistributor from './components/BaseFormDistributor';

@@ -3,8 +3,8 @@ import Regexs from '@Core/Configs/Regexs';
 import * as yup from 'yup';
 
 export const userSchema = yup.object({
-    name: yup.string().required(messageValidate.required('Tên')).default(''),
-    email: yup
+   name: yup.string().required(messageValidate.required('Tên')).default(''),
+   email: yup
       .string()
       .required(messageValidate.required('Email'))
       .matches(Regexs.email, messageValidate.format('Email'))
@@ -23,4 +23,4 @@ export const userSchema = yup.object({
       .matches(Regexs.cmnd, messageValidate.format('CMND'))
       .default(''),
    gender: yup.string().required(messageValidate.required('Giới tính')).default('nu'),
-})
+});

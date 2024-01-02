@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { useEffect, useState } from 'react';
 import menuConfig from '@App/configs/menu-config';
 import { NavLink, useLocation } from 'react-router-dom';
@@ -9,6 +11,7 @@ import PermissionAccess from '@App/routes/components/PermissionAccessRoute';
 import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
 import { AccordionDetails, Box, Stack, Typography, styled } from '@mui/material';
 import MuiAccordionSummary, { AccordionSummaryProps } from '@mui/material/AccordionSummary';
+import { MenuConfigItem } from '@App/configs/config';
 
 const SidebarItem = () => {
    const location = useLocation();
@@ -32,10 +35,10 @@ const SidebarItem = () => {
 
    return (
       <Stack sx={{ gap: 0.5, pt: 1 }}>
-         {menuConfig.map((item) => {
+         {menuConfig.map((item: MenuConfigItem) => {
             const Icon = item.icon;
             if (item.children) {
-               const locationPath = location.pathname.includes(item.link);
+               const isLocationPath = location.pathname.includes(item.link);
 
                return (
                   <PermissionAccess
@@ -48,7 +51,7 @@ const SidebarItem = () => {
                         expanded={expanded.includes(item.link.split('/')[1])}
                         onChange={() => handleChange(item.link.split('/')[1])}
                      >
-                        <AccordionSummary locationpath={locationPath.toString()}>
+                        <AccordionSummary locationpath={isLocationPath.toString()}>
                            <Box
                               sx={{
                                  display: 'flex',
@@ -59,23 +62,23 @@ const SidebarItem = () => {
                               }}
                            >
                               <Icon sx={{ width: '20px', height: '20px' }} />
-                              <Typography sx={{ fontSize: '16px', fontWeight: locationPath ? 600 : 400 }}>
+                              <Typography sx={{ fontSize: '16px', fontWeight: isLocationPath ? 600 : 400 }}>
                                  {item.title}
                               </Typography>
                            </Box>
                         </AccordionSummary>
                         <AccordionDetails sx={{ pt: 0.5 }}>
-                           {item.children.map((item_children) => {
+                           {item.children.map((children: MenuConfigItem) => {
                               return (
                                  <PermissionAccess
-                                    key={item_children.id}
+                                    key={children.id}
                                     module={item.module as ModulePagePropsType}
-                                    action={item_children.action as PageActionPropsType}
+                                    action={children.action as PageActionPropsType}
                                     type="component"
                                  >
                                     <Box
                                        component={NavLink}
-                                       to={item_children.link}
+                                       to={children.link}
                                        sx={({ base }) => ({
                                           py: 1,
                                           pl: 2,
@@ -106,7 +109,7 @@ const SidebarItem = () => {
                                              fontWeight: '400',
                                           })}
                                        >
-                                          {item_children.title}
+                                          {children.title}
                                        </Typography>
                                     </Box>
                                  </PermissionAccess>

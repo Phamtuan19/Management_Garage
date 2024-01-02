@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import GlobalStyles from '@mui/material/GlobalStyles';
 
 export default function GlobalBaseline() {

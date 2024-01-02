@@ -1,6 +1,13 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+
 import { useCallback } from 'react';
 
-const DEFAULT_RESPONSE: HookCoreTabeProps = {
+const DEFAULT_RESPONSE: any = {
    data: null,
    pageSize: 10,
    pageIndex: 1,

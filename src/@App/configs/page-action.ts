@@ -14,5 +14,3 @@ export const pageActionSchema = yup.string().oneOf(Object.values(PAGE_ACTION)).r
 export type PageActionPropsType = yup.InferType<typeof pageActionSchema>;
 
 export default PAGE_ACTION;
-
-

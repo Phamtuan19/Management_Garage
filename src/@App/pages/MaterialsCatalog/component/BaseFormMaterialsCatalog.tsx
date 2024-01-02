@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import { LoadingButton } from '@mui/lab';
 import { Box, Grid } from '@mui/material';
 import { SubmitHandler, UseFormReturn } from 'react-hook-form';
@@ -25,7 +26,7 @@ const BaseFormMaterialsCatalog = ({ form, isLoading, onSubmitForm }: BaseFormPer
                </Box>
             </Grid>
             <Grid item xs={12}>
-               <Box >
+               <Box>
                   <ControllerLabel title="Mô tả" required />
                   <ControllerTextarea name="description" control={control} />
                </Box>

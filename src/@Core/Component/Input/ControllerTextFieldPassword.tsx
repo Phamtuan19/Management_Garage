@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/naming-convention */
 import React, { useState } from 'react';
 import { Box, FormHelperText, SxProps, TextField, Theme } from '@mui/material';
 import { Control, Controller, FieldValues, useWatch } from 'react-hook-form';

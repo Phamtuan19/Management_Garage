@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import { Box, Typography, styled } from '@mui/material';
 import { NavLink } from 'react-router-dom';

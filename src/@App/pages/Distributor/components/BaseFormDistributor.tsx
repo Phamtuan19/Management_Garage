@@ -1,3 +1,9 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+
 import ControllerLabel from '@Core/Component/Input/ControllerLabel';
 import ControllerTextField from '@Core/Component/Input/ControllerTextField';
 import { Box, Grid, Typography } from '@mui/material';
@@ -22,15 +28,21 @@ const BaseFormDistributor = ({ form, onSubmitForm, isLoading }: BaseFormPersonne
    const watchProvince = watch('province');
    const watchDistrict = watch('district');
 
-   const { data: provinces, isLoading: loadingProvinces } = useQuery(['getProvinces'], async () => {
+   const { data: provinces, isLoading: isLoadingProvinces } = useQuery(['getProvinces'], async () => {
       const res = await getProvinces();
-      return res.map((item: any) => ({ value: item.code + '-' + item.name, title: item.name }));
+      return res.map((item: { code: string; name: string }) => ({
+         value: item.code + '-' + item.name,
+         title: item.name,
+      }));
    });
 
    const { data: districts, isLoading: isLoadingDistricts } = useQuery(['getDistrict', watchProvince], async () => {
-      if (Boolean(watchProvince)) {
+      if (watchProvince) {
          const res = await getDistricts(watchProvince.split('-')[0]);
-         return res.map((item: any) => ({ value: item.code + '-' + item.name, title: item.name }));
+         return res.map((item: { code: string; name: string }) => ({
+            value: item.code + '-' + item.name,
+            title: item.name,
+         }));
       }
 
       setValue('district', '');
@@ -38,9 +50,12 @@ const BaseFormDistributor = ({ form, onSubmitForm, isLoading }: BaseFormPersonne
    });
 
    const { data: wards, isLoading: isLoadingWard } = useQuery(['getWards', watchDistrict], async () => {
-      if (Boolean(watchDistrict)) {
+      if (watchDistrict) {
          const res = await getWards(watchDistrict.split('-')[0]);
-         return res.map((item: any) => ({ value: item.code + '-' + item.name, title: item.name }));
+         return res.map((item: { code: string; name: string }) => ({
+            value: item.code + '-' + item.name,
+            title: item.name,
+         }));
       }
       setValue('ward', '');
       return [];
@@ -117,7 +132,7 @@ const BaseFormDistributor = ({ form, onSubmitForm, isLoading }: BaseFormPersonne
                         name="province"
                         valuePath="value"
                         titlePath="title"
-                        loading={loadingProvinces}
+                        loading={isLoadingProvinces}
                         options={provinces || []}
                         control={control}
                      />

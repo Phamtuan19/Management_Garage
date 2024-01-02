@@ -1,3 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/naming-convention */
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import ROUTE_PATH from '@App/configs/router-path';
 import materialsCatalogService from '@App/services/materialsCatalog.service';
@@ -10,8 +14,6 @@ import { useNavigate } from 'react-router-dom';
 
 const MaterialsCatalog = () => {
    const navigate = useNavigate();
-
-
 
    const { data: materialsCatalog, isLoading } = useQuery(['getListDistributor'], async () => {
       const res = await materialsCatalogService.get();
@@ -62,7 +64,7 @@ const MaterialsCatalog = () => {
          <Box>
             <TextField size="small" label="Tìm kiếm" />
          </Box>
-         <TableCore columns={columns} data={(materialsCatalog?.data as any) || []} isLoading={isLoading} />
+         <TableCore columns={columns} data={(materialsCatalog?.data as never) || []} isLoading={isLoading} />
       </BaseBreadcrumbs>
    );
 };

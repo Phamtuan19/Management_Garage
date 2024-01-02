@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-redundant-type-constituents */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import { FormHelperText, MenuItem, Select } from '@mui/material';
 import { Control, Controller, FieldValues } from 'react-hook-form';
@@ -44,7 +47,7 @@ function ControllerSelect(props: ControllerSelectProps<FieldValues>): React.Reac
             );
          }}
          defaultValue={defaultValue || ''}
-         name={name as string}
+         name={name}
          control={control}
       />
    );

@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/naming-convention */
 import { Typography, Box, SxProps, Theme } from '@mui/material';
 import React from 'react';
 

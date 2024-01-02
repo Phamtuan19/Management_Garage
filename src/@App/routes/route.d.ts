@@ -1,4 +1,3 @@
-import { ModulePagePropsType } from '@App/configs/module-page';
 import { PageActionPropsType } from '@App/configs/page-action';
 
 interface PermissionAccessType {

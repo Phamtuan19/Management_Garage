@@ -10,15 +10,15 @@ interface SidebarProps {
 
 const Sidebar = ({ openSidebar, setOpenSidebar }: SidebarProps) => {
    const theme = useTheme();
-   const lgDown = useMediaQuery(theme.breakpoints.down('lg'));
+   const isLgDown = useMediaQuery(theme.breakpoints.down('lg'));
    return (
       <>
-         {!lgDown && (
+         {!isLgDown && (
             <WarpperSidebar>
                <SidebarItem />
             </WarpperSidebar>
          )}
-         {lgDown && (
+         {isLgDown && (
             <ExtendDrawer open={openSidebar} onClose={() => setOpenSidebar(false)}>
                <WarpperSidebar>
                   <SidebarItem />

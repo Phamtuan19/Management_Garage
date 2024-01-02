@@ -1,22 +1,21 @@
-import React from 'react';
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import { SubmitHandler, UseFormReturn } from 'react-hook-form';
-import { ValidationFormCreate} from '../utils/personnel.schema';
-import { FormControl, Grid,TextField} from '@mui/material';
+import { ValidationFormCreate } from '../utils/personnel.schema';
+import { FormControl, Grid, TextField } from '@mui/material';
 import ControllerLabel from '@Core/Component/Input/ControllerLabel';
 import ControllerTextField from '@Core/Component/Input/ControllerTextField';
 import ControllerSelect from '@Core/Component/Input/ControllerSelect';
 import { LoadingButton } from '@mui/lab';
 import ControllerRadioGroup from '@Core/Component/Input/ControllerRadioGroup';
 
-
 interface BaseFormPersonnelPropType {
    form: UseFormReturn<ValidationFormCreate>;
-   isLoading:boolean;
+   isLoading: boolean;
    onSubmitForm: SubmitHandler<ValidationFormCreate>;
-};
+}
 
-const BaseFormPersonnel = ({form,onSubmitForm,isLoading}:BaseFormPersonnelPropType) => {
-   const {control,handleSubmit} = form;
+const BaseFormPersonnel = ({ form, onSubmitForm, isLoading }: BaseFormPersonnelPropType) => {
+   const { control, handleSubmit } = form;
    return (
       <form onSubmit={handleSubmit(onSubmitForm)}>
          <Grid container spacing={2}>
@@ -33,16 +32,16 @@ const BaseFormPersonnel = ({form,onSubmitForm,isLoading}:BaseFormPersonnelPropTy
                <ControllerTextField name="password" control={control} />
             </Grid>
             <Grid item xs={3}>
-          <TextField
-            fullWidth
-            type="file"
-            // label="Chọn tệp tin"
-            name="avatar"
-            variant="outlined"
-            inputProps={{ accept: '.pdf, .doc, .docx' }}
-            // inputRef={control.register} 
-          />
-        </Grid>
+               <TextField
+                  fullWidth
+                  type="file"
+                  // label="Chọn tệp tin"
+                  name="avatar"
+                  variant="outlined"
+                  inputProps={{ accept: '.pdf, .doc, .docx' }}
+                  // inputRef={control.register}
+               />
+            </Grid>
             <Grid item md={3}>
                <ControllerLabel title="Birthday" />
                <ControllerTextField name="birthday" control={control} />
@@ -59,7 +58,7 @@ const BaseFormPersonnel = ({form,onSubmitForm,isLoading}:BaseFormPersonnelPropTy
                <ControllerLabel title="CMND" />
                <ControllerTextField name="cmnd" control={control} />
             </Grid>
-             <Grid item md={3}>
+            <Grid item md={3}>
                <ControllerLabel title="Bộ phận" />
                <ControllerSelect
                   options={[
@@ -73,27 +72,27 @@ const BaseFormPersonnel = ({form,onSubmitForm,isLoading}:BaseFormPersonnelPropTy
                   control={control}
                />
             </Grid>
-              <Grid item md={3}>
+            <Grid item md={3}>
                <ControllerLabel title="Start_day" />
                <ControllerTextField name="start_day" control={control} />
             </Grid>
-              <Grid item md={3}>
+            <Grid item md={3}>
                <ControllerLabel title="End_day" />
                <ControllerTextField name="end_day" control={control} />
             </Grid>
-              <Grid item md={3}>
+            <Grid item md={3}>
                <ControllerLabel title="Bank number" />
                <ControllerTextField name="bank_number" control={control} />
             </Grid>
-              <Grid item md={3}>
+            <Grid item md={3}>
                <ControllerLabel title="Bank name" />
                <ControllerTextField name="bank_name" control={control} />
             </Grid>
-              <Grid item md={3}>
+            <Grid item md={3}>
                <ControllerLabel title="Bank account name" />
                <ControllerTextField name="bank_account_name" control={control} />
             </Grid>
-           
+
             <Grid item md={3}>
                <FormControl>
                   <ControllerLabel title="Giới tính" />
@@ -130,7 +129,7 @@ const BaseFormPersonnel = ({form,onSubmitForm,isLoading}:BaseFormPersonnelPropTy
                   Thêm
                </LoadingButton>
             </Grid>
-            </Grid>
+         </Grid>
       </form>
    );
 };

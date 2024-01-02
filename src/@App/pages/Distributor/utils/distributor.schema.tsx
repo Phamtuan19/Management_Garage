@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import messageValidate from '@App/helpers/messageValidate';
 import Regexs from '@Core/Configs/Regexs';
 import * as yup from 'yup';

@@ -19,7 +19,6 @@ const ROUTE_PATH = {
    CREATE: '/create',
 
    UPDATE: '/:id',
-   USER: '/users',
 } as const;
 
 export const routePathSchema = yup.string().oneOf(Object.values(ROUTE_PATH)).required();
