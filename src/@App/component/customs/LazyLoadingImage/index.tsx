@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 
@@ -8,7 +6,7 @@ interface LoadingImageProps {
    alt?: string;
    w?: string;
    h?: string;
-   style?: any;
+   style?: Record<string, string | number>;
 }
 
 function LazyLoadingImage(props: LoadingImageProps) {

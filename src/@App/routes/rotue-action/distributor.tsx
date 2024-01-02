@@ -16,7 +16,7 @@ const distributorRoute: RouteObject = {
       {
          index: true,
          element: (
-            <PermissionAccessRoute module={MODULE_PAGE.DISTRIBUTORS} action={PAGE_ACTION.VIEW} type="route">
+            <PermissionAccessRoute module={MODULE_PAGE.DISTRIBUTORS} action={PAGE_ACTION.VIEW_ALL} type="route">
                <Distributor />
             </PermissionAccessRoute>
          ),
@@ -32,7 +32,7 @@ const distributorRoute: RouteObject = {
       {
          path: ROUTE_PATH.DISTRIBUTORS + ROUTE_PATH.UPDATE,
          element: (
-            <PermissionAccessRoute module={MODULE_PAGE.PERMISSIONS} action={PAGE_ACTION.UPDATE} type="route">
+            <PermissionAccessRoute module={MODULE_PAGE.DISTRIBUTORS} action={PAGE_ACTION.UPDATE} type="route">
                <DistributorUpdate />
             </PermissionAccessRoute>
          ),

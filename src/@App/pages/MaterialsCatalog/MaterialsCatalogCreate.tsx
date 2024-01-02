@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-return */
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import ROUTE_PATH from '@App/configs/router-path';
 import BaseFormMaterialsCatalog from './component/BaseFormMaterialsCatalog';
@@ -11,7 +10,7 @@ import { errorMessage, successMessage } from '@Core/Helper/message';
 import { AxiosError } from 'axios';
 import HttpStatusCode from '@Core/Configs/HttpStatusCode';
 import setErrorMessageHookForm from '@App/helpers/setErrorMessageHookForm';
-import { HandleErrorApi } from '@Core/Api/type';
+import { HandleErrorApi } from '@Core/Api/axios-config';
 
 const breadcrumbs = [
    {

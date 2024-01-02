@@ -9,21 +9,21 @@ const UserCreate = Loadable('User/UserCreate');
 const User = Loadable('Users');
 
 const userRoute: RouteObject = {
-   path: ROUTE_PATH.USER,
+   path: ROUTE_PATH.CUSTOMERS,
    element: <Outlet />,
    children: [
       {
          index: true,
          element: (
-            <PermissionAccessRoute module={MODULE_PAGE.USER} action={PAGE_ACTION.VIEW} type="route">
+            <PermissionAccessRoute module={MODULE_PAGE.CUSTOMERS} action={PAGE_ACTION.VIEW_ALL} type="route">
                <User />
             </PermissionAccessRoute>
          ),
       },
       {
-         path: ROUTE_PATH.USER + ROUTE_PATH.CREATE,
+         path: ROUTE_PATH.CUSTOMERS + ROUTE_PATH.CREATE,
          element: (
-            <PermissionAccessRoute module={MODULE_PAGE.USER} action={PAGE_ACTION.CREATE} type="route">
+            <PermissionAccessRoute module={MODULE_PAGE.CUSTOMERS} action={PAGE_ACTION.CREATE} type="route">
                <UserCreate />
             </PermissionAccessRoute>
          ),

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Box, SxProps, Theme } from '@mui/material';
 import 'simplebar-react/dist/simplebar.min.css';
 import SimpleBar from 'simplebar-react';
@@ -8,7 +7,7 @@ function ScrollbarBase(props: { children?: React.ReactNode; sx?: SxProps<Theme> 
    const { children, ...resProps } = props;
    return (
       <Box component={SimpleBar} {...resProps}>
-         {props.children}
+         {children}
       </Box>
    );
 }

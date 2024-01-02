@@ -1,33 +1,20 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-floating-promises */
-/* eslint-disable @typescript-eslint/naming-convention */
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
-// import HttpStatusCode from '@Core/Configs/HttpStatusCode';
-// import { errorMessage } from '@Core/Helper/message';
 import middleware from './Middleware';
-import { AxiosResponseData } from './type';
-// import queryString from 'query-string';
-
-// Tạo hàm tùy chỉnh để biến đổi params thành chuỗi truy vấn URL
-// const customParamsSerializer = (params: Record<string, any>): string => {
-//    return queryString.stringify(params);
-// };
+import { AxiosResponseData } from './axios-config';
 
 const createInstance = <T extends { data: AxiosResponseData }, D>(baseURL: string) => {
    const config: AxiosRequestConfig<T> = {
       baseURL: baseURL,
       headers: {
-         'X-Requested-With': 'XMLHttpRequest',
+         // 'X-Requested-With': 'XMLHttpRequest',
       },
-      // withCredentials: false,
-      // paramsSerializer: customParamsSerializer,
    };
 
    const axiosInstance: AxiosInstance = axios.create(config);
 
    axiosInstance.interceptors.request.use(
       (requestConfig: InternalAxiosRequestConfig<T>) => {
-         middleware(requestConfig);
+         void middleware(requestConfig);
          return requestConfig;
       },
 
@@ -38,9 +25,9 @@ const createInstance = <T extends { data: AxiosResponseData }, D>(baseURL: strin
 
    axiosInstance.interceptors.response.use(
       // success response
-      (response: AxiosResponse<T, D>): any => {
+      (response: AxiosResponse<T, D>): AxiosResponse => {
          if (response && response.data) {
-            return response.data;
+            return response.data as unknown as AxiosResponse;
          }
          return response;
       },

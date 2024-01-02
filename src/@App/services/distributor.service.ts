@@ -1,6 +1,6 @@
 import BaseService from '@Core/Api/BaseService';
 
-const distributorPath: ServicePathUrl = {
+const distributorPath = {
    BASE: 'distributor',
 };
 

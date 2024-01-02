@@ -1,12 +1,7 @@
-/* eslint-disable no-prototype-builtins */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { Axios, AxiosInstance } from 'axios';
+import { AxiosInstance } from 'axios';
 import createInstance from './axios';
-import { AxiosResponseData } from './type';
+import { AxiosResponseData } from './axios-config';
 
 interface TypeRequestParams {
    page_index: number;
@@ -15,7 +10,7 @@ interface TypeRequestParams {
 }
 
 type TData = {
-   [key: string]: any; // Loại này có thể được điều chỉnh để phù hợp với cấu trúc dữ liệu thực tế của bạn
+   [key: string]: unknown; // Loại này có thể được điều chỉnh để phù hợp với cấu trúc dữ liệu thực tế của bạn
 };
 
 class BaseService {
@@ -85,8 +80,8 @@ class BaseService {
     * @returns
     */
    update<U>(data: TData, id?: string, method: 'put' | 'patch' = 'put'): Promise<U> {
-      const updateId = id || data[this.PRIMARY_KEY];
-      return this.request[method as keyof typeof Axios](`${this.BASE_ENDPOINT}/update/${updateId}`, data);
+      const updateId = id || (data[this.PRIMARY_KEY] as string);
+      return this.request[method](`${this.BASE_ENDPOINT}/update/${updateId}`, data);
    }
 
    /**
@@ -95,7 +90,7 @@ class BaseService {
     */
    save(data: TData): Promise<AxiosResponseData> {
       // kiểm tra xem có id nếu có thì update còn chưa thì tạo mới
-      if (data.hasOwnProperty(this.PRIMARY_KEY) && data[this.PRIMARY_KEY]) {
+      if (Object.prototype.hasOwnProperty.call(data, this.PRIMARY_KEY) && data[this.PRIMARY_KEY]) {
          return this.update(data);
       } else {
          return this.create(data);

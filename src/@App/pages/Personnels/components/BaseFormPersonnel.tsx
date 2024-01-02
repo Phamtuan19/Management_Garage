@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import { SubmitHandler, UseFormReturn } from 'react-hook-form';
+import { Control, FieldValues, SubmitHandler, UseFormReturn } from 'react-hook-form';
 import { ValidationFormCreate } from '../utils/personnel.schema';
 import { FormControl, Grid, TextField } from '@mui/material';
 import ControllerLabel from '@Core/Component/Input/ControllerLabel';
@@ -69,7 +69,7 @@ const BaseFormPersonnel = ({ form, onSubmitForm, isLoading }: BaseFormPersonnelP
                   titlePath="lable"
                   defaultValue=""
                   name="role_id"
-                  control={control}
+                  control={control as unknown as Control<FieldValues>}
                />
             </Grid>
             <Grid item md={3}>
@@ -105,7 +105,7 @@ const BaseFormPersonnel = ({ form, onSubmitForm, isLoading }: BaseFormPersonnelP
                      ]}
                      valuePath="id"
                      titlePath="title"
-                     control={control}
+                     control={control as unknown as Control<FieldValues>}
                   />
                </FormControl>
             </Grid>
@@ -120,7 +120,7 @@ const BaseFormPersonnel = ({ form, onSubmitForm, isLoading }: BaseFormPersonnelP
                   ]}
                   valuePath="id"
                   titlePath="title"
-                  control={control}
+                  control={control as unknown as Control<FieldValues>}
                />
             </Grid>
 
