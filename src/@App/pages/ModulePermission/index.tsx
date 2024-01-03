@@ -7,7 +7,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/naming-convention */
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
-import permissionService from '@App/services/modulePermission.service';
+import permissionService from '@App/services/role.service';
 import TableCore, { columnHelper } from '@Core/Component/Table';
 import { CoreTableActionEdit } from '@Core/Component/Table/components/CoreTableAction';
 import { Box, Chip, TextField } from '@mui/material';

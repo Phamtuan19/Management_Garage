@@ -14,7 +14,7 @@
  * ----------	---	----------------------------------------------------------
  */
 
-import { Box, TableCell, TableRow, Typography, styled, tableCellClasses } from '@mui/material';
+import { TableCell, TableRow, styled, tableCellClasses } from '@mui/material';
 import TableHead from '@mui/material/TableHead';
 import { Table, flexRender } from '@tanstack/react-table';
 import React from 'react';
@@ -27,27 +27,15 @@ function CoreTableHeader<T>(props: TabelHeaderProps<T>): React.ReactElement {
    const { table } = props;
    return (
       <TableHead sx={{ position: 'sticky', top: 0, left: 0, width: '100%', zIndex: 1 }}>
-         {table.getHeaderGroups().map((headerGroup, index) => {
+         {table.getHeaderGroups().map((headerGroup) => {
             return (
-               <StyledTableRow key={index}>
-                  {headerGroup.headers.map((header, index) => {
+               <StyledTableRow key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => {
                      return (
-                        <StyledTableCell key={index}>
-                           {header.isPlaceholder ? null : (
-                              <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                 <Typography
-                                    component="h6"
-                                    sx={{
-                                       fontWeight: 600,
-                                       fontSize: '14px',
-                                       p: 0,
-                                       width: '100%',
-                                    }}
-                                 >
-                                    {flexRender(header.column.columnDef.header, header.getContext())}
-                                 </Typography>
-                              </Box>
-                           )}
+                        <StyledTableCell key={header.id}>
+                           {header.isPlaceholder
+                              ? null
+                              : flexRender(header.column.columnDef.header, header.getContext())}
                         </StyledTableCell>
                      );
                   })}

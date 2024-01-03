@@ -1,10 +1,10 @@
 import BaseService from '@Core/Api/BaseService';
 
 const permissionServicePath = {
-   base: 'module',
+   base: 'roles',
 };
 
-class ModulePermissionService extends BaseService {
+class ModuleRoleService extends BaseService {
    BASE_ENDPOINT = permissionServicePath.base;
 
    constructor() {
@@ -13,6 +13,6 @@ class ModulePermissionService extends BaseService {
    }
 }
 
-const modulePermissionService = new ModulePermissionService();
+const moduleRoleService = new ModuleRoleService();
 
-export default modulePermissionService;
+export default moduleRoleService;

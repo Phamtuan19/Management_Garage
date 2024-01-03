@@ -1,13 +1,11 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import BaseService from '@Core/Api/BaseService';
 
 export const personnelPathUrl = {
-   BASE: 'staff',
+   BASE: 'personnel',
 };
 
 class PersonnelService extends BaseService {
    BASE_ENDPOINT = personnelPathUrl.BASE;
-   getUser: any;
 
    constructor() {
       super();

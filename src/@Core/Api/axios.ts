@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 
 import middleware from './Middleware';
@@ -26,29 +27,15 @@ const createInstance = <T extends { data: AxiosResponseData }, D>(baseURL: strin
 
    axiosInstance.interceptors.response.use(
       // success response
-      (response: AxiosResponse<T, D>): AxiosResponse => {
+      (response: AxiosResponse<T, D>): any => {
          if (response && response.data) {
-            return response.data as unknown as AxiosResponse;
+            return response.data as unknown as AxiosResponseData;
          }
          return response;
       },
 
       // error response
       async (error: Error | AxiosError<T>): Promise<AxiosError<T>> => {
-         // if (axios.isAxiosError(error)) {
-         // const originalRequest = error.config;
-         // const currentRequestUrl = originalRequest!.url;
-         // console.log(error.response!.status === HttpStatusCode.UNAUTHORIZED);
-         // if (
-         //    error.response!.status === HttpStatusCode.UNAUTHORIZED &&
-         //    currentRequestUrl !== authPathUrl.REFRESH_TOKEN
-         // ) {
-         //    console.log('object');
-         //    // const refreshTokenRequest = createInstance(import.meta.env.BASE_URL + '/' + 'api');
-         //    // const res = await refreshTokenRequest.get('auth/refresh-token');
-         //    // console.log(res);
-         // }
-         // }
          return Promise.reject(error);
       },
    );

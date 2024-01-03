@@ -18,14 +18,14 @@
  */
 
 import { Box, Pagination, Table, TableContainer, styled } from '@mui/material';
-import { ColumnDef, createColumnHelper, getCoreRowModel, useReactTable } from '@tanstack/react-table';
+import { type ColumnDef, createColumnHelper, getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import ScrollbarBase from '@App/component/customs/ScrollbarBase';
 
 import CoreTableBody from './components/CoreTableBody';
 import CoreTableHeader from './components/CoreTableHeader';
 
-interface TableCoreProps<TData, TValue> {
-   data: TData[];
+interface TableCoreProps<TData = unknown[], TValue = never> {
+   data: TData;
    columns: ColumnDef<TData, TValue>[];
    isLoading?: boolean;
    isPagination?: boolean;
@@ -35,11 +35,11 @@ interface TableCoreProps<TData, TValue> {
 
 export const columnHelper = createColumnHelper();
 
-function TableCore<TData, TValue>(props: TableCoreProps<TData, TValue>) {
+function TableCore<TData = unknown[], TValue = never>(props: TableCoreProps<TData, TValue>) {
    const { data, columns, isLoading = false, isPagination = true, pageCount = 1, height = 410 } = props;
 
    const table = useReactTable({
-      data: data,
+      data: data as TData[],
       columns: columns,
       getCoreRowModel: getCoreRowModel(), //truy cập dữ liệu cơ bản của một hàng (row) trong bảng.
    });
