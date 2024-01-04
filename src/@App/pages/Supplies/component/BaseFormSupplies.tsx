@@ -14,7 +14,7 @@ interface BaseFormPersonnelPropType {
    onSubmitForm: SubmitHandler<MaterialsCatalogSchema>;
 }
 
-const BaseFormMaterialsCatalog = ({ form, isLoading, onSubmitForm }: BaseFormPersonnelPropType) => {
+const BaseFormSupplies = ({ form, isLoading, onSubmitForm }: BaseFormPersonnelPropType) => {
    const { handleSubmit, control } = form;
 
    return (
@@ -42,4 +42,4 @@ const BaseFormMaterialsCatalog = ({ form, isLoading, onSubmitForm }: BaseFormPer
    );
 };
 
-export default BaseFormMaterialsCatalog;
+export default BaseFormSupplies;

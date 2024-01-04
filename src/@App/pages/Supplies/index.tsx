@@ -1,7 +1,6 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/restrict-plus-operands */
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import ROUTE_PATH from '@App/configs/router-path';
 import materialsCatalogService from '@App/services/materialsCatalog.service';
@@ -12,12 +11,11 @@ import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const MaterialsCatalog = () => {
+const Supplies = () => {
    const navigate = useNavigate();
 
-   const { data: materialsCatalog, isLoading } = useQuery(['getListDistributor'], async () => {
+   const { data: supplies, isLoading } = useQuery(['getListDistributor'], async () => {
       const res = await materialsCatalogService.get();
-
       return res.data;
    });
 
@@ -25,33 +23,26 @@ const MaterialsCatalog = () => {
       return [
          columnHelper.accessor((_, index) => index + 1, {
             id: 'STT',
-            header: () => (
-               <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>STT</Box>
-            ),
-            cell: (info) => (
-               <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>{info.getValue()}</Box>
-            ),
+            header: () => <Box sx={{ textAlign: 'center' }}>STT</Box>,
+            cell: (info) => <Box sx={{ textAlign: 'center' }}>{info.getValue()}</Box>,
+         }),
+         columnHelper.accessor('code', {
+            header: () => <Box sx={{ textAlign: 'center' }}>Mã</Box>,
+            cell: (info) => <Box sx={{ textAlign: 'center' }}>{info.getValue()}</Box>,
          }),
          columnHelper.accessor('name', {
             header: 'Tên danh mục',
          }),
-         columnHelper.accessor('description', {
+         columnHelper.accessor('describe', {
             header: 'Mô tả',
-            cell: (info) => (
-               <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '300px' }}>
-                  {info.getValue()}
-               </Box>
-            ),
          }),
-         columnHelper.accessor('', {
+         columnHelper.accessor('_id', {
             header: 'Thao tác',
             cell: ({ row }) => {
-               const res: any = row.original;
-
                return (
                   <Box>
                      <CoreTableActionDelete />
-                     <CoreTableActionEdit callback={() => navigate(ROUTE_PATH.MATERIALSCATALOG + '/' + res?.id)} />
+                     <CoreTableActionEdit callback={() => navigate(ROUTE_PATH.SUPPLIES + '/' + row.getValue('_id'))} />
                   </Box>
                );
             },
@@ -60,13 +51,13 @@ const MaterialsCatalog = () => {
    }, []);
 
    return (
-      <BaseBreadcrumbs arialabel="Nhà phân phối">
+      <BaseBreadcrumbs arialabel="Danh sách vật tư">
          <Box>
             <TextField size="small" label="Tìm kiếm" />
          </Box>
-         <TableCore columns={columns} data={(materialsCatalog?.data as never) || []} isLoading={isLoading} />
+         <TableCore columns={columns} data={supplies || []} isLoading={isLoading} />
       </BaseBreadcrumbs>
    );
 };
 
-export default MaterialsCatalog;
+export default Supplies;

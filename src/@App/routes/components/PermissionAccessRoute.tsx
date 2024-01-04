@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+
 import { useAuth } from '@App/redux/slices/auth.slice';
 import React, { useMemo } from 'react';
 
@@ -15,7 +16,7 @@ const PermissionAccessRoute = ({
    children,
    module,
    action,
-   type,
+   type = 'component',
    fallback = <h1>Bạn không có quyền truy cập</h1>,
 }: PermissionAccessType): React.ReactNode => {
    const { userPermission } = useAuth();
@@ -29,11 +30,7 @@ const PermissionAccessRoute = ({
 
       const moduleActions = userPermission![module];
 
-      if (type === 'menu') {
-         if (!hasModules.includes(module)) return false;
-
-         if (moduleActions && moduleActions.length === 0) return false;
-
+      if (moduleActions === '*') {
          return true;
       }
 
@@ -44,7 +41,7 @@ const PermissionAccessRoute = ({
       }
 
       return false;
-   }, [userPermission, module, action, type, children]);
+   }, [module, action, type]);
 
    if (type === 'route') {
       if (!hasPermissionAndOperation) return fallback;

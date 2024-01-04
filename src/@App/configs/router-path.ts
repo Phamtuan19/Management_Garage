@@ -12,7 +12,11 @@ const ROUTE_PATH = {
 
    DISTRIBUTORS: '/distributors',
 
-   MATERIALSCATALOG: '/materials-catalog',
+   MATERIALS_CATALOGS: '/materials-catalogs',
+
+   SUPPLIES: '/supplies',
+
+   WAREHOUSES: '/warehouses',
 
    SIGN_IN: '/sign-in',
 

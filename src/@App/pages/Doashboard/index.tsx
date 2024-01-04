@@ -7,19 +7,19 @@ import { Button } from '@mui/material';
 const Doashboard = () => {
    return (
       <BaseBreadcrumbs arialabel="Doashboard">
-         <PermissionAccess module={MODULE_PAGE.ROLES} action={PAGE_ACTION.VIEW_ALL} type="component">
+         <PermissionAccess module={MODULE_PAGE.PERSONNELS} action={PAGE_ACTION.VIEW_ALL}>
             <Button>Permission Access - VIEW</Button>
          </PermissionAccess>
-         <PermissionAccess module={MODULE_PAGE.ROLES} action={PAGE_ACTION.CREATE} type="component">
+         <PermissionAccess module={MODULE_PAGE.ROLES} action={PAGE_ACTION.CREATE}>
             <Button>Permission Access - CREATE</Button>
          </PermissionAccess>
-         <PermissionAccess module={MODULE_PAGE.ROLES} action={PAGE_ACTION.UPDATE} type="component">
+         <PermissionAccess module={MODULE_PAGE.ROLES} action={PAGE_ACTION.UPDATE}>
             <Button>Permission Access - EDIT</Button>
          </PermissionAccess>
-         <PermissionAccess module={MODULE_PAGE.ROLES} action={PAGE_ACTION.UPDATE} type="component">
+         <PermissionAccess module={MODULE_PAGE.ROLES} action={PAGE_ACTION.UPDATE}>
             <Button>Permission Access - UPDATE</Button>
          </PermissionAccess>
-         <PermissionAccess module={MODULE_PAGE.ROLES} action={PAGE_ACTION.VIEW_ONE} type="component">
+         <PermissionAccess module={MODULE_PAGE.ROLES} action={PAGE_ACTION.VIEW_ONE}>
             <Button>Permission Access - SHOW</Button>
          </PermissionAccess>
       </BaseBreadcrumbs>

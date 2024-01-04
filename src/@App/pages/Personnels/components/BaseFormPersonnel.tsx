@@ -39,7 +39,6 @@ const BaseFormPersonnel = ({ form, onSubmitForm, isLoading }: BaseFormPersonnelP
                   // label="Chọn tệp tin"
                   name="avatar"
                   variant="outlined"
-                  inputProps={{ accept: '.pdf, .doc, .docx' }}
                   // inputRef={control.register}
                />
             </Grid>

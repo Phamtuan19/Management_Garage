@@ -3,7 +3,6 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../rootReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import authService from '@App/services/auth.service';
-import { PageActionPropsType } from '@App/configs/page-action';
 import { AxiosResponseData } from '@Core/Api/axios-config';
 
 // const actionRefreshToken = createAsyncThunk('auth/refreshToken', async () => {
@@ -20,7 +19,7 @@ const actionGetUser = createAsyncThunk('auth/getUser', async () => {
 });
 
 type UserPermission = {
-   [key: string]: PageActionPropsType[];
+   [key: string]: string[] | '*';
 };
 
 interface InitialState<U> {

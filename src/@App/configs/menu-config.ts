@@ -1,5 +1,6 @@
 import HomeIcon from '@mui/icons-material/Home';
 import PeopleIcon from '@mui/icons-material/People';
+import WidgetsOutlinedIcon from '@mui/icons-material/WidgetsOutlined';
 
 import PAGE_ACTION from './page-action';
 import ROUTE_PATH from './router-path';
@@ -17,43 +18,30 @@ const menuConfig: MenuConfigItem[] = [
    },
    {
       id: 2,
-      title: 'Nhà phân phối',
+      title: 'Vật tư',
       link: ROUTE_PATH.DISTRIBUTORS,
-      icon: PeopleIcon,
-      module: MODULE_PAGE.DISTRIBUTORS,
+      icon: WidgetsOutlinedIcon,
       children: [
          {
             id: 2.1,
-            title: 'Danh sách',
-            link: ROUTE_PATH.DISTRIBUTORS,
+            title: 'Danh sách vật tư',
+            link: ROUTE_PATH.SUPPLIES,
+            module: MODULE_PAGE.SUPPLIES,
             action: PAGE_ACTION.VIEW_ALL,
          },
          {
             id: 2.2,
-            title: 'Thêm mới',
-            link: ROUTE_PATH.DISTRIBUTORS + ROUTE_PATH.CREATE,
-            action: PAGE_ACTION.CREATE,
-         },
-      ],
-   },
-   {
-      id: 3,
-      title: 'Danh mục vật tư',
-      link: ROUTE_PATH.MATERIALSCATALOG,
-      icon: PeopleIcon,
-      module: MODULE_PAGE.MATERIALS_CATALOGS,
-      children: [
-         {
-            id: 3.1,
-            title: 'Danh sách',
-            link: ROUTE_PATH.MATERIALSCATALOG,
+            title: 'Quản lý kho',
+            link: ROUTE_PATH.WAREHOUSES,
+            module: MODULE_PAGE.WAREHOUSES,
             action: PAGE_ACTION.VIEW_ALL,
          },
          {
-            id: 3.2,
-            title: 'Thêm mới',
-            link: ROUTE_PATH.MATERIALSCATALOG + ROUTE_PATH.CREATE,
-            action: PAGE_ACTION.CREATE,
+            id: 2.3,
+            title: 'Nhà phân phối',
+            link: ROUTE_PATH.MATERIALS_CATALOGS,
+            module: MODULE_PAGE.MATERIALS_CATALOGS,
+            action: PAGE_ACTION.VIEW_ALL,
          },
       ],
    },
@@ -62,19 +50,28 @@ const menuConfig: MenuConfigItem[] = [
       title: 'Nhân viên',
       link: ROUTE_PATH.PERSONNELS,
       icon: PeopleIcon,
-      module: MODULE_PAGE.MATERIALS_CATALOGS,
+
       children: [
          {
             id: 4.1,
             title: 'Danh sách',
             link: '/personnels',
+            module: MODULE_PAGE.PERSONNELS,
             action: PAGE_ACTION.VIEW_ALL,
          },
          {
             id: 4.2,
             title: 'Thêm mới',
             link: ROUTE_PATH.PERSONNELS + ROUTE_PATH.CREATE,
+            module: MODULE_PAGE.PERSONNELS,
             action: PAGE_ACTION.CREATE,
+         },
+         {
+            id: 4.3,
+            title: 'Quyền truy cập',
+            link: ROUTE_PATH.ROLES,
+            module: MODULE_PAGE.ROLES,
+            action: PAGE_ACTION.VIEW_ALL,
          },
       ],
    },
@@ -83,29 +80,23 @@ const menuConfig: MenuConfigItem[] = [
       title: 'Người dùng',
       link: ROUTE_PATH.CUSTOMERS,
       icon: PeopleIcon,
-      module: MODULE_PAGE.CUSTOMERS,
+
       children: [
          {
             id: 5.1,
             title: 'Danh sách',
             link: '/users',
+            module: MODULE_PAGE.CUSTOMERS,
             action: PAGE_ACTION.VIEW_ALL,
          },
          {
             id: 5.2,
             title: 'Thêm mới',
             link: ROUTE_PATH.CUSTOMERS + ROUTE_PATH.CREATE,
+            module: MODULE_PAGE.CUSTOMERS,
             action: PAGE_ACTION.CREATE,
          },
       ],
-   },
-   {
-      id: 6,
-      title: 'Quyền truy cập',
-      link: ROUTE_PATH.ROLES,
-      icon: PeopleIcon,
-      module: MODULE_PAGE.ROLES,
-      action: PAGE_ACTION.VIEW_ALL,
    },
 ];
 

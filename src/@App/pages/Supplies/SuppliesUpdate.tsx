@@ -13,16 +13,16 @@ import setValueHookForm from '@App/helpers/setValueHookForm';
 import { HandleErrorApi } from '@Core/Api/axios-config';
 
 import { MaterialsCatalogSchema, materialsCatalogSchema } from './utils/materialsCatalog.schema';
-import BaseFormMaterialsCatalog from './component/BaseFormMaterialsCatalog';
+import BaseFormSupplies from './component/BaseFormSupplies';
 
 const breadcrumbs = [
    {
       title: 'Danh mục sản phẩm',
-      link: ROUTE_PATH.MATERIALSCATALOG,
+      link: ROUTE_PATH.SUPPLIES,
    },
 ];
 
-const MaterialsCatalogUpdate = () => {
+const SuppliesUpdate = () => {
    const { id: materialsCatalogId } = useParams();
 
    const form = useForm<MaterialsCatalogSchema>({
@@ -43,7 +43,7 @@ const MaterialsCatalogUpdate = () => {
       },
    );
 
-   const { mutate: materialsCatalogUpdate, isLoading } = useMutation({
+   const { mutate: SuppliesUpdate, isLoading } = useMutation({
       mutationFn: async (data: MaterialsCatalogSchema) => {
          return await materialsCatalogService.update(data);
       },
@@ -62,13 +62,13 @@ const MaterialsCatalogUpdate = () => {
       },
    });
 
-   const onSubmitForm: SubmitHandler<MaterialsCatalogSchema> = (data) => materialsCatalogUpdate(data);
+   const onSubmitForm: SubmitHandler<MaterialsCatalogSchema> = (data) => SuppliesUpdate(data);
 
    return (
       <BaseBreadcrumbs arialabel="Chi tiết" breadcrumbs={breadcrumbs}>
-         <BaseFormMaterialsCatalog onSubmitForm={onSubmitForm} form={form} isLoading={isLoading} />
+         <BaseFormSupplies onSubmitForm={onSubmitForm} form={form} isLoading={isLoading} />
       </BaseBreadcrumbs>
    );
 };
 
-export default MaterialsCatalogUpdate;
+export default SuppliesUpdate;

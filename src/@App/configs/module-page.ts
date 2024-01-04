@@ -13,7 +13,11 @@ const MODULE_PAGE = {
 
    MATERIALS_CATALOGS: 'MATERIALS_CATALOGS',
 
+   SUPPLIES: 'SUPPLIES',
+
    SUPPLIES_INVOICE: 'SUPPLIES_INVOICE',
+
+   WAREHOUSES: 'WAREHOUSES',
 } as const;
 
 export const modulePageSchema = yup.string().oneOf(Object.values(MODULE_PAGE)).required();
