@@ -3,12 +3,12 @@ import { FormHelperText, MenuItem, Select } from '@mui/material';
 import { Control, Controller, FieldValues } from 'react-hook-form';
 
 interface ControllerSelectProps<TFieldValues extends FieldValues = FieldValues> {
-   options: { [key: string]: any }[];
+   options: Array<Record<string, string | number>>;
    name: string;
    valuePath: string;
    titlePath: string;
    defaultValue?: string;
-   control: Control<TFieldValues | any>;
+   control: Control<TFieldValues>;
 }
 
 function ControllerSelect(props: ControllerSelectProps<FieldValues>): React.ReactNode {
@@ -44,7 +44,7 @@ function ControllerSelect(props: ControllerSelectProps<FieldValues>): React.Reac
             );
          }}
          defaultValue={defaultValue || ''}
-         name={name as string}
+         name={name}
          control={control}
       />
    );

@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { Box, SxProps, FormControlLabel, Radio, RadioGroup, Theme, FormHelperText, Typography } from '@mui/material';
 import React from 'react';
 import { Control, Controller, FieldValues } from 'react-hook-form';
 
-interface ControllerRadioGroupProps<TContext extends FieldValues = any> {
+interface ControllerRadioGroupProps<TContext extends FieldValues = FieldValues> {
    options: { [key: string]: string }[];
    name: string;
    valuePath: string;
@@ -26,7 +27,7 @@ const ControllerRadioGroup = (props: ControllerRadioGroupProps): JSX.Element => 
                      ref={ref}
                      name={name}
                      onChange={onChange}
-                     value={value}
+                     value={value as string}
                      defaultValue={defaultValue}
                      {...rest}
                   >
@@ -52,7 +53,7 @@ const ControllerRadioGroup = (props: ControllerRadioGroupProps): JSX.Element => 
                </React.Fragment>
             );
          }}
-         name={name as string}
+         name={name}
          control={control}
       />
    );

@@ -1,17 +1,16 @@
 import { HttpStatusCodeSType } from '@Core/Configs/HttpStatusCode';
 
-interface AxiosResponseData {
+export interface AxiosResponseData {
    success: boolean;
-   statusCode: HttpStatusCodeSType;
    message: string;
    data: AxiosResponseDataType;
 }
 
-interface AxiosResponseDataType {
+export interface AxiosResponseDataType {
    [key: string]: { [key: string]: string }[] | { [key: string]: string } | null | undefined;
 }
 
-interface HandleErrorApi {
+export interface HandleErrorApi {
    success: boolean;
    statusCode: HttpStatusCodeSType;
    message: { [key: string]: string[] };

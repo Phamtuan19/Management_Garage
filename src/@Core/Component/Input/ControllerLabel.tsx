@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { Typography, Box, SxProps, Theme } from '@mui/material';
 import React from 'react';
 
@@ -15,7 +16,7 @@ function ControllerLabel(props: ControllerLabelProps) {
       <Typography
          component="span"
          sx={({ base }) => ({
-            color: base.text.gray2,
+            color: base.text.gray2 as string,
             display: 'flex',
             alignItems: 'center',
             fontSize: 15,

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Box, FormHelperText, SxProps, TextField, Theme } from '@mui/material';
-import { Control, Controller, FieldValues, useWatch } from 'react-hook-form';
+import { Control, Controller, FieldValues, Path, useWatch } from 'react-hook-form';
 
 interface ControllerTextFieldPasswordProps<TFieldValues extends FieldValues = FieldValues> {
    name: string;
@@ -13,9 +13,9 @@ interface ControllerTextFieldPasswordProps<TFieldValues extends FieldValues = Fi
 function ControllerTextFieldPassword<TFieldValues extends FieldValues = FieldValues>(
    props: ControllerTextFieldPasswordProps<TFieldValues>,
 ) {
-   const { name, placeholder, defaultValue, sx, control } = props;
+   const { name, placeholder, sx, control } = props;
 
-   const [showPassword, setShowPassword] = useState<boolean>(false);
+   const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
 
    return (
       <React.Fragment>
@@ -27,7 +27,7 @@ function ControllerTextFieldPassword<TFieldValues extends FieldValues = FieldVal
                         <Box sx={{ position: 'relative' }}>
                            <TextField
                               fullWidth
-                              type={!showPassword ? 'password' : 'text'}
+                              type={!isShowPassword ? 'password' : 'text'}
                               id={name}
                               variant="outlined"
                               size="small"
@@ -39,8 +39,8 @@ function ControllerTextFieldPassword<TFieldValues extends FieldValues = FieldVal
                            {useWatch({ control })[name] && (
                               <Box
                                  sx={{
-                                    width: showPassword ? 24 : 18,
-                                    height: showPassword ? 24 : 18,
+                                    width: isShowPassword ? 24 : 18,
+                                    height: isShowPassword ? 24 : 18,
                                     position: 'absolute',
                                     top: '50%',
                                     right: 10,
@@ -49,8 +49,8 @@ function ControllerTextFieldPassword<TFieldValues extends FieldValues = FieldVal
                                     zIndex: 100,
                                  }}
                               >
-                                 {showPassword ? (
-                                    <Box onClick={() => setShowPassword((prev) => !prev)}>
+                                 {isShowPassword ? (
+                                    <Box onClick={() => setIsShowPassword((prev) => !prev)}>
                                        <svg
                                           xmlns="http://www.w3.org/2000/svg"
                                           width="24"
@@ -62,7 +62,7 @@ function ControllerTextFieldPassword<TFieldValues extends FieldValues = FieldVal
                                        </svg>
                                     </Box>
                                  ) : (
-                                    <Box onClick={() => setShowPassword((prev) => !prev)}>
+                                    <Box onClick={() => setIsShowPassword((prev) => !prev)}>
                                        <svg
                                           xmlns="http://www.w3.org/2000/svg"
                                           width="18"
@@ -87,8 +87,7 @@ function ControllerTextFieldPassword<TFieldValues extends FieldValues = FieldVal
                      </React.Fragment>
                   );
                }}
-               defaultValue={(defaultValue || '') as any}
-               name={name as any}
+               name={name as Path<TFieldValues>}
                control={control}
             />
          </Box>

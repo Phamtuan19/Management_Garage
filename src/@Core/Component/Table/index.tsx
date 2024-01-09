@@ -1,3 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/naming-convention */
 /*
  * Created Date: 28-11-2023, 21:00 pm
  * Author: Phạm Anh tuấn
@@ -13,29 +17,48 @@
  * ----------	---	----------------------------------------------------------
  */
 
-import { Box, Pagination, Table, TableContainer, styled } from '@mui/material';
-import { ColumnDef, createColumnHelper, getCoreRowModel, useReactTable } from '@tanstack/react-table';
+import { Box, MenuItem, Pagination, Select, Table, TableContainer, styled } from '@mui/material';
+import { type ColumnDef, createColumnHelper, getCoreRowModel, useReactTable } from '@tanstack/react-table';
+import ScrollbarBase from '@App/component/customs/ScrollbarBase';
+import useSearchParamsHook from '@App/hooks/useSearchParamsHook';
+import { useEffect, useState } from 'react';
+
 import CoreTableBody from './components/CoreTableBody';
 import CoreTableHeader from './components/CoreTableHeader';
-import ScrollbarBase from '@App/component/customs/ScrollbarBase';
 
-interface TableCoreProps<TData, TValue> {
-   data: TData[];
+interface TableCoreProps<TData = unknown[], TValue = never> {
+   data: TData;
    columns: ColumnDef<TData, TValue>[];
-   isLoading?: boolean;
+   isLoading: boolean;
    isPagination?: boolean;
    pageCount?: number;
    height?: number;
+   limit: number;
+   page: number;
+   refetch: any;
+   total_page: number;
+   total_record: number;
 }
 
 export const columnHelper = createColumnHelper();
 
-function TableCore<TData, TValue>(props: TableCoreProps<TData, TValue>) {
-   const { data, columns, isLoading = false, isPagination = true, pageCount = 1, height = 410 } = props;
+function TableCore<TData = unknown[], TValue = never>(props: TableCoreProps<TData, TValue>) {
+   const { data, columns, isLoading, isPagination = true, height = 410, ...dataPagination } = props;
+
+   const [totalPage, setTotalPage] = useState(1);
+
+   useEffect(() => {
+      if (!isLoading) {
+         setTotalPage(dataPagination.total_page);
+      }
+   }, [isLoading]);
+
+   const { setParams } = useSearchParamsHook();
 
    const table = useReactTable({
-      data: data,
+      data: data as TData[],
       columns: columns,
+      state: {},
       getCoreRowModel: getCoreRowModel(), //truy cập dữ liệu cơ bản của một hàng (row) trong bảng.
    });
 
@@ -68,23 +91,45 @@ function TableCore<TData, TValue>(props: TableCoreProps<TData, TValue>) {
 
          {isPagination && (
             <Box
-               sx={({}) => ({
+               sx={() => ({
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'flex-end',
                   p: 1.5,
+                  gap: 4,
                   backgroundColor: '#FFFFFF',
                   borderTop: '1px solid #D1D5DB',
                })}
             >
-               <Pagination onChange={(_, page) => {}} count={pageCount} variant="outlined" shape="rounded" />
+               <Box>
+                  <Select
+                     sx={{ width: 70, borderRadius: '12px', fontSize: '14px' }}
+                     size="small"
+                     variant="outlined"
+                     value={Number(dataPagination.limit) || 10}
+                     onChange={(e) => {
+                        setParams('limit', e.target.value);
+                     }}
+                  >
+                     <MenuItem value={10}>10</MenuItem>
+                     <MenuItem value={20}>20</MenuItem>
+                     <MenuItem value={50}>30</MenuItem>
+                  </Select>
+               </Box>
+
+               <Pagination
+                  onChange={(_, page) => setParams('page', String(page))}
+                  count={totalPage}
+                  page={dataPagination.page}
+                  siblingCount={1}
+               />
             </Box>
          )}
       </CoreTableContainer>
    );
 }
 
-const CoreTableContainer = styled(TableContainer)(({ theme }) => ({
+const CoreTableContainer = styled(TableContainer)(() => ({
    maxWidth: '100%',
    position: 'relative',
    margin: '12px 0px',

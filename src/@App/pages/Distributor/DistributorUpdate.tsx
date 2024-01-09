@@ -1,18 +1,20 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
-import BaseFormDistributor from './components/BaseFormDistributor';
 import ROUTE_PATH from '@App/configs/router-path';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { DistributorSchema, distributorSchema } from './utils/distributor.schema';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import distributorService from '@App/services/distributor.service';
 import { errorMessage, successMessage } from '@Core/Helper/message';
 import { AxiosError } from 'axios';
-import { HandleErrorApi } from '@Core/Api/type';
+import { HandleErrorApi } from '@Core/Api/axios-config';
 import HttpStatusCode from '@Core/Configs/HttpStatusCode';
 import setErrorMessageHookForm from '@App/helpers/setErrorMessageHookForm';
 import { useParams } from 'react-router-dom';
 import setValueHookForm from '@App/helpers/setValueHookForm';
+
+import { DistributorSchema, distributorSchema } from './utils/distributor.schema';
+import BaseFormDistributor from './components/BaseFormDistributor';
 
 const breadcrumbs = [
    {
@@ -29,7 +31,7 @@ const DistributorUpdate = () => {
       defaultValues: distributorSchema.getDefault(),
    });
 
-   useQuery(
+   const { refetch: getDistributorDetail } = useQuery(
       ['getDistributorDetail', distributorId],
       async () => {
          const res = await distributorService.find(distributorId!);
@@ -37,7 +39,7 @@ const DistributorUpdate = () => {
       },
       {
          onSuccess: (data) => {
-            setValueHookForm(form.setValue, data.distributor as any);
+            setValueHookForm(form.setValue, data.distributor as never);
          },
       },
    );
@@ -46,14 +48,15 @@ const DistributorUpdate = () => {
       mutationFn: async (data: Omit<DistributorSchema, 'province' | 'district' | 'ward'>) => {
          return await distributorService.update(data, distributorId);
       },
-      onSuccess: () => {
+      onSuccess: async () => {
          successMessage('Tạo mới nhà phân phối thành công.');
+         await getDistributorDetail();
       },
       onError: (err: AxiosError) => {
          const dataError = err.response?.data as HandleErrorApi;
 
          if (Number(dataError.statusCode) === Number(HttpStatusCode.BAD_REQUEST)) {
-            return setErrorMessageHookForm(form.setError, dataError.message);
+            return setErrorMessageHookForm(form.setError, dataError.message) as never;
          }
 
          return errorMessage(err);

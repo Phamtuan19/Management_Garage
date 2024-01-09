@@ -5,9 +5,19 @@ interface MenuConfigItem {
    id: number;
    title: string;
    link: string;
-   icon?: any;
-   module?: string;
+   icon: React.FC<{
+      sx?: Record<string, unknown>;
+   }>;
+   module?: ModulePagePropsType;
    action?: PageActionPropsType;
    aceptPermission?: boolean;
-   children?: MenuConfigItem[];
+   children?: Array<MenuConfigChildren>;
+}
+
+interface MenuConfigChildren {
+   id: number;
+   title: string;
+   link: string;
+   module: ModulePagePropsType;
+   action: PageActionPropsType;
 }

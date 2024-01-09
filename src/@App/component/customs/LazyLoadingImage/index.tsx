@@ -1,3 +1,4 @@
+import images from '@App/assets/image';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 
@@ -6,7 +7,7 @@ interface LoadingImageProps {
    alt?: string;
    w?: string;
    h?: string;
-   style?: string;
+   style?: Record<string, string | number>;
 }
 
 function LazyLoadingImage(props: LoadingImageProps) {
@@ -14,7 +15,7 @@ function LazyLoadingImage(props: LoadingImageProps) {
 
    return (
       <LazyLoadImage
-         src={src} // use normal <img> attributes as props
+         src={src || images.noImage} // use normal <img> attributes as props
          alt={alt}
          width={w || '100%'}
          height={h || '100%'}

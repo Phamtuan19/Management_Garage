@@ -1,6 +1,7 @@
 import { styled, useTheme } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Drawer from '@mui/material/Drawer';
+
 import SidebarItem from './SidebarItem';
 
 interface SidebarProps {
@@ -10,15 +11,15 @@ interface SidebarProps {
 
 const Sidebar = ({ openSidebar, setOpenSidebar }: SidebarProps) => {
    const theme = useTheme();
-   const lgDown = useMediaQuery(theme.breakpoints.down('lg'));
+   const isLgDown = useMediaQuery(theme.breakpoints.down('lg'));
    return (
       <>
-         {!lgDown && (
+         {!isLgDown && (
             <WarpperSidebar>
                <SidebarItem />
             </WarpperSidebar>
          )}
-         {lgDown && (
+         {isLgDown && (
             <ExtendDrawer open={openSidebar} onClose={() => setOpenSidebar(false)}>
                <WarpperSidebar>
                   <SidebarItem />

@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { createTheme } from '@mui/material';
+
 import typography from './customize/typography';
 import base from './customize/base';
 import palette from './customize/palette';
@@ -36,6 +38,9 @@ const theme = createTheme({
             root: {
                '.MuiOutlinedInput-root ': {
                   borderRadius: '6px',
+               },
+               '.css-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input': {
+                  height: '1.2375em',
                },
             },
          },

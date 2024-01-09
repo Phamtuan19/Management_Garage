@@ -1,18 +1,25 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/require-await */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import React from 'react';
 import { Box } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import LoginIcon from '@mui/icons-material/Login';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-
 import { useAuth } from '@App/redux/slices/auth.slice';
-import { FormLoginProps, validationFormLogin } from '../utils/yup.validate';
 import authService from '@App/services/auth.service';
 import { successMessage } from '@Core/Helper/message';
 import { useMutation } from '@tanstack/react-query';
 import ControllerTextFieldPassword from '@Core/Component/Input/ControllerTextFieldPassword';
 import ControllerLabel from '@Core/Component/Input/ControllerLabel';
 import ControllerTextField from '@Core/Component/Input/ControllerTextField';
+
+import { FormLoginProps, validationFormLogin } from '../utils/yup.validate';
 
 function FormLogin() {
    const { authLogin } = useAuth();
@@ -27,8 +34,8 @@ function FormLogin() {
          return res.data;
       },
       onSuccess: (response) => {
-         localStorage.setItem(import.meta.env.VITE_AUTH_TOKEN, response.access_token);
-         authLogin(response.data);
+         localStorage.setItem(import.meta.env.VITE_AUTH_TOKEN, response.token);
+         authLogin(response);
          const message = (response && response.message) || 'Đăng nhập thành công.';
          successMessage(message);
          reset();

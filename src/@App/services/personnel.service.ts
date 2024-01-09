@@ -1,11 +1,11 @@
 import BaseService from '@Core/Api/BaseService';
 
-const personnelPath: ServicePathUrl = {
-   BASE: 'staff',
+export const personnelPathUrl = {
+   BASE: 'personnel',
 };
 
 class PersonnelService extends BaseService {
-   BASE_ENDPOINT = personnelPath.BASE;
+   BASE_ENDPOINT = personnelPathUrl.BASE;
 
    constructor() {
       super();

@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 /*
  * Created Date: 17-11-2023
  * Author: Phạm anh tuấn

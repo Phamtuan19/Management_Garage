@@ -1,6 +1,9 @@
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { Stack, Checkbox, FormControlLabel, FormHelperText, SxProps, Theme } from '@mui/material';
 import React from 'react';
-import { Control, Controller, FieldValues } from 'react-hook-form';
+import { Control, Controller, FieldValues, Path } from 'react-hook-form';
 
 interface ControllerChexBoxGroupPropsType<TFieldValues extends FieldValues = FieldValues> {
    options: { [key: string]: string }[];
@@ -23,7 +26,7 @@ function ControllerChexBoxGroup<TFieldValues extends FieldValues = FieldValues>(
             return (
                <React.Fragment>
                   <Stack sx={sx}>
-                     {options.map((option, index) => {
+                     {options.map((option: Record<string, string>, index) => {
                         return (
                            <FormControlLabel
                               sx={{ width: 'auto' }}
@@ -54,7 +57,7 @@ function ControllerChexBoxGroup<TFieldValues extends FieldValues = FieldValues>(
                </React.Fragment>
             );
          }}
-         name={name as any}
+         name={name as Path<TFieldValues>}
          control={control}
       />
    );

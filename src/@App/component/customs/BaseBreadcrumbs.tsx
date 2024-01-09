@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import { Box, Typography, styled } from '@mui/material';
 import { NavLink } from 'react-router-dom';
@@ -19,23 +20,23 @@ const BaseBreadcrumbs = ({ arialabel, breadcrumbs, children }: BaseBreadcrumbsPr
                         key={index}
                         component={NavLink}
                         to={path.link}
-                        sx={({ base }) => ({
+                        sx={{
                            textDecoration: 'none',
                            textTransform: 'capitalize',
-                           color: base.text.gray2,
                            fontSize: '16px',
+                           color: '#00AA55',
                            '&:hover': {
                               textDecoration: 'underline',
-                              color: base.text.black,
+                              color: '#00AA55',
                            },
-                        })}
+                        }}
                      >
                         {path.title}
                      </Box>
                   );
                })}
 
-            <Typography color="text.primary" sx={{ textTransform: 'capitalize', fontSize: '16px' }}>
+            <Typography color="text.primary" sx={{ textTransform: 'capitalize', fontSize: '16px', fontWeight: 500 }}>
                {arialabel}
             </Typography>
          </Breadcrumbs>

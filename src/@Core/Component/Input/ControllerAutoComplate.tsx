@@ -1,5 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/naming-convention */
+
+import { Autocomplete, Box, TextField } from '@mui/material';
 import React from 'react';
-import { Autocomplete, TextField, Box } from '@mui/material';
 import { type Control, Controller, type FieldValues, type Path } from 'react-hook-form';
 
 interface OptionProps {
@@ -26,7 +30,6 @@ function ControllerAutoComplate<TFieldValues extends FieldValues = FieldValues>(
       name,
       control,
       options,
-      multiple = false,
       valuePath,
       titlePath,
       loading = false,
@@ -41,7 +44,7 @@ function ControllerAutoComplate<TFieldValues extends FieldValues = FieldValues>(
          <Controller
             name={name}
             control={control}
-            render={({ field: { onChange, value, ref, ...propField }, fieldState: { error } }) => {
+            render={({ field: { onChange, ref, ...propField }, fieldState: { error } }) => {
                return (
                   <React.Fragment>
                      <Autocomplete
@@ -53,6 +56,7 @@ function ControllerAutoComplate<TFieldValues extends FieldValues = FieldValues>(
                         renderOption={(props, option) => {
                            return (
                               <Box
+                                 component="span"
                                  sx={{ px: 2, py: 1, cursor: 'pointer', '&:hover': { bgcolor: '#DADADA' } }}
                                  key={option[valuePath]}
                                  {...props}
@@ -62,7 +66,7 @@ function ControllerAutoComplate<TFieldValues extends FieldValues = FieldValues>(
                            );
                         }}
                         onChange={(_, value: any) => {
-                           return onChange(value[valuePath]);
+                           onChange(value[valuePath]);
                         }}
                         renderInput={(params) => {
                            return (

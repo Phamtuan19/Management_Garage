@@ -1,18 +1,19 @@
 import { Box, styled } from '@mui/material';
 import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
+
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import Footer from './components/Footer';
 
 function Layout() {
-   const [openSidebar, setOpenSidebar] = useState<boolean>(false);
+   const [isOpenSidebar, setisOpenSidebar] = useState<boolean>(false);
 
    return (
       <Box>
          <React.Fragment>
-            <Header setOpenSidebar={setOpenSidebar} />
-            <Sidebar openSidebar={openSidebar} setOpenSidebar={setOpenSidebar} />
+            <Header setOpenSidebar={setisOpenSidebar} />
+            <Sidebar openSidebar={isOpenSidebar} setOpenSidebar={setisOpenSidebar} />
          </React.Fragment>
          <WrapperContent>
             <Content>

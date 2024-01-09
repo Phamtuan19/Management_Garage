@@ -1,9 +1,6 @@
 import { IconButton, Tooltip } from '@mui/material';
-
 import DeleteIcon from '@mui/icons-material/Delete';
 import RateReviewRoundedIcon from '@mui/icons-material/RateReviewRounded';
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import ShoppingCartRoundedIcon from '@mui/icons-material/ShoppingCartRounded';
 import { useConfirm } from '@Core/Component/Comfirm/CoreComfirm';
 
 export const CoreTableActionDelete = ({

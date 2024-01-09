@@ -1,8 +1,7 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { Avatar, Box, IconButton, ListItemIcon, Menu, MenuItem, Tooltip, styled, Stack } from '@mui/material';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
-// import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import { useState } from 'react';
-
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import { Link } from 'react-router-dom';
@@ -20,7 +19,7 @@ const Header = ({ setOpenSidebar }: HeaderProps) => {
    const { authLogout } = useAuth();
    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
    const coreConfirm = useConfirm();
-   const open = Boolean(anchorEl);
+   const isOpen = Boolean(anchorEl);
    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
       setAnchorEl(anchorEl ? null : event.currentTarget);
    };
@@ -74,9 +73,9 @@ const Header = ({ setOpenSidebar }: HeaderProps) => {
                         onClick={handleClick}
                         size="small"
                         sx={{ ml: 2 }}
-                        aria-controls={open ? 'account-menu' : undefined}
+                        aria-controls={isOpen ? 'account-menu' : undefined}
                         aria-haspopup="true"
-                        aria-expanded={open ? 'true' : undefined}
+                        aria-expanded={isOpen ? 'true' : undefined}
                      >
                         <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
                      </IconButton>
@@ -85,7 +84,7 @@ const Header = ({ setOpenSidebar }: HeaderProps) => {
                <Menu
                   anchorEl={anchorEl}
                   id="account-menu"
-                  open={open}
+                  open={isOpen}
                   onClose={handleClose}
                   sx={{ zIndex: 999999 }}
                   PaperProps={stylePaperProps}

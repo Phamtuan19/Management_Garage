@@ -1,10 +1,12 @@
-import ControllerLabel from '@Core/Component/Input/ControllerLabel';
-import ControllerTextField from '@Core/Component/Input/ControllerTextField';
-import { Box, Grid } from '@mui/material';
-import { SubmitHandler, UseFormReturn } from 'react-hook-form';
-import { MaterialsCatalogSchema } from '../utils/MaterialsCatalog.schema';
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import { LoadingButton } from '@mui/lab';
+import { Box, Grid } from '@mui/material';
+import { Control, FieldValues, SubmitHandler, UseFormReturn } from 'react-hook-form';
+import ControllerLabel from '@Core/Component/Input/ControllerLabel';
 import ControllerTextarea from '@Core/Component/Input/ControllerTextarea';
+import ControllerTextField from '@Core/Component/Input/ControllerTextField';
+
+import { MaterialsCatalogSchema } from '../utils/materialsCatalog.schema';
 
 interface BaseFormPersonnelPropType {
    form: UseFormReturn<MaterialsCatalogSchema>;
@@ -12,22 +14,22 @@ interface BaseFormPersonnelPropType {
    onSubmitForm: SubmitHandler<MaterialsCatalogSchema>;
 }
 
-const BaseFormMaterialsCatalog = ({ form, isLoading, onSubmitForm }: BaseFormPersonnelPropType) => {
-   const { control } = form;
+const BaseFormSupplies = ({ form, isLoading, onSubmitForm }: BaseFormPersonnelPropType) => {
+   const { handleSubmit, control } = form;
 
    return (
-      <Box component="form">
+      <Box component="form" onSubmit={handleSubmit(onSubmitForm)}>
          <Grid container spacing={2}>
             <Grid item xs={12}>
                <Box height="96.5px">
-                  <ControllerLabel title="Tên nhà phân phối" required />
+                  <ControllerLabel title="Tên sản phẩm" required />
                   <ControllerTextField name="name" control={control} />
                </Box>
             </Grid>
             <Grid item xs={12}>
-               <Box height="96.5px">
+               <Box>
                   <ControllerLabel title="Mô tả" required />
-                  <ControllerTextarea name="description" control={control} />
+                  <ControllerTextarea name="description" control={control as unknown as Control<FieldValues>} />
                </Box>
             </Grid>
             <Grid item xs={12}>
@@ -40,4 +42,4 @@ const BaseFormMaterialsCatalog = ({ form, isLoading, onSubmitForm }: BaseFormPer
    );
 };
 
-export default BaseFormMaterialsCatalog;
+export default BaseFormSupplies;

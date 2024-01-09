@@ -7,7 +7,7 @@ function ScrollbarBase(props: { children?: React.ReactNode; sx?: SxProps<Theme> 
    const { children, ...resProps } = props;
    return (
       <Box component={SimpleBar} {...resProps}>
-         {props.children}
+         {children}
       </Box>
    );
 }

@@ -3,16 +3,15 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../rootReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import authService from '@App/services/auth.service';
-import { PageActionPropsType } from '@App/configs/page-action';
-import { ModulePagePropsType } from '@App/configs/module-page';
+import { AxiosResponseData } from '@Core/Api/axios-config';
 
-const actionRefreshToken = createAsyncThunk('auth/refreshToken', async () => {
-   console.log('refresh token');
-});
+// const actionRefreshToken = createAsyncThunk('auth/refreshToken', async () => {
+//    console.log('refresh token');
+// });
 
 const actionGetUser = createAsyncThunk('auth/getUser', async () => {
    try {
-      const dataUser = await authService.getUser();
+      const dataUser = await authService.verify();
       return dataUser.data;
    } catch (error: any) {
       throw new Error(error);
@@ -20,14 +19,14 @@ const actionGetUser = createAsyncThunk('auth/getUser', async () => {
 });
 
 type UserPermission = {
-   [key: string]: PageActionPropsType[];
+   [key: string]: string[] | '*';
 };
 
 interface InitialState<U> {
    user: Array<U> | null;
    isAuhthentication: boolean;
    isInitialized: boolean;
-   userPermission: UserPermission | null;
+   userPermission: UserPermission | null | '*';
    loading: boolean;
 }
 
@@ -44,10 +43,10 @@ const authSlice = createSlice({
    initialState,
    reducers: {
       actionLoginReducer: (state, action) => {
-         const { access: permissionAccess, ...user } = action.payload;
-
+         const { role, user } = action.payload;
+         console.log(action.payload);
          state.user = user;
-         state.userPermission = JSON.parse(permissionAccess);
+         state.userPermission = role.permission;
          state.isInitialized = true;
          state.isAuhthentication = true;
       },
@@ -61,10 +60,10 @@ const authSlice = createSlice({
    extraReducers: (builder) => {
       builder
          .addCase(actionGetUser.fulfilled, (state, action) => {
-            const { access: permissionAccess, ...user } = action.payload;
+            const { role, user } = action.payload;
 
             state.user = user;
-            state.userPermission = JSON.parse(permissionAccess);
+            state.userPermission = role.permission;
             state.isInitialized = true;
             state.isAuhthentication = true;
          })
@@ -81,11 +80,11 @@ export const useAuth = () => {
    const dispatch: any = useDispatch();
    const auth = useSelector((state: RootState) => state.auth);
 
-   const authRefreshToken = () => {
-      return dispatch(actionRefreshToken());
-   };
+   // const authRefreshToken = () => {
+   //    return dispatch(actionRefreshToken());
+   // };
 
-   const authLogin = (data: any) => {
+   const authLogin = (data: AxiosResponseData) => {
       dispatch(actionLoginReducer(data));
    };
 
@@ -98,7 +97,7 @@ export const useAuth = () => {
       dispatch(actionLogoutReducer());
    };
 
-   return { ...auth, authRefreshToken, authLogin, authGetUser, authLogout };
+   return { ...auth, authLogin, authGetUser, authLogout };
 };
 
 export default authSlice;

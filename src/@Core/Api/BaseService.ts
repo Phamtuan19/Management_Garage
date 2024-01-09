@@ -1,15 +1,15 @@
-import { Axios, AxiosInstance } from 'axios';
+import { AxiosInstance } from 'axios';
+
 import createInstance from './axios';
-import { AxiosResponseData } from './type';
+import { AxiosResponseData } from './axios-config';
 
 interface TypeRequestParams {
-   page_index: number;
-   page_size: number;
-   sort: string;
+   page: number;
+   limit: number;
 }
 
 type TData = {
-   [key: string]: any; // Loại này có thể được điều chỉnh để phù hợp với cấu trúc dữ liệu thực tế của bạn
+   [key: string]: unknown; // Loại này có thể được điều chỉnh để phù hợp với cấu trúc dữ liệu thực tế của bạn
 };
 
 class BaseService {
@@ -38,9 +38,8 @@ class BaseService {
       this.request = createInstance(this.BASE_URL);
 
       this.requestParams = {
-         page_index: this.DEFAULT_PAGE,
-         page_size: this.DEFAULT_LIMIT,
-         sort: this.DEFAULT_SORT,
+         page: this.DEFAULT_PAGE,
+         limit: this.DEFAULT_LIMIT,
       };
    }
 
@@ -61,7 +60,7 @@ class BaseService {
     * @param {string} id
     * @returns
     */
-   find<F>(id: string): Promise<AxiosResponseData> {
+   find(id: string): Promise<AxiosResponseData> {
       const url = `${this.BASE_ENDPOINT}/${id}`;
       return this.request.get(url);
    }
@@ -70,7 +69,7 @@ class BaseService {
     * @param {Object} data
     * @returns
     */
-   create<C>(data: TData): Promise<AxiosResponseData> {
+   create(data: TData): Promise<AxiosResponseData> {
       return this.request.post(this.BASE_ENDPOINT + '/create', data);
    }
 
@@ -79,17 +78,17 @@ class BaseService {
     * @returns
     */
    update<U>(data: TData, id?: string, method: 'put' | 'patch' = 'put'): Promise<U> {
-      const updateId = id || data[this.PRIMARY_KEY];
-      return this.request[method as keyof typeof Axios](`${this.BASE_ENDPOINT}/update/${updateId}`, data);
+      const updateId = id || (data[this.PRIMARY_KEY] as string);
+      return this.request[method](`${this.BASE_ENDPOINT}/update/${updateId}`, data);
    }
 
    /**
     * @param {Object} data
     * @returns
     */
-   save<S>(data: TData): Promise<AxiosResponseData> {
+   save(data: TData): Promise<AxiosResponseData> {
       // kiểm tra xem có id nếu có thì update còn chưa thì tạo mới
-      if (data.hasOwnProperty(this.PRIMARY_KEY) && data[this.PRIMARY_KEY]) {
+      if (Object.prototype.hasOwnProperty.call(data, this.PRIMARY_KEY) && data[this.PRIMARY_KEY]) {
          return this.update(data);
       } else {
          return this.create(data);

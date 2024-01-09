@@ -1,5 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+
 import { useAuth } from '@App/redux/slices/auth.slice';
 import React, { useMemo } from 'react';
+
 import { PermissionAccessType } from '../route';
 
 /**
@@ -13,31 +16,32 @@ const PermissionAccessRoute = ({
    children,
    module,
    action,
-   type,
+   type = 'component',
    fallback = <h1>Bạn không có quyền truy cập</h1>,
 }: PermissionAccessType): React.ReactNode => {
    const { userPermission } = useAuth();
 
    const hasPermissionAndOperation = useMemo(() => {
-      const hasModules = Object.keys(userPermission || []);
-      const moduleActions = userPermission![module!];
-
-      if (type === 'menu') {
-         if (!hasModules.includes(module!)) return false;
-
-         if (moduleActions && moduleActions.length === 0) return false;
-
+      if (userPermission === '*') {
          return true;
       }
 
-      if (hasModules.includes(module!)) {
-         if (moduleActions && moduleActions.includes(action!)) {
+      const hasModules = Object.keys(userPermission || []);
+
+      const moduleActions = userPermission![module];
+
+      if (moduleActions === '*') {
+         return true;
+      }
+
+      if (hasModules.includes(module)) {
+         if (moduleActions && moduleActions.includes(action)) {
             return true;
          }
       }
 
       return false;
-   }, [userPermission, module, action, type, children]);
+   }, [module, action, type]);
 
    if (type === 'route') {
       if (!hasPermissionAndOperation) return fallback;
@@ -46,4 +50,4 @@ const PermissionAccessRoute = ({
    return hasPermissionAndOperation ? children : null;
 };
 
-export default PermissionAccessRoute;
+export default React.memo(PermissionAccessRoute);

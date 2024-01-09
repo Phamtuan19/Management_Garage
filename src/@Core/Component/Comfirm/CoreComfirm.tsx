@@ -1,4 +1,6 @@
-import React, { Context, createContext, useState, useContext, useCallback } from 'react';
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable no-console */
+import { createContext, useState, useContext, useCallback, ReactNode } from 'react';
 import {
    Box,
    Button,
@@ -10,7 +12,6 @@ import {
    Paper,
    Typography,
 } from '@mui/material';
-import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
 import { LoadingButton } from '@mui/lab';
 import styled from 'styled-components';
 import LazyLoadingImage from '@App/component/customs/LazyLoadingImage';
@@ -21,27 +22,23 @@ interface ConfigType {
    content?: string | null;
    isIcon?: boolean;
    color?: string | null;
-   callback: () => Promise<void> | void; // Định kiểu cho callback là một hàm không có tham số và trả về một Promise không có giá trị trả về.
+   callback: () => Promise<void> | void;
    confirmOk?: string | null;
-   icon?: React.ReactNode;
+   icon?: ReactNode;
 }
 
-const ComfirmContext: Context<any> = createContext(null);
+const ConfirmContext = createContext<((props: ConfigType) => void) | null>(null);
 
-export const useConfirm = () => {
-   const confirm = useContext(ComfirmContext);
+export const useConfirm = (): ((props: ConfigType) => void) => {
+   const confirm = useContext(ConfirmContext);
    if (!confirm) {
-      throw new Error('useConfirm must be used within a ComfirmProvider');
+      throw new Error('useConfirm must be used within a ConfirmProvider');
    }
 
-   const coreConfirm = (props: ConfigType) => {
-      return confirm(props);
-   };
-
-   return coreConfirm;
+   return confirm;
 };
 
-function CoreComfirmProvider(props: { children: React.ReactNode }) {
+function ConfirmProvider(props: { children: ReactNode }) {
    const [config, setConfig] = useState<ConfigType>({
       title: null,
       content: null,
@@ -49,34 +46,36 @@ function CoreComfirmProvider(props: { children: React.ReactNode }) {
       confirmOk: null,
       callback: () => {},
    });
-   const [open, setOpen] = useState<boolean>(false);
-   const [loading, setLoading] = useState<boolean>(false);
+   const [isOpen, setIsOpen] = useState<boolean>(false);
+   const [isLoading, setIsLoading] = useState<boolean>(false);
 
    const confirm = useCallback((config: ConfigType) => {
       setConfig(config);
-      setOpen(true);
+      setIsOpen(true);
    }, []);
 
    const handleClose = () => {
-      setOpen(false);
+      setIsOpen(false);
    };
 
    const handleConfirm = async () => {
       if (config?.callback) {
-         setLoading(true);
+         setIsLoading(true);
          try {
-            await config?.callback();
-         } catch (error) {}
-         setLoading(false);
+            await config.callback();
+         } catch (error) {
+            console.error('Error during callback:', error);
+         }
+         setIsLoading(false);
          handleClose();
       }
    };
 
    return (
-      <ComfirmContext.Provider value={confirm}>
+      <ConfirmContext.Provider value={confirm}>
          {props.children}
          <Dialog
-            open={open}
+            open={isOpen}
             PaperComponent={StyledPaper}
             keepMounted
             onClose={handleClose}
@@ -113,17 +112,19 @@ function CoreComfirmProvider(props: { children: React.ReactNode }) {
                </Button>
                <LoadingButton
                   variant="contained"
-                  loading={loading}
+                  loading={isLoading}
                   className="text-white"
-                  // color={config.color ? config.color : 'primary'}
-                  onClick={handleConfirm}
+                  color={(config.color as never) ? (config.color as never) : 'primary'}
+                  onClick={() => {
+                     void handleConfirm();
+                  }}
                   size="medium"
                >
                   {config?.confirmOk ?? 'Xác nhận'}
                </LoadingButton>
             </DialogActions>
          </Dialog>
-      </ComfirmContext.Provider>
+      </ConfirmContext.Provider>
    );
 }
 
@@ -134,4 +135,4 @@ const StyledPaper = styled(Paper)({
    zIndex: 9999,
 });
 
-export default CoreComfirmProvider;
+export default ConfirmProvider;
