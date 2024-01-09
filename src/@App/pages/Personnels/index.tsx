@@ -1,4 +1,4 @@
-import { Box, TextField, Chip } from '@mui/material';
+import { Box, TextField, Chip, Button } from '@mui/material';
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import personnelService from '@App/services/personnel.service';
 import { useQuery } from '@tanstack/react-query';
@@ -7,17 +7,24 @@ import LazyLoadingImage from '@App/component/customs/LazyLoadingImage';
 import Switch from '@App/component/customs/Switch';
 import { CoreTableActionDelete, CoreTableActionEdit } from '@Core/Component/Table/components/CoreTableAction';
 import { useMemo } from 'react';
+import useCoreTable from '@App/hooks/useCoreTable';
+import useSearchParamsHook from '@App/hooks/useSearchParamsHook';
+import { Link } from 'react-router-dom';
 
 export default function Personnels() {
-   const { data: personnels, isFetching: isLoading } = useQuery(['getPersonnelList'], async () => {
-      const res = await personnelService.get();
+   const { searchParams } = useSearchParamsHook();
+
+   const queryTable = useQuery(['getPersonnelList', searchParams], async () => {
+      const res = await personnelService.get(searchParams);
       return res.data;
    });
+
+   const data = useCoreTable(queryTable);
 
    const columns = useMemo(() => {
       return [
          columnHelper.accessor('avatar', {
-            header: 'Hình ảnh',
+            header: () => <Box sx={{ textAlign: 'center' }}>Hình ảnh</Box>,
             cell: ({ row }) => (
                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                   <LazyLoadingImage src={row.getValue('avatar')} w="35" h="35" style={{ borderRadius: '50%' }} />
@@ -37,7 +44,7 @@ export default function Personnels() {
             header: 'Địa chỉ',
          }),
          columnHelper.accessor('gender', {
-            header: 'Giới tính',
+            header: () => <Box sx={{ textAlign: 'center' }}>Giới tính</Box>,
             cell: ({ row }) => {
                return (
                   <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -84,11 +91,16 @@ export default function Personnels() {
 
    return (
       <BaseBreadcrumbs arialabel="Danh sách nhân viên">
-         <Box>
-            <TextField size="small" />
+         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+            <Box className="">
+               <TextField />
+            </Box>
+            <Button component={Link} to="" size="small">
+               Thêm mới
+            </Button>
          </Box>
 
-         <TableCore columns={columns} data={personnels?.data || []} isLoading={isLoading} />
+         <TableCore columns={columns} {...data} />
       </BaseBreadcrumbs>
    );
 }

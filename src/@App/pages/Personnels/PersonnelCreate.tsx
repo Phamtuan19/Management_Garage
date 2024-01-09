@@ -11,6 +11,13 @@ import { HandleErrorApi } from '@Core/Api/axios-config';
 import { ValidationFormCreate, validationFormCreate } from './utils/personnel.schema';
 import BaseFormPersonnel from './components/BaseFormPersonnel';
 
+const breadcrumbs = [
+   {
+      title: 'Nhân viên',
+      link: '',
+   },
+];
+
 const PersonnelCreate = () => {
    const form = useForm<ValidationFormCreate>({
       resolver: yupResolver(validationFormCreate),
@@ -35,7 +42,7 @@ const PersonnelCreate = () => {
    const onSubmitForm: SubmitHandler<ValidationFormCreate> = (data) => handleCreatePersonnel(data);
 
    return (
-      <BaseBreadcrumbs arialabel="Personnels">
+      <BaseBreadcrumbs arialabel="Thêm mới" breadcrumbs={breadcrumbs}>
          <BaseFormPersonnel form={form} onSubmitForm={onSubmitForm} isLoading={isLoading} />
       </BaseBreadcrumbs>
    );

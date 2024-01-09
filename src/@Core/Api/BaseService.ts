@@ -1,13 +1,11 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import { AxiosInstance } from 'axios';
 
 import createInstance from './axios';
 import { AxiosResponseData } from './axios-config';
 
 interface TypeRequestParams {
-   page_index: number;
-   page_size: number;
-   sort: string;
+   page: number;
+   limit: number;
 }
 
 type TData = {
@@ -40,9 +38,8 @@ class BaseService {
       this.request = createInstance(this.BASE_URL);
 
       this.requestParams = {
-         page_index: this.DEFAULT_PAGE,
-         page_size: this.DEFAULT_LIMIT,
-         sort: this.DEFAULT_SORT,
+         page: this.DEFAULT_PAGE,
+         limit: this.DEFAULT_LIMIT,
       };
    }
 

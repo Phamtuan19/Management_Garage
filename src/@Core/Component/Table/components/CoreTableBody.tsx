@@ -19,7 +19,7 @@ import { Table as TypeReactTable, flexRender } from '@tanstack/react-table';
 
 interface TabelHeaderProps<T> {
    table: TypeReactTable<T>;
-   isLoading?: boolean;
+   isLoading: boolean;
 }
 
 function CoreTableBody<T>(props: TabelHeaderProps<T>) {

@@ -16,15 +16,16 @@
 
 import { TableCell, TableRow, styled, tableCellClasses } from '@mui/material';
 import TableHead from '@mui/material/TableHead';
-import { Table, flexRender } from '@tanstack/react-table';
+import { type Table, flexRender } from '@tanstack/react-table';
 import React from 'react';
 
-interface TabelHeaderProps<T> {
-   table: Table<T>;
+interface TabelHeaderProps<TData> {
+   table: Table<TData>;
 }
 
-function CoreTableHeader<T>(props: TabelHeaderProps<T>): React.ReactElement {
+function CoreTableHeader<TData>(props: TabelHeaderProps<TData>): React.ReactElement {
    const { table } = props;
+
    return (
       <TableHead sx={{ position: 'sticky', top: 0, left: 0, width: '100%', zIndex: 1 }}>
          {table.getHeaderGroups().map((headerGroup) => {

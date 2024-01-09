@@ -39,6 +39,9 @@ const theme = createTheme({
                '.MuiOutlinedInput-root ': {
                   borderRadius: '6px',
                },
+               '.css-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input': {
+                  height: '1.2375em',
+               },
             },
          },
       },
