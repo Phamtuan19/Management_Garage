@@ -93,9 +93,9 @@ export default function Personnels() {
       <BaseBreadcrumbs arialabel="Danh sách nhân viên">
          <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
             <Box className="">
-               <TextField />
+               <TextField label="Tìm kiếm" />
             </Box>
-            <Button component={Link} to="" size="small">
+            <Button component={Link} to="create" size="small">
                Thêm mới
             </Button>
          </Box>

@@ -49,6 +49,17 @@ const theme = createTheme({
          defaultProps: {
             variant: 'outlined',
             size: 'small',
+            sx: {
+               lineHeight: '1.2375em',
+               borderRadius: '6px',
+            },
+         },
+         styleOverrides: {
+            root: {
+               '.css-snwtah-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.MuiSelect-select': {
+                  minHeight: '1.2375em',
+               },
+            },
          },
       },
    },
