@@ -12,6 +12,9 @@ import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import useSearchParamsHook from '@App/hooks/useSearchParamsHook';
+import PermissionAccessRoute from '@App/routes/components/PermissionAccessRoute';
+import MODULE_PAGE from '@App/configs/module-page';
+import PAGE_ACTION from '@App/configs/page-action';
 
 const Role = () => {
    const navigate = useNavigate();
@@ -76,9 +79,11 @@ const Role = () => {
       <BaseBreadcrumbs arialabel="Danh sách vai trò">
          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <TextField size="small" />
-            <Button component={Link} to="create" size="medium">
-               Thêm mới
-            </Button>
+            <PermissionAccessRoute module={MODULE_PAGE.ROLES} action={PAGE_ACTION.CREATE}>
+               <Button component={Link} to="create" size="medium">
+                  Thêm mới
+               </Button>
+            </PermissionAccessRoute>
          </Box>
 
          <TableCore columns={columns} {...data} />
