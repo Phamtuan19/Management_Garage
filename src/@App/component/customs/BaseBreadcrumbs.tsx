@@ -1,15 +1,16 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import Breadcrumbs from '@mui/material/Breadcrumbs';
-import { Box, Typography, styled } from '@mui/material';
+import { Box, SxProps, Theme, Typography, styled } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 
 interface BaseBreadcrumbsPropsType {
    arialabel: string;
    breadcrumbs?: { title: string; link: string }[];
    children?: React.ReactNode;
+   sx?: SxProps<Theme>;
 }
 
-const BaseBreadcrumbs = ({ arialabel, breadcrumbs, children }: BaseBreadcrumbsPropsType) => {
+const BaseBreadcrumbs = ({ arialabel, breadcrumbs, sx, children }: BaseBreadcrumbsPropsType) => {
    return (
       <WarrperContainer>
          <Breadcrumbs>
@@ -40,7 +41,7 @@ const BaseBreadcrumbs = ({ arialabel, breadcrumbs, children }: BaseBreadcrumbsPr
                {arialabel}
             </Typography>
          </Breadcrumbs>
-         <Content>{children}</Content>
+         <Content sx={sx}>{children}</Content>
       </WarrperContainer>
    );
 };
@@ -50,8 +51,8 @@ const WarrperContainer = styled('div')({
 });
 
 const Content = styled('div')(({ theme }) => ({
-   marginTop: 8,
-   padding: 16,
+   marginTop: 12,
+   padding: 12,
    border: '1px solid  #d1d5db5e',
    borderRadius: 5,
    backgroundColor: theme.base.background.white,

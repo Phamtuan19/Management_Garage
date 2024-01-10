@@ -37,6 +37,7 @@ const theme = createTheme({
          styleOverrides: {
             root: {
                '.MuiOutlinedInput-root ': {
+                  lineHeight: '1.2375em',
                   borderRadius: '6px',
                },
                '.css-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input': {
@@ -49,16 +50,24 @@ const theme = createTheme({
          defaultProps: {
             variant: 'outlined',
             size: 'small',
-            sx: {
-               lineHeight: '1.2375em',
-               borderRadius: '6px',
-            },
          },
          styleOverrides: {
             root: {
+               lineHeight: '1.2375em',
+               borderRadius: '6px',
                '.css-snwtah-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.MuiSelect-select': {
                   minHeight: '1.2375em',
+                  lineHeight: '1.2375em',
+                  borderRadius: '6px',
+                  minWidth: 100,
                },
+            },
+         },
+      },
+      MuiFormLabel: {
+         defaultProps: {
+            sx: {
+               fontSize: '16px',
             },
          },
       },
