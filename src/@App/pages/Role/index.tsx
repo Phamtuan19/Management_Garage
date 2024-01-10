@@ -7,11 +7,10 @@ import useCoreTable from '@App/hooks/useCoreTable';
 import roleService from '@App/services/role.service';
 import TableCore, { columnHelper } from '@Core/Component/Table';
 import { CoreTableActionDelete, CoreTableActionEdit } from '@Core/Component/Table/components/CoreTableAction';
-import { Box, Button, TextField } from '@mui/material';
+import { Box, Button, Chip, TextField } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import AddIcon from '@mui/icons-material/Add';
 import useSearchParamsHook from '@App/hooks/useSearchParamsHook';
 
 const Role = () => {
@@ -19,7 +18,7 @@ const Role = () => {
    const { searchParams } = useSearchParamsHook();
 
    const queryTable = useQuery(['getPermissionList', searchParams], async () => {
-      const res = await roleService.get();
+      const res = await roleService.get(searchParams);
       return res.data;
    });
 
@@ -40,8 +39,24 @@ const Role = () => {
                return <Box>{row.getValue('name')}</Box>;
             },
          }),
+         columnHelper.accessor('userCount', {
+            header: () => <Box textAlign="center">NV đang làm việc</Box>,
+            cell: ({ row }) => {
+               return (
+                  <Box textAlign="center">
+                     <Chip variant="filled" label={row.getValue('userCount')} sx={{ textTransform: 'capitalize' }} />
+                  </Box>
+               );
+            },
+         }),
          columnHelper.accessor('describe', {
             header: 'Mô tả',
+         }),
+         columnHelper.accessor('createdAt', {
+            header: 'Ngày tạo',
+         }),
+         columnHelper.accessor('updatedAt', {
+            header: 'Cập nhật',
          }),
          columnHelper.accessor('', {
             header: 'Thao tác',
@@ -58,10 +73,10 @@ const Role = () => {
    }, []);
 
    return (
-      <BaseBreadcrumbs arialabel="Danh sách nhóm quyền">
+      <BaseBreadcrumbs arialabel="Danh sách vai trò">
          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <TextField size="small" />
-            <Button component={Link} to="create" size="small" endIcon={<AddIcon />}>
+            <Button component={Link} to="create" size="medium">
                Thêm mới
             </Button>
          </Box>

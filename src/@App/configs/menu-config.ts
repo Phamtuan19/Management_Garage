@@ -67,7 +67,7 @@ const menuConfig: MenuConfigItem[] = [
          },
          {
             id: 4.3,
-            title: 'Quyền truy cập',
+            title: 'Vai trò',
             link: ROUTE_PATH.ROLES,
             module: MODULE_PAGE.ROLES,
             action: PAGE_ACTION.VIEW_ALL,
