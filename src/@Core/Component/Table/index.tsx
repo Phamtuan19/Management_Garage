@@ -117,7 +117,6 @@ function TableCore<TData = unknown[], TValue = never>(props: TableCoreProps<TDat
                      <MenuItem value={50}>30</MenuItem>
                   </Select>
                </Box>
-
                <Pagination
                   onChange={(_, page) => setParams('page', String(page))}
                   count={totalPage}

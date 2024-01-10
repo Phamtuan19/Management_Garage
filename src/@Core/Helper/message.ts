@@ -8,7 +8,7 @@ export const successMessage = (message = 'Thành công!') => {
    toast.success(message);
 };
 
-export const errorMessage = (error: Error | AxiosError<unknown, unknown>) => {
+export const errorMessage = (error: Error | AxiosError<unknown, unknown> | string) => {
    if (error instanceof AxiosError) {
       if (error.response?.data.message) {
          console.error('---------------- Server Error', error.response.data.message);
