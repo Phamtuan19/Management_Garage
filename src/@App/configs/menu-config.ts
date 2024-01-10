@@ -47,15 +47,14 @@ const menuConfig: MenuConfigItem[] = [
    },
    {
       id: 4,
-      title: 'Nhân viên',
-      link: ROUTE_PATH.PERSONNELS,
+      title: 'Nhân sự',
+      link: '/hr',
       icon: PeopleIcon,
-
       children: [
          {
             id: 4.1,
-            title: 'Danh sách',
-            link: '/personnels',
+            title: 'Nhân viên',
+            link: ROUTE_PATH.PERSONNELS,
             module: MODULE_PAGE.PERSONNELS,
             action: PAGE_ACTION.VIEW_ALL,
          },

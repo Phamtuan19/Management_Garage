@@ -4,7 +4,13 @@ const permissionServicePath = {
    base: 'roles',
 };
 
-class ModuleRoleService extends BaseService {
+export interface RoleResponseData {
+   _id: string;
+   name: string;
+   permission: string | { [key: string]: string | Array<string> }[];
+}
+
+class RoleService extends BaseService {
    BASE_ENDPOINT = permissionServicePath.base;
 
    constructor() {
@@ -13,6 +19,6 @@ class ModuleRoleService extends BaseService {
    }
 }
 
-const moduleRoleService = new ModuleRoleService();
+const roleService = new RoleService();
 
-export default moduleRoleService;
+export default roleService;

@@ -74,8 +74,9 @@ function CoreTableBody<T>(props: TabelHeaderProps<T>) {
 }
 
 const StyledTableRow = styled(TableRow)(() => ({
+   // backgroundColor: '#FFFFF',
    '&:nth-of-type(odd)': {
-      backgroundColor: '#FFFFF',
+      backgroundColor: '#FFFFFF',
    },
    '& .MuiTableCell-root': {
       padding: '6px 12px',
