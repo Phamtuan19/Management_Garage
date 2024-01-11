@@ -7,6 +7,7 @@ const permissionServicePath = {
 export interface RoleResponseData {
    _id: string;
    name: string;
+   describe: string;
    permission: string | { [key: string]: string | Array<string> }[];
 }
 
