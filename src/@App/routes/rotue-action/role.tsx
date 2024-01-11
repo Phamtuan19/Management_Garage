@@ -8,6 +8,7 @@ import Loadable from '../components/loadable';
 
 const Role = Loadable('Role');
 const RoleCreate = Loadable('Role/RoleCreate');
+const RoleUpdate = Loadable('Role/RoleUpdate');
 
 const roleRoute: RouteObject = {
    path: ROUTE_PATH.ROLES,
@@ -26,6 +27,14 @@ const roleRoute: RouteObject = {
          element: (
             <PermissionAccessRoute module={MODULE_PAGE.ROLES} action={PAGE_ACTION.CREATE} type="route">
                <RoleCreate />
+            </PermissionAccessRoute>
+         ),
+      },
+      {
+         path: ROUTE_PATH.ROLES + '/' + ROUTE_PATH.UPDATE,
+         element: (
+            <PermissionAccessRoute module={MODULE_PAGE.ROLES} action={PAGE_ACTION.UPDATE} type="route">
+               <RoleUpdate />
             </PermissionAccessRoute>
          ),
       },
