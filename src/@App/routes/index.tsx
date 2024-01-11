@@ -9,10 +9,10 @@ import PrivateRouter from './components/PrivateRouter';
 import Loadable from './components/loadable';
 import PermissionAccessRoute from './components/PermissionAccessRoute';
 import personnelRoute from './rotue-action/personnels';
-import modulePermissionRoute from './rotue-action/modulePermission';
 import distributorRoute from './rotue-action/distributor';
 import materialsCatalogRoute from './rotue-action/supplies';
 import userRoute from './rotue-action/user';
+import roleRoute from './rotue-action/role';
 
 const SignIn = Loadable('auth/SignIn');
 const Doashboard = Loadable('Doashboard');
@@ -39,7 +39,7 @@ const routes = (): RouteObject[] => {
                ),
             },
             personnelRoute,
-            modulePermissionRoute,
+            roleRoute,
             distributorRoute,
             materialsCatalogRoute,
             userRoute,

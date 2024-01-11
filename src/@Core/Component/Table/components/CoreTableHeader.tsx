@@ -47,9 +47,9 @@ function CoreTableHeader<TData>(props: TabelHeaderProps<TData>): React.ReactElem
    );
 }
 
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
+const StyledTableRow = styled(TableRow)(() => ({
    '&:nth-of-type(odd)': {
-      backgroundColor: theme.base.background.default,
+      backgroundColor: '#fffbfb80',
    },
    '& .MuiTableCell-root': {
       padding: '6px 14px',
@@ -58,10 +58,10 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
    [`&.${tableCellClasses.head}`]: {
-      backgroundColor: '#FFF',
+      // backgroundColor: 'rgb(240, 240, 240)',
       color: theme.base.text.main,
       fontSize: '14px',
-      padding: '12px',
+      padding: '8px 12px',
       position: 'relative',
       zIndex: 1,
    },

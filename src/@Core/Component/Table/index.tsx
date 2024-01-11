@@ -95,7 +95,8 @@ function TableCore<TData = unknown[], TValue = never>(props: TableCoreProps<TDat
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'flex-end',
-                  p: 1.5,
+                  px: 1.5,
+                  py: 1,
                   gap: 4,
                   backgroundColor: '#FFFFFF',
                   borderTop: '1px solid #D1D5DB',
@@ -116,7 +117,6 @@ function TableCore<TData = unknown[], TValue = never>(props: TableCoreProps<TDat
                      <MenuItem value={50}>30</MenuItem>
                   </Select>
                </Box>
-
                <Pagination
                   onChange={(_, page) => setParams('page', String(page))}
                   count={totalPage}
@@ -132,7 +132,7 @@ function TableCore<TData = unknown[], TValue = never>(props: TableCoreProps<TDat
 const CoreTableContainer = styled(TableContainer)(() => ({
    maxWidth: '100%',
    position: 'relative',
-   margin: '12px 0px',
+   margin: '12px 0px 0px',
    display: 'flex',
    flexDirection: 'column',
    // backgroundColor: theme.base.background.default,

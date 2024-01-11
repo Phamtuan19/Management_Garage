@@ -6,9 +6,10 @@ import MODULE_PAGE from '@App/configs/module-page';
 import PermissionAccessRoute from '../components/PermissionAccessRoute';
 import Loadable from '../components/loadable';
 
-const Permission = Loadable('ModulePermission');
+const Role = Loadable('Role');
+const RoleCreate = Loadable('Role/RoleCreate');
 
-const modulePermissionRoute: RouteObject = {
+const roleRoute: RouteObject = {
    path: ROUTE_PATH.ROLES,
    element: <Outlet />,
    children: [
@@ -16,11 +17,19 @@ const modulePermissionRoute: RouteObject = {
          index: true,
          element: (
             <PermissionAccessRoute module={MODULE_PAGE.ROLES} action={PAGE_ACTION.VIEW_ALL} type="route">
-               <Permission />
+               <Role />
+            </PermissionAccessRoute>
+         ),
+      },
+      {
+         path: ROUTE_PATH.ROLES + '/' + ROUTE_PATH.CREATE,
+         element: (
+            <PermissionAccessRoute module={MODULE_PAGE.ROLES} action={PAGE_ACTION.CREATE} type="route">
+               <RoleCreate />
             </PermissionAccessRoute>
          ),
       },
    ],
 };
 
-export default modulePermissionRoute;
+export default roleRoute;
