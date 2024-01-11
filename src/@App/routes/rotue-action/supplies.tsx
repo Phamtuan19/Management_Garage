@@ -10,7 +10,7 @@ const Supplies = Loadable('Supplies');
 const SuppliesCreate = Loadable('Supplies/SuppliesCreate');
 const SuppliesUpdate = Loadable('Supplies/SuppliesUpdate');
 
-const materialsCatalogRoute: RouteObject = {
+const suppliesRoute: RouteObject = {
    path: ROUTE_PATH.SUPPLIES,
    element: <Outlet />,
    children: [
@@ -41,4 +41,4 @@ const materialsCatalogRoute: RouteObject = {
    ],
 };
 
-export default materialsCatalogRoute;
+export default suppliesRoute;
