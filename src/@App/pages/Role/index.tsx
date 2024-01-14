@@ -5,7 +5,11 @@ import ROUTE_PATH from '@App/configs/router-path';
 import useCoreTable from '@App/hooks/useCoreTable';
 import roleService, { RoleResponseData } from '@App/services/role.service';
 import TableCore, { columnHelper } from '@Core/Component/Table';
-import { CoreTableActionDelete, CoreTableActionEdit } from '@Core/Component/Table/components/CoreTableAction';
+import {
+   CoreTableActionDelete,
+   CoreTableActionEdit,
+   CoreTableActionViewDetail,
+} from '@Core/Component/Table/components/CoreTableAction';
 import { Box, Button, Chip } from '@mui/material';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
@@ -98,6 +102,9 @@ const Role = () => {
                      </PermissionAccessRoute>
                      <PermissionAccessRoute module={MODULE_PAGE.ROLES} action="VIEW_ALL">
                         <CoreTableActionEdit callback={() => navigate(ROUTE_PATH.ROLES + '/update/' + role._id)} />
+                     </PermissionAccessRoute>
+                     <PermissionAccessRoute module={MODULE_PAGE.ROLES} action="VIEW_ONE">
+                        <CoreTableActionViewDetail callback={() => navigate(ROUTE_PATH.ROLES + '/' + role._id)} />
                      </PermissionAccessRoute>
                   </Box>
                );
