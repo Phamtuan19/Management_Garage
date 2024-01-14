@@ -19,7 +19,7 @@ const materialsCatalogRoute: RouteObject = {
                <MaterialsCatalog />
             </PermissionAccessRoute>
          ),
-      }
+      },
    ],
 };
 
