@@ -9,7 +9,7 @@ import Loadable from '../components/loadable';
 const Role = Loadable('Role');
 const RoleCreate = Loadable('Role/RoleCreate');
 const RoleUpdate = Loadable('Role/RoleUpdate');
-const RoleDetail = Loadable('Role/RoleDetailScreen');
+const RoleDetail = Loadable('Role/RoleDetail');
 
 const roleRoute: RouteObject = {
    path: ROUTE_PATH.ROLES,
@@ -39,14 +39,14 @@ const roleRoute: RouteObject = {
             </PermissionAccessRoute>
          ),
       },
-         {
-            path: ROUTE_PATH.ROLES + '/' + ROUTE_PATH.DETAIL,
-            element: (
-               <PermissionAccessRoute module={MODULE_PAGE.ROLES} action={PAGE_ACTION.VIEW_ONE} type="route">
-                  <RoleDetail />
-               </PermissionAccessRoute>
-            ),
-         },
+      {
+         path: ROUTE_PATH.ROLES + '/' + ROUTE_PATH.DETAIL,
+         element: (
+            <PermissionAccessRoute module={MODULE_PAGE.ROLES} action={PAGE_ACTION.VIEW_ONE} type="route">
+               <RoleDetail />
+            </PermissionAccessRoute>
+         ),
+      },
    ],
 };
 

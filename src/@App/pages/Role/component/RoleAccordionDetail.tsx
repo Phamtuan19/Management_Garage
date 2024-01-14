@@ -1,8 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/naming-convention */
-
-import { ModulePagePropsType } from '@App/configs/module-page';
+import React from 'react';
 import { PageActionPropsType } from '@App/configs/page-action';
 import { RoleResponseData } from '@App/services/role.service';
 import {
@@ -16,35 +13,34 @@ import {
    Typography,
    styled,
 } from '@mui/material';
-import { useCallback } from 'react';
+
+import { RolePropsTypeConfig } from '../utils';
 
 interface RoleDetailProps {
-   role: {
-      name: ModulePagePropsType;
-      title: string;
-      action: Array<{
-         name: PageActionPropsType;
-         title: string;
-      }>;
-   };
+   role: RolePropsTypeConfig;
    roleDetail: RoleResponseData;
 }
 
-const RoleDetailText = ({ role, roleDetail }: RoleDetailProps) => {
-   const isCheckItem = useCallback(
-      (action: PageActionPropsType) => {
-         return roleDetail?.permission[role?.name as never] === '*' ||
-            roleDetail?.permission === '*' ||
-            roleDetail?.permission[role?.name].includes(action)
-            ? true
-            : false;
-      },
-      [roleDetail, role.name],
-   );
+const RoleAccordionDetail = ({ role, roleDetail }: RoleDetailProps) => {
+   const isCheckItem = (action: PageActionPropsType) => {
+      const permission = roleDetail.permission;
+
+      if (typeof permission === 'string' && permission === '*') {
+         return true;
+      }
+
+      const rolePermission = permission[role.name];
+
+      if (Array.isArray(rolePermission)) {
+         return rolePermission.includes(action);
+      }
+
+      return rolePermission === '*';
+   };
 
    return (
       <Accordion sx={{ boxShadow: 'none' }} expanded={true}>
-         <AccordionSummary sx={{ cursor: 'text' }}>
+         <AccordionSummary>
             <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
                <Typography component="h3" sx={{ fontWeight: 400, fontSize: '17px' }}>
                   {role.title}:
@@ -89,4 +85,4 @@ const CheckboxCustom = styled(Checkbox)({
    },
 });
 
-export default RoleDetailText;
+export default React.memo(RoleAccordionDetail);

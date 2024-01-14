@@ -1,3 +1,5 @@
+import { ModulePagePropsType } from '@App/configs/module-page';
+import { PageActionPropsType } from '@App/configs/page-action';
 import BaseService from '@Core/Api/BaseService';
 
 const permissionServicePath = {
@@ -8,7 +10,7 @@ export interface RoleResponseData {
    _id: string;
    name: string;
    describe: string;
-   permission: string | { [key: string]: string | Array<string> }[];
+   permission: '*' | Record<ModulePagePropsType, '*' | Array<PageActionPropsType>>;
 }
 
 class RoleService extends BaseService {
