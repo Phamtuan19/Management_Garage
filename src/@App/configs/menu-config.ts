@@ -19,19 +19,19 @@ const menuConfig: MenuConfigItem[] = [
    {
       id: 2,
       title: 'Vật tư',
-      link: ROUTE_PATH.DISTRIBUTORS,
+      link: '/warehouse',
       icon: WidgetsOutlinedIcon,
       children: [
          {
             id: 2.1,
-            title: 'Danh sách vật tư',
+            title: 'Vật tư',
             link: ROUTE_PATH.SUPPLIES,
             module: MODULE_PAGE.SUPPLIES,
             action: PAGE_ACTION.VIEW_ALL,
          },
          {
             id: 2.2,
-            title: 'Danh sách danh mục vật tư',
+            title: 'Danh mục vật tư',
             link: ROUTE_PATH.MATERIALS_CATALOGS,
             module: MODULE_PAGE.MATERIALS_CATALOGS,
             action: PAGE_ACTION.VIEW_ALL,
@@ -46,8 +46,8 @@ const menuConfig: MenuConfigItem[] = [
          {
             id: 2.4,
             title: 'Nhà phân phối',
-            link: ROUTE_PATH.MATERIALS_CATALOGS,
-            module: MODULE_PAGE.MATERIALS_CATALOGS,
+            link: ROUTE_PATH.DISTRIBUTORS,
+            module: MODULE_PAGE.DISTRIBUTORS,
             action: PAGE_ACTION.VIEW_ALL,
          },
       ],

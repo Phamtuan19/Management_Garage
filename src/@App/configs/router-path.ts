@@ -8,14 +8,14 @@ const ROUTE_PATH = {
 
    ROLES: '/hr/roles',
 
-   // module
-   CUSTOMERS: '/customers',
+   // module kho (warehouse)
+   CUSTOMERS: '/warehouse/customers',
 
-   DISTRIBUTORS: '/distributors',
+   DISTRIBUTORS: '/warehouse/distributors',
 
-   MATERIALS_CATALOGS: '/materials-catalogs',
+   MATERIALS_CATALOGS: '/warehouse/materials-catalogs',
 
-   SUPPLIES: '/supplies',
+   SUPPLIES: '/warehouse/supplies',
 
    WAREHOUSES: '/warehouses',
 
@@ -23,7 +23,9 @@ const ROUTE_PATH = {
 
    CREATE: '/create',
 
-   UPDATE: '/:id',
+   UPDATE: '/update/:id',
+
+   DETAIL: '/:id',
 } as const;
 
 export const routePathSchema = yup.string().oneOf(Object.values(ROUTE_PATH)).required();

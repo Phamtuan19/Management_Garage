@@ -1,19 +1,7 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable @typescript-eslint/restrict-plus-operands */
-/* eslint-disable @typescript-eslint/naming-convention */
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
-import ROUTE_PATH from '@App/configs/router-path';
-import useCoreTable from '@App/hooks/useCoreTable';
-import materialsCatalogService from '@App/services/materialsCatalog.service';
-import TableCore, { columnHelper } from '@Core/Component/Table';
-import { CoreTableActionDelete, CoreTableActionEdit } from '@Core/Component/Table/components/CoreTableAction';
 import { Box, TextField } from '@mui/material';
-import { useQuery } from '@tanstack/react-query';
-import { useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 const Supplies = () => {
-
    // const navigate = useNavigate();
    // const queryTable = useQuery(['getListDistributor'], async () => {
    //    const res = await materialsCatalogService.get();

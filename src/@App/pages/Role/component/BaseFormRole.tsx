@@ -13,15 +13,21 @@ import RoleDetail from './RoleDetail';
 interface BaseFormRolePropType {
    form: UseFormReturn<ValidationFormCreate>;
    isLoading: boolean;
+   update?: boolean;
    onSubmitForm: SubmitHandler<ValidationFormCreate>;
 }
 
-const BaseFormRole = ({ form, onSubmitForm, isLoading }: BaseFormRolePropType) => {
+const BaseFormRole = ({ form, onSubmitForm, update = false, isLoading }: BaseFormRolePropType) => {
    const { control, handleSubmit } = form;
 
    return (
       <form onSubmit={handleSubmit(onSubmitForm)}>
-         <Box sx={{ bgcolor: '#FFFF', p: 2, borderRadius: 2 }}>
+         <Box>
+            <LoadingButton type="submit" variant="contained" loading={isLoading}>
+               {update ? 'thêm mới' : 'Cập nhật'}
+            </LoadingButton>
+         </Box>
+         <Box sx={{ mt: 2, bgcolor: '#FFFF', p: 2, borderRadius: 2 }}>
             <Grid container spacing={2}>
                <Grid item md={6}>
                   <Box sx={{ minHeight: '80px' }}>
@@ -56,23 +62,20 @@ const BaseFormRole = ({ form, onSubmitForm, isLoading }: BaseFormRolePropType) =
             <Grid container spacing={2}>
                <Grid item md={12}>
                   <Box sx={{ mt: 2, display: 'flex', flexDirection: 'column', gap: 2 }}>
-                     {ROLES.map((role, index) => (
-                        <Box key={index} sx={{ borderBottom: '1px solid #E8EAEB' }}>
-                           <RoleDetail
-                              role={role}
-                              name="permission"
-                              control={control as unknown as Control<FieldValues>}
-                           />
-                        </Box>
-                     ))}
+                     {ROLES.map((role, index) => {
+                        return (
+                           <Box key={index} sx={{ borderBottom: '1px solid #E8EAEB' }}>
+                              <RoleDetail
+                                 role={role}
+                                 name="permission"
+                                 control={control as unknown as Control<FieldValues>}
+                              />
+                           </Box>
+                        );
+                     })}
                   </Box>
                </Grid>
             </Grid>
-         </Box>
-         <Box>
-            <LoadingButton type="submit" variant="contained" loading={isLoading}>
-               Thêm
-            </LoadingButton>
          </Box>
       </form>
    );
