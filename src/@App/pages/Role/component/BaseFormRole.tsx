@@ -8,7 +8,7 @@ import { LoadingButton } from '@mui/lab';
 import { ValidationFormCreate } from '../utils/role.schema';
 import { ROLES } from '../utils';
 
-import RoleDetail from './RoleDetail';
+import RoleAccordionForm from './RoleAccordionForm';
 
 interface BaseFormRolePropType {
    form: UseFormReturn<ValidationFormCreate>;
@@ -65,7 +65,7 @@ const BaseFormRole = ({ form, onSubmitForm, update = false, isLoading }: BaseFor
                      {ROLES.map((role, index) => {
                         return (
                            <Box key={index} sx={{ borderBottom: '1px solid #E8EAEB' }}>
-                              <RoleDetail
+                              <RoleAccordionForm
                                  role={role}
                                  name="permission"
                                  control={control as unknown as Control<FieldValues>}

@@ -1,5 +1,5 @@
-import MODULE_PAGE from '@App/configs/module-page';
-import PAGE_ACTION from '@App/configs/page-action';
+import MODULE_PAGE, { ModulePagePropsType } from '@App/configs/module-page';
+import PAGE_ACTION, { PageActionPropsType } from '@App/configs/page-action';
 
 export const CHIP_COLOR = {
    view: 'primary',
@@ -10,7 +10,16 @@ export const CHIP_COLOR = {
    delete: 'error',
 } as const;
 
-export const ROLES = [
+export interface RolePropsTypeConfig {
+   name: ModulePagePropsType;
+   title: string;
+   action: {
+      name: PageActionPropsType;
+      title: string;
+   }[];
+}
+
+export const ROLES: RolePropsTypeConfig[] = [
    // DISTRIBUTORS
    {
       name: MODULE_PAGE.DISTRIBUTORS,
