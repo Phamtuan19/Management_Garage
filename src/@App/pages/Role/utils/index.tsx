@@ -11,6 +11,61 @@ export const CHIP_COLOR = {
 } as const;
 
 export const ROLES = [
+   // DISTRIBUTORS
+   {
+      name: MODULE_PAGE.DISTRIBUTORS,
+      title: 'Nhà phân phối',
+      action: [
+         {
+            name: PAGE_ACTION.VIEW_ALL,
+            title: 'Xem Danh sách nhà phân phối',
+         },
+         {
+            name: PAGE_ACTION.VIEW_ONE,
+            title: 'Xem Chi tiết thông tin nhà phân phối',
+         },
+         {
+            name: PAGE_ACTION.CREATE,
+            title: 'Thêm mới thông tin nhà phân phối',
+         },
+         {
+            name: PAGE_ACTION.DELETE,
+            title: 'Xóa thông tin nhà phân phối',
+         },
+         {
+            name: PAGE_ACTION.UPDATE,
+            title: 'Cập nhật thông tin nhà phân phối',
+         },
+      ],
+   },
+   // MATERIALS_CATALOGS
+   {
+      name: MODULE_PAGE.MATERIALS_CATALOGS,
+      title: 'Danh mục vật tư',
+      action: [
+         {
+            name: PAGE_ACTION.VIEW_ALL,
+            title: 'Xem Danh sách vật tư',
+         },
+         {
+            name: PAGE_ACTION.VIEW_ONE,
+            title: 'Xem Chi tiết thông tin vật tư',
+         },
+         {
+            name: PAGE_ACTION.CREATE,
+            title: 'Thêm mới thông tin vật tư',
+         },
+         {
+            name: PAGE_ACTION.DELETE,
+            title: 'Xóa thông tin vật tư',
+         },
+         {
+            name: PAGE_ACTION.UPDATE,
+            title: 'Cập nhật thông tin vật tư',
+         },
+      ],
+   },
+   // Personnel
    {
       name: MODULE_PAGE.PERSONNELS,
       title: 'Nhân viên',
@@ -41,6 +96,7 @@ export const ROLES = [
          },
       ],
    },
+   // Role
    {
       name: MODULE_PAGE.ROLES,
       title: 'Vai trò',

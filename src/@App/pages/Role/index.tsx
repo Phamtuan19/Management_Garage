@@ -1,20 +1,23 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable @typescript-eslint/restrict-plus-operands */
 /* eslint-disable @typescript-eslint/naming-convention */
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import ROUTE_PATH from '@App/configs/router-path';
 import useCoreTable from '@App/hooks/useCoreTable';
-import roleService from '@App/services/role.service';
+import roleService, { RoleResponseData } from '@App/services/role.service';
 import TableCore, { columnHelper } from '@Core/Component/Table';
 import { CoreTableActionDelete, CoreTableActionEdit } from '@Core/Component/Table/components/CoreTableAction';
-import { Box, Button, Chip, TextField } from '@mui/material';
-import { useQuery } from '@tanstack/react-query';
+import { Box, Button, Chip } from '@mui/material';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import useSearchParamsHook from '@App/hooks/useSearchParamsHook';
 import PermissionAccessRoute from '@App/routes/components/PermissionAccessRoute';
 import MODULE_PAGE from '@App/configs/module-page';
 import PAGE_ACTION from '@App/configs/page-action';
+import { format } from 'date-fns';
+import { errorMessage, successMessage } from '@Core/Helper/message';
+import { AxiosResponseData, HandleErrorApi } from '@Core/Api/axios-config';
+import { AxiosError } from 'axios';
 
 const Role = () => {
    const navigate = useNavigate();
@@ -26,6 +29,23 @@ const Role = () => {
    });
 
    const data = useCoreTable(queryTable);
+
+   const { mutate: handleDelete } = useMutation({
+      mutationFn: async (id: string) => {
+         const res = await roleService.delete(id);
+         return res;
+      },
+      onSuccess: (data: AxiosResponseData) => {
+         successMessage(data.message || 'Xóa thành công');
+         const refetch = queryTable.refetch;
+         return refetch();
+      },
+      onError: (err: AxiosError) => {
+         const dataError = err.response?.data as HandleErrorApi;
+
+         return errorMessage((dataError?.message as unknown as string) || 'Xóa thất bại');
+      },
+   });
 
    const columns = useMemo(() => {
       return [
@@ -56,18 +76,29 @@ const Role = () => {
             header: 'Mô tả',
          }),
          columnHelper.accessor('createdAt', {
-            header: 'Ngày tạo',
+            header: () => <Box textAlign="center">Ngày tạo</Box>,
+            cell: ({ row }) => {
+               return <Box textAlign="center">{format(row.getValue('createdAt'), 'yyyy-MM-dd')}</Box>;
+            },
          }),
          columnHelper.accessor('updatedAt', {
-            header: 'Cập nhật',
+            header: () => <Box textAlign="center">Cập nhật lần cuối</Box>,
+            cell: ({ row }) => {
+               return <Box textAlign="center">{format(row.getValue('updatedAt'), 'yyyy-MM-dd')}</Box>;
+            },
          }),
          columnHelper.accessor('', {
             header: 'Thao tác',
             cell: ({ row }) => {
+               const role = row.original as RoleResponseData;
                return (
                   <Box>
-                     <CoreTableActionDelete />
-                     <CoreTableActionEdit callback={() => navigate(ROUTE_PATH.PERSONNELS + '/' + row.getValue('id'))} />
+                     <PermissionAccessRoute module={MODULE_PAGE.ROLES} action="DELETE">
+                        <CoreTableActionDelete callback={() => handleDelete(role._id)} />
+                     </PermissionAccessRoute>
+                     <PermissionAccessRoute module={MODULE_PAGE.ROLES} action="VIEW_ALL">
+                        <CoreTableActionEdit callback={() => navigate(ROUTE_PATH.ROLES + '/update/' + role._id)} />
+                     </PermissionAccessRoute>
                   </Box>
                );
             },
@@ -77,8 +108,7 @@ const Role = () => {
 
    return (
       <BaseBreadcrumbs arialabel="Danh sách vai trò">
-         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <TextField size="small" />
+         <Box sx={{ display: 'flex', justifyContent: 'end', alignItems: 'center' }}>
             <PermissionAccessRoute module={MODULE_PAGE.ROLES} action={PAGE_ACTION.CREATE}>
                <Button component={Link} to="create" size="medium">
                   Thêm mới
