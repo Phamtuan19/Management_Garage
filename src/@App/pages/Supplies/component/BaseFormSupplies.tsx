@@ -14,7 +14,6 @@ interface BaseFormPersonnelPropType {
    onSubmitForm: SubmitHandler<MaterialsCatalogSchema>;
 }
 
-
 const BaseFormSupplies = ({ form, isLoading, onSubmitForm }: BaseFormPersonnelPropType) => {
    const { handleSubmit, control } = form;
 
