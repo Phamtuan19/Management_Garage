@@ -25,7 +25,7 @@ const ROUTE_PATH = {
 
    UPDATE: '/update/:id',
 
-   DETAIL: '/:id',
+   DETAILS: '/:id/details',
 } as const;
 
 export const routePathSchema = yup.string().oneOf(Object.values(ROUTE_PATH)).required();
