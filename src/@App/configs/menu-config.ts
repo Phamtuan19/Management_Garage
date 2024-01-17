@@ -31,13 +31,20 @@ const menuConfig: MenuConfigItem[] = [
          },
          {
             id: 2.2,
+            title: 'Danh sách danh mục vật tư',
+            link: ROUTE_PATH.MATERIALS_CATALOGS,
+            module: MODULE_PAGE.MATERIALS_CATALOGS,
+            action: PAGE_ACTION.VIEW_ALL,
+         },
+         {
+            id: 2.3,
             title: 'Quản lý kho',
             link: ROUTE_PATH.WAREHOUSES,
             module: MODULE_PAGE.WAREHOUSES,
             action: PAGE_ACTION.VIEW_ALL,
          },
          {
-            id: 2.3,
+            id: 2.4,
             title: 'Nhà phân phối',
             link: ROUTE_PATH.MATERIALS_CATALOGS,
             module: MODULE_PAGE.MATERIALS_CATALOGS,
@@ -98,5 +105,6 @@ const menuConfig: MenuConfigItem[] = [
       ],
    },
 ];
+
 
 export default menuConfig;
