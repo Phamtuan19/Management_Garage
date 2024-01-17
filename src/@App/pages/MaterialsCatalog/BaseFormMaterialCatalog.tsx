@@ -6,7 +6,7 @@ import ControllerLabel from '@Core/Component/Input/ControllerLabel';
 import ControllerTextarea from '@Core/Component/Input/ControllerTextarea';
 import ControllerTextField from '@Core/Component/Input/ControllerTextField';
 
-import { MaterialsCatalogSchema } from '../utils/materialsCatalogSchema';
+import { MaterialsCatalogSchema } from './utils/materialsCatalogSchema';
 
 interface BaseFormPersonnelPropType {
    form: UseFormReturn<MaterialsCatalogSchema>;
