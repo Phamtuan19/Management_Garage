@@ -95,7 +95,7 @@ const BaseFormPersonnel = ({ form, onSubmitForm, isLoading }: BaseFormPersonnelP
                               watch('avatar') ||
                               'https://tse3.mm.bing.net/th?id=OIP.3IsXMskZyheEWqtE3Dr7JwHaGe&pid=Api&P=0&h=220'
                            }
-                           alt="ảnh avatar"
+                           alt=".ảnh avatar"
                         />
                      </Box>
                   </Grid>
