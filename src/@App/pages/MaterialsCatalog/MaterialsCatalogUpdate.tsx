@@ -12,7 +12,7 @@ import { useParams } from 'react-router-dom';
 import setValueHookForm from '@App/helpers/setValueHookForm';
 import { HandleErrorApi } from '@Core/Api/axios-config';
 import { MaterialsCatalogSchema, materialsCatalogSchema } from './utils/materialsCatalogSchema';
-import BaseFormMaterialCatalog from './BaseFormMaterialCatalog';
+import BaseFormMaterialCatalog from './components/BaseFormMaterialCatalog';
 
 const breadcrumbs = [
    {

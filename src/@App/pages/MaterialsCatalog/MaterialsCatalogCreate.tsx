@@ -9,8 +9,8 @@ import { AxiosError } from 'axios';
 import HttpStatusCode from '@Core/Configs/HttpStatusCode';
 import setErrorMessageHookForm from '@App/helpers/setErrorMessageHookForm';
 import { HandleErrorApi } from '@Core/Api/axios-config';
-import { MaterialsCatalogSchema, materialsCatalogSchema } from '../utils/materialsCatalogSchema';
-import BaseFormMaterialCatalog from '../BaseFormMaterialCatalog';
+import { MaterialsCatalogSchema, materialsCatalogSchema } from './utils/materialsCatalogSchema';
+import BaseFormMaterialCatalog from './components/BaseFormMaterialCatalog';
 
 const breadcrumbs = [
    {
