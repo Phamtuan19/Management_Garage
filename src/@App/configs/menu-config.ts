@@ -31,7 +31,7 @@ const menuConfig: MenuConfigItem[] = [
          },
          {
             id: 2.2,
-            title: 'Danh sách chi tiết vật tư',
+            title: 'Danh sách danh mục vật tư',
             link: ROUTE_PATH.MATERIALS_CATALOGS,
             module: MODULE_PAGE.MATERIALS_CATALOGS,
             action: PAGE_ACTION.VIEW_ALL,

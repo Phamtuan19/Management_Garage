@@ -1,10 +1,17 @@
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import ROUTE_PATH from '@App/configs/router-path';
+import MODULE_PAGE from '@App/configs/module-page';
+import PAGE_ACTION from '@App/configs/page-action';
+import { MaterialsCatalog } from '@App/services/materialsCatalog.service';
 import materialsCatalogService from '@App/services/materialsCatalog.service';
 import TableCore, { columnHelper } from '@Core/Component/Table';
-import { CoreTableActionDelete, CoreTableActionEdit } from '@Core/Component/Table/components/CoreTableAction';
-import { Box, TextField, IconButton } from '@mui/material';
-import { Visibility as VisibilityIcon } from '@mui/icons-material';
+import {
+   CoreTableActionDelete,
+   CoreTableActionEdit,
+   CoreTableActionViewDetail,
+} from '@Core/Component/Table/components/CoreTableAction';
+import { Box, TextField } from '@mui/material';
+import PermissionAccessRoute from '@App/routes/components/PermissionAccessRoute';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -36,16 +43,17 @@ const MaterialsCatalog = () => {
          columnHelper.accessor('_id', {
             header: 'Thao tác',
             cell: ({ row }) => {
+               const material = row.original as MaterialsCatalog;
                return (
                   <Box>
-                     <IconButton
-                        onClick={() => navigate(ROUTE_PATH.MATERIALS_CATALOGS + '/' + row.getValue('_id') + '/details')}
-                     >
-                        <VisibilityIcon />
-                     </IconButton>
+                     <PermissionAccessRoute module={MODULE_PAGE.MATERIALS_CATALOGS} action="VIEW_ONE">
+                        <CoreTableActionViewDetail
+                           callback={() => navigate(ROUTE_PATH.MATERIALS_CATALOGS + '/' + material._id + '/details')}
+                        />
+                     </PermissionAccessRoute>
                      <CoreTableActionDelete />
                      <CoreTableActionEdit
-                        callback={() => navigate(ROUTE_PATH.MATERIALS_CATALOGS + '/' + row.getValue('_id'))}
+                        callback={() => navigate(ROUTE_PATH.MATERIALS_CATALOGS + '/' + material._id)}
                      />
                   </Box>
                );
