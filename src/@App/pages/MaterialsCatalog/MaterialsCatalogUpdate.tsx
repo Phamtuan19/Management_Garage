@@ -13,18 +13,17 @@ import setValueHookForm from '@App/helpers/setValueHookForm';
 import { HandleErrorApi } from '@Core/Api/axios-config';
 import { MaterialsCatalogSchema, materialsCatalogSchema } from './utils/materialsCatalogSchema';
 import BaseFormMaterialCatalog from './components/BaseFormMaterialCatalog';
-
+import { useNavigate } from 'react-router-dom';
 const breadcrumbs = [
    {
-      title: 'Danh mục sản phẩm',
+      title: 'Danh mục vật tư',
       link: ROUTE_PATH.MATERIALS_CATALOGS,
    },
 ];
 
 const MaterialsCatalogUpdate = () => {
    const { id: materialsCatalogId } = useParams();
- 
-
+   const navigate = useNavigate();
    const form = useForm<MaterialsCatalogSchema>({
       resolver: yupResolver(materialsCatalogSchema),
       defaultValues: materialsCatalogSchema.getDefault(),
@@ -51,6 +50,7 @@ const MaterialsCatalogUpdate = () => {
       onSuccess: async () => {
          successMessage('Cập nhật thành công !');
          await getMaterialsCatalog();
+         navigate('/materials-catalogs');
       },
       onError: (err: AxiosError) => {
          const dataError = err.response?.data as HandleErrorApi;
@@ -67,8 +67,9 @@ const MaterialsCatalogUpdate = () => {
 
    return (
       <BaseBreadcrumbs arialabel="Cập nhật thông tin" breadcrumbs={breadcrumbs}>
-         <BaseFormMaterialCatalog onSubmitForm={onSubmitForm} form={form} isLoading={isLoading} />
+         <BaseFormMaterialCatalog onSubmitForm={onSubmitForm} form={form} isLoading={isLoading} isUpdate  />
       </BaseBreadcrumbs>
+      
    );
 };
 

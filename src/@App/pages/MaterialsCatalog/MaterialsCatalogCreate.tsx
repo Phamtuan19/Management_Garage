@@ -11,7 +11,7 @@ import setErrorMessageHookForm from '@App/helpers/setErrorMessageHookForm';
 import { HandleErrorApi } from '@Core/Api/axios-config';
 import { MaterialsCatalogSchema, materialsCatalogSchema } from './utils/materialsCatalogSchema';
 import BaseFormMaterialCatalog from './components/BaseFormMaterialCatalog';
-
+import { useNavigate } from 'react-router-dom';
 const breadcrumbs = [
    {
       title: 'Danh mục vật tư',
@@ -24,7 +24,7 @@ const MaterialsCatalogCreate = () => {
       resolver: yupResolver(materialsCatalogSchema),
       defaultValues: materialsCatalogSchema.getDefault(),
    });
-
+   const navigate = useNavigate();
    const { mutate: MaterialsCatalogCreate, isLoading } = useMutation({
       mutationFn: async (data: MaterialsCatalogSchema) => {
          return await materialsCatalogService.create(data);
@@ -32,6 +32,7 @@ const MaterialsCatalogCreate = () => {
       onSuccess: () => {
          successMessage('Tạo mới danh mục thành công.');
          form.reset();
+         navigate('/materials-catalogs');
       },
       onError: (err: AxiosError) => {
          const dataError = err.response?.data as HandleErrorApi;

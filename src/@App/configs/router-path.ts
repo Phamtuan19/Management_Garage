@@ -23,7 +23,7 @@ const ROUTE_PATH = {
 
    CREATE: '/create',
 
-   UPDATE: '/update/:id',
+   UPDATE: '/:id/update',
 
    DETAIL: '/:id',
 } as const;

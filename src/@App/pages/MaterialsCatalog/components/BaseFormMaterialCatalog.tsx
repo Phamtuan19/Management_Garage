@@ -12,20 +12,21 @@ interface BaseFormPersonnelPropType {
    form: UseFormReturn<MaterialsCatalogSchema>;
    isLoading: boolean;
    onSubmitForm: SubmitHandler<MaterialsCatalogSchema>;
+   isUpdate?: boolean;
 }
 
-const BaseFormMaterialCatalog = ({ form, isLoading, onSubmitForm }: BaseFormPersonnelPropType) => {
+const BaseFormMaterialCatalog = ({ form, isLoading, onSubmitForm,isUpdate }: BaseFormPersonnelPropType) => {
    const { handleSubmit, control } = form;
 
    return (
       <Box component="form" onSubmit={handleSubmit(onSubmitForm)}>
          <Grid container spacing={2}>
-            <Grid item xs={12}>
+            {/* <Grid item xs={12}>
                <Box height="96.5px">
                   <ControllerLabel title="Mã code" required />
                   <ControllerTextField name="code" control={control} />
                </Box>
-            </Grid>
+            </Grid> */}
             <Grid item xs={12}>
                <Box height="96.5px">
                   <ControllerLabel title="Tên sản phẩm" required />
@@ -35,12 +36,12 @@ const BaseFormMaterialCatalog = ({ form, isLoading, onSubmitForm }: BaseFormPers
             <Grid item xs={12}>
                <Box>
                   <ControllerLabel title="Mô tả" required />
-                  <ControllerTextarea name="description" control={control as unknown as Control<FieldValues>} />
+                  <ControllerTextarea name="describe" control={control as unknown as Control<FieldValues>} />
                </Box>
             </Grid>
             <Grid item xs={12}>
-               <LoadingButton type="submit" variant="contained" loading={isLoading}>
-                  Thêm mới
+               <LoadingButton type="submit" variant="contained" loading={isLoading} >
+               {isUpdate ? 'Cập nhật' : 'Thêm mới'}
                </LoadingButton>
             </Grid>
          </Grid>

@@ -2,9 +2,8 @@ import messageValidate from '@App/helpers/messageValidate';
 import * as yup from 'yup';
 
 export const materialsCatalogSchema = yup.object({
-    code: yup.string().required(messageValidate.required('Code')).strict(true).trim().default(''),
    name: yup.string().required(messageValidate.required('Tên danh mục')).strict(true).trim().default(''),
-   description: yup.string().strict(true).trim().default(''),
+   describe: yup.string().strict(true).trim().default(''),
 });
 
 export type MaterialsCatalogSchema = yup.InferType<typeof materialsCatalogSchema>;
