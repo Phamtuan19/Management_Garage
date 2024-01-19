@@ -18,9 +18,7 @@ const MaterialsCatalog = () => {
       const res = await materialsCatalogService.get();
       return res.data;
    });
-   // const data = queryTable?.data;
    const data = useCoreTable(queryTable);
-   console.log(queryTable);
    
    const columns = useMemo(() => {
       return [
