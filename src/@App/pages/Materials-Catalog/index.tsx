@@ -1,7 +1,9 @@
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import ROUTE_PATH from '@App/configs/router-path';
-import materialsCatalogService from '@App/services/materialsCatalog.service';
-import  TableCore, { columnHelper } from '@Core/Component/Table';
+import useCoreTable from '@App/hooks/useCoreTable';
+import useSearchParamsHook from '@App/hooks/useSearchParamsHook';
+import materialsCatalogService, { IMaterialsCatalog } from '@App/services/materialsCatalog.service';
+import TableCore, { columnHelper } from '@Core/Component/Table';
 import { CoreTableActionDelete, CoreTableActionEdit } from '@Core/Component/Table/components/CoreTableAction';
 import { Box, TextField } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
@@ -10,11 +12,16 @@ import { useNavigate } from 'react-router-dom';
 
 const MaterialsCatalog = () => {
    const navigate = useNavigate();
-   const { data: materialsCatalog, isLoading } = useQuery(['getListMaterialsCatalog'], async () => {
+   const { searchParams } = useSearchParamsHook();
+
+   const queryTable = useQuery(['getListMaterialsCatalog'], async () => {
       const res = await materialsCatalogService.get();
       return res.data;
    });
-
+   // const data = queryTable?.data;
+   const data = useCoreTable(queryTable);
+   console.log(queryTable);
+   
    const columns = useMemo(() => {
       return [
          columnHelper.accessor((_, index) => index + 1, {
@@ -35,10 +42,13 @@ const MaterialsCatalog = () => {
          columnHelper.accessor('_id', {
             header: 'Thao tác',
             cell: ({ row }) => {
+               const material = row.original as IMaterialsCatalog;
                return (
                   <Box>
                      <CoreTableActionDelete />
-                     <CoreTableActionEdit callback={() => navigate(ROUTE_PATH.MATERIALS_CATALOGS + '/' + row.getValue('_id'))} />
+                     <CoreTableActionEdit callback={() =>
+                        navigate(ROUTE_PATH.MATERIALS_CATALOGS + '/' + material._id + '/details')
+                     } />
                   </Box>
                );
             },
@@ -51,8 +61,7 @@ const MaterialsCatalog = () => {
          <Box>
             <TextField size="small" label="Tìm kiếm" />
          </Box>
-         
-         <TableCore columns={columns} data={materialsCatalog || []} isLoading={isLoading} />
+         <TableCore columns={columns} {...data}/>
       </BaseBreadcrumbs>
    );
 };
