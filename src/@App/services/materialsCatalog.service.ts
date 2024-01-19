@@ -3,7 +3,7 @@ import BaseService from '@Core/Api/BaseService';
 const permissionServicePath = {
    base: 'materials-catalog',
 };
-export interface MaterialsCatalog {
+export interface IMaterialsCatalog {
    _id:string;
    code:string;
    name:string;
