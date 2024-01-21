@@ -2,7 +2,7 @@ import { BaseType } from '../interface';
 
 const base: BaseType = {
    base: {
-      pagination: '#fde428',
+      pagination: '#f3f5f7',
       background: {
          default: '#F9F8FA',
          white: '#FFFFFF',
@@ -13,7 +13,7 @@ const base: BaseType = {
       },
       text: {
          main: '#343a4d',
-         primary: '#0b70db',
+         primary: '#1976d2',
 
          white: '#FFFFFF',
          black: '#111111',

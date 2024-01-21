@@ -25,10 +25,10 @@ const BaseBreadcrumbs = ({ arialabel, breadcrumbs, sx, children }: BaseBreadcrum
                            textDecoration: 'none',
                            textTransform: 'capitalize',
                            fontSize: '16px',
-                           color: '#00AA55',
+                           color: '#1976d2',
                            '&:hover': {
                               textDecoration: 'underline',
-                              color: '#00AA55',
+                              color: '#1976d2',
                            },
                         }}
                      >
