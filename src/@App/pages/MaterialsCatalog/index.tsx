@@ -1,3 +1,4 @@
+
 /* eslint-disable @typescript-eslint/naming-convention */
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import ROUTE_PATH from '@App/configs/router-path';
@@ -20,10 +21,7 @@ import useCoreTable from '@App/hooks/useCoreTable';
 const MaterialsCatalog = () => {
    const navigate = useNavigate();
    const queryTable = useQuery(['getListMaterialsCatalog'], async () => {
-      const res = await materialsCatalogService.get();
-      console.log(res.data);
-      return res.data;
-   });
+   const res = await materialsCatalogService.get();
    const data = useCoreTable(queryTable);
 
    const columns = useMemo(() => {

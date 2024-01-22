@@ -13,6 +13,14 @@ export interface IMaterialsCatalog {
 }
 
 
+export interface MaterialsCatalogResponse {
+   _id: string;
+   code: string;
+   describe: string;
+   name: string;
+   updatedAt: string;
+}
+
 class MaterialsCatalogService extends BaseService {
    BASE_ENDPOINT = permissionServicePath.base;
 

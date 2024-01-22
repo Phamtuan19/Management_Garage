@@ -19,8 +19,6 @@ const menuConfig: MenuConfigItem[] = [
    {
       id: 2,
       title: 'Vật tư',
-      link: '/wh',
-      icon: WarehouseIcon,
       children: [
          {
             id: 2.1,
