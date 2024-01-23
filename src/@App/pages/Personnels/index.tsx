@@ -107,7 +107,7 @@ export default function Personnels() {
                </Box>
             </Box>
 
-            <Button component={Link} to="create" size="small" endIcon={<AddIcon />}>
+            <Button component={Link} to="create" endIcon={<AddIcon />}>
                Thêm mới
             </Button>
          </Box>

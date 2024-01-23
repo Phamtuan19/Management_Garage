@@ -4,7 +4,7 @@
    "version": "0.0.0",
    "type": "module",
    "scripts": {
-      "dev": "vite --open",
+      "dev": "vite",
       "build": "tsc && vite build",
       "commitlint": "commitlint --edit",
       "lint": "eslint . --max-warnings 0 --report-unused-disable-directives",
