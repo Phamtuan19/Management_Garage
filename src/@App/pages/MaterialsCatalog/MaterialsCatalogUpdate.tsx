@@ -1,3 +1,4 @@
+/* eslint-disable import/order */
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import ROUTE_PATH from '@App/configs/router-path';
 import { SubmitHandler, useForm } from 'react-hook-form';

@@ -1,5 +1,9 @@
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
-import { Box, TextField } from '@mui/material';
+import MODULE_PAGE from '@App/configs/module-page';
+import PAGE_ACTION from '@App/configs/page-action';
+import PermissionAccessRoute from '@App/routes/components/PermissionAccessRoute';
+import { Box, Button, TextField } from '@mui/material';
+import { Link } from 'react-router-dom';
 const Distributor = () => {
    // const { data: distributor, isFetching: isLoading } = useQuery(['distributor'], async () => {
    //    try {
@@ -52,6 +56,13 @@ const Distributor = () => {
       <BaseBreadcrumbs arialabel="Danh sách nhà phân phối">
          <Box>
             <TextField size="small" />
+         </Box>
+         <Box sx={{ display: 'flex', justifyContent: 'end', alignItems: 'center' }}>
+            <PermissionAccessRoute module={MODULE_PAGE.DISTRIBUTORS} action={PAGE_ACTION.CREATE}>
+               <Button component={Link} to="create" size="medium">
+                  Thêm mới
+               </Button>
+            </PermissionAccessRoute>
          </Box>
          {/* <TableCore columns={columns} data={(distributor as never) || []} isLoading={isLoading} /> */}
       </BaseBreadcrumbs>

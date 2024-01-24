@@ -10,12 +10,13 @@ import {
    CoreTableActionEdit,
    CoreTableActionViewDetail,
 } from '@Core/Component/Table/components/CoreTableAction';
-import { Box, TextField } from '@mui/material';
+import { Box, Button, TextField } from '@mui/material';
 import PermissionAccessRoute from '@App/routes/components/PermissionAccessRoute';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import useCoreTable from '@App/hooks/useCoreTable';
+import PAGE_ACTION from '@App/configs/page-action';
 
 const MaterialsCatalog = () => {
    const navigate = useNavigate();
@@ -25,7 +26,7 @@ const MaterialsCatalog = () => {
       return res.data;
    });
    const data = useCoreTable(queryTable);
-
+   console.log(data)
    const columns = useMemo(() => {
       return [
          columnHelper.accessor((_, index) => index + 1, {
@@ -56,7 +57,7 @@ const MaterialsCatalog = () => {
                      </PermissionAccessRoute>
                      <CoreTableActionDelete />
                      <CoreTableActionEdit
-                        callback={() => navigate(ROUTE_PATH.MATERIALS_CATALOGS + '/' + material._id)}
+                        callback={() => navigate(ROUTE_PATH.MATERIALS_CATALOGS + '/' + material._id + '/update')}
                      />
                   </Box>
                );
@@ -69,6 +70,11 @@ const MaterialsCatalog = () => {
       <BaseBreadcrumbs arialabel="Danh sách vật tư">
          <Box>
             <TextField size="small" label="Tìm kiếm" />
+            <PermissionAccessRoute module={MODULE_PAGE.MATERIALS_CATALOGS} action={PAGE_ACTION.CREATE}>
+               <Button sx={{ float: "right" }} component={Link} to="create" size="medium">
+                  Thêm danh mục
+               </Button>
+            </PermissionAccessRoute>
          </Box>
          <TableCore columns={columns} {...data} />
       </BaseBreadcrumbs>
