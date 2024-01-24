@@ -33,7 +33,7 @@ const WrapperContent = styled('main')<{ isOpenSidebar: boolean }>(({ theme, isOp
    transition: 'all 0.5s ease-in-out', // Chuyển động mượt mà trong 0.5 giây với ease-in-out
    backgroundColor: theme.base.background.default,
    boxSizing: 'border-box',
-   overflow: 'hidden'
+   overflow: 'hidden',
 }));
 
 const Content = styled('div')(({ theme }) => ({

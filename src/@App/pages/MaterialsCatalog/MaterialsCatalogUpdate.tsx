@@ -11,9 +11,10 @@ import setErrorMessageHookForm from '@App/helpers/setErrorMessageHookForm';
 import { useParams } from 'react-router-dom';
 import setValueHookForm from '@App/helpers/setValueHookForm';
 import { HandleErrorApi } from '@Core/Api/axios-config';
+import { useNavigate } from 'react-router-dom';
+
 import { MaterialsCatalogSchema, materialsCatalogSchema } from './utils/materialsCatalogSchema';
 import BaseFormMaterialCatalog from './components/BaseFormMaterialCatalog';
-import { useNavigate } from 'react-router-dom';
 const breadcrumbs = [
    {
       title: 'Danh mục vật tư',
@@ -43,7 +44,7 @@ const MaterialsCatalogUpdate = () => {
       },
    );
 
-   const { mutate: MaterialsCatalog , isLoading } = useMutation({
+   const { mutate: MaterialsCatalog, isLoading } = useMutation({
       mutationFn: async (data: MaterialsCatalogSchema) => {
          return await materialsCatalogService.update(data, materialsCatalogId);
       },
@@ -67,9 +68,8 @@ const MaterialsCatalogUpdate = () => {
 
    return (
       <BaseBreadcrumbs arialabel="Cập nhật thông tin" breadcrumbs={breadcrumbs}>
-         <BaseFormMaterialCatalog onSubmitForm={onSubmitForm} form={form} isLoading={isLoading} isUpdate  />
+         <BaseFormMaterialCatalog onSubmitForm={onSubmitForm} form={form} isLoading={isLoading} isUpdate />
       </BaseBreadcrumbs>
-      
    );
 };
 

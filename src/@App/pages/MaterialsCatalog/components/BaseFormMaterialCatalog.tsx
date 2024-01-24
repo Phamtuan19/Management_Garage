@@ -15,7 +15,7 @@ interface BaseFormPersonnelPropType {
    isUpdate?: boolean;
 }
 
-const BaseFormMaterialCatalog = ({ form, isLoading, onSubmitForm,isUpdate }: BaseFormPersonnelPropType) => {
+const BaseFormMaterialCatalog = ({ form, isLoading, onSubmitForm, isUpdate }: BaseFormPersonnelPropType) => {
    const { handleSubmit, control } = form;
 
    return (
@@ -40,8 +40,8 @@ const BaseFormMaterialCatalog = ({ form, isLoading, onSubmitForm,isUpdate }: Bas
                </Box>
             </Grid>
             <Grid item xs={12}>
-               <LoadingButton type="submit" variant="contained" loading={isLoading} >
-               {isUpdate ? 'Cập nhật' : 'Thêm mới'}
+               <LoadingButton type="submit" variant="contained" loading={isLoading}>
+                  {isUpdate ? 'Cập nhật' : 'Thêm mới'}
                </LoadingButton>
             </Grid>
          </Grid>

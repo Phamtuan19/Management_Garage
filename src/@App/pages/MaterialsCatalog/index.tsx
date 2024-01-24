@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/naming-convention */
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import ROUTE_PATH from '@App/configs/router-path';
@@ -21,7 +22,6 @@ const MaterialsCatalog = () => {
    const navigate = useNavigate();
    const queryTable = useQuery(['getListMaterialsCatalog'], async () => {
       const res = await materialsCatalogService.get();
-      console.log(res.data);
       return res.data;
    });
    const data = useCoreTable(queryTable);
