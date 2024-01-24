@@ -7,7 +7,6 @@ import PermissionAccessRoute from '../components/PermissionAccessRoute';
 import Loadable from '../components/loadable';
 
 const MaterialsCatalog = Loadable('MaterialsCatalog');
-const MaterialsCatalogDetails = Loadable('MaterialsCatalog/MaterialsCatalogDetails');
 const MaterialsCatalogCreate = Loadable('MaterialsCatalog/MaterialsCatalogCreate');
 const MaterialsCatalogUpdate = Loadable('MaterialsCatalog/MaterialsCatalogUpdate');
 const materialsCatalogRoute: RouteObject = {
@@ -19,14 +18,6 @@ const materialsCatalogRoute: RouteObject = {
          element: (
             <PermissionAccessRoute module={MODULE_PAGE.MATERIALS_CATALOGS} action={PAGE_ACTION.VIEW_ALL} type="route">
                <MaterialsCatalog />
-            </PermissionAccessRoute>
-         ),
-      },
-      {
-         path: ROUTE_PATH.MATERIALS_CATALOGS + ROUTE_PATH.DETAILS,
-         element: (
-            <PermissionAccessRoute module={MODULE_PAGE.MATERIALS_CATALOGS} action={PAGE_ACTION.VIEW_ONE} type="route">
-               <MaterialsCatalogDetails />
             </PermissionAccessRoute>
          ),
       },
