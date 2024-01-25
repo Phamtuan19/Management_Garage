@@ -45,13 +45,25 @@ export const distributorSchema = yup.object({
 
    account_holder_name: yup.string().trim().strict(true).default(''),
 
-   province: yup.string().trim().strict(true).default(''),
+   address: yup.object({
 
-   district: yup.string().trim().strict(true).default(''),
+      province: yup.object({
+         code: yup.number().default(null),
+         name: yup.string().strict(true).default('')
+      }),
 
-   ward: yup.string().trim().strict(true).default(''),
+      district: yup.object({
+         code: yup.number().default(null),
+         name: yup.string().strict(true).default('')
+      }),
 
-   address: yup.string().trim().strict(true).default(''),
+      ward: yup.object({
+         code: yup.number().default(null),
+         name: yup.string().strict(true).default('')
+      }),
+
+      specific: yup.string().trim().strict(true).default(''),
+   })
 });
 
 export type DistributorSchema = yup.InferType<typeof distributorSchema>;

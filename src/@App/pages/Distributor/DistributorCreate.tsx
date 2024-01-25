@@ -20,7 +20,6 @@ const DistributorCreate = () => {
 
    const { mutate: handleCreateDistributor, isLoading } = useMutation({
       mutationFn: async (data: DistributorSchema) => {
-         console.log(data);
          return await distributorService.create(data);
          
       },

@@ -3,24 +3,25 @@ import BaseService from '@Core/Api/BaseService';
 const distributorPath = {
    BASE: 'distributors',
 };
-interface IAddress{
-   
+export interface IAddressOption {
+   code: number;
+   name: string;
 }
-// export interface IDistributor {
-//    _id: string;
-//    name: string;
-//    phone: string;
-//    email: string;
-//    bank_account_number: string;
-//    bank_name: string;
-//    bank_branch: string;
-//    account_holder_name: string;
-//    address: Object;
-//    province: string;
-//    district: string;
-//    ward: string;
-// }
- 
+export interface IDistributor {
+   _id: string;
+   code: string;
+   name: string;
+   phone: string;
+   email: string;
+   address: {
+      province: IAddressOption;
+      district: IAddressOption;
+      wards: IAddressOption;
+      specific: string;
+   };
+   createdAt: string;
+   updatedAt: string;
+}
 
 class DistributorService extends BaseService {
    BASE_ENDPOINT = distributorPath.BASE;
