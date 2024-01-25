@@ -38,13 +38,6 @@ const menuConfig: MenuConfigItem[] = [
          },
          {
             id: 2.3,
-            title: 'Quản lý kho',
-            link: ROUTE_PATH.WAREHOUSES,
-            module: MODULE_PAGE.WAREHOUSES,
-            action: PAGE_ACTION.VIEW_ALL,
-         },
-         {
-            id: 2.4,
             title: 'Nhà phân phối',
             link: ROUTE_PATH.DISTRIBUTORS,
             module: MODULE_PAGE.DISTRIBUTORS,

@@ -3,6 +3,7 @@ import BaseService from '@Core/Api/BaseService';
 const distributorPath = {
    BASE: 'distributors',
 };
+
 export interface IAddressOption {
    code: number;
    name: string;
@@ -13,7 +14,7 @@ export interface IDistributor {
    name: string;
    phone: string;
    email: string;
-   address?: {
+   address: {
       province: IAddressOption;
       district: IAddressOption;
       wards: IAddressOption;
