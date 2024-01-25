@@ -13,7 +13,7 @@ export interface IDistributor {
    name: string;
    phone: string;
    email: string;
-   address: {
+   address?: {
       province: IAddressOption;
       district: IAddressOption;
       wards: IAddressOption;

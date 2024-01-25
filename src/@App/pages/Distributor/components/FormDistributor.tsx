@@ -1,15 +1,12 @@
-/* eslint-disable import/order */
-/* eslint-disable @typescript-eslint/no-misused-promises */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-// import ControllerAutoComplate from '@Core/Component/Input/ControllerAutoComplate';
+/* eslint-disable import/order */
+
 import ControllerLabel from '@Core/Component/Input/ControllerLabel';
 import { Box, Grid } from '@mui/material';
 import { Control, FieldValues, UseFormReturn } from 'react-hook-form';
-
-// eslint-disable-next-line import/order
 import { DistributorSchema } from '../utils/distributor.schema';
 import { useQuery } from '@tanstack/react-query';
 import { getDistricts, getProvinces, getWards } from '../utils';
@@ -54,7 +51,6 @@ const FormDistributor = ({ form }: BaseFormPersonnelPropType) => {
                return [];
             }
          } catch (error) {
-            // console.error("Error fetching districts:", error);
             return [];
          }
       }
@@ -81,7 +77,6 @@ const FormDistributor = ({ form }: BaseFormPersonnelPropType) => {
                return [];
             }
          } catch (error) {
-            // console.error("Error fetching ward:", error);
             return [];
          }
       }
@@ -94,7 +89,6 @@ const FormDistributor = ({ form }: BaseFormPersonnelPropType) => {
                <ControllerLabel title="Tỉnh/Thành phố" required />
                <ControllerSelect
                   name="address.province"
-                  // value={watchProvince || null}
                   valuePath="value"
                   titlePath="title"
                   loading={isLoadingProvinces}
@@ -108,7 +102,6 @@ const FormDistributor = ({ form }: BaseFormPersonnelPropType) => {
                <ControllerLabel title="Quận/huyện" required />
                <ControllerSelect
                   name="address.district"
-                  // value={watchProvince || null}
                   valuePath="value"
                   titlePath="title"
                   loading={isLoadingDistricts}
@@ -122,7 +115,6 @@ const FormDistributor = ({ form }: BaseFormPersonnelPropType) => {
                <ControllerLabel title="Xã/Phường" required />
                <ControllerSelect
                   name="address.ward"
-                  // value={watchWard || null}
                   valuePath="value"
                   titlePath="title"
                   loading={isLoadingWard}

@@ -13,7 +13,6 @@ import { useNavigate } from 'react-router-dom';
 import setErrorMessageHookForm from '@App/helpers/setErrorMessageHookForm';
 import { MaterialsCatalogSchema, materialsCatalogSchema } from './utils/materialsCatalogSchema';
 import BaseFormMaterialCatalog from './components/BaseFormMaterialCatalog';
-
 const breadcrumbs = [
    {
       title: 'Danh mục vật tư',

@@ -1,20 +1,12 @@
-/* eslint-disable import/order */
 /* eslint-disable @typescript-eslint/no-misused-promises */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable import/order */
 
 import ControllerLabel from '@Core/Component/Input/ControllerLabel';
 import ControllerTextField from '@Core/Component/Input/ControllerTextField';
 import { Box, Grid, Typography } from '@mui/material';
 import { SubmitHandler, UseFormReturn } from 'react-hook-form';
 import { LoadingButton } from '@mui/lab';
-// import ControllerAutoComplate from '@Core/Component/Input/ControllerAutoComplate';
-// import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
-
-// import { getDistricts, getProvinces, getWards } from '../utils';
 import { DistributorSchema } from '../utils/distributor.schema';
 import FormDistributor from './FormDistributor';
 

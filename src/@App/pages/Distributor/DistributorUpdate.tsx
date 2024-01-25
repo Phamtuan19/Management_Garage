@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable import/order */
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import ROUTE_PATH from '@App/configs/router-path';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -10,9 +10,8 @@ import { AxiosError } from 'axios';
 import { HandleErrorApi } from '@Core/Api/axios-config';
 import HttpStatusCode from '@Core/Configs/HttpStatusCode';
 import setErrorMessageHookForm from '@App/helpers/setErrorMessageHookForm';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import setValueHookForm from '@App/helpers/setValueHookForm';
-
 import { DistributorSchema, distributorSchema } from './utils/distributor.schema';
 import BaseFormDistributor from './components/BaseFormDistributor';
 
@@ -22,17 +21,16 @@ const breadcrumbs = [
       link: ROUTE_PATH.DISTRIBUTORS,
    },
 ];
-
 const DistributorUpdate = () => {
    const { id: distributorId } = useParams();
-
+   const navigate = useNavigate();
    const form = useForm<DistributorSchema>({
       resolver: yupResolver(distributorSchema),
       defaultValues: distributorSchema.getDefault(),
    });
 
-   const { refetch: getDistributorDetail } = useQuery(
-      ['getDistributorDetail', distributorId],
+   const { refetch: getDistributor } = useQuery(
+      ['getDistributor', distributorId],
       async () => {
          const res = await distributorService.find(distributorId!);
          return res.data;
@@ -49,8 +47,9 @@ const DistributorUpdate = () => {
          return await distributorService.update(data, distributorId);
       },
       onSuccess: async () => {
-         successMessage('Tạo mới nhà phân phối thành công.');
-         await getDistributorDetail();
+         successMessage('Cập nhật thành công !');
+         await getDistributor();
+         navigate('/distributors')
       },
       onError: (err: AxiosError) => {
          const dataError = err.response?.data as HandleErrorApi;
@@ -63,24 +62,11 @@ const DistributorUpdate = () => {
       },
    });
 
-   const onSubmitForm: SubmitHandler<DistributorSchema> = (data) => {
-      const newData = {
-         name: data.name,
-         email: data.email,
-         phone: data.phone,
-         bank_number: data.bank_number,
-         bank_branch: data.bank_branch,
-         bank_name: data.bank_name,
-         bank_account_name: data.bank_account_name,
-         address: data.district + '+' + data.province + '+' + data.ward + '+' + data.address,
-      };
-
-      handleUpdateDistributor(newData);
-   };
+   const onSubmitForm: SubmitHandler<DistributorSchema> = (data) => handleUpdateDistributor(data);
 
    return (
-      <BaseBreadcrumbs arialabel="Thêm mới" breadcrumbs={breadcrumbs}>
-         <BaseFormDistributor form={form} onSubmitForm={onSubmitForm} isLoading={isLoading} />
+      <BaseBreadcrumbs arialabel="Cập nhật thông tin" breadcrumbs={breadcrumbs}>
+         <BaseFormDistributor form={form} onSubmitForm={onSubmitForm} isLoading={isLoading}/>
       </BaseBreadcrumbs>
    );
 };
