@@ -3,6 +3,7 @@
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import ROUTE_PATH from '@App/configs/router-path';
 import MODULE_PAGE from '@App/configs/module-page';
+import PAGE_ACTION from '@App/configs/page-action';
 import TableCore, { columnHelper } from '@Core/Component/Table';
 import {
    CoreTableActionDelete,
@@ -16,7 +17,8 @@ import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useCoreTable from '@App/hooks/useCoreTable';
 import distributorService, { IDistributors } from '@App/services/distributor.service';
-
+import { Link } from 'react-router-dom';
+    
 const Distributors = () => {
    const navigate = useNavigate();
    const queryTable = useQuery(['getListDistribtutors'], async () => {
@@ -54,17 +56,17 @@ const Distributors = () => {
          columnHelper.accessor('_id', {
             header: 'Thao tác',
             cell: ({ row }) => {
-               const material = row.original as IDistributors;
+               const distributor = row.original as IDistributors;
                return (
                   <Box>
                      <PermissionAccessRoute module={MODULE_PAGE.DISTRIBUTORS} action="VIEW_ONE">
                         <CoreTableActionViewDetail
-                           callback={() => navigate(ROUTE_PATH.DISTRIBUTORS + '/' + material._id + '/details')}
+                           callback={() => navigate(ROUTE_PATH.DISTRIBUTORS + '/' + distributor._id + '/details')}
                         />
                      </PermissionAccessRoute>
                      <CoreTableActionDelete />
                      <CoreTableActionEdit
-                        callback={() => navigate(ROUTE_PATH.DISTRIBUTORS + '/' + material._id)}
+                        callback={() => navigate(ROUTE_PATH.DISTRIBUTORS + '/' + distributor._id + '/update')}
                      />
                   </Box>
                );
@@ -75,11 +77,12 @@ const Distributors = () => {
 
    return (
       <BaseBreadcrumbs arialabel="Danh sách nhà phân phối">
-         <Box>
-            <TextField size="small" label="Tìm kiếm" />
-            <Button>
-               Thêm mới
-            </Button>
+         <Box sx={{ display: 'flex', justifyContent: 'end', alignItems: 'center' }}>
+            <PermissionAccessRoute module={MODULE_PAGE.DISTRIBUTORS} action={PAGE_ACTION.CREATE}>
+               <Button component={Link} to="create" size="medium">
+                  Thêm mới
+               </Button>
+            </PermissionAccessRoute>
          </Box>
          <TableCore columns={columns} {...data} />
       </BaseBreadcrumbs>

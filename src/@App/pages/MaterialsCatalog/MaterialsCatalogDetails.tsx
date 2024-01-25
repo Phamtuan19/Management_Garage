@@ -48,7 +48,7 @@ const MaterialsCatalogDetails = () => {
                         <PermissionAccessRoute module={MODULE_PAGE.MATERIALS_CATALOGS} action="VIEW_ALL">
                            <Button
                               variant="contained"
-                              onClick={() => navigate(ROUTE_PATH.MATERIALS_CATALOGS + '/update/' + materialId)}
+                              onClick={() => navigate(ROUTE_PATH.MATERIALS_CATALOGS + '/' + materialId + '/update')}
                               endIcon={<RateReviewRoundedIcon />}
                            >
                               Chỉnh sửa

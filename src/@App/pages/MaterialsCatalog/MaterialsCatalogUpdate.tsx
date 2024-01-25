@@ -1,3 +1,4 @@
+/* eslint-disable import/order */
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import ROUTE_PATH from '@App/configs/router-path';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -12,7 +13,6 @@ import { useParams } from 'react-router-dom';
 import setValueHookForm from '@App/helpers/setValueHookForm';
 import { HandleErrorApi } from '@Core/Api/axios-config';
 import { useNavigate } from 'react-router-dom';
-
 import { MaterialsCatalogSchema, materialsCatalogSchema } from './utils/materialsCatalogSchema';
 import BaseFormMaterialCatalog from './components/BaseFormMaterialCatalog';
 const breadcrumbs = [
