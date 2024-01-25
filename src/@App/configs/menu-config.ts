@@ -36,6 +36,13 @@ const menuConfig: MenuConfigItem[] = [
             module: MODULE_PAGE.MATERIALS_CATALOGS,
             action: PAGE_ACTION.VIEW_ALL,
          },
+         {
+            id: 2.3,
+            title: 'Nhà phân phối',
+            link: ROUTE_PATH.DISTRIBUTORS,
+            module: MODULE_PAGE.DISTRIBUTORS,
+            action: PAGE_ACTION.VIEW_ALL,
+         },
       ],
    },
    {
