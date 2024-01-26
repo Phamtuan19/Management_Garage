@@ -67,6 +67,21 @@ const menuConfig: MenuConfigItem[] = [
          },
       ],
    },
+   {
+      id: 5,
+      title: 'Dịch vụ sửa chữa',
+      link: '/hr',
+      icon: PeopleIcon,
+      children: [
+         {
+            id:5.1,
+            title: 'Car',
+            link: ROUTE_PATH.CARS,
+            module: MODULE_PAGE.CARS,
+            action: PAGE_ACTION.VIEW_ALL,
+         },
+      ],
+   },
 ];
 
 export default menuConfig;

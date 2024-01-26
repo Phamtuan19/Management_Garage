@@ -7,8 +7,8 @@ import PermissionAccessRoute from '../components/PermissionAccessRoute';
 import Loadable from '../components/loadable';
 
 const MaterialsCatalog = Loadable('MaterialsCatalog');
-const MaterialsCatalogDetails = Loadable('MaterialsCatalog/MaterialsCatalogDetails');
-
+const MaterialsCatalogCreate = Loadable('MaterialsCatalog/MaterialsCatalogCreate');
+const MaterialsCatalogUpdate = Loadable('MaterialsCatalog/MaterialsCatalogUpdate');
 const materialsCatalogRoute: RouteObject = {
    path: ROUTE_PATH.MATERIALS_CATALOGS,
    element: <Outlet />,
@@ -22,10 +22,18 @@ const materialsCatalogRoute: RouteObject = {
          ),
       },
       {
-         path: ROUTE_PATH.MATERIALS_CATALOGS + ROUTE_PATH.DETAILS,
+         path: ROUTE_PATH.MATERIALS_CATALOGS + ROUTE_PATH.CREATE,
          element: (
-            <PermissionAccessRoute module={MODULE_PAGE.MATERIALS_CATALOGS} action={PAGE_ACTION.VIEW_ONE} type="route">
-               <MaterialsCatalogDetails />
+            <PermissionAccessRoute module={MODULE_PAGE.MATERIALS_CATALOGS} action={PAGE_ACTION.CREATE} type="route">
+               < MaterialsCatalogCreate/>
+            </PermissionAccessRoute>
+         ),
+      },
+      {
+         path: ROUTE_PATH.MATERIALS_CATALOGS + ROUTE_PATH.UPDATE,
+         element: (
+            <PermissionAccessRoute module={MODULE_PAGE.MATERIALS_CATALOGS} action={PAGE_ACTION.UPDATE} type="route">
+               <MaterialsCatalogUpdate/>
             </PermissionAccessRoute>
          ),
       },
