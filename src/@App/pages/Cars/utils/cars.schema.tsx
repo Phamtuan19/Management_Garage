@@ -9,5 +9,6 @@ export const carsSchema = yup.object({
    car_color: yup.string().required(messageValidate.required('Màu sắc xe')).trim().default(''),
    car_type: yup.string().required(messageValidate.required('Kiểu dáng xe')).trim().default(''),
    status: yup.string().required(messageValidate.required('Trạng thái')).trim().default(''),
+   customer_id: yup.string().required(messageValidate.required('Danh sách khách hàng')),
 });
 export type CarsSchema = yup.InferType<typeof carsSchema>;

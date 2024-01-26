@@ -1,13 +1,18 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable import/order */
 
 import { SubmitHandler, UseFormReturn, FieldValues, Control } from 'react-hook-form';
+import { useQuery } from '@tanstack/react-query';
 import { CarsSchema } from '../utils/cars.schema';
 import { Box, Grid, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import ControllerLabel from '@Core/Component/Input/ControllerLabel';
 import ControllerTextField from '@Core/Component/Input/ControllerTextField';
 import ControllerSelect from '@Core/Component/Input/ControllerSelect';
+import customerService, { ICustomer } from '@App/services/custome.service';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface BaseFormCarsPropType {
@@ -17,9 +22,42 @@ interface BaseFormCarsPropType {
 }
 const BaseFormCars = ({ form, onSubmitForm, isLoading }: BaseFormCarsPropType) => {
    const { handleSubmit, control } = form;
+   const { data: allCustome } = useQuery(['getAllCustome'], async () => {
+      try {
+         const res = await customerService.get();
+         console.log('Dữ liệu khách hàng:', res.data);
+         if (!res.data.data) {
+            console.error('Lỗi: Dữ liệu khách hàng không tồn tại.');
+            return [];
+         }
+         return res.data.data.map((item: ICustomer) => ({
+            value: item._id,
+            title: item.name,
+         }));
+      } catch (error) {
+         console.error('Lỗi khi lấy dữ liệu khách hàng:', error);
+         return [];
+      }
+   });
+
    return (
       <form onSubmit={handleSubmit(onSubmitForm)}>
          <Grid container spacing={2}>
+            <Grid item xs={12}>
+               <Typography component="h4" sx={{ fontWeight: 600 }}>
+                  Danh sách khách hàng:
+               </Typography>
+            </Grid>
+            <Grid item md={3}>
+               <ControllerSelect
+                  options={allCustome || []}
+                  valuePath="value"
+                  titlePath="title"
+                  defaultValue="Click để chọn"
+                  name="customer_id"
+                  control={control as unknown as Control<FieldValues>}
+               />
+            </Grid>
             <Grid item xs={12}>
                <Typography component="h4" sx={{ fontWeight: 600 }}>
                   Thông tin xe:
@@ -65,13 +103,13 @@ const BaseFormCars = ({ form, onSubmitForm, isLoading }: BaseFormCarsPropType) =
                <ControllerLabel title="Trạng thái" />
                <ControllerSelect
                   options={[
-                     { id: 1, label: 'CHECK' },
-                     { id: 2, label: 'ORDER_SPARE_PARTS' },
-                     { id: 3, label: 'REPAIR' },
-                     { id: 4, label: 'COMPLETE' },
-                     { id: 5, label: 'CAR_DELIVERY' },
-                     { id: 6, label: 'WAIT_FOR_PAYMENT' },
-                     { id: 7, label: 'EMPTY' },
+                     { id: 'CHECK', label: 'CHECK' },
+                     { id: 'ORDER_SPARE_PARTS', label: 'ORDER_SPARE_PARTS' },
+                     { id: 'REPAIR', label: 'REPAIR' },
+                     { id: 'COMPLETE', label: 'COMPLETE' },
+                     { id: 'CAR_DELIVERY', label: 'CAR_DELIVERY' },
+                     { id: 'WAIT_FOR_PAYMENT', label: 'WAIT_FOR_PAYMENT' },
+                     { id: 'EMPTY', label: 'EMPTY' },
                   ]}
                   valuePath="id"
                   titlePath="label"

@@ -21,7 +21,6 @@ const MaterialsCatalog = () => {
    const navigate = useNavigate();
    const queryTable = useQuery(['getListMaterialsCatalog'], async () => {
       const res = await materialsCatalogService.get();
-      console.log(res.data);
       return res.data;
    });
    const data = useCoreTable(queryTable);
