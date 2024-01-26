@@ -1,8 +1,10 @@
 import BaseService from '@Core/Api/BaseService';
 
+
 const distributorPath = {
    BASE: 'distributors',
 };
+
 
 export interface IAddressOption {
    code: number;
