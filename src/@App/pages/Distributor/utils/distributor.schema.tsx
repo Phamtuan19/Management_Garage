@@ -7,8 +7,6 @@ export const distributorSchema = yup.object({
    name: yup
       .string()
       .required(messageValidate.required('Tên nhà phân phối'))
-      .trim()
-      .strict(true)
       .max(60, messageValidate.maxText('Tên nhà phân phối', 60))
       .default(''),
 
@@ -28,7 +26,7 @@ export const distributorSchema = yup.object({
       .matches(Regexs.phoneVn, messageValidate.format('Số điện thoại'))
       .default(''),
 
-   bank_number: yup
+   bank_account_number: yup
       .string()
       .trim()
       .strict(true)
@@ -45,15 +43,27 @@ export const distributorSchema = yup.object({
 
    bank_name: yup.string().trim().strict(true).default(''),
 
-   bank_account_name: yup.string().trim().strict(true).default(''),
+   account_holder_name: yup.string().trim().strict(true).default(''),
 
-   province: yup.string().trim().strict(true).default(''),
+   address: yup.object({
 
-   district: yup.string().trim().strict(true).default(''),
+      province: yup.object({
+         code: yup.number().default(null),
+         name: yup.string().strict(true).default('')
+      }),
 
-   ward: yup.string().trim().strict(true).default(''),
+      district: yup.object({
+         code: yup.number().default(null),
+         name: yup.string().strict(true).default('')
+      }),
 
-   address: yup.string().trim().strict(true).default(''),
+      ward: yup.object({
+         code: yup.number().default(null),
+         name: yup.string().strict(true).default('')
+      }),
+
+      specific: yup.string().trim().strict(true).default(''),
+   })
 });
 
 export type DistributorSchema = yup.InferType<typeof distributorSchema>;

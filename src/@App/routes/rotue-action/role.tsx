@@ -40,7 +40,7 @@ const roleRoute: RouteObject = {
          ),
       },
       {
-         path: ROUTE_PATH.ROLES + '/' + ROUTE_PATH.DETAILS,
+         path: ROUTE_PATH.ROLES + '/' + ROUTE_PATH.DETAIL,
          element: (
             <PermissionAccessRoute module={MODULE_PAGE.ROLES} action={PAGE_ACTION.VIEW_ONE} type="route">
                <RoleDetail />

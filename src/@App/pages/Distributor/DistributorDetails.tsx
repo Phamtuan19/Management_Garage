@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { useParams, useNavigate } from 'react-router-dom';
 import ROUTE_PATH from '@App/configs/router-path';
 import { useQuery } from '@tanstack/react-query';
@@ -5,23 +8,21 @@ import MODULE_PAGE from '@App/configs/module-page';
 import theme from '@Core/Theme';
 import PermissionAccessRoute from '@App/routes/components/PermissionAccessRoute';
 import RateReviewRoundedIcon from '@mui/icons-material/RateReviewRounded';
-import materialsCatalogService, { IMaterialsCatalog } from '@App/services/materialsCatalog.service';
 import { Box, Typography, Stack, Button } from '@mui/material';
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
-
+import distributorService, { IDistributor } from '@App/services/distributor.service';
 const breadcrumbs = [
    {
-      title: 'Danh mục vật tư',
-      link: ROUTE_PATH.MATERIALS_CATALOGS,
+      title: 'Nhà phân phối',
+      link: ROUTE_PATH.DISTRIBUTORS,
    },
 ];
-const MaterialsCatalogDetails = () => {
-   const { id: materialId } = useParams();
+const DistributorDetails = () => {
+   const { id: distributorId } = useParams();
    const navigate = useNavigate();
-
-   const { data: material } = useQuery<IMaterialsCatalog, Error>(['getMaterialsCatalogDetails'], async () => {
-      const res = await materialsCatalogService.find(materialId as string);
-      return res.data as IMaterialsCatalog;
+   const { data: distributor } = useQuery<IDistributor, Error>(['getDistributorDetails'], async () => {
+      const distributorRes = await distributorService.find(distributorId as string);
+      return distributorRes.data as IDistributor;
    });
    const formatDate = (dateString: string | number | Date) => {
       return new Date(dateString).toLocaleString('en-US', {
@@ -38,17 +39,17 @@ const MaterialsCatalogDetails = () => {
       <Box>
          <BaseBreadcrumbs
             breadcrumbs={breadcrumbs}
-            arialabel="Chi tiết danh mục vật tư"
+            arialabel="Chi tiết nhà phân phối"
             sx={({ base }) => ({ bgcolor: base.background.default, border: 'none', p: 0 })}
          >
-            {material && (
+            {distributor && (
                <Stack>
                   <Box sx={{ mt: 3, bgcolor: '#FFFF', p: '0px 16px 16px 16px', borderRadius: 2, position: 'relative' }}>
                      <Box sx={{ position: 'absolute', top: '0', right: '0', p: 1 }}>
-                        <PermissionAccessRoute module={MODULE_PAGE.MATERIALS_CATALOGS} action="VIEW_ALL">
+                        <PermissionAccessRoute module={MODULE_PAGE.DISTRIBUTORS} action="VIEW_ALL">
                            <Button
                               variant="contained"
-                              onClick={() => navigate(ROUTE_PATH.MATERIALS_CATALOGS + '/' + materialId + '/update')}
+                              onClick={() => navigate(ROUTE_PATH.DISTRIBUTORS + '/update/' + distributorId)}
                               endIcon={<RateReviewRoundedIcon />}
                            >
                               Chỉnh sửa
@@ -56,39 +57,53 @@ const MaterialsCatalogDetails = () => {
                         </PermissionAccessRoute>
                      </Box>
                      <Box sx={{ mt: 4, p: 2, borderRadius: 2, position: 'relative' }}>
-                        <Box sx={{ minHeight: '50px', display: 'flex', gap: 32 }}>
+                        <Box sx={{ minHeight: '50px', display: 'flex', gap: 22 }}>
                            <Typography sx={{ fontWeight: '500', fontSize: '1rem', color: theme.palette.grey[800] }}>
-                              Mã vật tư
+                              Mã nhà phân phối
                            </Typography>
-                           <Typography sx={{ flexGrow: 1, fontSize: '1rem' }}>{material.code}</Typography>
+                           <Typography sx={{ flexGrow: 1, fontSize: '1rem' }}>{distributor.code}</Typography>
                         </Box>
                         <Box sx={{ minHeight: '50px', display: 'flex', gap: 21 }}>
                            <Typography sx={{ fontWeight: '500', fontSize: '1rem', color: theme.palette.grey[800] }}>
-                              Tên danh mục vật tư
+                              Tên nhà phân phối
                            </Typography>
-                           <Typography sx={{ flexGrow: 1, fontSize: '1rem' }}>{material.name}</Typography>
+                           <Typography sx={{ flexGrow: 1, fontSize: '1rem' }}>{distributor.name}</Typography>
                         </Box>
-                        <Box sx={{ minHeight: '50px', display: 'flex', gap: 32 }}>
+                        <Box sx={{ minHeight: '50px', display: 'flex', gap: 26 }}>
+                           <Typography sx={{ fontWeight: '500', fontSize: '1rem', color: theme.palette.grey[800] }}>
+                              Số điện thoại
+                           </Typography>
+                           <Typography sx={{ flexGrow: 1, fontSize: '1rem' }}>{distributor.phone}</Typography>
+                        </Box>
+                        <Box sx={{ minHeight: '50px', display: 'flex', gap: 33 }}>
+                           <Typography sx={{ fontWeight: '500', fontSize: '1rem', color: theme.palette.grey[800] }}>
+                              Email
+                           </Typography>
+                           <Typography sx={{ flexGrow: 1, fontSize: '1rem' }}>{distributor.email}</Typography>
+                        </Box>
+                        <Box sx={{ minHeight: '50px', display: 'flex', gap: 31.5 }}>
+                           <Typography sx={{ fontWeight: '500', fontSize: '1rem', color: theme.palette.grey[800] }}>
+                              Địa chỉ
+                           </Typography>
+                           <Typography sx={{ flexGrow: 1, fontSize: '1rem' }}>
+                              {`${distributor.address.province.name}, ${distributor.address.district.name}, ${distributor.address.wards.name}, ${distributor.address.specific}`}
+                           </Typography>
+                        </Box>
+                        <Box sx={{ minHeight: '50px', display: 'flex', gap: 29.5 }}>
                            <Typography sx={{ fontWeight: '500', fontSize: '1rem', color: theme.palette.grey[800] }}>
                               Ngày tạo
                            </Typography>
                            <Typography sx={{ flexGrow: 1, fontSize: '1rem' }}>
-                              {formatDate(material.createdAt)}
+                              {formatDate(distributor.createdAt)}
                            </Typography>
                         </Box>
-                        <Box sx={{ minHeight: '50px', display: 'flex', gap: 22 }}>
+                        <Box sx={{ minHeight: '50px', display: 'flex', gap: 19.5 }}>
                            <Typography sx={{ fontWeight: '500', fontSize: '1rem', color: theme.palette.grey[800] }}>
                               Ngày cập nhật cuối
                            </Typography>
                            <Typography sx={{ flexGrow: 1, fontSize: '1rem' }}>
-                              {formatDate(material.updatedAt)}
+                              {formatDate(distributor.updatedAt)}
                            </Typography>
-                        </Box>
-                        <Box sx={{ minHeight: '50px', display: 'flex', gap: 35 }}>
-                           <Typography sx={{ fontWeight: '500', fontSize: '1rem', color: theme.palette.grey[800] }}>
-                              Mô tả
-                           </Typography>
-                           <Typography sx={{ flexGrow: 1, fontSize: '1rem' }}>{material.describe}</Typography>
                         </Box>
                      </Box>
                   </Box>
@@ -98,4 +113,4 @@ const MaterialsCatalogDetails = () => {
       </Box>
    );
 };
-export default MaterialsCatalogDetails;
+export default DistributorDetails;

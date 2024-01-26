@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import Layout from '@App/component/Layout';
 import ROUTE_PATH from '@App/configs/router-path';
 import PAGE_ACTION from '@App/configs/page-action';
@@ -11,6 +12,7 @@ import PermissionAccessRoute from './components/PermissionAccessRoute';
 import personnelRoute from './rotue-action/personnels';
 import distributorRoute from './rotue-action/distributor';
 import materialsCatalogRoute from './rotue-action/materialscatalog';
+import carsRoute from './rotue-action/cars';
 import roleRoute from './rotue-action/role';
 import customerRoute from './rotue-action/customer';
 
@@ -43,6 +45,7 @@ const routes = (): RouteObject[] => {
             distributorRoute,
             materialsCatalogRoute,
             customerRoute,
+            carsRoute,
          ],
       },
 
