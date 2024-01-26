@@ -6,12 +6,21 @@ import PAGE_ACTION from '@App/configs/page-action';
 import PermissionAccessRoute from '../components/PermissionAccessRoute';
 import Loadable from '../components/loadable';
 
+const Cars = Loadable('Cars');
 const CarsCreate = Loadable('Cars/CarsCreate');
 
 const carsRoute: RouteObject = {
    path: ROUTE_PATH.CARS,
    element: <Outlet />,
    children: [
+      {
+         index: true,
+         element: (
+            <PermissionAccessRoute module={MODULE_PAGE.CARS} action={PAGE_ACTION.CREATE} type="route">
+               <Cars />
+            </PermissionAccessRoute>
+         ),
+      },
       {
          path: ROUTE_PATH.CARS + ROUTE_PATH.CREATE,
          element: (
