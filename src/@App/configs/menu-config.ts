@@ -79,7 +79,6 @@ const menuConfig: MenuConfigItem[] = [
       title: 'Người dùng',
       link: ROUTE_PATH.CUSTOMERS,
       icon: PeopleIcon,
-
       children: [
          {
             id: 5.1,
@@ -98,7 +97,7 @@ const menuConfig: MenuConfigItem[] = [
       ],
    },
    {
-      id: 6
+      id: 6,
       title: 'Dịch vụ sửa chữa',
       link: '/hr',
       icon: PeopleIcon,
@@ -110,6 +109,7 @@ const menuConfig: MenuConfigItem[] = [
             module: MODULE_PAGE.CARS,
             action: PAGE_ACTION.VIEW_ALL,
          },
+      ],
     }
 ];
 
