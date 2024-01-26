@@ -21,7 +21,9 @@ const Distributors = () => {
    const navigate = useNavigate();
    const queryTable = useQuery(['getListDistribtutors'], async () => {
       const res = await distributorService.get();
+      
       return res.data;
+     
    });
    const data = useCoreTable(queryTable);
 

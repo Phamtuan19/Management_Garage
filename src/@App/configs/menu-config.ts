@@ -1,5 +1,6 @@
 import HomeIcon from '@mui/icons-material/Home';
 import PeopleIcon from '@mui/icons-material/People';
+import FaceRetouchingNaturalIcon from '@mui/icons-material/FaceRetouchingNatural';
 import WarehouseIcon from '@mui/icons-material/Warehouse';
 
 import PAGE_ACTION from './page-action';
@@ -44,6 +45,22 @@ const menuConfig: MenuConfigItem[] = [
             action: PAGE_ACTION.VIEW_ALL,
          },
       ],
+   },
+   {
+      id: 3,
+      title: 'Khách hàng',
+      link: '/',
+      icon: FaceRetouchingNaturalIcon,
+      action: PAGE_ACTION.VIEW_ALL,
+      children: [
+         {
+            id: 3.1,
+            title: 'Khách hàng',
+            link: ROUTE_PATH.CUSTOMERS,
+            module: MODULE_PAGE.CUSTOMERS,
+            action: PAGE_ACTION.VIEW_ALL,
+         },
+      ]
    },
    {
       id: 4,
