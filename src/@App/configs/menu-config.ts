@@ -92,7 +92,7 @@ const menuConfig: MenuConfigItem[] = [
          },
       ],
    },
-    {
+   {
       id: 5,
       title: 'Người dùng',
       link: ROUTE_PATH.CUSTOMERS,
@@ -117,19 +117,18 @@ const menuConfig: MenuConfigItem[] = [
    {
       id: 6,
       title: 'Dịch vụ sửa chữa',
-      link: '/hr',
+      link: ROUTE_PATH.CARS,
       icon: PeopleIcon,
       children: [
          {
-            id:6.1,
+            id: 6.1,
             title: 'Car',
             link: ROUTE_PATH.CARS,
             module: MODULE_PAGE.CARS,
             action: PAGE_ACTION.VIEW_ALL,
          },
       ],
-    }
+   },
 ];
-
 
 export default menuConfig;

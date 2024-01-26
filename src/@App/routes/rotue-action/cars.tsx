@@ -8,6 +8,7 @@ import Loadable from '../components/loadable';
 
 const Cars = Loadable('Cars');
 const CarsCreate = Loadable('Cars/CarsCreate');
+const CarsDetails = Loadable('Cars/CarsDetails');
 
 const carsRoute: RouteObject = {
    path: ROUTE_PATH.CARS,
@@ -16,7 +17,7 @@ const carsRoute: RouteObject = {
       {
          index: true,
          element: (
-            <PermissionAccessRoute module={MODULE_PAGE.CARS} action={PAGE_ACTION.CREATE} type="route">
+            <PermissionAccessRoute module={MODULE_PAGE.CARS} action={PAGE_ACTION.VIEW_ALL} type="route">
                <Cars />
             </PermissionAccessRoute>
          ),
@@ -26,6 +27,14 @@ const carsRoute: RouteObject = {
          element: (
             <PermissionAccessRoute module={MODULE_PAGE.CARS} action={PAGE_ACTION.CREATE} type="route">
                <CarsCreate />
+            </PermissionAccessRoute>
+         ),
+      },
+      {
+         path: ROUTE_PATH.CARS + ROUTE_PATH.DETAILS,
+         element: (
+            <PermissionAccessRoute module={MODULE_PAGE.CARS} action={PAGE_ACTION.VIEW_ONE} type="route">
+               <CarsDetails />
             </PermissionAccessRoute>
          ),
       },
