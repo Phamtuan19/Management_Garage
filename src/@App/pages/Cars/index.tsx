@@ -53,7 +53,7 @@ const MaterialsCatalog = () => {
          columnHelper.accessor('car_color', {
             header: 'Màu xe',
          }),
-         columnHelper.accessor('car_color', {
+         columnHelper.accessor('car_type', {
             header: 'Loại xe',
          }),
          columnHelper.accessor('status', {
@@ -71,9 +71,7 @@ const MaterialsCatalog = () => {
                         />
                      </PermissionAccessRoute>
                      <CoreTableActionDelete />
-                     <CoreTableActionEdit
-                        callback={() => navigate(ROUTE_PATH.CARS + '/' + cars._id + '/update')}
-                     />
+                     <CoreTableActionEdit callback={() => navigate(ROUTE_PATH.CARS + '/' + cars._id + '/update')} />
                   </Box>
                );
             },
@@ -86,7 +84,7 @@ const MaterialsCatalog = () => {
          <Box>
             <TextField size="small" label="Tìm kiếm" />
             <PermissionAccessRoute module={MODULE_PAGE.CARS} action={PAGE_ACTION.CREATE}>
-               <Button sx={{ float: "right" }} component={Link} to="create" size="medium">
+               <Button sx={{ float: 'right' }} component={Link} to="create" size="medium">
                   Thêm thông tin xe
                </Button>
             </PermissionAccessRoute>
