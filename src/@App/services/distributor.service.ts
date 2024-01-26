@@ -5,7 +5,8 @@ const distributorPath = {
    BASE: 'distributors',
 };
 
-interface Address {
+
+export interface IAddressOption {
    code: number;
    name: string;
 }
@@ -16,15 +17,15 @@ export interface IDistributor {
    phone: string;
    email: string;
    address: {
-      province: Address;
-      district: Address;
-      wards: Address;
+      province: IAddressOption;
+      district: IAddressOption;
+      wards: IAddressOption;
       specific: string;
    };
-  
    createdAt: string;
    updatedAt: string;
 }
+
 class DistributorService extends BaseService {
    BASE_ENDPOINT = distributorPath.BASE;
 

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { useParams, useNavigate } from 'react-router-dom';
 import ROUTE_PATH from '@App/configs/router-path';
 import { useQuery } from '@tanstack/react-query';
@@ -49,7 +48,7 @@ const MaterialsCatalogDetails = () => {
                         <PermissionAccessRoute module={MODULE_PAGE.MATERIALS_CATALOGS} action="VIEW_ALL">
                            <Button
                               variant="contained"
-                              onClick={() => navigate(ROUTE_PATH.MATERIALS_CATALOGS + '/update/' + materialId)}
+                              onClick={() => navigate(ROUTE_PATH.MATERIALS_CATALOGS + '/' + materialId + '/update')}
                               endIcon={<RateReviewRoundedIcon />}
                            >
                               Chỉnh sửa

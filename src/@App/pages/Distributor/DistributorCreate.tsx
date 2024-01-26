@@ -21,6 +21,7 @@ const DistributorCreate = () => {
    const { mutate: handleCreateDistributor, isLoading } = useMutation({
       mutationFn: async (data: DistributorSchema) => {
          return await distributorService.create(data);
+         
       },
       onSuccess: () => {
          successMessage('Tạo mới nhà phân phối thành công.');
