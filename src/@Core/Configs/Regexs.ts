@@ -32,6 +32,7 @@ class Regexs {
    number = /^[1-9]\d*$/;
    cmnd = /^[1-9]{11}\b/g;
    bankNumber = /^(?:\d{10}|\d{19})$/;
+   password = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/;
 }
 
 export default new Regexs();
