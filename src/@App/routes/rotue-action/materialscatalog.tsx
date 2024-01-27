@@ -2,7 +2,6 @@ import ROUTE_PATH from '@App/configs/router-path';
 import PAGE_ACTION from '@App/configs/page-action';
 import { Outlet, RouteObject } from 'react-router-dom';
 import MODULE_PAGE from '@App/configs/module-page';
-import MaterialsCatalogDetails from '@App/pages/MaterialsCatalog/MaterialsCatalogDetails';
 
 import PermissionAccessRoute from '../components/PermissionAccessRoute';
 import Loadable from '../components/loadable';
@@ -35,14 +34,6 @@ const materialsCatalogRoute: RouteObject = {
          element: (
             <PermissionAccessRoute module={MODULE_PAGE.MATERIALS_CATALOGS} action={PAGE_ACTION.UPDATE} type="route">
                <MaterialsCatalogUpdate/>
-            </PermissionAccessRoute>
-         ),
-      },
-      {
-         path: ROUTE_PATH.MATERIALS_CATALOGS + ROUTE_PATH.DETAILS,
-         element: (
-            <PermissionAccessRoute module={MODULE_PAGE.MATERIALS_CATALOGS} action={PAGE_ACTION.VIEW_ONE} type="route">
-               <MaterialsCatalogDetails/>
             </PermissionAccessRoute>
          ),
       },
