@@ -2,15 +2,14 @@ import ROUTE_PATH from '@App/configs/router-path';
 import PAGE_ACTION from '@App/configs/page-action';
 import { Outlet, RouteObject } from 'react-router-dom';
 import MODULE_PAGE from '@App/configs/module-page';
+import MaterialsCatalogDetails from '@App/pages/MaterialsCatalog/MaterialsCatalogDetails';
+
 import PermissionAccessRoute from '../components/PermissionAccessRoute';
 import Loadable from '../components/loadable';
 
 const MaterialsCatalog = Loadable('MaterialsCatalog');
-
 const MaterialsCatalogCreate = Loadable('MaterialsCatalog/MaterialsCatalogCreate');
 const MaterialsCatalogUpdate = Loadable('MaterialsCatalog/MaterialsCatalogUpdate');
-const MaterialsCatalogDetails = Loadable('MaterialsCatalog/MaterialsCatalogDetails');
-
 const materialsCatalogRoute: RouteObject = {
    path: ROUTE_PATH.MATERIALS_CATALOGS,
    element: <Outlet />,
@@ -46,7 +45,7 @@ const materialsCatalogRoute: RouteObject = {
                <MaterialsCatalogDetails/>
             </PermissionAccessRoute>
          ),
-      }
+      },
    ],
 };
 

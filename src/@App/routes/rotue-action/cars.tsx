@@ -8,7 +8,11 @@ import Loadable from '../components/loadable';
 
 const Cars = Loadable('Cars');
 const CarsCreate = Loadable('Cars/CarsCreate');
+
+const CarsUpdate = Loadable('Cars/CarsUpdate');
+
 const CarsDetails = Loadable('Cars/CarsDetails');
+
 
 const carsRoute: RouteObject = {
    path: ROUTE_PATH.CARS,
@@ -31,6 +35,11 @@ const carsRoute: RouteObject = {
          ),
       },
       {
+
+         path: ROUTE_PATH.CARS + ROUTE_PATH.UPDATE,
+         element: (
+            <PermissionAccessRoute module={MODULE_PAGE.CARS} action={PAGE_ACTION.UPDATE} type="route">
+               <CarsUpdate />
          path: ROUTE_PATH.CARS + ROUTE_PATH.DETAILS,
          element: (
             <PermissionAccessRoute module={MODULE_PAGE.CARS} action={PAGE_ACTION.VIEW_ONE} type="route">

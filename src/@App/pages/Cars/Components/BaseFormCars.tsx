@@ -1,20 +1,17 @@
-/* eslint-disable @typescript-eslint/no-unsafe-return */
+
+/* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-misused-promises */
-/* eslint-disable import/order */
-
 import { SubmitHandler, UseFormReturn, FieldValues, Control } from 'react-hook-form';
 import { useQuery } from '@tanstack/react-query';
-import { CarsSchema } from '../utils/cars.schema';
 import { Box, Grid, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import ControllerLabel from '@Core/Component/Input/ControllerLabel';
 import ControllerTextField from '@Core/Component/Input/ControllerTextField';
 import ControllerSelect from '@Core/Component/Input/ControllerSelect';
-import customerService, { ICustomer } from '@App/services/customer.service';
+import customerService, { ICustomer } from '@App/services/custome.service';
+import { CarsSchema } from '../utils/cars.schema';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface BaseFormCarsPropType {
    form: UseFormReturn<CarsSchema>;
    isLoading: boolean;
@@ -34,31 +31,31 @@ const BaseFormCars = ({ form, onSubmitForm, isLoading, isUpdate }: BaseFormCarsP
             title: item.name,
          }));
       } catch (error) {
-         console.error('Lỗi khi lấy dữ liệu khách hàng:', error);
          return [];
       }
    });
-
+  
    return (
       <form onSubmit={handleSubmit(onSubmitForm)}>
          <Grid container spacing={2}>
             <Grid item xs={12}>
                <Typography component="h4" sx={{ fontWeight: 600, fontSize: 20 }}>
-                  Thông tin xe:
+                  Thông tin tiếp nhận xe:
                </Typography>
             </Grid>
             <Grid item md={3}>
                <ControllerLabel title="Khách hàng" />
-               <ControllerSelect
-                  options={allCustome || []}
-                  valuePath="value"
-                  titlePath="title"
-                  // defaultValue={form.getValues('customer_id')}
-                  name="customer_id"
-                  control={control as unknown as Control<FieldValues>}
-               />
+               {
+                  <ControllerSelect
+                     options={allCustome || []}
+                     valuePath="value"
+                     titlePath="title"
+                     defaultValue=""
+                     name="customer_id"
+                     control={control as unknown as Control<FieldValues>}
+                  />
+               }
             </Grid>
-
             <Grid item xs={12} md={3}>
                <Box height="96.5px">
                   <ControllerLabel title="Tên xe" required />
