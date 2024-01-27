@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
+
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
@@ -11,7 +10,6 @@ import ControllerLabel from '@Core/Component/Input/ControllerLabel';
 import ControllerTextField from '@Core/Component/Input/ControllerTextField';
 import ControllerSelect from '@Core/Component/Input/ControllerSelect';
 import customerService, { ICustomer } from '@App/services/custome.service';
-
 import { CarsSchema } from '../utils/cars.schema';
 
 interface BaseFormCarsPropType {
@@ -36,6 +34,7 @@ const BaseFormCars = ({ form, onSubmitForm, isLoading, isUpdate }: BaseFormCarsP
          return [];
       }
    });
+  
    return (
       <form onSubmit={handleSubmit(onSubmitForm)}>
          <Grid container spacing={2}>
@@ -57,7 +56,6 @@ const BaseFormCars = ({ form, onSubmitForm, isLoading, isUpdate }: BaseFormCarsP
                   />
                }
             </Grid>
-
             <Grid item xs={12} md={3}>
                <Box height="96.5px">
                   <ControllerLabel title="Tên xe" required />
@@ -71,7 +69,7 @@ const BaseFormCars = ({ form, onSubmitForm, isLoading, isUpdate }: BaseFormCarsP
                </Box>
             </Grid>
             <Grid item xs={12} md={3}>
-               <Box height="96.5px">
+            <Box height="96.5px">
                   <ControllerLabel title="Biển số xe" required />
                   <ControllerTextField name="license_plate" control={control} />
                </Box>

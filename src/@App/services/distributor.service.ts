@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import BaseService from '@Core/Api/BaseService';
 
 
@@ -22,6 +23,13 @@ export interface IDistributor {
       wards: IAddressOption;
       specific: string;
    };
+   bank_account_id: {
+      _id: string;
+   }
+   bank_name: string;
+   bank_branch: string;
+   account_holder_name: string;
+   bank_account_number: string,
    createdAt: string;
    updatedAt: string;
 }

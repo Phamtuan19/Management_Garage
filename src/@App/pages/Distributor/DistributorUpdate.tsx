@@ -37,7 +37,7 @@ const DistributorUpdate = () => {
       },
       {
          onSuccess: (data) => {
-            setValueHookForm(form.setValue, data.distributor as never);
+            setValueHookForm(form.setValue, data as never);
          },
       },
    );
@@ -49,7 +49,7 @@ const DistributorUpdate = () => {
       onSuccess: async () => {
          successMessage('Cập nhật thành công !');
          await getDistributor();
-         navigate('/distributors')
+         navigate('/wh/distributors')
       },
       onError: (err: AxiosError) => {
          const dataError = err.response?.data as HandleErrorApi;

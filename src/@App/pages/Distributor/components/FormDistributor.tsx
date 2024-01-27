@@ -5,24 +5,25 @@
 /* eslint-disable import/order */
 
 import ControllerLabel from '@Core/Component/Input/ControllerLabel';
-import { Box, Grid } from '@mui/material';
-import { Control, FieldValues, UseFormReturn } from 'react-hook-form';
+import { Box, Grid, MenuItem, Select } from '@mui/material';
+import { Controller, UseFormReturn } from 'react-hook-form';
 import { DistributorSchema } from '../utils/distributor.schema';
 import { useQuery } from '@tanstack/react-query';
 import { getDistricts, getProvinces, getWards } from '../utils';
-import { IDistributor } from '@App/services/distributor.service';
-import ControllerSelect from '@Core/Component/Input/ControllerSelect';
 interface BaseFormPersonnelPropType {
    form: UseFormReturn<DistributorSchema>;
 }
 
+
 const FormDistributor = ({ form }: BaseFormPersonnelPropType) => {
    const { control, watch, setValue } = form;
-   const watchProvince = watch('address.province');
+
+   const watchProvince = watch('address.province') || { name: '' };
    const watchDistrict = watch('address.district');
 
-   const { data: provinces, isLoading: isLoadingProvinces } = useQuery<IDistributor, Error>(['getProvinces'], async () => {
+   const { data: provinces, isLoading: isLoadingProvinces } = useQuery(['getProvinces'], async () => {
       const res = await getProvinces()
+
       return res.map((item: { code: number, name: string }) => ({
          value: {
             code: item.code,
@@ -30,9 +31,10 @@ const FormDistributor = ({ form }: BaseFormPersonnelPropType) => {
          },
          title: item.name
       }));
+
    })
 
-   const { data: districts, isLoading: isLoadingDistricts } = useQuery<IDistributor, Error>(
+   const { data: districts, isLoading: isLoadingDistricts } = useQuery(
       ['getDistrict', watchProvince?.code || 'default'],
       async () => {
          try {
@@ -56,7 +58,7 @@ const FormDistributor = ({ form }: BaseFormPersonnelPropType) => {
       }
    );
 
-   const { data: wards, isLoading: isLoadingWard } = useQuery<IDistributor, Error>(
+   const { data: wards, isLoading: isLoadingWard } = useQuery(
       ['getWards', watchDistrict?.code || 'default'],
       async () => {
          try {
@@ -82,49 +84,103 @@ const FormDistributor = ({ form }: BaseFormPersonnelPropType) => {
       }
    );
 
+
    return (
       <>
          <Grid item xs={12} md={3}>
             <Box height="96.5px">
                <ControllerLabel title="Tỉnh/Thành phố" required />
-               <ControllerSelect
+               <Controller
                   name="address.province"
-                  valuePath="value"
-                  titlePath="title"
+                  control={control}
                   loading={isLoadingProvinces}
-                  options={provinces || []}
-                  control={control as unknown as Control<FieldValues>}
+                  render={({ field }) => (
+                     <Select
+                        {...field}
+                        label="Tỉnh/Thành phố"
+                        inputProps={{
+                           name: 'province',
+                           id: 'province-select',
+                        }}
+                        renderValue={(selected) => (
+                           <div>
+                              {selected && selected.name}
+                           </div>
+                        )}
+                     >
+                        {provinces?.map((province) => (
+                           <MenuItem key={province.value.code} value={province.value}>
+                              {province.title}
+                           </MenuItem>
+                        ))}
+                     </Select>
+                  )}
                />
             </Box>
          </Grid>
          <Grid item xs={12} md={3}>
             <Box height="96.5px">
                <ControllerLabel title="Quận/huyện" required />
-               <ControllerSelect
+               <Controller
                   name="address.district"
-                  valuePath="value"
-                  titlePath="title"
+                  control={control}
                   loading={isLoadingDistricts}
-                  options={districts || []}
-                  control={control as unknown as Control<FieldValues>}
+                  render={({ field }) => (
+                     <Select
+                        {...field}
+                        label="Quận/huyện"
+                        inputProps={{
+                           name: 'district',
+                           id: 'district-select',
+                        }}
+                        renderValue={(selected) => (
+                           <div>
+                              {selected && selected.name}
+                           </div>
+                        )}
+                     >
+                        {districts?.map((district) => (
+                           <MenuItem key={district.value.code} value={district.value}>
+                              {district.title}
+                           </MenuItem>
+                        ))}
+                     </Select>
+                  )}
                />
             </Box>
          </Grid>
          <Grid item xs={12} md={3}>
             <Box height="96.5px">
                <ControllerLabel title="Xã/Phường" required />
-               <ControllerSelect
+               <Controller
                   name="address.ward"
-                  valuePath="value"
-                  titlePath="title"
+                  control={control}
                   loading={isLoadingWard}
-                  options={wards || []}
-                  control={control as unknown as Control<FieldValues>}
+                  render={({ field }) => (
+                     <Select
+                        {...field}
+                        label="Xã/Phường"
+                        inputProps={{
+                           name: 'ward',
+                           id: 'ward-select',
+                        }}
+                        renderValue={(selected) => (
+                           <div>
+                              {selected && selected.name}
+                           </div>
+                        )}
+                     >
+                        {wards?.map((ward) => (
+                           <MenuItem key={ward.value.code} value={ward.value}>
+                              {ward.title}
+                           </MenuItem>
+                        ))}
+                     </Select>
+                  )}
                />
             </Box>
          </Grid>
       </>
    );
 };
-
 export default FormDistributor;
