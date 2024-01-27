@@ -9,7 +9,6 @@ import Loadable from '../components/loadable';
 const MaterialsCatalog = Loadable('MaterialsCatalog');
 const MaterialsCatalogCreate = Loadable('MaterialsCatalog/MaterialsCatalogCreate');
 const MaterialsCatalogUpdate = Loadable('MaterialsCatalog/MaterialsCatalogUpdate');
-
 const materialsCatalogRoute: RouteObject = {
    path: ROUTE_PATH.MATERIALS_CATALOGS,
    element: <Outlet />,
