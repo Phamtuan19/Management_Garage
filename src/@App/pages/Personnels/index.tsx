@@ -1,4 +1,4 @@
-import { Box, TextField, Chip, Button, Select, MenuItem } from '@mui/material';
+import { Box, Chip } from '@mui/material';
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import personnelService from '@App/services/personnel.service';
 import { useQuery } from '@tanstack/react-query';
@@ -9,8 +9,21 @@ import { CoreTableActionDelete, CoreTableActionEdit } from '@Core/Component/Tabl
 import { useMemo } from 'react';
 import useCoreTable from '@App/hooks/useCoreTable';
 import useSearchParamsHook from '@App/hooks/useSearchParamsHook';
-import { Link } from 'react-router-dom';
-import AddIcon from '@mui/icons-material/Add';
+
+const sortList = [
+   {
+      title: 'Tên',
+      value: 'full_name',
+   },
+   {
+      title: 'Email',
+      value: 'email',
+   },
+   {
+      title: 'Số điện thoại',
+      value: 'phone',
+   },
+];
 
 export default function Personnels() {
    const { searchParams } = useSearchParamsHook();
@@ -93,23 +106,11 @@ export default function Personnels() {
    return (
       <BaseBreadcrumbs arialabel="Danh sách nhân viên">
          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <Box sx={{ display: 'flex', gap: '0px 12px' }}>
-               <Box>
-                  <TextField label="Tìm kiếm" />
-               </Box>
-               <Box>
-                  <Select sx={{ minWidth: 100 }}>
-                     <MenuItem value="">Tất cả</MenuItem>
-                     <MenuItem value={10}>Ten</MenuItem>
-                     <MenuItem value={20}>Twenty</MenuItem>
-                     <MenuItem value={30}>Thirty</MenuItem>
-                  </Select>
-               </Box>
-            </Box>
+            <FilterTable sortList={sortList} searchType={sortList} />
 
-            <Button component={Link} to="create" endIcon={<AddIcon />}>
+            {/* <Button component={Link} to="create" endIcon={<AddIcon />}>
                Thêm mới
-            </Button>
+            </Button> */}
          </Box>
 
          <TableCore columns={columns} {...data} />

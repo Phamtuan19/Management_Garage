@@ -5,12 +5,12 @@ import { Outlet, RouteObject } from 'react-router-dom';
 import MODULE_PAGE from '@App/configs/module-page';
 
 // eslint-disable-next-line import/order
-import CustomerCreate from '@App/pages/Customer/CustomerCreate';
 import PermissionAccessRoute from '../components/PermissionAccessRoute';
 import Loadable from '../components/loadable';
 
-
-const Customer  = Loadable('Customers');
+const Customer = Loadable('Customer');
+const CustomerCreate = Loadable('Customer/CustomerCreate');
+const CustomerUpdate = Loadable('Customer/CustomerUpdate');
 
 const customerRoute: RouteObject = {
    path: ROUTE_PATH.CUSTOMERS,
@@ -32,7 +32,14 @@ const customerRoute: RouteObject = {
             </PermissionAccessRoute>
          ),
       },
-   
+      {
+         path: ROUTE_PATH.CUSTOMERS + ROUTE_PATH.UPDATE,
+         element: (
+            <PermissionAccessRoute module={MODULE_PAGE.CUSTOMERS} action={PAGE_ACTION.UPDATE} type="route">
+               <CustomerUpdate />
+            </PermissionAccessRoute>
+         ),
+      },
    ],
 };
 

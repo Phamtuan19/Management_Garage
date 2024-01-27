@@ -13,7 +13,6 @@ const CarsUpdate = Loadable('Cars/CarsUpdate');
 
 const CarsDetails = Loadable('Cars/CarsDetails');
 
-
 const carsRoute: RouteObject = {
    path: ROUTE_PATH.CARS,
    element: <Outlet />,
@@ -35,11 +34,14 @@ const carsRoute: RouteObject = {
          ),
       },
       {
-
          path: ROUTE_PATH.CARS + ROUTE_PATH.UPDATE,
          element: (
             <PermissionAccessRoute module={MODULE_PAGE.CARS} action={PAGE_ACTION.UPDATE} type="route">
                <CarsUpdate />
+            </PermissionAccessRoute>
+         ),
+      },
+      {
          path: ROUTE_PATH.CARS + ROUTE_PATH.DETAILS,
          element: (
             <PermissionAccessRoute module={MODULE_PAGE.CARS} action={PAGE_ACTION.VIEW_ONE} type="route">
