@@ -18,7 +18,7 @@ import BaseFormCars from './Components/BaseFormCars';
 
 const breadcrumbs = [
    {
-      title: 'Thông tin tiếp nhận xe',
+      title: 'Dịch vụ sửa chữa',
       link: ROUTE_PATH.CARS,
    },
 ];

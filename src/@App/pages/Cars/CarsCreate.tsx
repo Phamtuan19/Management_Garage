@@ -3,16 +3,16 @@ import ROUTE_PATH from '@App/configs/router-path';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useMutation } from '@tanstack/react-query';
-import { CarsSchema, carsSchema } from './utils/cars.schema';
 import { errorMessage, successMessage } from '@Core/Helper/message';
 import { AxiosError } from 'axios';
 import HttpStatusCode from '@Core/Configs/HttpStatusCode';
 import setErrorMessageHookForm from '@App/helpers/setErrorMessageHookForm';
 import { HandleErrorApi } from '@Core/Api/axios-config';
-// eslint-disable-next-line import/order
-import BaseFormCars from './Components/BaseFormCars';
 import { useNavigate } from 'react-router-dom';
 import carsService from '@App/services/cars.service';
+
+import BaseFormCars from './Components/BaseFormCars';
+import { CarsSchema, carsSchema } from './utils/cars.schema';
 
 const breadcrumbs = [
    {
