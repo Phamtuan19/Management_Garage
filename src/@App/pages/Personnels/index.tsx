@@ -9,6 +9,7 @@ import { CoreTableActionDelete, CoreTableActionEdit } from '@Core/Component/Tabl
 import { useMemo } from 'react';
 import useCoreTable from '@App/hooks/useCoreTable';
 import useSearchParamsHook from '@App/hooks/useSearchParamsHook';
+import FilterTable from '@App/component/common/FilterTable';
 
 const sortList = [
    {

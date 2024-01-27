@@ -11,9 +11,16 @@ const useSearchParamsHook = () => {
       return setSearchParams(params);
    };
 
+   const deleteParams = (key: string) => {
+      delete params[key];
+
+      return setSearchParams(params);
+   };
+
    return {
       searchParams: params,
       setParams,
+      deleteParams,
    };
 };
 
