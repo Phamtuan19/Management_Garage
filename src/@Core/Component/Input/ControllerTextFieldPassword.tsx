@@ -21,7 +21,7 @@ function ControllerTextFieldPassword<TFieldValues extends FieldValues = FieldVal
       <React.Fragment>
          <Box sx={{ position: 'relative' }}>
             <Controller
-               render={({ field, fieldState: { error } }) => {
+               render={({ field: { onChange }, fieldState: { error } }) => {
                   return (
                      <React.Fragment>
                         <Box sx={{ position: 'relative' }}>
@@ -31,10 +31,10 @@ function ControllerTextFieldPassword<TFieldValues extends FieldValues = FieldVal
                               id={name}
                               variant="outlined"
                               size="small"
+                              onChange={onChange}
                               error={Boolean(error)}
                               sx={{ mb: 0.5, ...sx }}
                               placeholder={placeholder}
-                              {...field}
                            />
                            {useWatch({ control })[name] && (
                               <Box

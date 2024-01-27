@@ -30,7 +30,7 @@ const RoleUpdate = () => {
    const { refetch: handleGetRoleById } = useQuery(
       ['getRoleById', roleId],
       async () => {
-         const res = await roleService.find(roleId as string);
+         const res = await roleService.find(roleId || '');
          return res.data;
       },
       {
