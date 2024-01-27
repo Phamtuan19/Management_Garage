@@ -7,6 +7,7 @@ import PermissionAccessRoute from '../components/PermissionAccessRoute';
 import Loadable from '../components/loadable';
 
 const CarsCreate = Loadable('Cars/CarsCreate');
+const CarsUpdate = Loadable('Cars/CarsUpdate');
 
 const carsRoute: RouteObject = {
    path: ROUTE_PATH.CARS,
@@ -17,6 +18,14 @@ const carsRoute: RouteObject = {
          element: (
             <PermissionAccessRoute module={MODULE_PAGE.CARS} action={PAGE_ACTION.CREATE} type="route">
                <CarsCreate />
+            </PermissionAccessRoute>
+         ),
+      },
+      {
+         path: ROUTE_PATH.CARS + ROUTE_PATH.UPDATE,
+         element: (
+            <PermissionAccessRoute module={MODULE_PAGE.CARS} action={PAGE_ACTION.UPDATE} type="route">
+               <CarsUpdate />
             </PermissionAccessRoute>
          ),
       },
