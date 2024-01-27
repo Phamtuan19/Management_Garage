@@ -1,18 +1,20 @@
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import ROUTE_PATH from '@App/configs/router-path';
+import { useNavigate } from 'react-router-dom';
+import carsService from '@App/services/cars.service';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { errorMessage, successMessage } from '@Core/Helper/message';
 import { AxiosError } from 'axios';
 import HttpStatusCode from '@Core/Configs/HttpStatusCode';
 import setErrorMessageHookForm from '@App/helpers/setErrorMessageHookForm';
+import { useParams } from 'react-router-dom';
+import setValueHookForm from '@App/helpers/setValueHookForm';
 import { HandleErrorApi } from '@Core/Api/axios-config';
-import { useNavigate } from 'react-router-dom';
-import carsService from '@App/services/cars.service';
 
-import BaseFormCars from './Components/BaseFormCars';
 import { CarsSchema, carsSchema } from './utils/cars.schema';
+import BaseFormCars from './Components/BaseFormCars';
 
 const breadcrumbs = [
    {
@@ -20,19 +22,34 @@ const breadcrumbs = [
       link: ROUTE_PATH.CARS,
    },
 ];
-const CarsCreate = () => {
+
+const CarsUpdate = () => {
+   const { id: carsId } = useParams();
+   const navigate = useNavigate();
    const form = useForm<CarsSchema>({
       resolver: yupResolver(carsSchema),
       defaultValues: carsSchema.getDefault(),
    });
-   const navigate = useNavigate();
-   const { mutate: CarsCreate, isLoading } = useMutation({
-      mutationFn: async (data: CarsSchema) => {
-         return await carsService.create(data);
+   const { refetch: getCars } = useQuery(
+      ['getCars', carsId],
+      async () => {
+         const res = await carsService.find(carsId!);
+         return res.data;
       },
-      onSuccess: () => {
-         successMessage('Tạo mới thông tin xe thành công.');
-         form.reset();
+      {
+         onSuccess: (data) => {
+            setValueHookForm(form.setValue, data as never);
+         },
+      },
+   );
+
+   const { mutate: Cars, isLoading } = useMutation({
+      mutationFn: async (data: CarsSchema) => {
+         return await carsService.update(data, carsId, 'patch');
+      },
+      onSuccess: async () => {
+         successMessage('Cập nhật thành công !');
+         await getCars();
          navigate('/cars');
       },
       onError: (err: AxiosError) => {
@@ -46,12 +63,15 @@ const CarsCreate = () => {
       },
    });
 
-   const onSubmitForm: SubmitHandler<CarsSchema> = (data) => CarsCreate(data);
+   const onSubmitForm: SubmitHandler<CarsSchema> = (data) => {
+      Cars(data);
+   };
+
    return (
-      <BaseBreadcrumbs arialabel="Thêm mới" breadcrumbs={breadcrumbs}>
-         <BaseFormCars onSubmitForm={onSubmitForm} form={form} isLoading={isLoading} />
+      <BaseBreadcrumbs arialabel="Cập nhật thông tin" breadcrumbs={breadcrumbs}>
+         <BaseFormCars onSubmitForm={onSubmitForm} form={form} isLoading={isLoading} isUpdate />
       </BaseBreadcrumbs>
    );
 };
 
-export default CarsCreate;
+export default CarsUpdate;
