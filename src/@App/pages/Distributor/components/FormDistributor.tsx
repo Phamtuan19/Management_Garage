@@ -19,7 +19,7 @@ const FormDistributor = ({ form }: BaseFormPersonnelPropType) => {
    const watchProvince = watch('address.province.code');
    const watchDistrict = watch('address.district.code');
 
-   const { data: provinces } = useQuery(['getProvinces'], async () => {
+   const { data: provinces, isLoading: isLoadingProvinces } = useQuery(['getProvinces'], async () => {
       const res = await getProvinces();
       return res;
    });
@@ -61,6 +61,7 @@ const FormDistributor = ({ form }: BaseFormPersonnelPropType) => {
                      setValue('address.wards.name', '');
                      handleGetDistrict();
                   }}
+                  loading={isLoadingProvinces}
                   name="address.province.code"
                   options={provinces || []}
                   control={control as unknown as Control<FieldValues>}

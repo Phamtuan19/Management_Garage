@@ -21,7 +21,9 @@ const WarpperSidebar = styled('div')<{ openSidebar: boolean; isLgDown: boolean }
    boxSizing: 'border-box',
    position: 'fixed',
    top: theme.base.header.height,
-   left: openSidebar ? 0 : '-25%',
+   left: openSidebar ? 0 : '-50%',
+   // opacity: openSidebar ? 1 : 0,
+   zIndex: openSidebar ? 1 : -1,
    width: theme.base.sidebar.width,
    transition: 'left 0.5s ease-in-out', // Hiệu ứng di chuyển khi mở
    overflow: 'hidden',
