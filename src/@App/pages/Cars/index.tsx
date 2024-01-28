@@ -10,14 +10,38 @@ import {
    CoreTableActionEdit,
    CoreTableActionViewDetail,
 } from '@Core/Component/Table/components/CoreTableAction';
-import { Box, Button, TextField } from '@mui/material';
+import { Box, Chip } from '@mui/material';
 import PermissionAccessRoute from '@App/routes/components/PermissionAccessRoute';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import useCoreTable from '@App/hooks/useCoreTable';
-import PAGE_ACTION from '@App/configs/page-action';
 import carsService from '@App/services/cars.service';
+import { CAR_STATUS } from '@App/configs/status-config';
+import FilterTable from '@App/component/common/FilterTable';
+
+const sortList = [
+   {
+      title: 'Tên',
+      value: 'name',
+   },
+   {
+      title: 'Trạng thái',
+      value: 'status',
+   },
+   {
+      title: 'Loại xe',
+      value: 'car_type',
+   },
+   {
+      title: 'Thương hiệu',
+      value: 'brand_car',
+   },
+   {
+      title: 'Năm sản xuất',
+      value: 'production_year',
+   },
+];
 
 const MaterialsCatalog = () => {
    const navigate = useNavigate();
@@ -35,7 +59,7 @@ const MaterialsCatalog = () => {
          }),
          columnHelper.accessor('code', {
             header: () => <Box sx={{ textAlign: 'center' }}>Mã</Box>,
-            cell: (info) => <Box sx={{ textAlign: 'center' }}>{info.getValue()}</Box>,
+            cell: (info) => <Box sx={{ textAlign: 'center' }}>#{info.getValue()}</Box>,
          }),
          columnHelper.accessor('name', {
             header: 'Tên xe',
@@ -57,20 +81,24 @@ const MaterialsCatalog = () => {
          }),
          columnHelper.accessor('status', {
             header: 'Trạng thái',
+            cell: ({ row }) => {
+               const car = row.original as IMaterialsCatalog;
+               return <Chip label={CAR_STATUS[car.status].title} color={CAR_STATUS[car.status].color} />;
+            },
          }),
          columnHelper.accessor('_id', {
             header: 'Thao tác',
             cell: ({ row }) => {
-               const cars = row.original as IMaterialsCatalog;
+               const car = row.original as IMaterialsCatalog;
                return (
                   <Box>
                      <PermissionAccessRoute module={MODULE_PAGE.CARS} action="VIEW_ONE">
                         <CoreTableActionViewDetail
-                           callback={() => navigate(ROUTE_PATH.CARS + '/' + cars._id + '/details')}
+                           callback={() => navigate(ROUTE_PATH.CARS + '/' + car._id + '/details')}
                         />
                      </PermissionAccessRoute>
                      <CoreTableActionDelete />
-                     <CoreTableActionEdit callback={() => navigate(ROUTE_PATH.CARS + '/' + cars._id + '/update')} />
+                     <CoreTableActionEdit callback={() => navigate(ROUTE_PATH.CARS + '/' + car._id + '/update')} />
                   </Box>
                );
             },
@@ -80,13 +108,21 @@ const MaterialsCatalog = () => {
 
    return (
       <BaseBreadcrumbs arialabel="Thông tin xe">
-         <Box>
+         {/* <Box>
             <TextField size="small" label="Tìm kiếm" />
             <PermissionAccessRoute module={MODULE_PAGE.CARS} action={PAGE_ACTION.CREATE}>
                <Button sx={{ float: 'right' }} component={Link} to="create" size="medium">
                   Thêm thông tin xe
                </Button>
             </PermissionAccessRoute>
+         </Box> */}
+
+         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <FilterTable sortList={sortList} searchType={sortList} />
+
+            {/* <Button component={Link} to="create" endIcon={<AddIcon />}>
+               Thêm mới
+            </Button> */}
          </Box>
          <TableCore columns={columns} {...data} />
       </BaseBreadcrumbs>

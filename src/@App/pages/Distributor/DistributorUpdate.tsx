@@ -1,4 +1,6 @@
-/* eslint-disable import/order */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import ROUTE_PATH from '@App/configs/router-path';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -12,6 +14,7 @@ import HttpStatusCode from '@Core/Configs/HttpStatusCode';
 import setErrorMessageHookForm from '@App/helpers/setErrorMessageHookForm';
 import { useNavigate, useParams } from 'react-router-dom';
 import setValueHookForm from '@App/helpers/setValueHookForm';
+
 import { DistributorSchema, distributorSchema } from './utils/distributor.schema';
 import BaseFormDistributor from './components/BaseFormDistributor';
 
@@ -37,19 +40,32 @@ const DistributorUpdate = () => {
       },
       {
          onSuccess: (data) => {
-            setValueHookForm(form.setValue, data.distributor as never);
+            setValueHookForm(form.setValue, data);
+            setValueHookForm(form.setValue, data.bank_account_id);
+            setValueHookForm(form.setValue, data.address.district);
+            // province
+            form.setValue('address.province.code', data.address.province.code);
+            form.setValue('address.province.name', data.address.province.name);
+            // district
+            form.setValue('address.district.name', data.address.district.name);
+            form.setValue('address.district.code', data.address.district.code);
+            // ward
+            form.setValue('address.wards.code', data.address.wards.code);
+            form.setValue('address.wards.name', data.address.wards.name);
+
+            // form.setValue('bank_account_number', .bank_account_number as string);
          },
       },
    );
 
    const { mutate: handleUpdateDistributor, isLoading } = useMutation({
-      mutationFn: async (data: Omit<DistributorSchema, 'province' | 'district' | 'ward'>) => {
+      mutationFn: async (data: DistributorSchema) => {
          return await distributorService.update(data, distributorId);
       },
       onSuccess: async () => {
          successMessage('Cập nhật thành công !');
          await getDistributor();
-         navigate('/distributors')
+         navigate('/distributors');
       },
       onError: (err: AxiosError) => {
          const dataError = err.response?.data as HandleErrorApi;
@@ -66,7 +82,7 @@ const DistributorUpdate = () => {
 
    return (
       <BaseBreadcrumbs arialabel="Cập nhật thông tin" breadcrumbs={breadcrumbs}>
-         <BaseFormDistributor form={form} onSubmitForm={onSubmitForm} isLoading={isLoading}/>
+         <BaseFormDistributor form={form} onSubmitForm={onSubmitForm} isLoading={isLoading} />
       </BaseBreadcrumbs>
    );
 };

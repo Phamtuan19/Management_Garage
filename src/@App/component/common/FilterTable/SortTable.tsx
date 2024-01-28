@@ -51,7 +51,7 @@ const SortTable = ({ sortList }: SortTableProps) => {
                      right: 0,
                      zIndex: 10,
                      width: 'max-content',
-                     py: '6px',
+                     // py: '6px',
                      bgcolor: '#FFF',
                      border: '1px solid #DADADA',
                      borderRadius: '6px',
@@ -62,29 +62,36 @@ const SortTable = ({ sortList }: SortTableProps) => {
                      return (
                         <Box
                            key={index}
-                           sx={{
+                           sx={({ base }) => ({
                               px: '12px',
-                              py: '3px',
+                              py: '4px',
                               cursor: 'pointer',
                               display: 'flex',
                               alignItems: 'center',
-
+                              color: searchParams['sort_type'] === item.value ? base.text.white : base.text.black,
                               justifyContent: 'space-between',
                               gap: '12px',
+                              borderRadius: '6px',
+                              backgroundColor: searchParams['sort_type'] === item.value ? '#0A5' : 'transparent',
                               ':hover': {
                                  bgcolor: '#0A5',
-                                 color: '#fff',
+                                 color: base.text.white,
                               },
-                           }}
+                           })}
                            onClick={() => handleClickSort(item.value)}
                         >
+                           <Typography
+                              sx={{
+                                 flex: 1,
+                                 fontSize: '16px',
+                              }}
+                              component="span"
+                           >
+                              {item.title}
+                           </Typography>
                            <Box width="14px" display="flex" alignItems="center">
                               {searchParams['sort_type'] === item.value && <CheckOutlinedIcon sx={{ width: '14px' }} />}
                            </Box>
-
-                           <Typography sx={{ flex: 1, fontSize: '16px' }} component="span">
-                              {item.title}
-                           </Typography>
                         </Box>
                      );
                   })}

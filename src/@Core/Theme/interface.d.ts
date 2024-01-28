@@ -15,7 +15,13 @@ interface BaseType extends ThemeOptions {
       text: {
          main: string;
          primary: string;
-         [x: string]: any;
+
+         white: string;
+         black: string;
+         gray1: string;
+         gray2: string;
+         error: string;
+         bgLight: string;
       };
       sidebar: {
          backgroundColor: string;

@@ -1,10 +1,8 @@
 import ROUTE_PATH from '@App/configs/router-path';
 import PAGE_ACTION from '@App/configs/page-action';
 import { Outlet, RouteObject } from 'react-router-dom';
-// eslint-disable-next-line import/order
 import MODULE_PAGE from '@App/configs/module-page';
 
-// eslint-disable-next-line import/order
 import PermissionAccessRoute from '../components/PermissionAccessRoute';
 import Loadable from '../components/loadable';
 

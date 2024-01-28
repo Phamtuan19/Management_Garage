@@ -19,23 +19,27 @@ interface ControllerAutoComplateProps<TFieldValues extends FieldValues = FieldVa
    noOptionsText?: string;
    placeholder?: string;
    disabled?: boolean;
+   onChangeValue?: (e: any) => void;
+   onChangeClose?: () => void;
    name: Path<TFieldValues>;
    control: Control<TFieldValues>;
 }
 
-function ControllerAutoComplate<TFieldValues extends FieldValues = FieldValues>(
+function ControllerAutoComplete<TFieldValues extends FieldValues = FieldValues>(
    props: ControllerAutoComplateProps<TFieldValues>,
 ) {
    const {
       name,
       control,
       options,
-      valuePath = 'id',
-      titlePath = 'value',
+      valuePath = 'code',
+      titlePath = 'name',
       loading = false,
       noOptionsText,
       placeholder,
       disabled = false,
+      onChangeValue,
+      onChangeClose,
       ...restProps
    } = props;
 
@@ -56,7 +60,7 @@ function ControllerAutoComplate<TFieldValues extends FieldValues = FieldValues>(
                         renderOption={(props, option) => {
                            return (
                               <Box
-                                 component="li"
+                                 component="span"
                                  sx={{ px: 2, py: 1, cursor: 'pointer', '&:hover': { bgcolor: '#DADADA' } }}
                                  key={option[valuePath]}
                                  {...props}
@@ -67,12 +71,14 @@ function ControllerAutoComplate<TFieldValues extends FieldValues = FieldValues>(
                         }}
                         onChange={(_, value: any) => {
                            onChange(value[valuePath]);
+                           return onChangeValue && onChangeValue(value);
                         }}
                         clearIcon={
                            <ClearOutlinedIcon
                               sx={{ fontSize: '16px' }}
                               onClick={() => {
                                  onChange('');
+                                 onChangeClose && onChangeClose();
                               }}
                            />
                         }
@@ -123,4 +129,4 @@ function ControllerAutoComplate<TFieldValues extends FieldValues = FieldValues>(
    );
 }
 
-export default ControllerAutoComplate;
+export default ControllerAutoComplete;

@@ -21,11 +21,13 @@ const DistributorCreate = () => {
    const { mutate: handleCreateDistributor, isLoading } = useMutation({
       mutationFn: async (data: DistributorSchema) => {
          return await distributorService.create(data);
-         
       },
       onSuccess: () => {
          successMessage('Tạo mới nhà phân phối thành công.');
          form.reset();
+         form.setValue('address.district.code', '');
+         form.setValue('address.province.code', '');
+         form.setValue('address.wards.code', '');
       },
       onError: (err: AxiosError) => {
          const dataError = err.response?.data as HandleErrorApi;

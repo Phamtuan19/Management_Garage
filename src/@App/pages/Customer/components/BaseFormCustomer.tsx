@@ -46,7 +46,7 @@ const BaseFormCustomer = ({ form, isLoading, onSubmitForm, isUpdate }: BaseFormP
                      valuePath="id"
                      titlePath="title"
                      control={control as unknown as Control<FieldValues>}
-                     defaultValue="male" 
+                     defaultValue="male"
                   />
                </FormControl>
             </Grid>

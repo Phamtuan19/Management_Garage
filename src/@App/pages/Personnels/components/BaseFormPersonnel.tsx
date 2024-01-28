@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { Control, FieldValues, SubmitHandler, UseFormReturn } from 'react-hook-form';
 import { Box, FormControl, Grid, Stack } from '@mui/material';
@@ -35,7 +34,7 @@ const BaseFormPersonnel = ({ form, onSubmitForm, isLoading }: BaseFormPersonnelP
                   </Grid>
                   <Grid item>
                      <ControllerLabel title="Password" required />
-                     <ControllerTextFieldPassword name="password" control={control} placeholder='Mật khẩu?'/>
+                     <ControllerTextFieldPassword name="password" control={control} placeholder="Mật khẩu?" />
                   </Grid>
                   <Grid item>
                      <ControllerLabel title="Email" required />

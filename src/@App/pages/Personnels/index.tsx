@@ -1,4 +1,4 @@
-import { Box, Chip } from '@mui/material';
+import { Box, Button, Chip } from '@mui/material';
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import personnelService from '@App/services/personnel.service';
 import { useQuery } from '@tanstack/react-query';
@@ -10,6 +10,8 @@ import { useMemo } from 'react';
 import useCoreTable from '@App/hooks/useCoreTable';
 import useSearchParamsHook from '@App/hooks/useSearchParamsHook';
 import FilterTable from '@App/component/common/FilterTable';
+import { Link } from 'react-router-dom';
+import AddIcon from '@mui/icons-material/Add';
 
 const sortList = [
    {
@@ -105,16 +107,28 @@ export default function Personnels() {
    }, []);
 
    return (
-      <BaseBreadcrumbs arialabel="Danh sách nhân viên">
-         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <FilterTable sortList={sortList} searchType={sortList} />
+      <BaseBreadcrumbs
+         arialabel="Danh sách nhân viên"
+         sx={({ base }) => ({ bgcolor: base.background.default, border: 'none', p: 0 })}
+      >
+         <Button size="medium" component={Link} to="create" sx={{ py: '5px', px: '12px' }} endIcon={<AddIcon />}>
+            Thêm mới
+         </Button>
 
-            {/* <Button component={Link} to="create" endIcon={<AddIcon />}>
-               Thêm mới
-            </Button> */}
+         <Box
+            sx={({ base }) => ({
+               marginTop: '12px',
+               padding: '12px',
+               borderRadius: '5px',
+               backgroundColor: base.background.white as string,
+            })}
+         >
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+               <FilterTable sortList={sortList} searchType={sortList} />
+            </Box>
+
+            <TableCore columns={columns} {...data} />
          </Box>
-
-         <TableCore columns={columns} {...data} />
       </BaseBreadcrumbs>
    );
 }
