@@ -18,55 +18,55 @@ import COLOR from '../color';
 
 const palette = {
    background: {
-      default: '#f3f5f7',
+      default: '#F9F8FA',
       paper: COLOR.white,
    },
    common: {
       black: COLOR.black,
       white: COLOR.white,
    },
-   primary: {
-      main: COLOR.main,
-      light: COLOR.black,
-      dark: COLOR.dark,
-      contrastText: COLOR.white,
-   },
+   // primary: {
+   //    main: COLOR.main,
+   //    light: COLOR.black,
+   //    dark: COLOR.dark,
+   //    contrastText: COLOR.white,
+   // },
 
-   secondary: {
-      main: '#6c757d',
-      light: '#6c757d',
-      dark: '#6c757d',
-      contrastText: '#FFFFFF',
-   },
-   error: {
-      main: '#F00',
-      light: '#F00',
-      dark: '#F00',
-      contrastText: '#FFFFFF',
-   },
-   warning: {
-      main: '#ed6c02',
-      light: '#ff9800',
-      dark: '#e65100',
-      contrastText: '#FFFFFF',
-   },
-   info: {
-      main: '#ed6c02',
-      light: '#ff9800',
-      dark: '#e65100',
-      contrastText: '#FFFFFF',
-   },
-   success: {
-      main: '#ed6c02',
-      light: '#ff9800',
-      dark: '#e65100',
-      contrastText: '#FFFFFF',
-   },
-   text: {
-      primary: '#2d2f31',
-      secondary: '#6a6f73',
-      disabled: 'rgba(0, 0, 0, 0.38)',
-   },
+   // secondary: {
+   //    main: '#6c757d',
+   //    light: '#6c757d',
+   //    dark: '#6c757d',
+   //    contrastText: '#FFFFFF',
+   // },
+   // error: {
+   //    main: '#F00',
+   //    light: '#F00',
+   //    dark: '#F00',
+   //    contrastText: '#FFFFFF',
+   // },
+   // warning: {
+   //    main: '#ed6c02',
+   //    light: '#ff9800',
+   //    dark: '#e65100',
+   //    contrastText: '#FFFFFF',
+   // },
+   // info: {
+   //    main: '#ed6c02',
+   //    light: '#ff9800',
+   //    dark: '#e65100',
+   //    contrastText: '#FFFFFF',
+   // },
+   // success: {
+   //    main: '#ed6c02',
+   //    light: '#ff9800',
+   //    dark: '#e65100',
+   //    contrastText: '#FFFFFF',
+   // },
+   // text: {
+   //    primary: '#2d2f31',
+   //    secondary: '#6a6f73',
+   //    disabled: 'rgba(0, 0, 0, 0.38)',
+   // },
    action: {
       active: 'rgba(0, 0, 0, 0.54)',
       hover: 'rgba(0, 0, 0, 0.04)',

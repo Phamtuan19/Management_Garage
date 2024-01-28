@@ -4,9 +4,10 @@ import GlobalStyles from '@mui/material/GlobalStyles';
 export default function GlobalBaseline() {
    return (
       <GlobalStyles
-         styles={() => ({
+         styles={({ palette }) => ({
             html: {
                overflowY: 'auto',
+               backgroundColor: palette.background.default,
             },
             'html, body, #root': {
                boxSizing: 'border-box',

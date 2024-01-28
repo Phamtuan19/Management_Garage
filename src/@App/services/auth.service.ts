@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import BaseService from '@Core/Api/BaseService';
 
 export const authPathUrl = {
@@ -15,7 +16,7 @@ class AuthService extends BaseService {
       this.setRequest();
    }
 
-   login(data: { email: string; password: string }) {
+   login(data: { user_name: string; password: string }) {
       return this.request.post(this.BASE_ENDPOINT + '/' + authPathUrl.LOGIN, data);
    }
 

@@ -41,7 +41,7 @@ function FormLogin() {
          reset();
       },
       onError: (error: any) => {
-         setError('email', {
+         setError('user_name', {
             type: 'error',
             message: error.response.data.message,
          });
@@ -56,7 +56,7 @@ function FormLogin() {
          <form onSubmit={handleSubmit(handleSubmitForm)}>
             <Box mb={1}>
                <ControllerLabel title="Email" sx={{ width: '500px' }} />
-               <ControllerTextField name="email" control={control} />
+               <ControllerTextField name="user_name" control={control} />
             </Box>
             <Box mb={2}>
                <ControllerLabel title="Mật khẩu" />

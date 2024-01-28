@@ -2,6 +2,7 @@ import { IconButton, Tooltip } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import RateReviewRoundedIcon from '@mui/icons-material/RateReviewRounded';
 import { useConfirm } from '@Core/Component/Comfirm/CoreComfirm';
+import PreviewIcon from '@mui/icons-material/Preview';
 
 export const CoreTableActionDelete = ({
    callback = () => {},
@@ -35,6 +36,16 @@ export const CoreTableActionEdit = ({ callback = () => {} }) => {
       <Tooltip title="Sửa">
          <IconButton color="success" onClick={callback}>
             <RateReviewRoundedIcon />
+         </IconButton>
+      </Tooltip>
+   );
+};
+
+export const CoreTableActionViewDetail = ({ callback = () => {} }) => {
+   return (
+      <Tooltip title="Chi tiết">
+         <IconButton color="success" onClick={callback}>
+            <PreviewIcon />
          </IconButton>
       </Tooltip>
    );

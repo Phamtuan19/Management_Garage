@@ -7,6 +7,7 @@ import { AxiosError } from 'axios';
 import setErrorMessageHookForm from '@App/helpers/setErrorMessageHookForm';
 import personnelService from '@App/services/personnel.service';
 import { HandleErrorApi } from '@Core/Api/axios-config';
+import ROUTE_PATH from '@App/configs/router-path';
 
 import { ValidationFormCreate, validationFormCreate } from './utils/personnel.schema';
 import BaseFormPersonnel from './components/BaseFormPersonnel';
@@ -14,7 +15,7 @@ import BaseFormPersonnel from './components/BaseFormPersonnel';
 const breadcrumbs = [
    {
       title: 'Nhân viên',
-      link: '',
+      link: ROUTE_PATH.PERSONNELS,
    },
 ];
 

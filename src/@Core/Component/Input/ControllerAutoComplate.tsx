@@ -2,18 +2,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/naming-convention */
 
-import { Autocomplete, Box, TextField } from '@mui/material';
+import { Autocomplete, CircularProgress, Box, TextField } from '@mui/material';
 import React from 'react';
 import { type Control, Controller, type FieldValues, type Path } from 'react-hook-form';
-
+import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
 interface OptionProps {
    [key: string]: string;
 }
 
 interface ControllerAutoComplateProps<TFieldValues extends FieldValues = FieldValues> {
    options: OptionProps[];
-   valuePath: string;
-   titlePath: string;
+   valuePath?: string;
+   titlePath?: string;
    loading?: boolean;
    multiple?: boolean;
    noOptionsText?: string;
@@ -30,8 +30,8 @@ function ControllerAutoComplate<TFieldValues extends FieldValues = FieldValues>(
       name,
       control,
       options,
-      valuePath,
-      titlePath,
+      valuePath = 'id',
+      titlePath = 'value',
       loading = false,
       noOptionsText,
       placeholder,
@@ -51,23 +51,31 @@ function ControllerAutoComplate<TFieldValues extends FieldValues = FieldValues>(
                         fullWidth
                         options={options}
                         size="small"
-                        getOptionLabel={(option) => option[titlePath]}
+                        getOptionLabel={(option) => (propField.value !== '' ? option[titlePath] : '')}
                         noOptionsText={noOptionsText || 'Không có giá trị phù hợp!!!'}
                         renderOption={(props, option) => {
                            return (
                               <Box
-                                 component="span"
+                                 component="li"
                                  sx={{ px: 2, py: 1, cursor: 'pointer', '&:hover': { bgcolor: '#DADADA' } }}
                                  key={option[valuePath]}
                                  {...props}
                               >
-                                 {option[titlePath]}
+                                 {option[titlePath] || ''}
                               </Box>
                            );
                         }}
                         onChange={(_, value: any) => {
                            onChange(value[valuePath]);
                         }}
+                        clearIcon={
+                           <ClearOutlinedIcon
+                              sx={{ fontSize: '16px' }}
+                              onClick={() => {
+                                 onChange('');
+                              }}
+                           />
+                        }
                         renderInput={(params) => {
                            return (
                               <TextField
@@ -88,16 +96,24 @@ function ControllerAutoComplate<TFieldValues extends FieldValues = FieldValues>(
                                  }}
                                  InputProps={{
                                     ...params.InputProps,
+                                    endAdornment: (
+                                       <>
+                                          {loading ? <CircularProgress color="inherit" size={20} /> : null}
+                                          {params.InputProps.endAdornment}
+                                       </>
+                                    ),
                                  }}
                                  onChange={(value) => {
                                     onChange(value);
                                  }}
+                                 value={propField.value === undefined ? '' : propField.value}
                               />
                            );
                         }}
                         disabled={disabled}
                         {...restProps}
                         {...propField}
+                        value={propField.value}
                      />
                   </React.Fragment>
                );

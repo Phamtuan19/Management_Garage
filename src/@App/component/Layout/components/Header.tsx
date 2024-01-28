@@ -12,10 +12,11 @@ import { useConfirm } from '@Core/Component/Comfirm/CoreComfirm';
 const logo: string = 'https://react.vristo.sbthemes.com/assets/images/logo.svg';
 
 interface HeaderProps {
-   setOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
+   setisOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
+   isOpenSidebar: boolean;
 }
 
-const Header = ({ setOpenSidebar }: HeaderProps) => {
+const Header = ({ setisOpenSidebar, isOpenSidebar }: HeaderProps) => {
    const { authLogout } = useAuth();
    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
    const coreConfirm = useConfirm();
@@ -59,7 +60,16 @@ const Header = ({ setOpenSidebar }: HeaderProps) => {
                   </Box>
                   <Box sx={{ fontWeight: 600, fontSize: 32 }}>Gara</Box>
                </Box>
-               <Box sx={{ cursor: 'pointer' }} onClick={() => setOpenSidebar((prev: boolean) => !prev)}>
+               <Box
+                  sx={{
+                     cursor: 'pointer',
+                     transform: isOpenSidebar ? 'rotate(0deg)' : 'rotate(180deg)',
+                     display: 'flex',
+                     alignItems: 'center',
+                     justifyContent: 'center',
+                  }}
+                  onClick={() => setisOpenSidebar((prev: boolean) => !prev)}
+               >
                   <KeyboardDoubleArrowLeftIcon />
                </Box>
             </Stack>

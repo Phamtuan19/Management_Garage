@@ -7,15 +7,15 @@ import Sidebar from './components/Sidebar';
 import Footer from './components/Footer';
 
 function Layout() {
-   const [isOpenSidebar, setisOpenSidebar] = useState<boolean>(false);
+   const [isOpenSidebar, setisOpenSidebar] = useState<boolean>(true);
 
    return (
       <Box>
          <React.Fragment>
-            <Header setOpenSidebar={setisOpenSidebar} />
-            <Sidebar openSidebar={isOpenSidebar} setOpenSidebar={setisOpenSidebar} />
+            <Header isOpenSidebar={isOpenSidebar} setisOpenSidebar={setisOpenSidebar} />
+            <Sidebar openSidebar={isOpenSidebar} />
          </React.Fragment>
-         <WrapperContent>
+         <WrapperContent isOpenSidebar={isOpenSidebar}>
             <Content>
                <Outlet />
             </Content>
@@ -25,17 +25,15 @@ function Layout() {
    );
 }
 
-const WrapperContent = styled('main')(({ theme }) => ({
+const WrapperContent = styled('main')<{ isOpenSidebar: boolean }>(({ theme, isOpenSidebar }) => ({
    marginTop: theme.base.header.height,
-   marginLeft: theme.base.sidebar.width,
-   width: `calc(100% - ${theme.base.sidebar.width}px)`,
-
+   marginLeft: isOpenSidebar ? theme.base.sidebar.width : 0,
+   width: `calc(100% - ${isOpenSidebar ? theme.base.sidebar.width : 0}px)`,
+   // transition: 'margin-left 0.5s ease-in-out', // Chuyển động mượt mà trong 0.5 giây với ease-in-out
+   transition: 'all 0.5s ease-in-out', // Chuyển động mượt mà trong 0.5 giây với ease-in-out
    backgroundColor: theme.base.background.default,
    boxSizing: 'border-box',
-   [theme.breakpoints.down('lg')]: {
-      width: '100%',
-      marginLeft: 0,
-   },
+   overflow: 'hidden',
 }));
 
 const Content = styled('div')(({ theme }) => ({

@@ -1,4 +1,6 @@
-/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import ROUTE_PATH from '@App/configs/router-path';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -10,7 +12,7 @@ import { AxiosError } from 'axios';
 import { HandleErrorApi } from '@Core/Api/axios-config';
 import HttpStatusCode from '@Core/Configs/HttpStatusCode';
 import setErrorMessageHookForm from '@App/helpers/setErrorMessageHookForm';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import setValueHookForm from '@App/helpers/setValueHookForm';
 
 import { DistributorSchema, distributorSchema } from './utils/distributor.schema';
@@ -22,35 +24,48 @@ const breadcrumbs = [
       link: ROUTE_PATH.DISTRIBUTORS,
    },
 ];
-
 const DistributorUpdate = () => {
    const { id: distributorId } = useParams();
-
+   const navigate = useNavigate();
    const form = useForm<DistributorSchema>({
       resolver: yupResolver(distributorSchema),
       defaultValues: distributorSchema.getDefault(),
    });
 
-   const { refetch: getDistributorDetail } = useQuery(
-      ['getDistributorDetail', distributorId],
+   const { refetch: getDistributor } = useQuery(
+      ['getDistributor', distributorId],
       async () => {
          const res = await distributorService.find(distributorId!);
          return res.data;
       },
       {
          onSuccess: (data) => {
-            setValueHookForm(form.setValue, data.distributor as never);
+            setValueHookForm(form.setValue, data);
+            setValueHookForm(form.setValue, data.bank_account_id);
+            setValueHookForm(form.setValue, data.address.district);
+            // province
+            form.setValue('address.province.code', data.address.province.code);
+            form.setValue('address.province.name', data.address.province.name);
+            // district
+            form.setValue('address.district.name', data.address.district.name);
+            form.setValue('address.district.code', data.address.district.code);
+            // ward
+            form.setValue('address.wards.code', data.address.wards.code);
+            form.setValue('address.wards.name', data.address.wards.name);
+
+            // form.setValue('bank_account_number', .bank_account_number as string);
          },
       },
    );
 
    const { mutate: handleUpdateDistributor, isLoading } = useMutation({
-      mutationFn: async (data: Omit<DistributorSchema, 'province' | 'district' | 'ward'>) => {
+      mutationFn: async (data: DistributorSchema) => {
          return await distributorService.update(data, distributorId);
       },
       onSuccess: async () => {
-         successMessage('Tạo mới nhà phân phối thành công.');
-         await getDistributorDetail();
+         successMessage('Cập nhật thành công !');
+         await getDistributor();
+         navigate('/wh/distributors');
       },
       onError: (err: AxiosError) => {
          const dataError = err.response?.data as HandleErrorApi;
@@ -63,23 +78,10 @@ const DistributorUpdate = () => {
       },
    });
 
-   const onSubmitForm: SubmitHandler<DistributorSchema> = (data) => {
-      const newData = {
-         name: data.name,
-         email: data.email,
-         phone: data.phone,
-         bank_number: data.bank_number,
-         bank_branch: data.bank_branch,
-         bank_name: data.bank_name,
-         bank_account_name: data.bank_account_name,
-         address: data.district + '+' + data.province + '+' + data.ward + '+' + data.address,
-      };
-
-      handleUpdateDistributor(newData);
-   };
+   const onSubmitForm: SubmitHandler<DistributorSchema> = (data) => handleUpdateDistributor(data);
 
    return (
-      <BaseBreadcrumbs arialabel="Thêm mới" breadcrumbs={breadcrumbs}>
+      <BaseBreadcrumbs arialabel="Cập nhật thông tin" breadcrumbs={breadcrumbs}>
          <BaseFormDistributor form={form} onSubmitForm={onSubmitForm} isLoading={isLoading} />
       </BaseBreadcrumbs>
    );

@@ -1,13 +1,15 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { HttpStatusCodeSType } from '@Core/Configs/HttpStatusCode';
 
-export interface AxiosResponseData {
+export interface AxiosResponseData<TData = Record<string, any>> {
+   map: any;
    success: boolean;
    message: string;
-   data: AxiosResponseDataType;
+   data: TData;
 }
 
-export interface AxiosResponseDataType {
-   [key: string]: { [key: string]: string }[] | { [key: string]: string } | null | undefined;
+export interface AxiosResponseDataType<TData = Record<string, any>> {
+   [key: string]: TData;
 }
 
 export interface HandleErrorApi {

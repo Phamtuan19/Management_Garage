@@ -17,15 +17,17 @@ const ROUTE_PATH = {
 
    SUPPLIES: '/warehouse/supplies',
 
-   WAREHOUSES: '/warehouses',
+   CARS: '/cars',
+
+   WAREHOUSES: '/wh/warehouses',
 
    SIGN_IN: '/sign-in',
 
    CREATE: '/create',
 
-   UPDATE: '/update/:id',
+   UPDATE: '/:id/update',
 
-   DETAIL: '/:id',
+   DETAILS: '/:id/details',
 } as const;
 
 export const routePathSchema = yup.string().oneOf(Object.values(ROUTE_PATH)).required();

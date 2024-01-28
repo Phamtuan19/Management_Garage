@@ -8,11 +8,13 @@ import { HandleErrorApi } from '@Core/Api/axios-config';
 import { AxiosError } from 'axios';
 import HttpStatusCode from '@Core/Configs/HttpStatusCode';
 import setErrorMessageHookForm from '@App/helpers/setErrorMessageHookForm';
+import { useNavigate } from 'react-router-dom';
 
 import { DistributorSchema, distributorSchema } from './utils/distributor.schema';
 import BaseFormDistributor from './components/BaseFormDistributor';
 
 const DistributorCreate = () => {
+   const navigate = useNavigate();
    const form = useForm<DistributorSchema>({
       resolver: yupResolver(distributorSchema),
       defaultValues: distributorSchema.getDefault(),
@@ -25,6 +27,10 @@ const DistributorCreate = () => {
       onSuccess: () => {
          successMessage('Tạo mới nhà phân phối thành công.');
          form.reset();
+         form.setValue('address.district.code', '');
+         form.setValue('address.province.code', '');
+         form.setValue('address.wards.code', '');
+         navigate('/wh/distributors');
       },
       onError: (err: AxiosError) => {
          const dataError = err.response?.data as HandleErrorApi;
