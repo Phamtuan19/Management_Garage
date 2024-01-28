@@ -18,11 +18,14 @@ import { useNavigate } from 'react-router-dom';
 import useCoreTable from '@App/hooks/useCoreTable';
 import distributorService, { IDistributor } from '@App/services/distributor.service';
 import { Link } from 'react-router-dom';
+import useSearchParamsHook from '@App/hooks/useSearchParamsHook';
 
 const Distributors = () => {
    const navigate = useNavigate();
-   const queryTable = useQuery(['getListDistribtutors'], async () => {
-      const res = await distributorService.get();
+   const { searchParams } = useSearchParamsHook();
+
+   const queryTable = useQuery(['getListDistribtutors', searchParams], async () => {
+      const res = await distributorService.get(searchParams);
 
       return res.data;
    });
