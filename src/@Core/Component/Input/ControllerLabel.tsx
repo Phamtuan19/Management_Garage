@@ -16,7 +16,7 @@ function ControllerLabel(props: ControllerLabelProps) {
       <Typography
          component="span"
          sx={({ base }) => ({
-            color: base.text.gray2 as string,
+            color: base.text.gray2,
             display: 'flex',
             alignItems: 'center',
             fontSize: 15,

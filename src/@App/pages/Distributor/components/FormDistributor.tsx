@@ -1,186 +1,110 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable import/order */
-
 import ControllerLabel from '@Core/Component/Input/ControllerLabel';
-import { Box, Grid, MenuItem, Select } from '@mui/material';
-import { Controller, UseFormReturn } from 'react-hook-form';
+import { Box, Grid } from '@mui/material';
+import { Control, FieldValues, UseFormReturn } from 'react-hook-form';
+import { useMutation, useQuery } from '@tanstack/react-query';
+
 import { DistributorSchema } from '../utils/distributor.schema';
-import { useQuery } from '@tanstack/react-query';
 import { getDistricts, getProvinces, getWards } from '../utils';
+
+import ControllerAutoComplete from './ControllerAutoComplete';
 interface BaseFormPersonnelPropType {
    form: UseFormReturn<DistributorSchema>;
 }
 
-
 const FormDistributor = ({ form }: BaseFormPersonnelPropType) => {
    const { control, watch, setValue } = form;
+   const watchProvince = watch('address.province.code');
+   const watchDistrict = watch('address.district.code');
 
-   const watchProvince = watch('address.province') || { name: '' };
-   const watchDistrict = watch('address.district');
+   const { data: provinces } = useQuery(['getProvinces'], async () => {
+      const res = await getProvinces();
+      return res;
+   });
 
-   const { data: provinces, isLoading: isLoadingProvinces } = useQuery(['getProvinces'], async () => {
-      const res = await getProvinces()
+   const {
+      mutate: handleGetDistrict,
+      data: districts,
+      isLoading: isLoadingDistricts,
+   } = useMutation(['getDistrict', watchProvince], async () => {
+      const res = await getDistricts(watchProvince);
+      return res;
+   });
 
-      return res.map((item: { code: number, name: string }) => ({
-         value: {
-            code: item.code,
-            name: item.name,
-         },
-         title: item.name
-      }));
-
-   })
-
-   const { data: districts, isLoading: isLoadingDistricts } = useQuery(
-      ['getDistrict', watchProvince?.code || 'default'],
-      async () => {
-         try {
-            if (watchProvince?.code) {
-               const res = await getDistricts(watchProvince.code);
-               const districtData = res.map((item: { code: number; name: string }) => ({
-                  value: {
-                     code: item.code,
-                     name: item.name,
-                  },
-                  title: item.name,
-               }));
-               return districtData.length > 0 ? districtData : [];
-            } else {
-               setValue('address.district', '');
-               return [];
-            }
-         } catch (error) {
-            return [];
-         }
-      }
-   );
-
-   const { data: wards, isLoading: isLoadingWard } = useQuery(
-      ['getWards', watchDistrict?.code || 'default'],
-      async () => {
-         try {
-            if (watchDistrict?.code) {
-               const res = await getWards(watchDistrict.code);
-
-               const wardData = res.map((item: { code: number; name: string }) => ({
-                  value: {
-                     code: item.code,
-                     name: item.name,
-                  },
-                  title: item.name,
-               }));
-
-               return wardData.length > 0 ? wardData : [];
-            } else {
-               setValue('address.ward', '');
-               return [];
-            }
-         } catch (error) {
-            return [];
-         }
-      }
-   );
-
+   const {
+      mutate: handleGetWard,
+      data: wards,
+      isLoading: isLoadingWard,
+   } = useMutation(['getWards', watchDistrict], async () => {
+      const res = await getWards(watchDistrict);
+      return res;
+   });
 
    return (
       <>
-         <Grid item xs={12} md={3}>
+         <Grid item xs={12} md={6}>
             <Box height="96.5px">
                <ControllerLabel title="Tỉnh/Thành phố" required />
-               <Controller
-                  name="address.province"
-                  control={control}
-                  loading={isLoadingProvinces}
-                  render={({ field }) => (
-                     <Select
-                        {...field}
-                        label="Tỉnh/Thành phố"
-                        inputProps={{
-                           name: 'province',
-                           id: 'province-select',
-                        }}
-                        renderValue={(selected) => (
-                           <div>
-                              {selected && selected.name}
-                           </div>
-                        )}
-                     >
-                        {provinces?.map((province) => (
-                           <MenuItem key={province.value.code} value={province.value}>
-                              {province.title}
-                           </MenuItem>
-                        ))}
-                     </Select>
-                  )}
+               <ControllerAutoComplete
+                  onChangeValue={(value) => {
+                     setValue('address.province.name', value['name'] as string);
+                     handleGetDistrict();
+                  }}
+                  onChangeClose={() => {
+                     setValue('address.district.code', '');
+                     setValue('address.district.name', '');
+                     setValue('address.province.name', '');
+                     setValue('address.province.code', '');
+                     setValue('address.wards.code', '');
+                     setValue('address.wards.name', '');
+                     handleGetDistrict();
+                  }}
+                  name="address.province.code"
+                  options={provinces || []}
+                  control={control as unknown as Control<FieldValues>}
                />
             </Box>
          </Grid>
-         <Grid item xs={12} md={3}>
+         <Grid item xs={12} md={6}>
             <Box height="96.5px">
                <ControllerLabel title="Quận/huyện" required />
-               <Controller
-                  name="address.district"
-                  control={control}
+               <ControllerAutoComplete
+                  onChangeValue={(value) => {
+                     setValue('address.district.name', value['name'] as string);
+                     handleGetWard();
+                  }}
+                  onChangeClose={() => {
+                     setValue('address.district.name', '');
+                     setValue('address.district.code', '');
+                     setValue('address.wards.name', '');
+                     setValue('address.wards.code', '');
+                     handleGetWard();
+                  }}
+                  name="address.district.code"
                   loading={isLoadingDistricts}
-                  render={({ field }) => (
-                     <Select
-                        {...field}
-                        label="Quận/huyện"
-                        inputProps={{
-                           name: 'district',
-                           id: 'district-select',
-                        }}
-                        renderValue={(selected) => (
-                           <div>
-                              {selected && selected.name}
-                           </div>
-                        )}
-                     >
-                        {districts?.map((district) => (
-                           <MenuItem key={district.value.code} value={district.value}>
-                              {district.title}
-                           </MenuItem>
-                        ))}
-                     </Select>
-                  )}
+                  options={districts || []}
+                  control={control as unknown as Control<FieldValues>}
                />
             </Box>
          </Grid>
-         <Grid item xs={12} md={3}>
+         <Grid item xs={12} md={6}>
             <Box height="96.5px">
                <ControllerLabel title="Xã/Phường" required />
-               <Controller
-                  name="address.ward"
-                  control={control}
+               <ControllerAutoComplete
+                  name="address.wards.code"
+                  onChangeValue={(value) => {
+                     setValue('address.wards.name', value['name'] as string);
+                  }}
                   loading={isLoadingWard}
-                  render={({ field }) => (
-                     <Select
-                        {...field}
-                        label="Xã/Phường"
-                        inputProps={{
-                           name: 'ward',
-                           id: 'ward-select',
-                        }}
-                        renderValue={(selected) => (
-                           <div>
-                              {selected && selected.name}
-                           </div>
-                        )}
-                     >
-                        {wards?.map((ward) => (
-                           <MenuItem key={ward.value.code} value={ward.value}>
-                              {ward.title}
-                           </MenuItem>
-                        ))}
-                     </Select>
-                  )}
+                  options={wards || []}
+                  control={control as unknown as Control<FieldValues>}
                />
             </Box>
          </Grid>
       </>
    );
 };
+
 export default FormDistributor;

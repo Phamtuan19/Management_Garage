@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import ROUTE_PATH from '@App/configs/router-path';
 import { useNavigate } from 'react-router-dom';
@@ -39,6 +40,7 @@ const CarsUpdate = () => {
       {
          onSuccess: (data) => {
             setValueHookForm(form.setValue, data as never);
+            form.setValue('customer_id', data.customer_id._id as string);
          },
       },
    );

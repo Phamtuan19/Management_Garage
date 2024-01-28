@@ -40,10 +40,10 @@ const PersonnelCreate = () => {
       },
    });
 
-   const onSubmitForm: SubmitHandler<ValidationFormCreate> = (data) =>handleCreatePersonnel(data);;
+   const onSubmitForm: SubmitHandler<ValidationFormCreate> = (data) => handleCreatePersonnel(data);
 
    return (
-      <BaseBreadcrumbs arialabel="Thêm mới" breadcrumbs={breadcrumbs}>  
+      <BaseBreadcrumbs arialabel="Thêm mới" breadcrumbs={breadcrumbs}>
          <BaseFormPersonnel form={form} onSubmitForm={onSubmitForm} isLoading={isLoading} />
       </BaseBreadcrumbs>
    );

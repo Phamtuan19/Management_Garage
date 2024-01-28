@@ -9,7 +9,8 @@ import Loadable from '../components/loadable';
 const MaterialsCatalog = Loadable('MaterialsCatalog');
 const MaterialsCatalogCreate = Loadable('MaterialsCatalog/MaterialsCatalogCreate');
 const MaterialsCatalogUpdate = Loadable('MaterialsCatalog/MaterialsCatalogUpdate');
-const materialsCatalogRoute: RouteObject = {
+
+const materialCatalogRoute: RouteObject = {
    path: ROUTE_PATH.MATERIALS_CATALOGS,
    element: <Outlet />,
    children: [
@@ -25,7 +26,7 @@ const materialsCatalogRoute: RouteObject = {
          path: ROUTE_PATH.MATERIALS_CATALOGS + ROUTE_PATH.CREATE,
          element: (
             <PermissionAccessRoute module={MODULE_PAGE.MATERIALS_CATALOGS} action={PAGE_ACTION.CREATE} type="route">
-               < MaterialsCatalogCreate/>
+               <MaterialsCatalogCreate />
             </PermissionAccessRoute>
          ),
       },
@@ -33,11 +34,11 @@ const materialsCatalogRoute: RouteObject = {
          path: ROUTE_PATH.MATERIALS_CATALOGS + ROUTE_PATH.UPDATE,
          element: (
             <PermissionAccessRoute module={MODULE_PAGE.MATERIALS_CATALOGS} action={PAGE_ACTION.UPDATE} type="route">
-               <MaterialsCatalogUpdate/>
+               <MaterialsCatalogUpdate />
             </PermissionAccessRoute>
          ),
       },
    ],
 };
 
-export default materialsCatalogRoute;
+export default materialCatalogRoute;

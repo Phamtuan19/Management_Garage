@@ -10,12 +10,18 @@ export const getProvinces = async () => {
    return response.data;
 };
 
-export const getDistricts = async (provinces_code: string) => {
-   const response = await axios.get(baseUrlProvince + `p/${provinces_code}?depth=2`);
-   return response.data.districts;
+export const getDistricts = async (provinces_code?: string | number) => {
+   if (provinces_code) {
+      const response = await axios.get(baseUrlProvince + `p/${provinces_code}?depth=2`);
+      return response.data.districts;
+   }
+   return [];
 };
 
-export const getWards = async (districts_code: string) => {
-   const response = await axios.get(`${baseUrlProvince}d/${districts_code}?depth=2`);
-   return response.data.wards;
+export const getWards = async (districts_code: string | number) => {
+   if (districts_code) {
+      const response = await axios.get(`${baseUrlProvince}d/${districts_code}?depth=2`);
+      return response.data.wards;
+   }
+   return [];
 };
