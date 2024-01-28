@@ -26,6 +26,12 @@ export const distributorSchema = yup.object({
       .matches(Regexs.phoneVn, messageValidate.format('Số điện thoại'))
       .default(''),
 
+   bank_branch: yup.string().trim().strict(true).default(''),
+
+   bank_name: yup.string().trim().strict(true).default(''),
+
+   account_holder_name: yup.string().trim().strict(true).default(''),
+
    bank_account_number: yup
       .string()
       .trim()
@@ -38,12 +44,6 @@ export const distributorSchema = yup.object({
          return true;
       })
       .default(''),
-
-   bank_branch: yup.string().trim().strict(true).default(''),
-
-   bank_name: yup.string().trim().strict(true).default(''),
-
-   account_holder_name: yup.string().trim().strict(true).default(''),
 
    address: yup
       .object({
