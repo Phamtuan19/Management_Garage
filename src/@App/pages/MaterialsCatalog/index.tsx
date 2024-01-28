@@ -70,7 +70,7 @@ const MaterialsCatalog = () => {
          <Box>
             <TextField size="small" label="Tìm kiếm" />
             <PermissionAccessRoute module={MODULE_PAGE.MATERIALS_CATALOGS} action={PAGE_ACTION.CREATE}>
-               <Button sx={{ float: "right" }} component={Link} to="create" size="medium">
+               <Button sx={{ float: 'right' }} component={Link} to="create" size="medium">
                   Thêm danh mục
                </Button>
             </PermissionAccessRoute>

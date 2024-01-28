@@ -28,51 +28,50 @@ const BaseFormDistributor = ({ form, onSubmitForm, isLoading }: BaseFormPersonne
                      Thông tin nhà phân phối:
                   </Typography>
                </Grid>
-               <Grid item xs={12} md={3}>
-                  <Box height="96.5px">
+               <Grid item xs={12} md={4}>
+                  <Box height="80px">
                      <ControllerLabel title="Tên nhà phân phối" required />
                      <ControllerTextField name="name" control={control} />
                   </Box>
                </Grid>
-               <Grid item xs={12} md={3}>
-                  <Box height="96.5px">
+               <Grid item xs={12} md={4}>
+                  <Box height="80px">
                      <ControllerLabel title="Email" required />
                      <ControllerTextField name="email" control={control} />
                   </Box>
                </Grid>
-               <Grid item xs={12} md={3}>
-                  <Box height="96.5px">
+               <Grid item xs={12} md={4}>
+                  <Box height="80px">
                      <ControllerLabel title="Số điện thoại" required />
                      <ControllerTextField name="phone" control={control} />
                   </Box>
                </Grid>
-               <Grid item xs={12} md={3}></Grid>
 
-               <Grid item xs={12}>
+               <Grid item xs={12} pt={12}>
                   <Typography component="h4" sx={{ fontWeight: 600 }}>
                      Thông tin thanh toán:
                   </Typography>
                </Grid>
-               <Grid item xs={12} md={3}>
-                  <Box height="96.5px">
+               <Grid item xs={12} md={6}>
+                  <Box height="80px">
                      <ControllerLabel title="Số tài khoản ngân hàng" required />
                      <ControllerTextField name="bank_account_number" control={control} />
                   </Box>
                </Grid>
-               <Grid item xs={12} md={3}>
-                  <Box height="96.5px">
+               <Grid item xs={12} md={6}>
+                  <Box height="80px">
                      <ControllerLabel title="Tên ngân hàng" required />
                      <ControllerTextField name="bank_name" control={control} />
                   </Box>
                </Grid>
-               <Grid item xs={12} md={3}>
-                  <Box height="96.5px">
+               <Grid item xs={12} md={6}>
+                  <Box height="80px">
                      <ControllerLabel title="Tên chi nhánh" required />
                      <ControllerTextField name="bank_branch" control={control} />
                   </Box>
                </Grid>
-               <Grid item xs={12} md={3}>
-                  <Box height="96.5px">
+               <Grid item xs={12} md={6}>
+                  <Box height="80px">
                      <ControllerLabel title="Tên chủ tài khoản" required />
                      <ControllerTextField name="account_holder_name" control={control} />
                   </Box>
@@ -84,9 +83,8 @@ const BaseFormDistributor = ({ form, onSubmitForm, isLoading }: BaseFormPersonne
                   </Typography>
                </Grid>
                <FormDistributor form={form} />
-
-               <Grid item xs={12} md={3}>
-                  <Box height="96.5px">
+               <Grid item xs={12} md={6}>
+                  <Box height="80px">
                      <ControllerLabel title="Địa chỉ cụ thể" required />
                      <ControllerTextField name="address.specific" control={control} />
                   </Box>

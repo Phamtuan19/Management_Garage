@@ -47,6 +47,7 @@ const CarsCreate = () => {
    });
 
    const onSubmitForm: SubmitHandler<CarsSchema> = (data) => CarsCreate(data);
+
    return (
       <BaseBreadcrumbs arialabel="Thêm mới" breadcrumbs={breadcrumbs}>
          <BaseFormCars onSubmitForm={onSubmitForm} form={form} isLoading={isLoading} />
