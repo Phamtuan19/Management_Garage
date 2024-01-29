@@ -26,7 +26,7 @@ const menuConfig: MenuConfigItem[] = [
       children: [
          {
             id: 2.1,
-            title: 'Danh sách vật tư',
+            title: 'Vật tư',
             link: ROUTE_PATH.SUPPLIES,
             module: MODULE_PAGE.SUPPLIES,
             action: PAGE_ACTION.VIEW_ALL,
@@ -60,13 +60,6 @@ const menuConfig: MenuConfigItem[] = [
             link: ROUTE_PATH.PERSONNELS,
             module: MODULE_PAGE.PERSONNELS,
             action: PAGE_ACTION.VIEW_ALL,
-         },
-         {
-            id: 4.2,
-            title: 'Thêm mới',
-            link: ROUTE_PATH.PERSONNELS + ROUTE_PATH.CREATE,
-            module: MODULE_PAGE.PERSONNELS,
-            action: PAGE_ACTION.CREATE,
          },
          {
             id: 4.3,

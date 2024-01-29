@@ -8,7 +8,7 @@ const ROUTE_PATH = {
 
    ROLES: '/hr/roles',
 
-   // module
+   // module WH
    CUSTOMERS: '/customers',
 
    DISTRIBUTORS: '/wh/distributors',
