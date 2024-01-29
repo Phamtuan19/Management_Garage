@@ -11,11 +11,11 @@ const ROUTE_PATH = {
    // module WH
    CUSTOMERS: '/customers',
 
-   DISTRIBUTORS: '/wh/distributors',
+   DISTRIBUTORS: '/distributors',
 
-   MATERIALS_CATALOGS: '/wh/materials-catalogs',
+   MATERIALS_CATALOGS: '/materials-catalogs',
 
-   SUPPLIES: '/wh/supplies',
+   SUPPLIES: '/supplies',
 
    CARS: '/cars',
 

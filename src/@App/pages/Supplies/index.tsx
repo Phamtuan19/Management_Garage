@@ -2,10 +2,13 @@ import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import { Box, TextField } from '@mui/material';
 
 const Supplies = () => {
-   // const { data: supplies, isLoading } = useQuery(['getListDistributor'], async () => {
+   // const navigate = useNavigate();
+   // const queryTable = useQuery(['getListDistributor'], async () => {
    //    const res = await materialsCatalogService.get();
    //    return res.data;
    // });
+
+   // const data = useCoreTable(queryTable);
 
    // const columns = useMemo(() => {
    //    return [
