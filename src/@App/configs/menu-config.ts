@@ -1,5 +1,7 @@
 import HomeIcon from '@mui/icons-material/Home';
 import PeopleIcon from '@mui/icons-material/People';
+import FaceRetouchingNaturalIcon from '@mui/icons-material/FaceRetouchingNatural';
+import WarehouseIcon from '@mui/icons-material/Warehouse';
 import WidgetsOutlinedIcon from '@mui/icons-material/WidgetsOutlined';
 
 import PAGE_ACTION from './page-action';
@@ -46,6 +48,22 @@ const menuConfig: MenuConfigItem[] = [
       ],
    },
    {
+      id: 3,
+      title: 'Khách hàng',
+      link: '/',
+      icon: FaceRetouchingNaturalIcon,
+      action: PAGE_ACTION.VIEW_ALL,
+      children: [
+         {
+            id: 3.1,
+            title: 'Khách hàng',
+            link: ROUTE_PATH.CUSTOMERS,
+            module: MODULE_PAGE.CUSTOMERS,
+            action: PAGE_ACTION.VIEW_ALL,
+         },
+      ]
+   },
+   {
       id: 4,
       title: 'Nhân sự',
       link: '/hr',
@@ -79,7 +97,6 @@ const menuConfig: MenuConfigItem[] = [
       title: 'Người dùng',
       link: ROUTE_PATH.CUSTOMERS,
       icon: PeopleIcon,
-
       children: [
          {
             id: 5.1,
@@ -97,7 +114,21 @@ const menuConfig: MenuConfigItem[] = [
          },
       ],
    },
+   {
+      id: 6,
+      title: 'Dịch vụ sửa chữa',
+      link: ROUTE_PATH.CARS,
+      icon: PeopleIcon,
+      children: [
+         {
+            id: 6.1,
+            title: 'Car',
+            link: ROUTE_PATH.CARS,
+            module: MODULE_PAGE.CARS,
+            action: PAGE_ACTION.VIEW_ALL,
+         },
+      ],
+   },
 ];
-
 
 export default menuConfig;

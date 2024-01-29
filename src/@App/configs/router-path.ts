@@ -17,6 +17,8 @@ const ROUTE_PATH = {
 
    SUPPLIES: '/wh/supplies',
 
+   CARS: '/cars',
+
    WAREHOUSES: '/wh/warehouses',
 
    SIGN_IN: '/sign-in',

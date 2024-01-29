@@ -11,8 +11,10 @@ import setErrorMessageHookForm from '@App/helpers/setErrorMessageHookForm';
 
 import { DistributorSchema, distributorSchema } from './utils/distributor.schema';
 import BaseFormDistributor from './components/BaseFormDistributor';
+import { useNavigate } from 'react-router-dom';
 
 const DistributorCreate = () => {
+   const navigate = useNavigate();
    const form = useForm<DistributorSchema>({
       resolver: yupResolver(distributorSchema),
       defaultValues: distributorSchema.getDefault(),
@@ -26,6 +28,7 @@ const DistributorCreate = () => {
       onSuccess: () => {
          successMessage('Tạo mới nhà phân phối thành công.');
          form.reset();
+         navigate('/wh/distributors')
       },
       onError: (err: AxiosError) => {
          const dataError = err.response?.data as HandleErrorApi;

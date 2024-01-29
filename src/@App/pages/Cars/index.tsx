@@ -1,9 +1,8 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/naming-convention */
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import ROUTE_PATH from '@App/configs/router-path';
 import MODULE_PAGE from '@App/configs/module-page';
-import PAGE_ACTION from '@App/configs/page-action';
+import { IMaterialsCatalog } from '@App/services/materialsCatalog.service';
 import TableCore, { columnHelper } from '@Core/Component/Table';
 import {
    CoreTableActionDelete,
@@ -14,21 +13,18 @@ import { Box, Button, TextField } from '@mui/material';
 import PermissionAccessRoute from '@App/routes/components/PermissionAccessRoute';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import useCoreTable from '@App/hooks/useCoreTable';
-import distributorService, { IDistributors } from '@App/services/distributor.service';
-import { Link } from 'react-router-dom';
-    
-const Distributors = () => {
+import PAGE_ACTION from '@App/configs/page-action';
+import carsService from '@App/services/cars.service';
+
+const MaterialsCatalog = () => {
    const navigate = useNavigate();
-   const queryTable = useQuery(['getListDistribtutors'], async () => {
-      const res = await distributorService.get();
-      
+   const queryTable = useQuery(['getListCars'], async () => {
+      const res = await carsService.get();
       return res.data;
-     
    });
    const data = useCoreTable(queryTable);
-
    const columns = useMemo(() => {
       return [
          columnHelper.accessor((_, index) => index + 1, {
@@ -41,35 +37,39 @@ const Distributors = () => {
             cell: (info) => <Box sx={{ textAlign: 'center' }}>{info.getValue()}</Box>,
          }),
          columnHelper.accessor('name', {
-            header: 'Tên nhà phân phối',
+            header: 'Tên xe',
          }),
-         columnHelper.accessor('phone', {
-            header: 'Số điện thoại',
+         columnHelper.accessor('brand_car', {
+            header: 'Thương hiệu xe',
          }),
-         columnHelper.accessor('email', {
-            header: 'Địa chỉ email',
+         columnHelper.accessor('license_plate', {
+            header: 'Biển số xe',
          }),
-         columnHelper.accessor('address', {
-            header: 'Địa chỉ',
+         columnHelper.accessor('production_year', {
+            header: 'Năm sản xuất',
          }),
-         columnHelper.accessor('bankAcountId', {
-            header: 'ID tài khoản ngân hàng',
+         columnHelper.accessor('car_color', {
+            header: 'Màu xe',
+         }),
+         columnHelper.accessor('car_type', {
+            header: 'Loại xe',
+         }),
+         columnHelper.accessor('status', {
+            header: 'Trạng thái',
          }),
          columnHelper.accessor('_id', {
             header: 'Thao tác',
             cell: ({ row }) => {
-               const distributor = row.original as IDistributors;
+               const cars = row.original as IMaterialsCatalog;
                return (
                   <Box>
-                     <PermissionAccessRoute module={MODULE_PAGE.DISTRIBUTORS} action="VIEW_ONE">
+                     <PermissionAccessRoute module={MODULE_PAGE.CARS} action="VIEW_ONE">
                         <CoreTableActionViewDetail
-                           callback={() => navigate(ROUTE_PATH.DISTRIBUTORS + '/' + distributor._id + '/details')}
+                           callback={() => navigate(ROUTE_PATH.CARS + '/' + cars._id + '/details')}
                         />
                      </PermissionAccessRoute>
                      <CoreTableActionDelete />
-                     <CoreTableActionEdit
-                        callback={() => navigate(ROUTE_PATH.DISTRIBUTORS + '/' + distributor._id + '/update')}
-                     />
+                     <CoreTableActionEdit callback={() => navigate(ROUTE_PATH.CARS + '/' + cars._id + '/update')} />
                   </Box>
                );
             },
@@ -78,11 +78,12 @@ const Distributors = () => {
    }, []);
 
    return (
-      <BaseBreadcrumbs arialabel="Danh sách nhà phân phối">
-         <Box sx={{ display: 'flex', justifyContent: 'end', alignItems: 'center' }}>
-            <PermissionAccessRoute module={MODULE_PAGE.DISTRIBUTORS} action={PAGE_ACTION.CREATE}>
-               <Button component={Link} to="create" size="medium">
-                  Thêm mới
+      <BaseBreadcrumbs arialabel="Thông tin xe">
+         <Box>
+            <TextField size="small" label="Tìm kiếm" />
+            <PermissionAccessRoute module={MODULE_PAGE.CARS} action={PAGE_ACTION.CREATE}>
+               <Button sx={{ float: 'right' }} component={Link} to="create" size="medium">
+                  Thêm thông tin xe
                </Button>
             </PermissionAccessRoute>
          </Box>
@@ -91,4 +92,4 @@ const Distributors = () => {
    );
 };
 
-export default Distributors;
+export default MaterialsCatalog;

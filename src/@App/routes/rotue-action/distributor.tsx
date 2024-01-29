@@ -9,6 +9,7 @@ import Loadable from '../components/loadable';
 const Distributor = Loadable('Distributor');
 const DistributorCreate = Loadable('Distributor/DistributorCreate');
 const DistributorUpdate = Loadable('Distributor/DistributorUpdate');
+const DistributorDetails = Loadable('Distributor/DistributorDetails');
 
 const distributorRoute: RouteObject = {
    path: ROUTE_PATH.DISTRIBUTORS,
@@ -35,6 +36,14 @@ const distributorRoute: RouteObject = {
          element: (
             <PermissionAccessRoute module={MODULE_PAGE.DISTRIBUTORS} action={PAGE_ACTION.UPDATE} type="route">
                <DistributorUpdate />
+            </PermissionAccessRoute>
+         ),
+      },
+      {
+         path: ROUTE_PATH.DISTRIBUTORS + ROUTE_PATH.DETAILS,
+         element: (
+            <PermissionAccessRoute module={MODULE_PAGE.DISTRIBUTORS} action={PAGE_ACTION.VIEW_ONE} type="route">
+               <DistributorDetails />
             </PermissionAccessRoute>
          ),
       },
