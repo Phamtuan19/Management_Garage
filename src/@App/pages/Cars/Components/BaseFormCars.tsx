@@ -14,7 +14,6 @@ import ControllerTextField from '@Core/Component/Input/ControllerTextField';
 import ControllerSelect from '@Core/Component/Input/ControllerSelect';
 import customerService, { ICustomer } from '@App/services/customer.service';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface BaseFormCarsPropType {
    form: UseFormReturn<CarsSchema>;
    isLoading: boolean;
@@ -26,15 +25,12 @@ const BaseFormCars = ({ form, onSubmitForm, isLoading, isUpdate }: BaseFormCarsP
    const { data: allCustome } = useQuery(['getAllCustome'], async () => {
       try {
          const res = await customerService.get();
-         if (!res.data.data) {
-            return [];
-         }
-         return res.data.data.map((item: ICustomer) => ({
+
+         return res.data.map((item: ICustomer) => ({
             value: item._id,
             title: item.name,
          }));
       } catch (error) {
-         console.error('Lỗi khi lấy dữ liệu khách hàng:', error);
          return [];
       }
    });
@@ -72,7 +68,7 @@ const BaseFormCars = ({ form, onSubmitForm, isLoading, isUpdate }: BaseFormCarsP
                </Box>
             </Grid>
             <Grid item xs={12} md={3}>
-            <Box height="96.5px">
+               <Box height="96.5px">
                   <ControllerLabel title="Biển số xe" required />
                   <ControllerTextField name="license_plate" control={control} />
                </Box>

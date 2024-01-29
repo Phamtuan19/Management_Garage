@@ -1,10 +1,8 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/naming-convention */
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import ROUTE_PATH from '@App/configs/router-path';
 import MODULE_PAGE from '@App/configs/module-page';
 import { IMaterialsCatalog } from '@App/services/materialsCatalog.service';
-import materialsCatalogService from '@App/services/materialsCatalog.service';
 import TableCore, { columnHelper } from '@Core/Component/Table';
 import {
    CoreTableActionDelete,
