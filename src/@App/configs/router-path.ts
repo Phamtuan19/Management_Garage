@@ -9,17 +9,21 @@ const ROUTE_PATH = {
    ROLES: '/hr/roles',
 
    // module WH
-   CUSTOMERS: '/customers',
 
-   DISTRIBUTORS: '/distributors',
+   WAREHOUSES: '/wh/warehouses',
 
-   MATERIALS_CATALOGS: '/materials-catalogs',
+   DISTRIBUTORS: '/wh/distributors',
 
-   SUPPLIES: '/supplies',
+   MATERIALS_CATALOGS: '/wh/materials-catalogs',
+
+   SUPPLIES: '/wh/supplies',
 
    CARS: '/cars',
 
-   WAREHOUSES: '/wh/warehouses',
+   // Module sửa chữa FIX
+   REPAIR_ORDERS: '/fix/repair-orders',
+
+   CUSTOMERS: '/customers',
 
    SIGN_IN: '/sign-in',
 
