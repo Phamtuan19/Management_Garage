@@ -46,14 +46,14 @@ function ControllerTextField<TFieldValues extends FieldValues = FieldValues>(
                      disabled={disabled}
                      onInput={(event: React.ChangeEvent<HTMLInputElement>) => {
                         if (number) {
-                           event.target.value = event.target.value.replace(Regexs.integer, '');
+                           return (event.target.value = String(Number(event.target.value.replace(Regexs.integer, ''))));
                         }
 
                         if (string) {
-                           event.target.value = event.target.value.replace(Regexs.string, '');
+                           return (event.target.value = event.target.value.replace(Regexs.string, ''));
                         }
 
-                        event.target.value;
+                        return event.target.value;
                      }}
                   />
                   {error && (
