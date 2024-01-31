@@ -1,11 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import { FormHelperText, MenuItem, Select } from '@mui/material';
 import { Control, Controller, FieldValues } from 'react-hook-form';
 
 interface ControllerSelectProps<TFieldValues extends FieldValues = FieldValues> {
-   options: { [key: string]: any }[];
+   options: Array<Record<string, string | number>>;
    name: string;
    valuePath: string;
    titlePath: string;

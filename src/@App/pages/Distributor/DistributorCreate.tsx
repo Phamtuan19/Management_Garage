@@ -9,6 +9,7 @@ import { AxiosError } from 'axios';
 import HttpStatusCode from '@Core/Configs/HttpStatusCode';
 import setErrorMessageHookForm from '@App/helpers/setErrorMessageHookForm';
 import { useNavigate } from 'react-router-dom';
+import PageContent from '@App/component/customs/PageContent';
 
 import { DistributorSchema, distributorSchema } from './utils/distributor.schema';
 import BaseFormDistributor from './components/BaseFormDistributor';
@@ -47,7 +48,9 @@ const DistributorCreate = () => {
 
    return (
       <BaseBreadcrumbs arialabel="thêm nhà phân phối">
-         <BaseFormDistributor form={form} onSubmitForm={onSubmitForm} isLoading={isLoading} />
+         <PageContent>
+            <BaseFormDistributor form={form} onSubmitForm={onSubmitForm} isLoading={isLoading} />
+         </PageContent>
       </BaseBreadcrumbs>
    );
 };
