@@ -8,6 +8,7 @@ import RateReviewRoundedIcon from '@mui/icons-material/RateReviewRounded';
 import { Box, Typography, Stack, Button } from '@mui/material';
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import distributorService, { IDistributor } from '@App/services/distributor.service';
+import PageContent from '@App/component/customs/PageContent';
 const breadcrumbs = [
    {
       title: 'Nhà phân phối',
@@ -33,12 +34,12 @@ const DistributorDetails = () => {
    };
 
    return (
-      <Box>
-         <BaseBreadcrumbs
-            breadcrumbs={breadcrumbs}
-            arialabel="Chi tiết nhà phân phối"
-            sx={({ base }) => ({ bgcolor: base.background.default, border: 'none', p: 0 })}
-         >
+      <BaseBreadcrumbs
+         breadcrumbs={breadcrumbs}
+         arialabel="Chi tiết nhà phân phối"
+         sx={({ base }) => ({ bgcolor: base.background.default, border: 'none', p: 0 })}
+      >
+         <PageContent>
             {distributor && (
                <Stack>
                   <Box sx={{ mt: 3, bgcolor: '#FFFF', p: '0px 16px 16px 16px', borderRadius: 2, position: 'relative' }}>
@@ -106,8 +107,8 @@ const DistributorDetails = () => {
                   </Box>
                </Stack>
             )}
-         </BaseBreadcrumbs>
-      </Box>
+         </PageContent>
+      </BaseBreadcrumbs>
    );
 };
 export default DistributorDetails;
