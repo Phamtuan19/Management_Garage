@@ -27,9 +27,23 @@ const menuConfig: MenuConfigItem[] = [
       children: [
          {
             id: 5.1,
+            title: 'Xe',
+            link: ROUTE_PATH.CARS,
+            module: MODULE_PAGE.CARS,
+            action: PAGE_ACTION.VIEW_ALL,
+         },
+         {
+            id: 5.2,
             title: 'Phiếu sửa chữa',
             link: ROUTE_PATH.REPAIR_ORDERS,
             module: MODULE_PAGE.REPAIR_ORDERS,
+            action: PAGE_ACTION.VIEW_ALL,
+         },
+         {
+            id: 5.3,
+            title: 'Dịch vụ sửa chữa',
+            link: ROUTE_PATH.REPAIR_SERVICES,
+            module: MODULE_PAGE.REPAIR_SERVICES,
             action: PAGE_ACTION.VIEW_ALL,
          },
       ],
@@ -107,14 +121,6 @@ const menuConfig: MenuConfigItem[] = [
             action: PAGE_ACTION.VIEW_ALL,
          },
       ],
-   },
-   {
-      id: 6,
-      title: 'Dịch vụ sửa chữa',
-      link: ROUTE_PATH.CARS,
-      icon: PeopleIcon,
-      action: PAGE_ACTION.VIEW_ALL,
-      module: MODULE_PAGE.CARS,
    },
 ];
 
