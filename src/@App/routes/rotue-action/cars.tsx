@@ -32,6 +32,22 @@ const carsRoute: RouteObject = {
             </PermissionAccessRoute>
          ),
       },
+      {
+         path: ROUTE_PATH.CARS + ROUTE_PATH.UPDATE,
+         element: (
+            <PermissionAccessRoute module={MODULE_PAGE.CARS} action={PAGE_ACTION.UPDATE} type="route">
+               <CarsCreate />
+            </PermissionAccessRoute>
+         ),
+      },
+      {
+         path: ROUTE_PATH.CARS + ROUTE_PATH.DETAILS,
+         element: (
+            <PermissionAccessRoute module={MODULE_PAGE.CARS} action={PAGE_ACTION.VIEW_ONE} type="route">
+               <CarsCreate />
+            </PermissionAccessRoute>
+         ),
+      },
    ],
 };
 export default carsRoute;
