@@ -19,7 +19,6 @@ import useCoreTable from '@App/hooks/useCoreTable';
 import distributorService, { IDistributor } from '@App/services/distributor.service';
 import { Link } from 'react-router-dom';
 import useSearchParamsHook from '@App/hooks/useSearchParamsHook';
-import PageContent from '@App/component/customs/PageContent';
 
 const Distributors = () => {
    const navigate = useNavigate();
@@ -100,9 +99,7 @@ const Distributors = () => {
                </Button>
             </PermissionAccessRoute>
          </Box>
-         <PageContent>
-            <TableCore columns={columns} {...data} />
-         </PageContent>
+         <TableCore columns={columns} {...data} />
       </BaseBreadcrumbs>
    );
 };

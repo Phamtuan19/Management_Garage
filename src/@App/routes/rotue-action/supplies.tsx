@@ -9,7 +9,6 @@ import Loadable from '../components/loadable';
 const Supplies = Loadable('Supplies');
 const SuppliesCreate = Loadable('Supplies/SuppliesCreate');
 const SuppliesUpdate = Loadable('Supplies/SuppliesUpdate');
-const SuppliesDetails = Loadable('Supplies/SuppliesDetails');
 
 const suppliesRoute: RouteObject = {
    path: ROUTE_PATH.SUPPLIES,
@@ -36,14 +35,6 @@ const suppliesRoute: RouteObject = {
          element: (
             <PermissionAccessRoute module={MODULE_PAGE.SUPPLIES} action={PAGE_ACTION.UPDATE} type="route">
                <SuppliesUpdate />
-            </PermissionAccessRoute>
-         ),
-      },
-      {
-         path: ROUTE_PATH.SUPPLIES + ROUTE_PATH.DETAILS,
-         element: (
-            <PermissionAccessRoute module={MODULE_PAGE.SUPPLIES} action={PAGE_ACTION.VIEW_ONE} type="route">
-               <SuppliesDetails />
             </PermissionAccessRoute>
          ),
       },

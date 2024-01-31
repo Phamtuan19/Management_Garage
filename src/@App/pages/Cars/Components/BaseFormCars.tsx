@@ -6,7 +6,7 @@ import { LoadingButton } from '@mui/lab';
 import ControllerLabel from '@Core/Component/Input/ControllerLabel';
 import ControllerTextField from '@Core/Component/Input/ControllerTextField';
 import ControllerSelect from '@Core/Component/Input/ControllerSelect';
-import customerService from '@App/services/customer.service';
+import customerService from '@App/services/custome.service';
 
 import { CarsSchema } from '../utils/cars.schema';
 import { car_status } from '../utils';
@@ -22,7 +22,7 @@ const BaseFormCars = ({ form, onSubmitForm, isLoading, isUpdate }: BaseFormCarsP
    const { data: customers } = useQuery(['getAllCustomers'], async () => {
       try {
          const res = await customerService.get();
-         return res.data?.data as Array<Record<string, string | number>>;
+         return res?.data?.data as Array<Record<string, string | number>>;
       } catch (error) {
          return [];
       }

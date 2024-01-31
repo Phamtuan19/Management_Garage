@@ -1,19 +1,6 @@
 import * as yup from 'yup';
-interface ModulePage {
-   readonly DOASHBOARD: 'DOASHBOARD';
-   readonly PERSONNELS: 'PERSONNELS';
-   readonly CUSTOMERS: 'CUSTOMERS';
-   readonly ROLES: 'ROLES';
-   readonly DISTRIBUTORS: 'DISTRIBUTORS';
-   readonly MATERIALS_CATALOGS: 'MATERIALS_CATALOGS';
-   readonly SUPPLIES: 'SUPPLIES';
-   readonly CARS: 'CARS';
-   readonly SUPPLIES_INVOICE: 'SUPPLIES_INVOICE';
-   readonly WAREHOUSES: 'WAREHOUSES';
-   readonly REPAIR_ORDERS: 'REPAIR_ORDERS';
-   readonly REPAIR_SERVICES: 'REPAIR_SERVICES';
-}
-const MODULE_PAGE: ModulePage = {
+
+const MODULE_PAGE = {
    DOASHBOARD: 'DOASHBOARD',
 
    PERSONNELS: 'PERSONNELS',
@@ -35,9 +22,7 @@ const MODULE_PAGE: ModulePage = {
    WAREHOUSES: 'WAREHOUSES',
 
    REPAIR_ORDERS: 'REPAIR_ORDERS',
-
-   REPAIR_SERVICES: 'REPAIR_SERVICES',
-};
+} as const;
 
 export const modulePageSchema = yup.string().oneOf(Object.values(MODULE_PAGE)).required();
 

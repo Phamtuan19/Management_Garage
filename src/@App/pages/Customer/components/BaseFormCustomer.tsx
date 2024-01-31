@@ -24,18 +24,14 @@ const BaseFormCustomer = ({ form, isLoading, onSubmitForm, isUpdate }: BaseFormP
             <Grid item xs={12}>
                <Box height="96.5px">
                   <ControllerLabel title="Tên khách hàng" required />
-                  <ControllerTextField name="name" control={control} placeholder="Tên khách hàng ?" />
+                  <ControllerTextField name="name" control={control} />
                </Box>
             </Grid>
             <Grid item xs={12}>
                <Box>
                   <ControllerLabel title="Số điện thoại" required />
-                  <ControllerTextField name="phone" control={control} placeholder="Số điện thoại ?" />
+                  <ControllerTextField name="phone" control={control} />
                </Box>
-            </Grid>
-            <Grid item xs={12}>
-               <ControllerLabel title="Email" required />
-               <ControllerTextField name="email" control={control} placeholder="Email?" />
             </Grid>
             <Grid item md={3}>
                <FormControl>

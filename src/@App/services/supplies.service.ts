@@ -14,11 +14,7 @@ export interface Supplies {
       name_detail: string;
    }[];
    name: string;
-   materials_catalog_id: {
-      code: string;
-      name: string;
-      describe: string;
-   };
+   materials_catalog_id: string;
    unit: string;
    discount: string;
    describe: string;

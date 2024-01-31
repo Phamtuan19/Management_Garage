@@ -8,8 +8,9 @@ const ROUTE_PATH = {
 
    ROLES: '/hr/roles',
 
-   // module kho (warehouse)
-   CUSTOMERS: '/wh/customers',
+   // module WH
+
+   WAREHOUSES: '/wh/warehouses',
 
    DISTRIBUTORS: '/wh/distributors',
 
@@ -17,14 +18,12 @@ const ROUTE_PATH = {
 
    SUPPLIES: '/wh/supplies',
 
-   CARS: '/fix/cars',
+   CARS: '/cars',
 
    // Module sửa chữa FIX
    REPAIR_ORDERS: '/fix/repair-orders',
 
-   REPAIR_SERVICES: '/fix/repair-services',
-
-   WAREHOUSES: '/wh/warehouses',
+   CUSTOMERS: '/customers',
 
    SIGN_IN: '/sign-in',
 

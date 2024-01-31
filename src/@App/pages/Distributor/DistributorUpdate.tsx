@@ -14,7 +14,6 @@ import HttpStatusCode from '@Core/Configs/HttpStatusCode';
 import setErrorMessageHookForm from '@App/helpers/setErrorMessageHookForm';
 import { useNavigate, useParams } from 'react-router-dom';
 import setValueHookForm from '@App/helpers/setValueHookForm';
-import PageContent from '@App/component/customs/PageContent';
 
 import { DistributorSchema, distributorSchema } from './utils/distributor.schema';
 import BaseFormDistributor from './components/BaseFormDistributor';
@@ -83,9 +82,7 @@ const DistributorUpdate = () => {
 
    return (
       <BaseBreadcrumbs arialabel="Cập nhật thông tin" breadcrumbs={breadcrumbs}>
-         <PageContent>
-            <BaseFormDistributor form={form} onSubmitForm={onSubmitForm} isLoading={isLoading} />
-         </PageContent>
+         <BaseFormDistributor form={form} onSubmitForm={onSubmitForm} isLoading={isLoading} />
       </BaseBreadcrumbs>
    );
 };

@@ -22,23 +22,6 @@ import { format } from 'date-fns';
 import { errorMessage, successMessage } from '@Core/Helper/message';
 import { AxiosResponseData, HandleErrorApi } from '@Core/Api/axios-config';
 import { AxiosError } from 'axios';
-import PageContent from '@App/component/customs/PageContent';
-import FilterTable from '@App/component/common/FilterTable';
-
-const sortList = [
-   {
-      title: 'Tên',
-      value: 'full_name',
-   },
-   {
-      title: 'Email',
-      value: 'email',
-   },
-   {
-      title: 'Số điện thoại',
-      value: 'phone',
-   },
-];
 
 const Role = () => {
    const navigate = useNavigate();
@@ -132,19 +115,15 @@ const Role = () => {
 
    return (
       <BaseBreadcrumbs arialabel="Danh sách vai trò">
-         <PermissionAccessRoute module={MODULE_PAGE.ROLES} action={PAGE_ACTION.CREATE}>
-            <Button component={Link} to="create" size="medium">
-               Thêm mới
-            </Button>
-         </PermissionAccessRoute>
+         <Box sx={{ display: 'flex', justifyContent: 'end', alignItems: 'center' }}>
+            <PermissionAccessRoute module={MODULE_PAGE.ROLES} action={PAGE_ACTION.CREATE}>
+               <Button component={Link} to="create" size="medium">
+                  Thêm mới
+               </Button>
+            </PermissionAccessRoute>
+         </Box>
 
-         <PageContent>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-               <FilterTable sortList={sortList} searchType={sortList} />
-            </Box>
-
-            <TableCore columns={columns} {...data} />
-         </PageContent>
+         <TableCore columns={columns} {...data} />
       </BaseBreadcrumbs>
    );
 };

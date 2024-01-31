@@ -46,7 +46,7 @@ const MaterialsCatalogUpdate = () => {
 
    const { mutate: MaterialsCatalog, isLoading } = useMutation({
       mutationFn: async (data: MaterialsCatalogSchema) => {
-         return await materialsCatalogService.update(data, materialsCatalogId, 'patch');
+         return await materialsCatalogService.update(data, materialsCatalogId);
       },
       onSuccess: async () => {
          successMessage('Cập nhật thành công !');
