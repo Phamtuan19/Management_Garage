@@ -94,7 +94,7 @@ function TableCore<TData = unknown[], TValue = never>(props: TableCoreProps<TDat
                sx={() => ({
                   display: 'flex',
                   alignItems: 'center',
-                  justifyContent: 'flex-end',
+                  justifyContent: 'space-between',
                   px: 1.5,
                   py: 1,
                   gap: 4,
@@ -102,27 +102,46 @@ function TableCore<TData = unknown[], TValue = never>(props: TableCoreProps<TDat
                   borderTop: '1px solid #D1D5DB',
                })}
             >
-               <Box>
-                  <Select
-                     sx={{ width: 70, borderRadius: '12px', fontSize: '14px' }}
-                     size="small"
-                     variant="outlined"
-                     value={Number(dataPagination.limit) || 10}
-                     onChange={(e) => {
-                        setParams('limit', e.target.value);
-                     }}
-                  >
-                     <MenuItem value={10}>10</MenuItem>
-                     <MenuItem value={20}>20</MenuItem>
-                     <MenuItem value={50}>30</MenuItem>
-                  </Select>
+               <Box sx={{ fontSize: '14px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                  <Box component="span">Hiển thị</Box>
+                  <Box component="span">{(Array.isArray(data) && (data.length as any)) || 1} </Box>
+                  <Box component="span">trên</Box>
+                  <Box component="span">{dataPagination.total_record}</Box>
+                  <Box component="span">bản ghi</Box>
                </Box>
-               <Pagination
-                  onChange={(_, page) => setParams('page', String(page))}
-                  count={totalPage}
-                  page={dataPagination.page}
-                  siblingCount={1}
-               />
+
+               <Box display="flex" alignItems="center" gap={4}>
+                  <Box display="flex" gap="12px" alignItems="center">
+                     <Box component="span" fontSize="14px">
+                        Bản ghi trên mỗi trang
+                     </Box>
+                     <Select
+                        sx={{ width: 70, borderRadius: '12px', fontSize: '14px' }}
+                        size="small"
+                        variant="outlined"
+                        value={Number(dataPagination.limit) || 10}
+                        onChange={(e) => {
+                           setParams('limit', e.target.value);
+                        }}
+                     >
+                        <MenuItem value={10}>10</MenuItem>
+                        <MenuItem value={20}>20</MenuItem>
+                        <MenuItem value={50}>30</MenuItem>
+                     </Select>
+                  </Box>
+                  <Box display="flex" gap="12px" alignItems="center">
+                     <Box component="span" fontSize="14px">
+                        Trang {dataPagination.page} trên {totalPage}
+                     </Box>
+                     <Pagination
+                        variant="outlined"
+                        onChange={(_, page) => setParams('page', String(page))}
+                        count={totalPage}
+                        page={dataPagination.page}
+                        siblingCount={1}
+                     />
+                  </Box>
+               </Box>
             </Box>
          )}
       </CoreTableContainer>
