@@ -11,7 +11,7 @@ import PermissionAccessRoute from './components/PermissionAccessRoute';
 import personnelRoute from './rotue-action/personnels';
 import distributorRoute from './rotue-action/distributor';
 import roleRoute from './rotue-action/role';
-import materialsCatalogRoute from './rotue-action/materialsCatalog';
+import materialscatalogRoute from './rotue-action/materialCatalogRoute';
 import suppliesRoute from './rotue-action/supplies';
 import repairServicesRoute from './rotue-action/repairServices';
 import customerRoute from './rotue-action/customer';
@@ -45,7 +45,7 @@ const routes = (): RouteObject[] => {
             roleRoute,
             distributorRoute,
             suppliesRoute,
-            materialsCatalogRoute,
+            materialscatalogRoute,
             repairServicesRoute,
             customerRoute,
             carsRoute,

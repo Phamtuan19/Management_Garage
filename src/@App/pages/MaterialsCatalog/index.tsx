@@ -46,7 +46,9 @@ const MaterialsCatalog = () => {
                   <Box>
                      <CoreTableActionDelete />
                      <CoreTableActionEdit
-                        callback={() => navigate(ROUTE_PATH.MATERIALS_CATALOGS + '/' + materialsCatalog._id)}
+                        callback={() =>
+                           navigate(ROUTE_PATH.MATERIALS_CATALOGS + '/' + materialsCatalog._id + '/update')
+                        }
                      />
                   </Box>
                );
