@@ -1,78 +1,42 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-misused-promises */
+import { LoadingButton } from '@mui/lab';
 import { Box, Grid } from '@mui/material';
-import { Control, FieldValues, UseFormReturn } from 'react-hook-form';
+import { Control, FieldValues, SubmitHandler, UseFormReturn } from 'react-hook-form';
 import ControllerLabel from '@Core/Component/Input/ControllerLabel';
 import ControllerTextarea from '@Core/Component/Input/ControllerTextarea';
 import ControllerTextField from '@Core/Component/Input/ControllerTextField';
-import { useQuery } from '@tanstack/react-query';
-import materialsCatalogService from '@App/services/materialsCatalog.service';
-import { HandleErrorApi } from '@Core/Api/axios-config';
-import { errorMessage } from '@Core/Helper/message';
-import ControllerSelect from '@Core/Component/Input/ControllerSelect';
 
 import { MaterialsCatalogSchema } from '../utils/materialsCatalog.schema';
 
-import FormSuppliesDetails from './FormSuppliesDetails';
-
-interface BaseFormSuppliesPropType {
+interface BaseFormPersonnelPropType {
    form: UseFormReturn<MaterialsCatalogSchema>;
+   isLoading: boolean;
+   onSubmitForm: SubmitHandler<MaterialsCatalogSchema>;
 }
 
-const BaseFormSupplies = ({ form }: BaseFormSuppliesPropType) => {
-   const { control } = form;
-
-   const { data: materialsCatalogs } = useQuery(['getMaterialsCatalogs'], async () => {
-      try {
-         const res = await materialsCatalogService.getAll();
-         return res.data as Array<Record<string, string>>;
-      } catch (err: any) {
-         const dataError = err.response.data as HandleErrorApi;
-         return errorMessage(dataError?.message as unknown as string);
-      }
-   });
+const BaseFormSupplies = ({ form, isLoading, onSubmitForm }: BaseFormPersonnelPropType) => {
+   const { handleSubmit, control } = form;
 
    return (
-      <Box component="form">
+      <Box component="form" onSubmit={handleSubmit(onSubmitForm)}>
          <Grid container spacing={2}>
-            <Grid item xs={12} md={6}>
-               <Box height="75px">
-                  <ControllerLabel title="Tên vật tư" required />
+            <Grid item xs={12}>
+               <Box height="96.5px">
+                  <ControllerLabel title="Tên sản phẩm" required />
                   <ControllerTextField name="name" control={control} />
                </Box>
             </Grid>
-            <Grid item xs={12} md={6}>
-               <Box height="75px">
-                  <ControllerLabel title="Danh mục vật tư" required />
-                  <ControllerSelect
-                     options={materialsCatalogs || []}
-                     valuePath="_id"
-                     titlePath="name"
-                     name="materials_catalog_id"
-                     control={control as unknown as Control<FieldValues>}
-                  />
-               </Box>
-            </Grid>
-            <Grid item xs={12} md={6}>
-               <Box height="75px">
-                  <ControllerLabel title="Đơn vị tính" required />
-                  <ControllerTextField name="unit" control={control} />
-               </Box>
-            </Grid>
-            <Grid item xs={12} md={6}>
-               <Box height="75px">
-                  <ControllerLabel title="Giá khuyến mại" />
-                  <ControllerTextField number name="discount" control={control} />
+            <Grid item xs={12}>
+               <Box>
+                  <ControllerLabel title="Mô tả" required />
+                  <ControllerTextarea name="description" control={control as unknown as Control<FieldValues>} />
                </Box>
             </Grid>
             <Grid item xs={12}>
-               <Box minHeight="80px">
-                  <ControllerLabel title="Mô tả vật tư" />
-                  <ControllerTextarea name="describe" control={control as unknown as Control<FieldValues>} />
-               </Box>
+               <LoadingButton type="submit" variant="contained" loading={isLoading}>
+                  Thêm mới
+               </LoadingButton>
             </Grid>
-
-            <FormSuppliesDetails form={form} />
          </Grid>
       </Box>
    );

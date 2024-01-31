@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useParams, useNavigate } from 'react-router-dom';
 import ROUTE_PATH from '@App/configs/router-path';
 import { useQuery } from '@tanstack/react-query';
@@ -7,10 +5,8 @@ import MODULE_PAGE from '@App/configs/module-page';
 import theme from '@Core/Theme';
 import PermissionAccessRoute from '@App/routes/components/PermissionAccessRoute';
 import RateReviewRoundedIcon from '@mui/icons-material/RateReviewRounded';
-import { Box, Typography, Stack, Button, Grid } from '@mui/material';
-import Divider from '@mui/material/Divider';
+import { Box, Typography, Stack, Button } from '@mui/material';
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
-import { format } from 'date-fns';
 import distributorService, { IDistributor } from '@App/services/distributor.service';
 const breadcrumbs = [
    {
@@ -26,48 +22,15 @@ const DistributorDetails = () => {
       return distributorRes.data as IDistributor;
    });
    const formatDate = (dateString: string | number | Date) => {
-      return dateString ? format(new Date(dateString), 'MM-dd-yyyy') : '';
+      return new Date(dateString).toLocaleString('en-US', {
+         day: '2-digit',
+         month: '2-digit',
+         year: 'numeric',
+         hour: '2-digit',
+         minute: '2-digit',
+         second: '2-digit',
+      });
    };
-   const DetailsItem = ({ label, value }: { label: string; value: string }) => (
-      <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-         <Grid item xs={3}>
-            <Typography sx={{ p: 1, fontWeight: '700', fontSize: '1rem', color: theme.palette.grey[800] }}>
-               {label}
-            </Typography>
-         </Grid>
-         <Grid item xs={9}>
-            <Typography sx={{ p: 1, flexGrow: 1, fontSize: '1rem' }}>{value}</Typography>
-            <Divider variant="inset" sx={{ m: 0 }} />
-         </Grid>
-      </Grid>
-   );
-   const DetailsSection = ({ details }: { details: { label: string; value: string }[] }) =>
-      details.map((detail: { label: string; value: string }, index: React.Key | null | undefined) => (
-         <Grid key={index}>
-            <DetailsItem label={detail.label} value={detail.value} />
-         </Grid>
-      ));
-   const bankAccountDetails = [
-      { label: 'Số tài khoản', value: distributor?.bank_account_id.bank_account_number },
-      { label: 'Tên tài khoản', value: distributor?.bank_account_id.bank_name },
-      { label: 'Chi nhánh', value: distributor?.bank_account_id.bank_branch },
-      { label: 'Chủ tài khoản', value: distributor?.bank_account_id.account_holder_name },
-      { label: 'Ngày tạo', value: formatDate(distributor!.bank_account_id.createdAt) },
-      { label: 'Ngày cập nhật cuối', value: formatDate(distributor!.bank_account_id.updatedAt) },
-   ];
-
-   const distrubutorDetails = [
-      { label: 'Mã nhà phân phối', value: distributor?.code },
-      { label: 'Tên nhà phân phối', value: distributor?.name },
-      { label: 'Số điện thoại', value: distributor?.phone },
-      { label: 'Email', value: distributor?.email },
-      {
-         label: 'Địa chỉ',
-         value: `${distributor?.address.province.name}, ${distributor?.address.district.name}, ${distributor?.address.wards.name}, ${distributor?.address.specific}`,
-      },
-      { label: 'Ngày tạo', value: formatDate(distributor!.createdAt) },
-      { label: 'Ngày cập nhật cuối', value: formatDate(distributor!.updatedAt) },
-   ];
 
    return (
       <Box>
@@ -83,33 +46,61 @@ const DistributorDetails = () => {
                         <PermissionAccessRoute module={MODULE_PAGE.DISTRIBUTORS} action="VIEW_ALL">
                            <Button
                               variant="contained"
-                              onClick={() => navigate(ROUTE_PATH.DISTRIBUTORS + '/' + distributorId + '/update')}
+                              onClick={() => navigate(ROUTE_PATH.DISTRIBUTORS + '/update/' + distributorId)}
                               endIcon={<RateReviewRoundedIcon />}
                            >
                               Chỉnh sửa
                            </Button>
                         </PermissionAccessRoute>
                      </Box>
-                     <Box>
-                        <Box sx={{ mt: 4, p: 4, borderRadius: 2, position: 'relative' }}>
-                           <Box sx={{ mb: 2, minHeight: '50px', display: 'flex', gap: 25 }}>
-                              <Typography
-                                 sx={{ fontWeight: '900', fontSize: '1.5rem', color: theme.palette.grey[800] }}
-                              >
-                                 Thông tin nhà phân phối
-                              </Typography>
-                           </Box>
-                           <DetailsSection details={distrubutorDetails as any} />
+                     <Box sx={{ mt: 4, p: 2, borderRadius: 2, position: 'relative' }}>
+                        <Box sx={{ minHeight: '50px', display: 'flex', gap: 22 }}>
+                           <Typography sx={{ fontWeight: '500', fontSize: '1rem', color: theme.palette.grey[800] }}>
+                              Mã nhà phân phối
+                           </Typography>
+                           <Typography sx={{ flexGrow: 1, fontSize: '1rem' }}>{distributor.code}</Typography>
                         </Box>
-                        <Box sx={{ mt: 4, p: 4, borderRadius: 2, position: 'relative' }}>
-                           <Box sx={{ mb: 2, minHeight: '50px', display: 'flex', gap: 25 }}>
-                              <Typography
-                                 sx={{ fontWeight: '900', fontSize: '1.5rem', color: theme.palette.grey[800] }}
-                              >
-                                 Tài khoản thụ hưởng
-                              </Typography>
-                           </Box>
-                           <DetailsSection details={bankAccountDetails as any} />
+                        <Box sx={{ minHeight: '50px', display: 'flex', gap: 21 }}>
+                           <Typography sx={{ fontWeight: '500', fontSize: '1rem', color: theme.palette.grey[800] }}>
+                              Tên nhà phân phối
+                           </Typography>
+                           <Typography sx={{ flexGrow: 1, fontSize: '1rem' }}>{distributor.name}</Typography>
+                        </Box>
+                        <Box sx={{ minHeight: '50px', display: 'flex', gap: 26 }}>
+                           <Typography sx={{ fontWeight: '500', fontSize: '1rem', color: theme.palette.grey[800] }}>
+                              Số điện thoại
+                           </Typography>
+                           <Typography sx={{ flexGrow: 1, fontSize: '1rem' }}>{distributor.phone}</Typography>
+                        </Box>
+                        <Box sx={{ minHeight: '50px', display: 'flex', gap: 33 }}>
+                           <Typography sx={{ fontWeight: '500', fontSize: '1rem', color: theme.palette.grey[800] }}>
+                              Email
+                           </Typography>
+                           <Typography sx={{ flexGrow: 1, fontSize: '1rem' }}>{distributor.email}</Typography>
+                        </Box>
+                        <Box sx={{ minHeight: '50px', display: 'flex', gap: 31.5 }}>
+                           <Typography sx={{ fontWeight: '500', fontSize: '1rem', color: theme.palette.grey[800] }}>
+                              Địa chỉ
+                           </Typography>
+                           <Typography sx={{ flexGrow: 1, fontSize: '1rem' }}>
+                              {`${distributor.address.province.name}, ${distributor.address.district.name}, ${distributor.address.wards.name}, ${distributor.address.specific}`}
+                           </Typography>
+                        </Box>
+                        <Box sx={{ minHeight: '50px', display: 'flex', gap: 29.5 }}>
+                           <Typography sx={{ fontWeight: '500', fontSize: '1rem', color: theme.palette.grey[800] }}>
+                              Ngày tạo
+                           </Typography>
+                           <Typography sx={{ flexGrow: 1, fontSize: '1rem' }}>
+                              {formatDate(distributor.createdAt)}
+                           </Typography>
+                        </Box>
+                        <Box sx={{ minHeight: '50px', display: 'flex', gap: 19.5 }}>
+                           <Typography sx={{ fontWeight: '500', fontSize: '1rem', color: theme.palette.grey[800] }}>
+                              Ngày cập nhật cuối
+                           </Typography>
+                           <Typography sx={{ flexGrow: 1, fontSize: '1rem' }}>
+                              {formatDate(distributor.updatedAt)}
+                           </Typography>
                         </Box>
                      </Box>
                   </Box>

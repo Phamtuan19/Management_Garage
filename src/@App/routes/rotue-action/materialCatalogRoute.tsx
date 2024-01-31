@@ -8,7 +8,9 @@ import Loadable from '../components/loadable';
 
 const Cars = Loadable('Cars');
 const CarsCreate = Loadable('Cars/CarsCreate');
+
 const CarsUpdate = Loadable('Cars/CarsUpdate');
+
 const CarsDetails = Loadable('Cars/CarsDetails');
 
 const carsRoute: RouteObject = {

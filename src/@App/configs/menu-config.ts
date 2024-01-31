@@ -1,7 +1,6 @@
 import HomeIcon from '@mui/icons-material/Home';
 import PeopleIcon from '@mui/icons-material/People';
 import FaceRetouchingNaturalIcon from '@mui/icons-material/FaceRetouchingNatural';
-// import WarehouseIcon from '@mui/icons-material/Warehouse';
 import WidgetsOutlinedIcon from '@mui/icons-material/WidgetsOutlined';
 import ConstructionRoundedIcon from '@mui/icons-material/ConstructionRounded';
 
@@ -51,7 +50,7 @@ const menuConfig: MenuConfigItem[] = [
    {
       id: 2,
       title: 'Vật tư',
-      link: '/wh',
+      link: '/warehouse',
       icon: WidgetsOutlinedIcon,
       children: [
          {
@@ -84,6 +83,7 @@ const menuConfig: MenuConfigItem[] = [
          },
       ],
    },
+
    {
       id: 4,
       title: 'Nhân sự',
@@ -98,6 +98,13 @@ const menuConfig: MenuConfigItem[] = [
             action: PAGE_ACTION.VIEW_ALL,
          },
          {
+            id: 4.2,
+            title: 'Thêm mới',
+            link: ROUTE_PATH.PERSONNELS + ROUTE_PATH.CREATE,
+            module: MODULE_PAGE.PERSONNELS,
+            action: PAGE_ACTION.CREATE,
+         },
+         {
             id: 4.3,
             title: 'Vai trò',
             link: ROUTE_PATH.ROLES,
@@ -109,7 +116,7 @@ const menuConfig: MenuConfigItem[] = [
    {
       id: 3,
       title: 'Khách hàng',
-      link: '/c',
+      link: '/',
       icon: FaceRetouchingNaturalIcon,
       action: PAGE_ACTION.VIEW_ALL,
       children: [
