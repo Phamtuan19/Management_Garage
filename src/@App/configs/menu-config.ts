@@ -3,6 +3,7 @@ import PeopleIcon from '@mui/icons-material/People';
 import FaceRetouchingNaturalIcon from '@mui/icons-material/FaceRetouchingNatural';
 // import WarehouseIcon from '@mui/icons-material/Warehouse';
 import WidgetsOutlinedIcon from '@mui/icons-material/WidgetsOutlined';
+import ConstructionRoundedIcon from '@mui/icons-material/ConstructionRounded';
 
 import PAGE_ACTION from './page-action';
 import ROUTE_PATH from './router-path';
@@ -19,9 +20,24 @@ const menuConfig: MenuConfigItem[] = [
       module: MODULE_PAGE.DOASHBOARD,
    },
    {
+      id: 5,
+      title: 'Sửa chữa',
+      link: '/fix',
+      icon: ConstructionRoundedIcon,
+      children: [
+         {
+            id: 5.1,
+            title: 'Phiếu sửa chữa',
+            link: ROUTE_PATH.REPAIR_ORDERS,
+            module: MODULE_PAGE.REPAIR_ORDERS,
+            action: PAGE_ACTION.VIEW_ALL,
+         },
+      ],
+   },
+   {
       id: 2,
       title: 'Vật tư',
-      link: '/warehouse',
+      link: '/wh',
       icon: WidgetsOutlinedIcon,
       children: [
          {
@@ -54,7 +70,6 @@ const menuConfig: MenuConfigItem[] = [
          },
       ],
    },
-
    {
       id: 4,
       title: 'Nhân sự',
@@ -69,13 +84,6 @@ const menuConfig: MenuConfigItem[] = [
             action: PAGE_ACTION.VIEW_ALL,
          },
          {
-            id: 4.2,
-            title: 'Thêm mới',
-            link: ROUTE_PATH.PERSONNELS + ROUTE_PATH.CREATE,
-            module: MODULE_PAGE.PERSONNELS,
-            action: PAGE_ACTION.CREATE,
-         },
-         {
             id: 4.3,
             title: 'Vai trò',
             link: ROUTE_PATH.ROLES,
@@ -87,7 +95,7 @@ const menuConfig: MenuConfigItem[] = [
    {
       id: 3,
       title: 'Khách hàng',
-      link: '/',
+      link: '/c',
       icon: FaceRetouchingNaturalIcon,
       action: PAGE_ACTION.VIEW_ALL,
       children: [
@@ -105,15 +113,8 @@ const menuConfig: MenuConfigItem[] = [
       title: 'Dịch vụ sửa chữa',
       link: ROUTE_PATH.CARS,
       icon: PeopleIcon,
-      children: [
-         {
-            id: 6.1,
-            title: 'Car',
-            link: ROUTE_PATH.CARS,
-            module: MODULE_PAGE.CARS,
-            action: PAGE_ACTION.VIEW_ALL,
-         },
-      ],
+      action: PAGE_ACTION.VIEW_ALL,
+      module: MODULE_PAGE.CARS,
    },
 ];
 

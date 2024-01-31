@@ -20,6 +20,8 @@ const MODULE_PAGE = {
    SUPPLIES_INVOICE: 'SUPPLIES_INVOICE',
 
    WAREHOUSES: 'WAREHOUSES',
+
+   REPAIR_ORDERS: 'REPAIR_ORDERS',
 } as const;
 
 export const modulePageSchema = yup.string().oneOf(Object.values(MODULE_PAGE)).required();

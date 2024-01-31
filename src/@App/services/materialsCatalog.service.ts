@@ -1,9 +1,11 @@
 import BaseService from '@Core/Api/BaseService';
+import { AxiosResponseData } from '@Core/Api/axios-config';
 
 import { CarStatusKeys } from './../configs/status-config';
 
 const permissionServicePath = {
    base: 'materials-catalog',
+   getAllQuery: '/all',
 };
 export interface IMaterialsCatalog {
    _id: string;
@@ -29,6 +31,10 @@ class MaterialsCatalogService extends BaseService {
    constructor() {
       super();
       this.setRequest();
+   }
+
+   getAll(): Promise<AxiosResponseData> {
+      return this.request(this.BASE_ENDPOINT + permissionServicePath.getAllQuery);
    }
 }
 
