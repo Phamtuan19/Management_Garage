@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import ROUTE_PATH from '@App/configs/router-path';
@@ -42,7 +44,7 @@ const SuppliesUpdate = () => {
       {
          onSuccess: (data: Supplies) => {
             const { details, ...res } = data;
-            setValueHookForm(form.setValue, res);
+            setValueHookForm(form.setValue, res as any);
             form.setValue('details', details || []);
          },
       },
