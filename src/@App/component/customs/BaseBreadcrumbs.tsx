@@ -50,12 +50,12 @@ const WarrperContainer = styled('div')({
    width: '100%',
 });
 
-const Content = styled('div')(({ theme }) => ({
+const Content = styled('div')(() => ({
    marginTop: 12,
-   padding: 12,
-   border: '1px solid  #d1d5db5e',
-   borderRadius: 5,
-   backgroundColor: theme.base.background.white,
+   // padding: 12,
+   // border: '1px solid  #d1d5db5e',
+   // borderRadius: 5,
+   // backgroundColor: theme.base.background.white,
 }));
 
 export default BaseBreadcrumbs;

@@ -1,7 +1,6 @@
 import HomeIcon from '@mui/icons-material/Home';
 import PeopleIcon from '@mui/icons-material/People';
 import FaceRetouchingNaturalIcon from '@mui/icons-material/FaceRetouchingNatural';
-// import WarehouseIcon from '@mui/icons-material/Warehouse';
 import WidgetsOutlinedIcon from '@mui/icons-material/WidgetsOutlined';
 import ConstructionRoundedIcon from '@mui/icons-material/ConstructionRounded';
 
@@ -27,9 +26,23 @@ const menuConfig: MenuConfigItem[] = [
       children: [
          {
             id: 5.1,
+            title: 'Xe',
+            link: ROUTE_PATH.CARS,
+            module: MODULE_PAGE.CARS,
+            action: PAGE_ACTION.VIEW_ALL,
+         },
+         {
+            id: 5.2,
             title: 'Phiếu sửa chữa',
             link: ROUTE_PATH.REPAIR_ORDERS,
             module: MODULE_PAGE.REPAIR_ORDERS,
+            action: PAGE_ACTION.VIEW_ALL,
+         },
+         {
+            id: 5.3,
+            title: 'Dịch vụ sửa chữa',
+            link: ROUTE_PATH.REPAIR_SERVICES,
+            module: MODULE_PAGE.REPAIR_SERVICES,
             action: PAGE_ACTION.VIEW_ALL,
          },
       ],
@@ -37,7 +50,7 @@ const menuConfig: MenuConfigItem[] = [
    {
       id: 2,
       title: 'Vật tư',
-      link: '/wh',
+      link: '/warehouse',
       icon: WidgetsOutlinedIcon,
       children: [
          {
@@ -70,6 +83,7 @@ const menuConfig: MenuConfigItem[] = [
          },
       ],
    },
+
    {
       id: 4,
       title: 'Nhân sự',
@@ -84,6 +98,13 @@ const menuConfig: MenuConfigItem[] = [
             action: PAGE_ACTION.VIEW_ALL,
          },
          {
+            id: 4.2,
+            title: 'Thêm mới',
+            link: ROUTE_PATH.PERSONNELS + ROUTE_PATH.CREATE,
+            module: MODULE_PAGE.PERSONNELS,
+            action: PAGE_ACTION.CREATE,
+         },
+         {
             id: 4.3,
             title: 'Vai trò',
             link: ROUTE_PATH.ROLES,
@@ -95,7 +116,7 @@ const menuConfig: MenuConfigItem[] = [
    {
       id: 3,
       title: 'Khách hàng',
-      link: '/c',
+      link: '/',
       icon: FaceRetouchingNaturalIcon,
       action: PAGE_ACTION.VIEW_ALL,
       children: [
@@ -107,14 +128,6 @@ const menuConfig: MenuConfigItem[] = [
             action: PAGE_ACTION.VIEW_ALL,
          },
       ],
-   },
-   {
-      id: 6,
-      title: 'Dịch vụ sửa chữa',
-      link: ROUTE_PATH.CARS,
-      icon: PeopleIcon,
-      action: PAGE_ACTION.VIEW_ALL,
-      module: MODULE_PAGE.CARS,
    },
 ];
 
