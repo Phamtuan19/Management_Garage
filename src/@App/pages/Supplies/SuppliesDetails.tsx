@@ -13,7 +13,6 @@ import { Box, Typography, Stack, Button, Grid } from '@mui/material';
 import Divider from '@mui/material/Divider';
 
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
-// import { format } from 'date-fns';
 import suppliesService, { Supplies } from '@App/services/supplies.service';
 
 const breadcrumbs = [
@@ -29,39 +28,18 @@ const DistributorDetails = () => {
       const suppliesRes = await suppliesService.find(suppliesId as string);
       return suppliesRes.data as Supplies;
    });
-   //    const formatDate = (dateString: string | number | Date) => {
-   //       return dateString ? format(new Date(dateString), 'MM-dd-yyyy') : '';
-   //    };
-   const DetailsItem = ({ label, value }: { label: string; value: string }) => (
-      <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-         <Grid item xs={3}>
-            <Typography sx={{ p: 1, fontWeight: '700', fontSize: '1rem', color: theme.palette.grey[800] }}>
-               {label}
-            </Typography>
-         </Grid>
-         <Grid item xs={9}>
-            <Typography sx={{ p: 1, flexGrow: 1, fontSize: '1rem' }}>{value}</Typography>
-            <Divider variant="inset" sx={{ m: 0 }} />
-         </Grid>
-      </Grid>
-   );
-   const DetailsSection = ({ details }: { details: { label: string; value: string }[] }) =>
-      details.map((detail, index) => (
-         <Grid key={index}>
-            <DetailsItem label={detail.label} value={detail.value} />
-         </Grid>
-      ));
+
    const suppliesDetails = [
-      { label: 'Tên vật tư', value: supplies?.name },
-      { label: 'Danh mục', value: supplies?.materials_catalog_id.name },
-      { label: 'Đơn vị', value: supplies?.unit },
-      { label: 'Giảm giá', value: supplies?.discount },
-      { label: 'Mô tả', value: supplies?.describe },
+      { label: 'Tên vật tư', value: supplies?.name || '' },
+      { label: 'Danh mục', value: (supplies?.materials_catalog_id!.name as string) || '' },
+      { label: 'Đơn vị', value: supplies?.unit || '' },
+      { label: 'Giảm giá', value: supplies?.discount || '' },
+      { label: 'Mô tả', value: supplies?.describe || '' },
    ];
    const materialsCatalogDetails = [
-      { label: 'Mã danh mục', value: supplies?.materials_catalog_id.code },
-      { label: 'Tên danh mục', value: supplies?.materials_catalog_id.name },
-      { label: 'Mô tả danh mục', value: supplies?.materials_catalog_id.describe },
+      { label: 'Mã danh mục', value: supplies?.materials_catalog_id.code || '' },
+      { label: 'Tên danh mục', value: supplies?.materials_catalog_id.name || '' },
+      { label: 'Mô tả danh mục', value: supplies?.materials_catalog_id.describe || '' },
    ];
 
    return (
@@ -94,7 +72,12 @@ const DistributorDetails = () => {
                                  Thông tin vật tư
                               </Typography>
                            </Box>
-                           <DetailsSection details={suppliesDetails} />
+
+                           {suppliesDetails.map((detail, index) => (
+                              <Grid key={index}>
+                                 <DetailsItem label={detail.label} value={detail.value} />
+                              </Grid>
+                           ))}
                         </Box>
                         <Box sx={{ mt: 4, p: 4, borderRadius: 2, position: 'relative' }}>
                            <Box sx={{ mb: 2, minHeight: '50px', display: 'flex', gap: 25 }}>
@@ -104,7 +87,12 @@ const DistributorDetails = () => {
                                  Thông tin danh mục vật tư
                               </Typography>
                            </Box>
-                           <DetailsSection details={materialsCatalogDetails} />
+
+                           {materialsCatalogDetails.map((detail, index) => (
+                              <Grid key={index}>
+                                 <DetailsItem label={detail.label} value={detail.value} />
+                              </Grid>
+                           ))}
                         </Box>
                      </Box>
                   </Box>
@@ -114,4 +102,17 @@ const DistributorDetails = () => {
       </Box>
    );
 };
+const DetailsItem = ({ label, value }: { label: string; value: string }) => (
+   <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+      <Grid item xs={3}>
+         <Typography sx={{ p: 1, fontWeight: '700', fontSize: '1rem', color: theme.palette.grey[800] }}>
+            {label}
+         </Typography>
+      </Grid>
+      <Grid item xs={9}>
+         <Typography sx={{ p: 1, flexGrow: 1, fontSize: '1rem' }}>{value}</Typography>
+         <Divider variant="inset" sx={{ m: 0 }} />
+      </Grid>
+   </Grid>
+);
 export default DistributorDetails;
