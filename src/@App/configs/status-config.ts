@@ -51,21 +51,3 @@ export const CAR_STATUS = {
 } as const;
 
 export type CarStatusKeys = keyof typeof CAR_STATUS;
-
-/**
- *
- * Trạng thái thanh toán
- * @PAID - Đã thanh toán
- * @UNPAID - Chưa thanh toán
- *
- */
-export const STATUS_PAYMENT = {
-   PAID: {
-      id: 'PAID',
-      title: 'Đã thanh toán',
-   },
-   UNPAID: {
-      id: 'UNPAID',
-      title: 'Chứ thanh toán',
-   },
-} as const;
