@@ -23,6 +23,27 @@ import { errorMessage, successMessage } from '@Core/Helper/message';
 import { AxiosResponseData, HandleErrorApi } from '@Core/Api/axios-config';
 import { AxiosError } from 'axios';
 import repairServiceService from '@App/services/repairService.service';
+import PageContent from '@App/component/customs/PageContent';
+import FilterTable from '@App/component/common/FilterTable';
+
+const sortList = [
+   {
+      title: 'Tên dịch vụ sửa chữa',
+      value: 'name',
+   },
+   {
+      title: 'Giá',
+      value: 'price',
+   },
+   {
+      title: 'Giảm giá',
+      value: 'brand_car',
+   },
+   {
+      title: 'Mô tả',
+      value: 'describe',
+   },
+];
 
 const RepairServices = () => {
    const navigate = useNavigate();
@@ -122,7 +143,7 @@ const RepairServices = () => {
 
    return (
       <BaseBreadcrumbs arialabel="Danh sách vai trò">
-         <Box sx={{ display: 'flex', justifyContent: 'end', alignItems: 'center' }}>
+         <Box>
             <PermissionAccessRoute module={MODULE_PAGE.REPAIR_SERVICES} action={PAGE_ACTION.CREATE}>
                <Button component={Link} to="create" size="medium">
                   Thêm mới
@@ -130,7 +151,16 @@ const RepairServices = () => {
             </PermissionAccessRoute>
          </Box>
 
-         <TableCore columns={columns} {...data} />
+         <PageContent>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+               <FilterTable sortList={sortList} searchType={sortList} />
+
+               {/* <Button component={Link} to="create" endIcon={<AddIcon />}>
+               Thêm mới
+            </Button> */}
+            </Box>
+            <TableCore columns={columns} {...data} />
+         </PageContent>
       </BaseBreadcrumbs>
    );
 };
