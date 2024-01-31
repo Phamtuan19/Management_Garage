@@ -23,6 +23,8 @@ const ROUTE_PATH = {
    // Module sửa chữa FIX
    REPAIR_ORDERS: '/fix/repair-orders',
 
+   REPAIR_SERVICES: '/fix/repair-services',
+
    CUSTOMERS: '/customers',
 
    SIGN_IN: '/sign-in',

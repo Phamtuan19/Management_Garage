@@ -11,12 +11,12 @@ import { HandleErrorApi } from '@Core/Api/axios-config';
 import { errorMessage } from '@Core/Helper/message';
 import ControllerSelect from '@Core/Component/Input/ControllerSelect';
 
-import { MaterialsCatalogSchema } from '../utils/materialsCatalog.schema';
+import { SuppliesSchema } from '../utils/supplies.schema';
 
 import FormSuppliesDetails from './FormSuppliesDetails';
 
 interface BaseFormSuppliesPropType {
-   form: UseFormReturn<MaterialsCatalogSchema>;
+   form: UseFormReturn<SuppliesSchema>;
 }
 
 const BaseFormSupplies = ({ form }: BaseFormSuppliesPropType) => {

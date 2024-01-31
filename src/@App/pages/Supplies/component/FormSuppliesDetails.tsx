@@ -12,9 +12,9 @@ import { errorMessage } from '@Core/Helper/message';
 import { HandleErrorApi } from '@Core/Api/axios-config';
 import { AxiosError } from 'axios';
 
-import { MaterialsCatalogSchema } from '../utils/materialsCatalog.schema';
+import { SuppliesSchema } from '../utils/supplies.schema';
 
-const FormSuppliesDetails = ({ form }: { form: UseFormReturn<MaterialsCatalogSchema> }) => {
+const FormSuppliesDetails = ({ form }: { form: UseFormReturn<SuppliesSchema> }) => {
    const { control, watch } = form;
 
    const { fields, append, remove } = useFieldArray({

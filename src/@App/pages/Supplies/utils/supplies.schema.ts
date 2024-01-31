@@ -17,7 +17,7 @@ export const yupDetails = yup.object().shape({
    details: yup.array().of(yupSuppliesDetail),
 });
 
-export const materialsCatalogSchema = yup.object({
+export const suppliesSchema = yup.object({
    name: yup.string().required(messageValidate.required('Tên danh mục')).strict(true).trim().default(''),
    materials_catalog_id: yup
       .string()
@@ -73,4 +73,4 @@ export const materialsCatalogSchema = yup.object({
    ),
 });
 
-export type MaterialsCatalogSchema = yup.InferType<typeof materialsCatalogSchema>;
+export type SuppliesSchema = yup.InferType<typeof suppliesSchema>;

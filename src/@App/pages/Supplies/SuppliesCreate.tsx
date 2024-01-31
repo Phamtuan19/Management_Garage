@@ -14,8 +14,8 @@ import { LoadingButton } from '@mui/lab';
 import { Box } from '@mui/material';
 import suppliesService from '@App/services/supplies.service';
 
-import { MaterialsCatalogSchema, materialsCatalogSchema } from './utils/materialsCatalog.schema';
 import BaseFormSupplies from './component/BaseFormSupplies';
+import { SuppliesSchema, suppliesSchema } from './utils/supplies.schema';
 
 const breadcrumbs = [
    {
@@ -25,13 +25,13 @@ const breadcrumbs = [
 ];
 
 const SuppliesCreate = () => {
-   const form = useForm<MaterialsCatalogSchema>({
-      resolver: yupResolver(materialsCatalogSchema),
-      defaultValues: materialsCatalogSchema.getDefault(),
+   const form = useForm<SuppliesSchema>({
+      resolver: yupResolver(suppliesSchema),
+      defaultValues: suppliesSchema.getDefault(),
    });
 
    const { mutate: SuppliesCreate, isLoading } = useMutation({
-      mutationFn: async (data: MaterialsCatalogSchema) => {
+      mutationFn: async (data: SuppliesSchema) => {
          return await suppliesService.create({ ...data, discount: Number(data.discount) });
       },
       onSuccess: () => {
@@ -49,7 +49,7 @@ const SuppliesCreate = () => {
       },
    });
 
-   const onSubmitForm: SubmitHandler<MaterialsCatalogSchema> = (data) => {
+   const onSubmitForm: SubmitHandler<SuppliesSchema> = (data) => {
       // console.log(data);
       SuppliesCreate(data);
    };

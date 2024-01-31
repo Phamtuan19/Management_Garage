@@ -15,8 +15,8 @@ import suppliesService, { Supplies } from '@App/services/supplies.service';
 import { LoadingButton } from '@mui/lab';
 import { Box } from '@mui/material';
 
-import { MaterialsCatalogSchema, materialsCatalogSchema } from './utils/materialsCatalog.schema';
 import BaseFormSupplies from './component/BaseFormSupplies';
+import { SuppliesSchema, suppliesSchema } from './utils/supplies.schema';
 
 const breadcrumbs = [
    {
@@ -28,9 +28,9 @@ const breadcrumbs = [
 const SuppliesUpdate = () => {
    const { id: materialsCatalogId } = useParams();
 
-   const form = useForm<MaterialsCatalogSchema>({
-      resolver: yupResolver(materialsCatalogSchema),
-      defaultValues: materialsCatalogSchema.getDefault(),
+   const form = useForm<SuppliesSchema>({
+      resolver: yupResolver(suppliesSchema),
+      defaultValues: suppliesSchema.getDefault(),
    });
 
    const { refetch: getMaterialsCatalog } = useQuery(
@@ -49,7 +49,7 @@ const SuppliesUpdate = () => {
    );
 
    const { mutate: SuppliesUpdate, isLoading } = useMutation({
-      mutationFn: async (data: MaterialsCatalogSchema) => {
+      mutationFn: async (data: SuppliesSchema) => {
          return await suppliesService.update(data);
       },
       onSuccess: async () => {
@@ -67,7 +67,7 @@ const SuppliesUpdate = () => {
       },
    });
 
-   const onSubmitForm: SubmitHandler<MaterialsCatalogSchema> = (data) => SuppliesUpdate(data);
+   const onSubmitForm: SubmitHandler<SuppliesSchema> = (data) => SuppliesUpdate(data);
 
    return (
       <BaseBreadcrumbs

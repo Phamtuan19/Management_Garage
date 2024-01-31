@@ -3,14 +3,14 @@
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import ROUTE_PATH from '@App/configs/router-path';
 import useCoreTable from '@App/hooks/useCoreTable';
-import roleService, { RoleResponseData } from '@App/services/role.service';
+import ervice, { RoleResponseData } from '@App/services/role.service';
 import TableCore, { columnHelper } from '@Core/Component/Table';
 import {
    CoreTableActionDelete,
    CoreTableActionEdit,
    CoreTableActionViewDetail,
 } from '@Core/Component/Table/components/CoreTableAction';
-import { Box, Button, Chip } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -22,30 +22,14 @@ import { format } from 'date-fns';
 import { errorMessage, successMessage } from '@Core/Helper/message';
 import { AxiosResponseData, HandleErrorApi } from '@Core/Api/axios-config';
 import { AxiosError } from 'axios';
-import PageContent from '@App/component/customs/PageContent';
-import FilterTable from '@App/component/common/FilterTable';
+import repairServiceService from '@App/services/repairService.service';
 
-const sortList = [
-   {
-      title: 'Tên',
-      value: 'full_name',
-   },
-   {
-      title: 'Email',
-      value: 'email',
-   },
-   {
-      title: 'Số điện thoại',
-      value: 'phone',
-   },
-];
-
-const Role = () => {
+const RepairServices = () => {
    const navigate = useNavigate();
    const { searchParams } = useSearchParamsHook();
 
-   const queryTable = useQuery(['getPermissionList', searchParams], async () => {
-      const res = await roleService.get(searchParams);
+   const queryTable = useQuery(['getRepairServicesList', searchParams], async () => {
+      const res = await repairServiceService.get(searchParams);
       return res.data;
    });
 
@@ -53,7 +37,7 @@ const Role = () => {
 
    const { mutate: handleDelete } = useMutation({
       mutationFn: async (id: string) => {
-         const res = await roleService.delete(id);
+         const res = await ervice.delete(id);
          return res;
       },
       onSuccess: (data: AxiosResponseData) => {
@@ -78,19 +62,21 @@ const Role = () => {
             },
          }),
          columnHelper.accessor('name', {
-            header: 'Tên quyền',
+            header: 'Tên dịch vụ sửa chữa',
             cell: ({ row }) => {
                return <Box>{row.getValue('name')}</Box>;
             },
          }),
-         columnHelper.accessor('userCount', {
-            header: () => <Box textAlign="center">NV đang làm việc</Box>,
+         columnHelper.accessor('price', {
+            header: 'Giá',
             cell: ({ row }) => {
-               return (
-                  <Box textAlign="center">
-                     <Chip variant="filled" label={row.getValue('userCount')} sx={{ textTransform: 'capitalize' }} />
-                  </Box>
-               );
+               return <Box>{row.getValue('price')}</Box>;
+            },
+         }),
+         columnHelper.accessor('discount', {
+            header: 'Giảm giá',
+            cell: ({ row }) => {
+               return <Box>{row.getValue('discount')}</Box>;
             },
          }),
          columnHelper.accessor('describe', {
@@ -111,17 +97,21 @@ const Role = () => {
          columnHelper.accessor('', {
             header: 'Thao tác',
             cell: ({ row }) => {
-               const role = row.original as RoleResponseData;
+               const repairService = row.original as RoleResponseData;
                return (
                   <Box>
-                     <PermissionAccessRoute module={MODULE_PAGE.ROLES} action="DELETE">
-                        <CoreTableActionDelete callback={() => handleDelete(role._id)} />
+                     <PermissionAccessRoute module={MODULE_PAGE.REPAIR_SERVICES} action="DELETE">
+                        <CoreTableActionDelete callback={() => handleDelete(repairService._id)} />
                      </PermissionAccessRoute>
-                     <PermissionAccessRoute module={MODULE_PAGE.ROLES} action="VIEW_ALL">
-                        <CoreTableActionEdit callback={() => navigate(ROUTE_PATH.ROLES + '/update/' + role._id)} />
+                     <PermissionAccessRoute module={MODULE_PAGE.REPAIR_SERVICES} action="VIEW_ALL">
+                        <CoreTableActionEdit
+                           callback={() => navigate(ROUTE_PATH.REPAIR_SERVICES + '/' + repairService._id + '/update')}
+                        />
                      </PermissionAccessRoute>
-                     <PermissionAccessRoute module={MODULE_PAGE.ROLES} action="VIEW_ONE">
-                        <CoreTableActionViewDetail callback={() => navigate(ROUTE_PATH.ROLES + '/' + role._id)} />
+                     <PermissionAccessRoute module={MODULE_PAGE.REPAIR_SERVICES} action="VIEW_ONE">
+                        <CoreTableActionViewDetail
+                           callback={() => navigate(ROUTE_PATH.REPAIR_SERVICES + '/' + repairService._id + '/details')}
+                        />
                      </PermissionAccessRoute>
                   </Box>
                );
@@ -132,21 +122,17 @@ const Role = () => {
 
    return (
       <BaseBreadcrumbs arialabel="Danh sách vai trò">
-         <PermissionAccessRoute module={MODULE_PAGE.ROLES} action={PAGE_ACTION.CREATE}>
-            <Button component={Link} to="create" size="medium">
-               Thêm mới
-            </Button>
-         </PermissionAccessRoute>
+         <Box sx={{ display: 'flex', justifyContent: 'end', alignItems: 'center' }}>
+            <PermissionAccessRoute module={MODULE_PAGE.REPAIR_SERVICES} action={PAGE_ACTION.CREATE}>
+               <Button component={Link} to="create" size="medium">
+                  Thêm mới
+               </Button>
+            </PermissionAccessRoute>
+         </Box>
 
-         <PageContent>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-               <FilterTable sortList={sortList} searchType={sortList} />
-            </Box>
-
-            <TableCore columns={columns} {...data} />
-         </PageContent>
+         <TableCore columns={columns} {...data} />
       </BaseBreadcrumbs>
    );
 };
 
-export default Role;
+export default RepairServices;

@@ -22,6 +22,8 @@ const MODULE_PAGE = {
    WAREHOUSES: 'WAREHOUSES',
 
    REPAIR_ORDERS: 'REPAIR_ORDERS',
+
+   REPAIR_SERVICES: 'REPAIR_SERVICES',
 } as const;
 
 export const modulePageSchema = yup.string().oneOf(Object.values(MODULE_PAGE)).required();
