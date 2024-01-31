@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Button, Chip } from '@mui/material';
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import { useQuery } from '@tanstack/react-query';
@@ -9,7 +10,9 @@ import useSearchParamsHook from '@App/hooks/useSearchParamsHook';
 import FilterTable from '@App/component/common/FilterTable';
 import { Link } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
-import customerService from '@App/services/customer.service';
+import customerService, { ICustomer } from '@App/services/customer.service';
+import { useNavigate } from 'react-router-dom';
+import ROUTE_PATH from '@App/configs/router-path';
 
 const sortList = [
    {
@@ -34,7 +37,7 @@ const Customer = () => {
    });
 
    const data = useCoreTable(queryTable);
-
+   const navigate = useNavigate();
    const columns = useMemo(() => {
       return [
          columnHelper.accessor('name', {
@@ -68,11 +71,15 @@ const Customer = () => {
          }),
          columnHelper.accessor('action', {
             header: 'Thao tác',
-            cell: () => {
+
+            cell: ({ row }) => {
+               const customer = row.original as ICustomer;
                return (
                   <Box>
                      <CoreTableActionDelete />
-                     <CoreTableActionEdit callback={() => {}} />
+                     <CoreTableActionEdit
+                        callback={() => navigate(ROUTE_PATH.CUSTOMERS + '/' + customer._id + '/update')}
+                     />
                   </Box>
                );
             },

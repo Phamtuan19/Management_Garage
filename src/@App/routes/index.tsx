@@ -12,7 +12,7 @@ import personnelRoute from './rotue-action/personnels';
 import distributorRoute from './rotue-action/distributor';
 import userRoute from './rotue-action/user';
 import roleRoute from './rotue-action/role';
-import materialsCatalogRoute from './rotue-action/materialsCatalog';
+import materialscatalogRoute from './rotue-action/material-catalog';
 import suppliesRoute from './rotue-action/supplies';
 import carsRoute from './rotue-action/car';
 import customerRoute from './rotue-action/customer';
@@ -48,7 +48,7 @@ const routes = (): RouteObject[] => {
             customerRoute,
             carsRoute,
             suppliesRoute,
-            materialsCatalogRoute,
+            materialscatalogRoute,
             userRoute,
          ],
       },
