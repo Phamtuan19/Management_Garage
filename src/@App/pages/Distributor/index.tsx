@@ -10,22 +10,24 @@ import {
    CoreTableActionEdit,
    CoreTableActionViewDetail,
 } from '@Core/Component/Table/components/CoreTableAction';
-import { Box, Button, TextField } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import PermissionAccessRoute from '@App/routes/components/PermissionAccessRoute';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useCoreTable from '@App/hooks/useCoreTable';
-import distributorService, { IDistributors } from '@App/services/distributor.service';
+import distributorService, { IDistributor } from '@App/services/distributor.service';
 import { Link } from 'react-router-dom';
-    
+import useSearchParamsHook from '@App/hooks/useSearchParamsHook';
+
 const Distributors = () => {
    const navigate = useNavigate();
-   const queryTable = useQuery(['getListDistribtutors'], async () => {
-      const res = await distributorService.get();
-      
+   const { searchParams } = useSearchParamsHook();
+
+   const queryTable = useQuery(['getListDistribtutors', searchParams], async () => {
+      const res = await distributorService.get(searchParams);
+
       return res.data;
-     
    });
    const data = useCoreTable(queryTable);
 
@@ -51,14 +53,25 @@ const Distributors = () => {
          }),
          columnHelper.accessor('address', {
             header: 'Địa chỉ',
-         }),
-         columnHelper.accessor('bankAcountId', {
-            header: 'ID tài khoản ngân hàng',
+            cell: ({ row }) => {
+               const distributor = row.original as IDistributor;
+               return (
+                  <Box display="flex" alignItems="center" gap={1}>
+                     <Box component="span">
+                        {distributor?.address?.province?.name ? distributor?.address?.province?.name + ' -' : ''}
+                     </Box>
+                     <Box component="span">
+                        {distributor?.address?.district?.name ? distributor?.address?.district?.name + ' -' : ''}
+                     </Box>
+                     <Box component="span">{distributor?.address?.wards?.name}</Box>
+                  </Box>
+               );
+            },
          }),
          columnHelper.accessor('_id', {
             header: 'Thao tác',
             cell: ({ row }) => {
-               const distributor = row.original as IDistributors;
+               const distributor = row.original as IDistributor;
                return (
                   <Box>
                      <PermissionAccessRoute module={MODULE_PAGE.DISTRIBUTORS} action="VIEW_ONE">

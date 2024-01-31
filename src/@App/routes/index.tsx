@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import Layout from '@App/component/Layout';
 import ROUTE_PATH from '@App/configs/router-path';
 import PAGE_ACTION from '@App/configs/page-action';
@@ -11,10 +10,11 @@ import Loadable from './components/loadable';
 import PermissionAccessRoute from './components/PermissionAccessRoute';
 import personnelRoute from './rotue-action/personnels';
 import distributorRoute from './rotue-action/distributor';
-// import materialsCatalogRoute from './rotue-action/materialscatalog';
-import suppliesRoute from './rotue-action/supplies';
-import carsRoute from './rotue-action/cars';
+import userRoute from './rotue-action/user';
 import roleRoute from './rotue-action/role';
+import materialsCatalogRoute from './rotue-action/materialsCatalog';
+import suppliesRoute from './rotue-action/supplies';
+import carsRoute from './rotue-action/car';
 import customerRoute from './rotue-action/customer';
 
 const SignIn = Loadable('auth/SignIn');
@@ -44,10 +44,12 @@ const routes = (): RouteObject[] => {
             personnelRoute,
             roleRoute,
             distributorRoute,
-            // materialsCatalogRoute,
-            suppliesRoute,
+            carsRoute,
             customerRoute,
             carsRoute,
+            suppliesRoute,
+            materialsCatalogRoute,
+            userRoute,
          ],
       },
 

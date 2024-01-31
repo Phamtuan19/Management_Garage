@@ -1,4 +1,4 @@
-import { Box, TextField, Chip, Button, Select, MenuItem } from '@mui/material';
+import { Box, Button, Chip } from '@mui/material';
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import personnelService from '@App/services/personnel.service';
 import { useQuery } from '@tanstack/react-query';
@@ -9,8 +9,24 @@ import { CoreTableActionDelete, CoreTableActionEdit } from '@Core/Component/Tabl
 import { useMemo } from 'react';
 import useCoreTable from '@App/hooks/useCoreTable';
 import useSearchParamsHook from '@App/hooks/useSearchParamsHook';
+import FilterTable from '@App/component/common/FilterTable';
 import { Link } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
+
+const sortList = [
+   {
+      title: 'Tên',
+      value: 'full_name',
+   },
+   {
+      title: 'Email',
+      value: 'email',
+   },
+   {
+      title: 'Số điện thoại',
+      value: 'phone',
+   },
+];
 
 export default function Personnels() {
    const { searchParams } = useSearchParamsHook();
@@ -91,28 +107,28 @@ export default function Personnels() {
    }, []);
 
    return (
-      <BaseBreadcrumbs arialabel="Danh sách nhân viên">
-         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <Box sx={{ display: 'flex', gap: '0px 12px' }}>
-               <Box>
-                  <TextField label="Tìm kiếm" />
-               </Box>
-               <Box>
-                  <Select sx={{ minWidth: 100 }}>
-                     <MenuItem value="">Tất cả</MenuItem>
-                     <MenuItem value={10}>Ten</MenuItem>
-                     <MenuItem value={20}>Twenty</MenuItem>
-                     <MenuItem value={30}>Thirty</MenuItem>
-                  </Select>
-               </Box>
+      <BaseBreadcrumbs
+         arialabel="Danh sách nhân viên"
+         sx={({ base }) => ({ bgcolor: base.background.default, border: 'none', p: 0 })}
+      >
+         <Button size="medium" component={Link} to="create" sx={{ py: '5px', px: '12px' }} endIcon={<AddIcon />}>
+            Thêm mới
+         </Button>
+
+         <Box
+            sx={({ base }) => ({
+               marginTop: '12px',
+               padding: '12px',
+               borderRadius: '5px',
+               backgroundColor: base.background.white as string,
+            })}
+         >
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+               <FilterTable sortList={sortList} searchType={sortList} />
             </Box>
 
-            <Button component={Link} to="create" endIcon={<AddIcon />}>
-               Thêm mới
-            </Button>
+            <TableCore columns={columns} {...data} />
          </Box>
-
-         <TableCore columns={columns} {...data} />
       </BaseBreadcrumbs>
    );
 }
