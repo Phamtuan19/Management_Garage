@@ -10,15 +10,17 @@ import {
    CoreTableActionEdit,
    CoreTableActionViewDetail,
 } from '@Core/Component/Table/components/CoreTableAction';
-import { Box, Chip } from '@mui/material';
+import { Box, Button, Chip } from '@mui/material';
 import PermissionAccessRoute from '@App/routes/components/PermissionAccessRoute';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import useCoreTable from '@App/hooks/useCoreTable';
 import carsService from '@App/services/cars.service';
 import { CAR_STATUS } from '@App/configs/status-config';
 import FilterTable from '@App/component/common/FilterTable';
+import PAGE_ACTION from '@App/configs/page-action';
+import PageContent from '@App/component/customs/PageContent';
 
 const sortList = [
    {
@@ -45,11 +47,14 @@ const sortList = [
 
 const MaterialsCatalog = () => {
    const navigate = useNavigate();
+
    const queryTable = useQuery(['getListCars'], async () => {
       const res = await carsService.get();
       return res.data;
    });
+
    const data = useCoreTable(queryTable);
+
    const columns = useMemo(() => {
       return [
          columnHelper.accessor((_, index) => index + 1, {
@@ -108,23 +113,24 @@ const MaterialsCatalog = () => {
 
    return (
       <BaseBreadcrumbs arialabel="Thông tin xe">
-         {/* <Box>
-            <TextField size="small" label="Tìm kiếm" />
+         <Box>
             <PermissionAccessRoute module={MODULE_PAGE.CARS} action={PAGE_ACTION.CREATE}>
-               <Button sx={{ float: 'right' }} component={Link} to="create" size="medium">
-                  Thêm thông tin xe
+               <Button component={Link} to="create" size="medium">
+                  Thêm mới
                </Button>
             </PermissionAccessRoute>
-         </Box> */}
-
-         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <FilterTable sortList={sortList} searchType={sortList} />
-
-            {/* <Button component={Link} to="create" endIcon={<AddIcon />}>
-               Thêm mới
-            </Button> */}
          </Box>
-         <TableCore columns={columns} {...data} />
+
+         <PageContent>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+               <FilterTable sortList={sortList} searchType={sortList} />
+
+               {/* <Button component={Link} to="create" endIcon={<AddIcon />}>
+                  Thêm mới
+               </Button> */}
+            </Box>
+            <TableCore columns={columns} {...data} />
+         </PageContent>
       </BaseBreadcrumbs>
    );
 };
