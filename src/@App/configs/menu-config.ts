@@ -1,8 +1,8 @@
 import HomeIcon from '@mui/icons-material/Home';
 import PeopleIcon from '@mui/icons-material/People';
 import FaceRetouchingNaturalIcon from '@mui/icons-material/FaceRetouchingNatural';
-// import WarehouseIcon from '@mui/icons-material/Warehouse';
 import WidgetsOutlinedIcon from '@mui/icons-material/WidgetsOutlined';
+import ConstructionRoundedIcon from '@mui/icons-material/ConstructionRounded';
 
 import PAGE_ACTION from './page-action';
 import ROUTE_PATH from './router-path';
@@ -17,6 +17,35 @@ const menuConfig: MenuConfigItem[] = [
       icon: HomeIcon,
       action: PAGE_ACTION.VIEW_ALL,
       module: MODULE_PAGE.DOASHBOARD,
+   },
+   {
+      id: 5,
+      title: 'Sửa chữa',
+      link: '/fix',
+      icon: ConstructionRoundedIcon,
+      children: [
+         {
+            id: 5.1,
+            title: 'Xe',
+            link: ROUTE_PATH.CARS,
+            module: MODULE_PAGE.CARS,
+            action: PAGE_ACTION.VIEW_ALL,
+         },
+         {
+            id: 5.2,
+            title: 'Phiếu sửa chữa',
+            link: ROUTE_PATH.REPAIR_ORDERS,
+            module: MODULE_PAGE.REPAIR_ORDERS,
+            action: PAGE_ACTION.VIEW_ALL,
+         },
+         {
+            id: 5.3,
+            title: 'Dịch vụ sửa chữa',
+            link: ROUTE_PATH.REPAIR_SERVICES,
+            module: MODULE_PAGE.REPAIR_SERVICES,
+            action: PAGE_ACTION.VIEW_ALL,
+         },
+      ],
    },
    {
       id: 2,
@@ -96,21 +125,6 @@ const menuConfig: MenuConfigItem[] = [
             title: 'Khách hàng',
             link: ROUTE_PATH.CUSTOMERS,
             module: MODULE_PAGE.CUSTOMERS,
-            action: PAGE_ACTION.VIEW_ALL,
-         },
-      ],
-   },
-   {
-      id: 6,
-      title: 'Dịch vụ sửa chữa',
-      link: ROUTE_PATH.CARS,
-      icon: PeopleIcon,
-      children: [
-         {
-            id: 6.1,
-            title: 'Car',
-            link: ROUTE_PATH.CARS,
-            module: MODULE_PAGE.CARS,
             action: PAGE_ACTION.VIEW_ALL,
          },
       ],
