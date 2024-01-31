@@ -10,12 +10,12 @@ import Loadable from './components/loadable';
 import PermissionAccessRoute from './components/PermissionAccessRoute';
 import personnelRoute from './rotue-action/personnels';
 import distributorRoute from './rotue-action/distributor';
-import userRoute from './rotue-action/user';
 import roleRoute from './rotue-action/role';
-import materialsCatalogRoute from './rotue-action/materialsCatalog';
+import materialscatalogRoute from './rotue-action/materialCatalogRoute';
 import suppliesRoute from './rotue-action/supplies';
-import carsRoute from './rotue-action/car';
+import repairServicesRoute from './rotue-action/repairServices';
 import customerRoute from './rotue-action/customer';
+import carsRoute from './rotue-action/materialCatalogRoute';
 
 const SignIn = Loadable('auth/SignIn');
 const Doashboard = Loadable('Doashboard');
@@ -44,12 +44,11 @@ const routes = (): RouteObject[] => {
             personnelRoute,
             roleRoute,
             distributorRoute,
-            carsRoute,
+            suppliesRoute,
+            materialscatalogRoute,
+            repairServicesRoute,
             customerRoute,
             carsRoute,
-            suppliesRoute,
-            materialsCatalogRoute,
-            userRoute,
          ],
       },
 

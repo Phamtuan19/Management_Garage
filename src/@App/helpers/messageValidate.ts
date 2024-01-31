@@ -1,5 +1,5 @@
 const messageValidate = {
-   required: (name: string = '') => {
+   required: (name: string) => {
       return `${name} không được để trống`;
    },
    string: (name: string) => {
@@ -19,9 +19,6 @@ const messageValidate = {
    },
    format: (name: string) => {
       return `${name} không đúng định dạng.`;
-   },
-   trim: () => {
-      return 'Vui lòng bỏ khoảng trắng';
    },
 };
 

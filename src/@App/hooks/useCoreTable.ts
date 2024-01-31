@@ -12,6 +12,10 @@ const useCoreTable = (props: UseQueryResult<AxiosResponseDataType, unknown>) => 
       setParams('page', 1);
    }
 
+   if (searchParams.limit && ![10, 20, 30].includes(Number(searchParams.limit))) {
+      setParams('limit', 10);
+   }
+
    return {
       data: data?.data || [],
       total_page: Number(data?.total_page) || 1,

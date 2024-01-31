@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/naming-convention */
 import React from 'react';
 import { PageActionPropsType } from '@App/configs/page-action';
