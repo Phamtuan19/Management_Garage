@@ -40,9 +40,9 @@ const repairServicesRoute: RouteObject = {
          ),
       },
       {
-         path: ROUTE_PATH.REPAIR_SERVICES + ROUTE_PATH.DETAILS,
+         path: ROUTE_PATH.REPAIR_SERVICES + ROUTE_PATH.UPDATE,
          element: (
-            <PermissionAccessRoute module={MODULE_PAGE.REPAIR_SERVICES} action={PAGE_ACTION.VIEW_ONE} type="route">
+            <PermissionAccessRoute module={MODULE_PAGE.REPAIR_SERVICES} action={PAGE_ACTION.UPDATE} type="route">
                <RepairServiceUpdate />
             </PermissionAccessRoute>
          ),
