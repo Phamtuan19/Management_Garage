@@ -15,7 +15,7 @@ import BaseFormRepairService from './components/BaseFormRepairService';
 
 const breadcrumbs = [
    {
-      title: 'Nhân viên',
+      title: 'Danh sách dịch vụ',
       link: ROUTE_PATH.REPAIR_SERVICES,
    },
 ];
