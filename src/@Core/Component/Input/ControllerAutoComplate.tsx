@@ -69,6 +69,7 @@ function ControllerAutoComplate<TFieldValues extends FieldValues = FieldValues>(
          }
 
          if (value === '') {
+            return '';
          }
 
          return value;
@@ -77,9 +78,13 @@ function ControllerAutoComplate<TFieldValues extends FieldValues = FieldValues>(
    );
 
    const renderOption = (props: React.HTMLAttributes<HTMLLIElement>, option: OptionProps) => {
+      if (!option) {
+         return null;
+      }
+
       return (
          <Box
-            key={option[valuePath]}
+            key={Math.random().toString()}
             component="li"
             sx={{ px: 2, py: 1, cursor: 'pointer', '&:hover': { bgcolor: '#DADADA' } }}
             {...props}
@@ -102,13 +107,13 @@ function ControllerAutoComplate<TFieldValues extends FieldValues = FieldValues>(
                         return get(option, valuePath) === get(value, valuePath);
                      }
                      if (value === '') {
-                        return false;
+                        return true;
                      }
 
                      return get(option, valuePath) === value;
                   }}
                   getOptionLabel={(option) => {
-                     return option ? String(get(find(options, option), titlePath)) : '';
+                     return option ? String(get(find(options, { [valuePath]: option ?? '' }), titlePath)) : '';
                   }}
                   multiple={multiple}
                   readOnly={readOnly}
