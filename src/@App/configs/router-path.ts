@@ -17,6 +17,8 @@ const ROUTE_PATH = {
 
    SUPPLIES: '/wh/supplies',
 
+   SUPPLIES_DETAILS: '/wh/supplies-details',
+
    CARS: '/fix/cars',
 
    // Module sửa chữa FIX
