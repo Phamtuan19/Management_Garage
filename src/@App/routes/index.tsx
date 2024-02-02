@@ -8,15 +8,15 @@ import PublicRouter from './components/PublicRoute';
 import PrivateRouter from './components/PrivateRouter';
 import Loadable from './components/loadable';
 import PermissionAccessRoute from './components/PermissionAccessRoute';
-import personnelRoute from './rotue-action/personnels';
-import distributorRoute from './rotue-action/distributor';
-import roleRoute from './rotue-action/role';
-import materialscatalogRoute from './rotue-action/materialCatalogRoute';
-import suppliesRoute from './rotue-action/supplies';
-import repairServicesRoute from './rotue-action/repairServices';
+import carsRoute from './rotue-action/cars';
 import customerRoute from './rotue-action/customer';
-import carsRoute from './rotue-action/materialCatalogRoute';
-import suppliesInvoicesRoute from './rotue-action/suppliesInvoices';
+import distributorRoute from './rotue-action/distributor';
+import materialsCatalogRoute from './rotue-action/materials-catalog';
+import personnelRoute from './rotue-action/personnels';
+import repairServicesRoute from './rotue-action/repair-services';
+import roleRoute from './rotue-action/role';
+import suppliesInvoicesRoute from './rotue-action/supplies-invoices';
+import suppliesRoute from './rotue-action/supplies';
 
 const SignIn = Loadable('auth/SignIn');
 const Doashboard = Loadable('Doashboard');
@@ -42,15 +42,15 @@ const routes = (): RouteObject[] => {
                   </PermissionAccessRoute>
                ),
             },
-            personnelRoute,
-            roleRoute,
-            distributorRoute,
-            suppliesRoute,
-            materialscatalogRoute,
-            repairServicesRoute,
-            customerRoute,
             carsRoute,
+            customerRoute,
+            distributorRoute,
+            materialsCatalogRoute,
+            personnelRoute,
+            repairServicesRoute,
+            roleRoute,
             suppliesInvoicesRoute,
+            suppliesRoute,
          ],
       },
 

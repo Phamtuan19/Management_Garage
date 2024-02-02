@@ -9,7 +9,7 @@ import { useQuery } from '@tanstack/react-query';
 import materialsCatalogService from '@App/services/materialsCatalog.service';
 import { HandleErrorApi } from '@Core/Api/axios-config';
 import { errorMessage } from '@Core/Helper/message';
-import ControllerSelect from '@Core/Component/Input/ControllerSelect';
+import ControllerAutoComplate from '@Core/Component/Input/ControllerAutoComplate';
 
 import { SuppliesSchema } from '../utils/supplies.schema';
 
@@ -44,12 +44,12 @@ const BaseFormSupplies = ({ form }: BaseFormSuppliesPropType) => {
             <Grid item xs={12} md={6}>
                <Box height="75px">
                   <ControllerLabel title="Danh mục vật tư" required />
-                  <ControllerSelect
+                  <ControllerAutoComplate
                      options={materialsCatalogs || []}
                      valuePath="_id"
                      titlePath="name"
                      name="materials_catalog_id"
-                     control={control as unknown as Control<FieldValues>}
+                     control={control}
                   />
                </Box>
             </Grid>

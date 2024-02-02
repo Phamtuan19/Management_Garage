@@ -1,14 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/naming-convention */
 
 import { Autocomplete, CircularProgress, Box, TextField } from '@mui/material';
-import { find, get, isObject, map } from 'lodash';
-import React, { useCallback } from 'react';
+import { get } from 'lodash';
+import React from 'react';
 import { type Control, type FieldValues, type Path, Controller } from 'react-hook-form';
 interface OptionProps {
    [key: string]: string;
@@ -52,30 +48,30 @@ function ControllerAutoComplate<TFieldValues extends FieldValues = FieldValues>(
       ...restProps
    } = props;
 
-   const getValueOption = useCallback(
-      (value: any) => {
-         if (multiple) {
-            const values = map(value, (v: any) => {
-               if (!isObject(v)) {
-                  const option =
-                     find(options, (item: any) => {
-                        return get(item, valuePath) === v;
-                     }) ?? null;
-                  return option;
-               }
-               return v;
-            }).filter(Boolean);
-            return values;
-         }
+   // const getValueOption = useCallback(
+   //    (value: any) => {
+   //       if (multiple) {
+   //          const values = map(value, (v: any) => {
+   //             if (!isObject(v)) {
+   //                const option =
+   //                   find(options, (item: any) => {
+   //                      return get(item, valuePath) === v;
+   //                   }) ?? null;
+   //                return option;
+   //             }
+   //             return v;
+   //          }).filter(Boolean);
+   //          return values;
+   //       }
 
-         if (value === '') {
-            return '';
-         }
+   //       if (value === '') {
+   //          return '';
+   //       }
 
-         return value;
-      },
-      [options],
-   );
+   //       return name;
+   //    },
+   //    [options],
+   // );
 
    const renderOption = (props: React.HTMLAttributes<HTMLLIElement>, option: OptionProps) => {
       if (!option) {
@@ -83,12 +79,7 @@ function ControllerAutoComplate<TFieldValues extends FieldValues = FieldValues>(
       }
 
       return (
-         <Box
-            key={Math.random().toString()}
-            component="li"
-            sx={{ px: 2, py: 1, cursor: 'pointer', '&:hover': { bgcolor: '#DADADA' } }}
-            {...props}
-         >
+         <Box component="li" sx={{ px: 2, py: 1, cursor: 'pointer' }} {...props}>
             {get(option, titlePath)}
          </Box>
       );
@@ -96,7 +87,7 @@ function ControllerAutoComplate<TFieldValues extends FieldValues = FieldValues>(
 
    return (
       <Controller
-         render={({ field: { value, ref, onChange, onBlur }, fieldState: { error } }) => {
+         render={({ field: { ref, onChange, onBlur }, fieldState: { error } }) => {
             return (
                <Autocomplete
                   id={id}
@@ -109,11 +100,11 @@ function ControllerAutoComplate<TFieldValues extends FieldValues = FieldValues>(
                      if (value === '') {
                         return true;
                      }
-
                      return get(option, valuePath) === value;
                   }}
                   getOptionLabel={(option) => {
-                     return option ? String(get(find(options, { [valuePath]: option ?? '' }), titlePath)) : '';
+                     return option ? String(get(option, titlePath)) : '';
+                     // return option ? get(option, titlePath) + '' : '';
                   }}
                   multiple={multiple}
                   readOnly={readOnly}
@@ -123,10 +114,11 @@ function ControllerAutoComplate<TFieldValues extends FieldValues = FieldValues>(
                   renderOption={renderOption}
                   onBlur={onBlur}
                   onChange={(_, value: any) => {
-                     const values = multiple ? value.map((v: OptionProps) => get(v, valuePath)) : get(value, valuePath);
-                     return onChange(values);
+                     // const values = multiple ? value.map((v: OptionProps) => get(v, valuePath)) : get(value, valuePath);
+                     const newValue = value ? get(value, valuePath) : '';
+                     return onChange(newValue);
                   }}
-                  value={getValueOption(value)}
+                  // value={getValueOption(value)}
                   renderInput={(params) => {
                      return (
                         <>

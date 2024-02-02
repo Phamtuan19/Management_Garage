@@ -49,6 +49,7 @@ const BaseFormSuppliesInvoices = ({ form }: BaseFormSuppliesInvoicesPropType) =>
                            <Box height="75px">
                               <ControllerLabel title="Nhân viên tạo phiếu" required />
                               <ControllerAutoComplate
+                                 multiple
                                  options={personnels || []}
                                  valuePath="_id"
                                  titlePath="full_name"

@@ -32,7 +32,13 @@ const SuppliesCreate = () => {
 
    const { mutate: SuppliesCreate, isLoading } = useMutation({
       mutationFn: async (data: SuppliesSchema) => {
-         return await suppliesService.create({ ...data, discount: Number(data.discount) });
+         const { details, ...resData } = data;
+
+         return await suppliesService.create({
+            ...resData,
+            discount: Number(resData.discount),
+            details: details?.map((item) => ({ ...item, imported_price: Number(item.imported_price) })),
+         });
       },
       onSuccess: () => {
          successMessage('Tạo mới nhà thành công.');

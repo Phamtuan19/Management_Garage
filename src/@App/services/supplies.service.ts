@@ -14,6 +14,7 @@ export interface Supplies {
       describe: string;
       distributor_id: string;
       name_detail: string;
+      imported_price: string;
    }[];
    name: string;
    materials_catalog_id: {

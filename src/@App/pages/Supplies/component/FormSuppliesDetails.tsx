@@ -1,16 +1,16 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Box, Button, Grid, Typography } from '@mui/material';
-import { Control, FieldValues, UseFormReturn, useFieldArray } from 'react-hook-form';
+import { UseFormReturn, useFieldArray } from 'react-hook-form';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import DeleteOutlineRoundedIcon from '@mui/icons-material/DeleteOutlineRounded';
 import ControllerLabel from '@Core/Component/Input/ControllerLabel';
 import ControllerTextField from '@Core/Component/Input/ControllerTextField';
 import { useQuery } from '@tanstack/react-query';
-import distributorService, { IDistributor } from '@App/services/distributor.service';
-import ControllerSelect from '@Core/Component/Input/ControllerSelect';
+import distributorService from '@App/services/distributor.service';
 import { errorMessage } from '@Core/Helper/message';
 import { HandleErrorApi } from '@Core/Api/axios-config';
 import { AxiosError } from 'axios';
+import ControllerAutoComplate from '@Core/Component/Input/ControllerAutoComplate';
 
 import { SuppliesSchema } from '../utils/supplies.schema';
 
@@ -25,8 +25,8 @@ const FormSuppliesDetails = ({ form }: { form: UseFormReturn<SuppliesSchema> }) 
    const { data: distributors } = useQuery(
       ['getDistributors'],
       async () => {
-         const res = await distributorService.get({ limit: 10000 });
-         return res.data;
+         const res = await distributorService.getAllField();
+         return res.data as { _id: string; name: string }[];
       },
       {
          onError: (err: AxiosError) => {
@@ -57,7 +57,9 @@ const FormSuppliesDetails = ({ form }: { form: UseFormReturn<SuppliesSchema> }) 
                <Button
                   size="small"
                   sx={{ minWidth: 'auto', px: '12px' }}
-                  onClick={() => append({ distributor_id: '', name_detail: watch('name'), describe: '' })}
+                  onClick={() =>
+                     append({ distributor_id: '', name_detail: watch('name'), describe: '', imported_price: '0' })
+                  }
                >
                   <AddRoundedIcon />
                </Button>
@@ -66,33 +68,42 @@ const FormSuppliesDetails = ({ form }: { form: UseFormReturn<SuppliesSchema> }) 
          {fields.map((item, index) => {
             return (
                <>
-                  <Grid container spacing={2} mt={1} key={item.id}>
+                  <Grid container spacing={2} mt={0.5} key={item.id}>
                      <Grid item xs={12} md={3}>
                         <ControllerLabel title="Nhà phân phối" required />
 
-                        <ControllerSelect
-                           options={(distributors?.data as IDistributor[]) || []}
+                        <ControllerAutoComplate
+                           options={distributors || []}
                            valuePath="_id"
                            titlePath="name"
                            name={`details.${index}.distributor_id`}
-                           control={control as unknown as Control<FieldValues>}
+                           control={control}
                         />
                      </Grid>
                      <Grid item xs={12} md={3}>
                         <ControllerLabel title="Tên riêng" />
                         <ControllerTextField name={`details.${index}.name_detail`} control={control} />
                      </Grid>
-                     <Grid item xs={12} md={4}>
+                     <Grid item xs={12} md={1.8}>
+                        <ControllerLabel title="Giá nhập" />
+                        <ControllerTextField number name={`details.${index}.imported_price`} control={control} />
+                     </Grid>
+                     <Grid item xs={12} md={3}>
                         <ControllerLabel title="Mô tả ngắn" />
                         <ControllerTextField name={`details.${index}.describe`} control={control} />
                      </Grid>
-                     <Grid item xs={12} md={2}>
-                        <Box mt="25px" display="flex" gap="6px" justifyContent="flex-end" alignItems="center">
+                     <Grid item xs={12} md={1.2}>
+                        <Box mt="25px" display="flex" gap="3px" justifyContent="flex-end" alignItems="center">
                            {watch(`details.${index}.distributor_id`).length > 0 && fields.length === index + 1 && (
                               <Button
                                  sx={{ minWidth: 'auto', px: '12px' }}
                                  onClick={() =>
-                                    append({ distributor_id: '', name_detail: watch('name'), describe: '' })
+                                    append({
+                                       distributor_id: '',
+                                       name_detail: watch('name'),
+                                       describe: '',
+                                       imported_price: '0',
+                                    })
                                  }
                               >
                                  <AddRoundedIcon />

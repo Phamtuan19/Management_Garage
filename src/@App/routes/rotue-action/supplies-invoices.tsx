@@ -8,9 +8,6 @@ import Loadable from '../components/loadable';
 
 const SuppliesInvoicesCreate = Loadable('SuppliesInvoices/SuppliesInvoicesCreate');
 
-// const DistributorUpdate = Loadable('Distributor/DistributorUpdate');
-// const DistributorDetails = Loadable('Distributor/DistributorDetails');
-
 const suppliesInvoicesRoute: RouteObject = {
    path: ROUTE_PATH.SUPPLIES_INVOICES,
    element: <Outlet />,

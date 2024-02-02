@@ -47,21 +47,26 @@ export const suppliesSchema = yup.object({
       Array.isArray(value) && value.length > 0
          ? yup.array().of(
               yup.object().shape({
-                 distributor_id: yup
+                 distributor_id: yup.string().required(messageValidate.required('Tên danh mục')).default(''),
+                 name_detail: yup.string().default(''),
+                 imported_price: yup
                     .string()
-                    .required(messageValidate.required('Tên danh mục'))
-                    .strict(true)
-                    .trim()
-                    .default(''),
-                 name_detail: yup.string().strict(true).trim().default(''),
-                 describe: yup.string().strict(true).trim(messageValidate.trim()).default(''),
+                    .test('check_imported_price_min', 'giá nhập không được âm', (value) => {
+                       if (Number(value) < 0) {
+                          return false;
+                       }
+                       return true;
+                    })
+                    .default('0'),
+                 describe: yup.string().default(''),
               }),
            )
          : yup.array().of(
               yup.object().shape({
-                 distributor_id: yup.string().strict(true).trim().default(''),
-                 name_detail: yup.string().strict(true).trim().default(''),
-                 describe: yup.string().strict(true).trim(messageValidate.trim()).default(''),
+                 distributor_id: yup.string().default(''),
+                 name_detail: yup.string().default(''),
+                 imported_price: yup.string().default('0'),
+                 describe: yup.string().default(''),
               }),
            ),
    ),
