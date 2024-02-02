@@ -7,6 +7,7 @@ export interface ICustomer {
    _id: string;
    name: string;
    phone: string;
+   email: string;
    gender: string;
    createdAt: string;
    updateAt: string;

@@ -2,6 +2,7 @@ import ROUTE_PATH from '@App/configs/router-path';
 import PAGE_ACTION from '@App/configs/page-action';
 import { Outlet, RouteObject } from 'react-router-dom';
 import MODULE_PAGE from '@App/configs/module-page';
+import PersonnelDetails from '@App/pages/Personnels/PersonelDetails';
 
 import PermissionAccessRoute from '../components/PermissionAccessRoute';
 import Loadable from '../components/loadable';
@@ -26,6 +27,14 @@ const personnelRoute: RouteObject = {
          element: (
             <PermissionAccessRoute module={MODULE_PAGE.PERSONNELS} action={PAGE_ACTION.CREATE} type="route">
                <PersonnelCreate />
+            </PermissionAccessRoute>
+         ),
+      },
+      {
+         path: ROUTE_PATH.PERSONNELS + ROUTE_PATH.DETAILS,
+         element: (
+            <PermissionAccessRoute module={MODULE_PAGE.PERSONNELS} action={PAGE_ACTION.VIEW_ONE} type="route">
+               <PersonnelDetails />
             </PermissionAccessRoute>
          ),
       },

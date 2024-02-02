@@ -1,23 +1,16 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/naming-convention */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from 'react';
 import { useAuth } from '@App/redux/slices/auth.slice';
-import distributorService from '@App/services/distributor.service';
 import personnelService from '@App/services/personnel.service';
 import ControllerLabel from '@Core/Component/Input/ControllerLabel';
-import ControllerSelect from '@Core/Component/Input/ControllerSelect';
-import { Box, Grid, TextField } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import { Control, FieldValues, UseFormReturn } from 'react-hook-form';
 import PageContent from '@App/component/customs/PageContent';
+import ControllerAutoComplate from '@Core/Component/Input/ControllerAutoComplate';
 
 import { SuppliesInvoicesSchema } from '../utils/suppliesInvoices.schema';
-
-import SuppliesInvoicesTable from './SuppliesInvoicesTable';
-import ControllerAutoComplate from '@Core/Component/Input/ControllerAutoComplate';
 
 interface BaseFormSuppliesInvoicesPropType {
    form: UseFormReturn<SuppliesInvoicesSchema>;
@@ -28,10 +21,10 @@ const BaseFormSuppliesInvoices = ({ form }: BaseFormSuppliesInvoicesPropType) =>
 
    const { user } = useAuth();
 
-   const { data: distributors } = useQuery(['getAllDistributor'], async () => {
-      const res = await distributorService.get({ limit: 10000 });
-      return res.data;
-   });
+   // const { data: distributors } = useQuery(['getAllDistributor'], async () => {
+   //    const res = await distributorService.get({ limit: 10000 });
+   //    return res.data;
+   // });
 
    const { data: personnels } = useQuery(['getAllPersonnels'], async () => {
       const res = await personnelService.fieldAll();

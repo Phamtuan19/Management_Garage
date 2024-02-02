@@ -20,7 +20,9 @@ const ROUTE_PATH = {
 
    SUPPLIES_INVOICES: '/wh/supplies-invoices',
 
-   CARS: '/cars',
+   SUPPLIES_DETAILS: '/wh/supplies-details',
+
+   CARS: '/fix/cars',
 
    // Module sửa chữa FIX
    REPAIR_ORDERS: '/fix/repair-orders',

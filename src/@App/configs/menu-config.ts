@@ -116,7 +116,7 @@ const menuConfig: MenuConfigItem[] = [
    {
       id: 3,
       title: 'Khách hàng',
-      link: '/',
+      link: 'wh/',
       icon: FaceRetouchingNaturalIcon,
       action: PAGE_ACTION.VIEW_ALL,
       children: [

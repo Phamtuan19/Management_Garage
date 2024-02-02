@@ -1,3 +1,8 @@
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { useParams, useNavigate } from 'react-router-dom';
 import ROUTE_PATH from '@App/configs/router-path';
 import { useQuery } from '@tanstack/react-query';
@@ -10,33 +15,47 @@ import { Box, Typography, Stack, Button, Grid } from '@mui/material';
 import Divider from '@mui/material/Divider';
 
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
-import suppliesService, { Supplies } from '@App/services/supplies.service';
+import suppliesdetailsServices from '@App/services/supplies-details.service';
+import { format } from 'date-fns';
 
 const breadcrumbs = [
    {
       title: 'Vật tư',
-      link: ROUTE_PATH.SUPPLIES,
+      link: ROUTE_PATH.SUPPLIES_DETAILS,
    },
 ];
-const DistributorDetails = () => {
+const SuppliesDetails = () => {
    const { id: suppliesId } = useParams();
-   const navigate = useNavigate();
-   const { data: supplies } = useQuery<Supplies, Error>(['getSuppliesDetails'], async () => {
-      const suppliesRes = await suppliesService.find(suppliesId as string);
-      return suppliesRes.data as Supplies;
-   });
 
+   const navigate = useNavigate();
+   const { data: supplies } = useQuery(['getSuppliesDetails', suppliesId], async () => {
+      const suppliesRes = await suppliesdetailsServices.get();
+      const suppliesDetailData = suppliesRes.data;
+      const relatedDetails = suppliesDetailData?.data.filter(
+         (detail: { supplies_id: { _id: string | undefined } }) => detail.supplies_id._id === suppliesId,
+      );
+
+      return { details: relatedDetails };
+   });
+   const formatDate = (dateString: string | number | Date) => {
+      return dateString ? format(new Date(dateString), 'MM-dd-yyyy') : '';
+   };
    const suppliesDetails = [
-      { label: 'Tên vật tư', value: supplies?.name || '' },
-      { label: 'Danh mục', value: (supplies?.materials_catalog_id!.name as string) || '' },
-      { label: 'Đơn vị', value: supplies?.unit || '' },
-      { label: 'Giảm giá', value: supplies?.discount || '' },
-      { label: 'Mô tả', value: supplies?.describe || '' },
+      { label: 'Tên vật tư', value: supplies?.details[0]?.name_detail },
+      { label: 'Tên nhà phân phối', value: supplies?.details[0]?.distributor_id.name },
+      { label: 'Danh mục', value: (supplies?.details[0]?.supplies_id.materials_catalog_id!.name as string) || '' },
+      { label: 'Đơn vị', value: supplies?.details[0]?.supplies_id.unit },
+      { label: 'Giảm giá', value: supplies?.details[0]?.supplies_id.discount },
+      { label: 'Mô tả', value: supplies?.details[0]?.supplies_id.describe },
+      { label: 'Trạng thái hàng', value: supplies?.details[0]?.isInStock ? 'Còn hàng' : 'Hết hàng' },
+      { label: 'Ngày tạo', value: formatDate(supplies?.details[0]?.createdAt) },
+      { label: 'Ngày cập nhật cuối', value: formatDate(supplies?.details[0]?.updatedAt) },
    ];
-   const materialsCatalogDetails = [
-      { label: 'Mã danh mục', value: supplies?.materials_catalog_id.code || '' },
-      { label: 'Tên danh mục', value: supplies?.materials_catalog_id.name || '' },
-      { label: 'Mô tả danh mục', value: supplies?.materials_catalog_id.describe || '' },
+   const distributorDetails = [
+      { label: 'Tên nhà phân phối', value: supplies?.details[0]?.distributor_id.name },
+      { label: 'Mã nhà phân phối', value: supplies?.details[0]?.distributor_id.code },
+      { label: 'Email', value: supplies?.details[0]?.distributor_id.email },
+      { label: 'Số điện thoại', value: supplies?.details[0]?.distributor_id.phone },
    ];
 
    return (
@@ -81,11 +100,11 @@ const DistributorDetails = () => {
                               <Typography
                                  sx={{ fontWeight: '900', fontSize: '1.5rem', color: theme.palette.grey[800] }}
                               >
-                                 Thông tin danh mục vật tư
+                                 Thông tin nhà phân phối
                               </Typography>
                            </Box>
 
-                           {materialsCatalogDetails.map((detail, index) => (
+                           {distributorDetails.map((detail, index) => (
                               <Grid key={index}>
                                  <DetailsItem label={detail.label} value={detail.value} />
                               </Grid>
@@ -112,4 +131,4 @@ const DetailsItem = ({ label, value }: { label: string; value: string }) => (
       </Grid>
    </Grid>
 );
-export default DistributorDetails;
+export default SuppliesDetails;
