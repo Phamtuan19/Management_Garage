@@ -10,12 +10,13 @@ import {
    CoreTableActionEdit,
    CoreTableActionViewDetail,
 } from '@Core/Component/Table/components/CoreTableAction';
-import { Box, TextField } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import PermissionAccessRoute from '@App/routes/components/PermissionAccessRoute';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import useCoreTable from '@App/hooks/useCoreTable';
+import PageContent from '@App/component/customs/PageContent';
 
 const Supplies = () => {
    const navigate = useNavigate();
@@ -72,10 +73,27 @@ const Supplies = () => {
    }, []);
    return (
       <BaseBreadcrumbs arialabel="Danh sách vật tư">
-         <Box>
-            <TextField size="small" label="Tìm kiếm" />
+         <Box display="flex" gap={1} alignItems="center">
+            <PermissionAccessRoute module={MODULE_PAGE.SUPPLIES} action="CREATE">
+               <Button component={Link} to="create" size="medium">
+                  Thêm mới vật tư
+               </Button>
+            </PermissionAccessRoute>
+
+            <PermissionAccessRoute module={MODULE_PAGE.SUPPLIES} action="CREATE">
+               <Button
+                  component={Link}
+                  to={ROUTE_PATH.SUPPLIES_INVOICES + ROUTE_PATH.CREATE}
+                  size="medium"
+                  color="secondary"
+               >
+                  Nhập vật tư
+               </Button>
+            </PermissionAccessRoute>
          </Box>
-         <TableCore columns={columns} {...data} />
+         <PageContent>
+            <TableCore columns={columns} {...data} />
+         </PageContent>
       </BaseBreadcrumbs>
    );
 };

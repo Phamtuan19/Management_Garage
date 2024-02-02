@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import React from 'react';
 import { Controller, Control, FieldValues, Path } from 'react-hook-form';
-import { FormHelperText, SxProps, TextField, Theme } from '@mui/material';
+import { FormHelperText, SxProps, TextField, TextFieldVariants, Theme } from '@mui/material';
 import Regexs from '@Core/Configs/Regexs';
 
 interface ControllerTextFieldProps<TFieldValues extends FieldValues = FieldValues> {
@@ -11,7 +11,9 @@ interface ControllerTextFieldProps<TFieldValues extends FieldValues = FieldValue
    disabled?: boolean;
    number?: boolean;
    string?: boolean;
+   variant?: TextFieldVariants;
    sx?: SxProps<Theme> | undefined;
+
    control: Control<TFieldValues>;
 }
 
@@ -27,6 +29,7 @@ function ControllerTextField<TFieldValues extends FieldValues = FieldValues>(
       number = false,
       string = false,
       disabled = false,
+      variant = 'outlined',
       ...rest
    } = props;
    return (
@@ -37,7 +40,7 @@ function ControllerTextField<TFieldValues extends FieldValues = FieldValues>(
                   <TextField
                      fullWidth
                      id={name}
-                     variant="outlined"
+                     variant={variant}
                      error={Boolean(error)}
                      sx={{ mb: 0.5, ...sx }}
                      placeholder={placeholder}

@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import BaseService from '@Core/Api/BaseService';
+import { AxiosResponseData } from '@Core/Api/axios-config';
 
-const carsPath = {
+const suppliesPath = {
    base: 'supplies',
+   getAll: '/get-all',
 };
 
 export interface Supplies {
@@ -15,6 +17,7 @@ export interface Supplies {
    }[];
    name: string;
    materials_catalog_id: {
+      _id: string;
       code: string;
       name: string;
       describe: string;
@@ -25,11 +28,15 @@ export interface Supplies {
 }
 
 class SuppliesService extends BaseService {
-   BASE_ENDPOINT = carsPath.base;
+   BASE_ENDPOINT = suppliesPath.base;
 
    constructor() {
       super();
       this.setRequest();
+   }
+
+   getAllSupplies(): Promise<AxiosResponseData> {
+      return this.request.get(this.BASE_ENDPOINT + suppliesPath.getAll);
    }
 }
 const suppliesService = new SuppliesService();

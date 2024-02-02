@@ -61,7 +61,7 @@ const SuppliesCreate = () => {
          sx={({ base }) => ({ bgcolor: base.background.default, border: 'none', p: 0 })}
       >
          <LoadingButton type="submit" variant="contained" loading={isLoading} onClick={form.handleSubmit(onSubmitForm)}>
-            Thêm mới
+            Lưu
          </LoadingButton>
          <Box
             sx={({ base }) => ({

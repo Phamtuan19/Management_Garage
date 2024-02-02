@@ -1,6 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-misused-promises */
+/* eslint-disable @typescript-eslint/naming-convention */
+
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import ROUTE_PATH from '@App/configs/router-path';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -43,16 +43,18 @@ const SuppliesUpdate = () => {
       },
       {
          onSuccess: (data: Supplies) => {
-            const { details, ...res } = data;
-            setValueHookForm(form.setValue, res as any);
+            const { details, materials_catalog_id, discount, ...res } = data;
+            setValueHookForm(form.setValue, res);
             form.setValue('details', details || []);
+            form.setValue('materials_catalog_id', materials_catalog_id._id);
+            form.setValue('discount', String(discount));
          },
       },
    );
 
    const { mutate: SuppliesUpdate, isLoading } = useMutation({
       mutationFn: async (data: SuppliesSchema) => {
-         return await suppliesService.update(data);
+         return await suppliesService.update({ ...data, discount: Number(data.discount) });
       },
       onSuccess: async () => {
          successMessage('Tạo mới nhà phân phối thành công.');

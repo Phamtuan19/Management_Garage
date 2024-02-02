@@ -18,6 +18,8 @@ const ROUTE_PATH = {
 
    SUPPLIES: '/wh/supplies',
 
+   SUPPLIES_INVOICES: '/wh/supplies-invoices',
+
    CARS: '/cars',
 
    // Module sửa chữa FIX

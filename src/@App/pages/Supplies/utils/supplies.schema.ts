@@ -46,29 +46,23 @@ export const suppliesSchema = yup.object({
    details: yup.lazy((value: any) =>
       Array.isArray(value) && value.length > 0
          ? yup.array().of(
-              yup
-                 .object()
-                 .shape({
-                    distributor_id: yup
-                       .string()
-                       .required(messageValidate.required('Tên danh mục'))
-                       .strict(true)
-                       .trim()
-                       .default(''),
-                    name_detail: yup.string().strict(true).trim().default(''),
-                    describe: yup.string().strict(true).trim(messageValidate.trim()).default(''),
-                 })
-                 .default({}),
+              yup.object().shape({
+                 distributor_id: yup
+                    .string()
+                    .required(messageValidate.required('Tên danh mục'))
+                    .strict(true)
+                    .trim()
+                    .default(''),
+                 name_detail: yup.string().strict(true).trim().default(''),
+                 describe: yup.string().strict(true).trim(messageValidate.trim()).default(''),
+              }),
            )
          : yup.array().of(
-              yup
-                 .object()
-                 .shape({
-                    distributor_id: yup.string().strict(true).trim().default(''),
-                    name_detail: yup.string().strict(true).trim().default(''),
-                    describe: yup.string().strict(true).trim(messageValidate.trim()).default(''),
-                 })
-                 .default({}),
+              yup.object().shape({
+                 distributor_id: yup.string().strict(true).trim().default(''),
+                 name_detail: yup.string().strict(true).trim().default(''),
+                 describe: yup.string().strict(true).trim(messageValidate.trim()).default(''),
+              }),
            ),
    ),
 });
