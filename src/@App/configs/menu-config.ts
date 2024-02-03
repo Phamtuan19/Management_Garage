@@ -50,7 +50,7 @@ const menuConfig: MenuConfigItem[] = [
    {
       id: 2,
       title: 'Vật tư',
-      link: '/warehouse',
+      link: '/wh',
       icon: WidgetsOutlinedIcon,
       children: [
          {
@@ -65,13 +65,6 @@ const menuConfig: MenuConfigItem[] = [
             title: 'Danh mục vật tư',
             link: ROUTE_PATH.MATERIALS_CATALOGS,
             module: MODULE_PAGE.MATERIALS_CATALOGS,
-            action: PAGE_ACTION.VIEW_ALL,
-         },
-         {
-            id: 2.3,
-            title: 'Quản lý kho',
-            link: ROUTE_PATH.WAREHOUSES,
-            module: MODULE_PAGE.WAREHOUSES,
             action: PAGE_ACTION.VIEW_ALL,
          },
          {
@@ -98,13 +91,6 @@ const menuConfig: MenuConfigItem[] = [
             action: PAGE_ACTION.VIEW_ALL,
          },
          {
-            id: 4.2,
-            title: 'Thêm mới',
-            link: ROUTE_PATH.PERSONNELS + ROUTE_PATH.CREATE,
-            module: MODULE_PAGE.PERSONNELS,
-            action: PAGE_ACTION.CREATE,
-         },
-         {
             id: 4.3,
             title: 'Vai trò',
             link: ROUTE_PATH.ROLES,
@@ -116,7 +102,7 @@ const menuConfig: MenuConfigItem[] = [
    {
       id: 3,
       title: 'Khách hàng',
-      link: '/',
+      link: '/custom',
       icon: FaceRetouchingNaturalIcon,
       action: PAGE_ACTION.VIEW_ALL,
       children: [

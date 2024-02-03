@@ -1,18 +1,25 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Button, Chip } from '@mui/material';
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
-import personnelService from '@App/services/personnel.service';
+import personnelService, { IPersonnel } from '@App/services/personnel.service';
 import { useQuery } from '@tanstack/react-query';
 import TableCore, { columnHelper } from '@Core/Component/Table';
 import LazyLoadingImage from '@App/component/customs/LazyLoadingImage';
 import Switch from '@App/component/customs/Switch';
-import { CoreTableActionDelete, CoreTableActionEdit } from '@Core/Component/Table/components/CoreTableAction';
+import {
+   CoreTableActionDelete,
+   CoreTableActionLock,
+   CoreTableActionViewDetail,
+} from '@Core/Component/Table/components/CoreTableAction';
 import { useMemo } from 'react';
 import useCoreTable from '@App/hooks/useCoreTable';
 import useSearchParamsHook from '@App/hooks/useSearchParamsHook';
 import FilterTable from '@App/component/common/FilterTable';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
-
+import PermissionAccessRoute from '@App/routes/components/PermissionAccessRoute';
+import ROUTE_PATH from '@App/configs/router-path';
+import MODULE_PAGE from '@App/configs/module-page';
 const sortList = [
    {
       title: 'Tên',
@@ -29,6 +36,7 @@ const sortList = [
 ];
 
 export default function Personnels() {
+   const navigate = useNavigate();
    const { searchParams } = useSearchParamsHook();
 
    const queryTable = useQuery(['getPersonnelList', searchParams], async () => {
@@ -37,7 +45,6 @@ export default function Personnels() {
    });
 
    const data = useCoreTable(queryTable);
-
    const columns = useMemo(() => {
       return [
          columnHelper.accessor('avatar', {
@@ -92,13 +99,23 @@ export default function Personnels() {
                );
             },
          }),
-         columnHelper.accessor('action', {
+         columnHelper.accessor('_id', {
             header: 'Thao tác',
-            cell: () => {
+            cell: ({ row }) => {
+               const personnel = row.original as IPersonnel;
                return (
                   <Box>
-                     <CoreTableActionDelete />
-                     <CoreTableActionEdit callback={() => {}} />
+                     <PermissionAccessRoute module={MODULE_PAGE.PERSONNELS} action="VIEW_ONE">
+                        <CoreTableActionViewDetail
+                           callback={() => navigate(ROUTE_PATH.PERSONNELS + '/' + personnel._id + '/details')}
+                        />
+                     </PermissionAccessRoute>
+                     <PermissionAccessRoute module={MODULE_PAGE.PERSONNELS} action="IS_LOCK">
+                        <CoreTableActionLock />
+                     </PermissionAccessRoute>
+                     <PermissionAccessRoute module={MODULE_PAGE.PERSONNELS} action="DELETE">
+                        <CoreTableActionDelete />
+                     </PermissionAccessRoute>
                   </Box>
                );
             },

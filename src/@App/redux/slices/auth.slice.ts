@@ -22,15 +22,23 @@ type UserPermission = {
    [key: string]: string[] | '*';
 };
 
-interface InitialState<U> {
-   user: Array<U> | null;
+interface InitialState {
+   user: {
+      _id: string;
+      code: string;
+      account_name: string;
+      full_name: string;
+      email: string;
+      phone: string;
+      avatar_url: string;
+   } | null;
    isAuhthentication: boolean;
    isInitialized: boolean;
    userPermission: UserPermission | null | '*';
    loading: boolean;
 }
 
-const initialState: InitialState<any> = {
+const initialState: InitialState = {
    user: null,
    isAuhthentication: false,
    isInitialized: false,

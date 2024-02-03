@@ -7,6 +7,7 @@ import PermissionAccessRoute from '../components/PermissionAccessRoute';
 import Loadable from '../components/loadable';
 
 const Cars = Loadable('Cars');
+
 const CarsCreate = Loadable('Cars/CarsCreate');
 
 const CarsUpdate = Loadable('Cars/CarsUpdate');

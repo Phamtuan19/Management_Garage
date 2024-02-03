@@ -1,38 +1,48 @@
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import ROUTE_PATH from '@App/configs/router-path';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useMutation } from '@tanstack/react-query';
-import materialsCatalogService from '@App/services/materialsCatalog.service';
 import { errorMessage, successMessage } from '@Core/Helper/message';
 import { AxiosError } from 'axios';
 import HttpStatusCode from '@Core/Configs/HttpStatusCode';
 import setErrorMessageHookForm from '@App/helpers/setErrorMessageHookForm';
 import { HandleErrorApi } from '@Core/Api/axios-config';
+import { LoadingButton } from '@mui/lab';
+import { Box } from '@mui/material';
+import suppliesService from '@App/services/supplies.service';
 
-import { MaterialsCatalogSchema, materialsCatalogSchema } from './utils/materialsCatalog.schema';
 import BaseFormSupplies from './component/BaseFormSupplies';
+import { SuppliesSchema, suppliesSchema } from './utils/supplies.schema';
 
 const breadcrumbs = [
    {
-      title: 'Danh mục sản phẩm',
+      title: 'Vật tư',
       link: ROUTE_PATH.SUPPLIES,
    },
 ];
 
 const SuppliesCreate = () => {
-   const form = useForm<MaterialsCatalogSchema>({
-      resolver: yupResolver(materialsCatalogSchema),
-      defaultValues: materialsCatalogSchema.getDefault(),
+   const form = useForm<SuppliesSchema>({
+      resolver: yupResolver(suppliesSchema),
+      defaultValues: suppliesSchema.getDefault(),
    });
 
    const { mutate: SuppliesCreate, isLoading } = useMutation({
-      mutationFn: async (data: MaterialsCatalogSchema) => {
-         return await materialsCatalogService.create(data);
+      mutationFn: async (data: SuppliesSchema) => {
+         const { details, ...resData } = data;
+
+         return await suppliesService.create({
+            ...resData,
+            discount: Number(resData.discount),
+            details: details?.map((item) => ({ ...item, imported_price: Number(item.imported_price) })),
+         });
       },
       onSuccess: () => {
-         successMessage('Tạo mới nhà phân phối thành công.');
-         form.reset();
+         successMessage('Tạo mới nhà thành công.');
+         form.reset({ details: [], describe: '', name: '', materials_catalog_id: '', unit: '', discount: '' });
       },
       onError: (err: AxiosError) => {
          const dataError = err.response?.data as HandleErrorApi;
@@ -45,11 +55,30 @@ const SuppliesCreate = () => {
       },
    });
 
-   const onSubmitForm: SubmitHandler<MaterialsCatalogSchema> = (data) => SuppliesCreate(data);
+   const onSubmitForm: SubmitHandler<SuppliesSchema> = (data) => {
+      // console.log(data);
+      SuppliesCreate(data);
+   };
 
    return (
-      <BaseBreadcrumbs arialabel="Thêm mới" breadcrumbs={breadcrumbs}>
-         <BaseFormSupplies onSubmitForm={onSubmitForm} form={form} isLoading={isLoading} />
+      <BaseBreadcrumbs
+         arialabel="Thêm mới"
+         breadcrumbs={breadcrumbs}
+         sx={({ base }) => ({ bgcolor: base.background.default, border: 'none', p: 0 })}
+      >
+         <LoadingButton type="submit" variant="contained" loading={isLoading} onClick={form.handleSubmit(onSubmitForm)}>
+            Lưu
+         </LoadingButton>
+         <Box
+            sx={({ base }) => ({
+               marginTop: '12px',
+               padding: '12px',
+               borderRadius: '5px',
+               backgroundColor: base.background.white as string,
+            })}
+         >
+            <BaseFormSupplies form={form} />
+         </Box>
       </BaseBreadcrumbs>
    );
 };

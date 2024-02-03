@@ -3,6 +3,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import RateReviewRoundedIcon from '@mui/icons-material/RateReviewRounded';
 import { useConfirm } from '@Core/Component/Comfirm/CoreComfirm';
 import PreviewIcon from '@mui/icons-material/Preview';
+import LockIcon from '@mui/icons-material/Lock';
 
 export const CoreTableActionDelete = ({
    callback = () => {},
@@ -46,6 +47,16 @@ export const CoreTableActionViewDetail = ({ callback = () => {} }) => {
       <Tooltip title="Chi tiết">
          <IconButton color="success" onClick={callback}>
             <PreviewIcon />
+         </IconButton>
+      </Tooltip>
+   );
+};
+
+export const CoreTableActionLock = ({ callback = () => {} }) => {
+   return (
+      <Tooltip title="Khóa">
+         <IconButton color="warning" onClick={callback}>
+            <LockIcon />
          </IconButton>
       </Tooltip>
    );
