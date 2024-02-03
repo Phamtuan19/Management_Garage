@@ -28,6 +28,18 @@ export interface Supplies {
    describe: string;
 }
 
+export interface ReadSupplies {
+   _id: string;
+   isInStock: boolean;
+   name_detail: string;
+   name_supplie: string;
+   unit: string;
+   discount: number;
+   name_distributor: string;
+   createdAt: string;
+   updatedAt: string;
+}
+
 class SuppliesService extends BaseService {
    BASE_ENDPOINT = suppliesPath.base;
 
