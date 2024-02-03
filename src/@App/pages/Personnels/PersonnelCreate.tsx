@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -8,6 +9,8 @@ import setErrorMessageHookForm from '@App/helpers/setErrorMessageHookForm';
 import personnelService from '@App/services/personnel.service';
 import { HandleErrorApi } from '@Core/Api/axios-config';
 import ROUTE_PATH from '@App/configs/router-path';
+import PageContent from '@App/component/customs/PageContent';
+import { LoadingButton } from '@mui/lab';
 
 import { ValidationFormCreate, validationFormCreate } from './utils/personnel.schema';
 import BaseFormPersonnel from './components/BaseFormPersonnel';
@@ -30,12 +33,11 @@ const PersonnelCreate = () => {
       },
       onSuccess: () => {
          successMessage('Thêm mới nhân viên thành công');
+         return form.reset();
       },
       onError: (err: AxiosError) => {
          const dataError = err.response?.data as HandleErrorApi;
-
          setErrorMessageHookForm(form.setError, dataError.message);
-
          return errorMessage(err);
       },
    });
@@ -44,7 +46,12 @@ const PersonnelCreate = () => {
 
    return (
       <BaseBreadcrumbs arialabel="Thêm mới" breadcrumbs={breadcrumbs}>
-         <BaseFormPersonnel form={form} onSubmitForm={onSubmitForm} isLoading={isLoading} />
+         <LoadingButton type="submit" variant="contained" loading={isLoading} onClick={form.handleSubmit(onSubmitForm)}>
+            Lưu
+         </LoadingButton>
+         <PageContent>
+            <BaseFormPersonnel form={form} />
+         </PageContent>
       </BaseBreadcrumbs>
    );
 };

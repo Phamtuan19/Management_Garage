@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import BaseService from '@Core/Api/BaseService';
+import { AxiosResponseData } from '@Core/Api/axios-config';
 
 const distributorPath = {
    BASE: 'distributors',
+   allField: '/all-field',
 };
 
 export interface IAddressOption {
@@ -38,6 +40,10 @@ class DistributorService extends BaseService {
    constructor() {
       super();
       this.setRequest();
+   }
+
+   getAllField(): Promise<AxiosResponseData> {
+      return this.request.get(this.BASE_ENDPOINT + distributorPath.allField);
    }
 }
 

@@ -7,10 +7,12 @@ import PermissionAccessRoute from '../components/PermissionAccessRoute';
 import Loadable from '../components/loadable';
 
 const Cars = Loadable('Cars');
+
 const CarsCreate = Loadable('Cars/CarsCreate');
 
-// const DistributorUpdate = Loadable('Distributor/DistributorUpdate');
-// const DistributorDetails = Loadable('Distributor/DistributorDetails');
+const CarsUpdate = Loadable('Cars/CarsUpdate');
+
+const CarsDetails = Loadable('Cars/CarsDetails');
 
 const carsRoute: RouteObject = {
    path: ROUTE_PATH.CARS,
@@ -19,7 +21,7 @@ const carsRoute: RouteObject = {
       {
          index: true,
          element: (
-            <PermissionAccessRoute module={MODULE_PAGE.CARS} action={PAGE_ACTION.CREATE} type="route">
+            <PermissionAccessRoute module={MODULE_PAGE.CARS} action={PAGE_ACTION.VIEW_ALL} type="route">
                <Cars />
             </PermissionAccessRoute>
          ),
@@ -36,7 +38,7 @@ const carsRoute: RouteObject = {
          path: ROUTE_PATH.CARS + ROUTE_PATH.UPDATE,
          element: (
             <PermissionAccessRoute module={MODULE_PAGE.CARS} action={PAGE_ACTION.UPDATE} type="route">
-               <CarsCreate />
+               <CarsUpdate />
             </PermissionAccessRoute>
          ),
       },
@@ -44,7 +46,7 @@ const carsRoute: RouteObject = {
          path: ROUTE_PATH.CARS + ROUTE_PATH.DETAILS,
          element: (
             <PermissionAccessRoute module={MODULE_PAGE.CARS} action={PAGE_ACTION.VIEW_ONE} type="route">
-               <CarsCreate />
+               <CarsDetails />
             </PermissionAccessRoute>
          ),
       },

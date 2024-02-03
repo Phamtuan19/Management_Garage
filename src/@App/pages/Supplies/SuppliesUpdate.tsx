@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
+/* eslint-disable @typescript-eslint/naming-convention */
+
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import ROUTE_PATH from '@App/configs/router-path';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import materialsCatalogService from '@App/services/materialsCatalog.service';
 import { errorMessage, successMessage } from '@Core/Helper/message';
 import { AxiosError } from 'axios';
 import HttpStatusCode from '@Core/Configs/HttpStatusCode';
@@ -11,9 +13,12 @@ import setErrorMessageHookForm from '@App/helpers/setErrorMessageHookForm';
 import { useParams } from 'react-router-dom';
 import setValueHookForm from '@App/helpers/setValueHookForm';
 import { HandleErrorApi } from '@Core/Api/axios-config';
+import suppliesService, { Supplies } from '@App/services/supplies.service';
+import { LoadingButton } from '@mui/lab';
+import { Box } from '@mui/material';
 
-import { MaterialsCatalogSchema, materialsCatalogSchema } from './utils/materialsCatalog.schema';
 import BaseFormSupplies from './component/BaseFormSupplies';
+import { SuppliesSchema, suppliesSchema } from './utils/supplies.schema';
 
 const breadcrumbs = [
    {
@@ -25,27 +30,31 @@ const breadcrumbs = [
 const SuppliesUpdate = () => {
    const { id: materialsCatalogId } = useParams();
 
-   const form = useForm<MaterialsCatalogSchema>({
-      resolver: yupResolver(materialsCatalogSchema),
-      defaultValues: materialsCatalogSchema.getDefault(),
+   const form = useForm<SuppliesSchema>({
+      resolver: yupResolver(suppliesSchema),
+      defaultValues: suppliesSchema.getDefault(),
    });
 
    const { refetch: getMaterialsCatalog } = useQuery(
       ['getDistributorDetail', materialsCatalogId],
       async () => {
-         const res = await materialsCatalogService.find(materialsCatalogId!);
+         const res = await suppliesService.find(materialsCatalogId!);
          return res.data;
       },
       {
-         onSuccess: (data) => {
-            setValueHookForm(form.setValue, data as never);
+         onSuccess: (data: Supplies) => {
+            const { details, materials_catalog_id, discount, ...res } = data;
+            setValueHookForm(form.setValue, res);
+            form.setValue('details', details || []);
+            form.setValue('materials_catalog_id', materials_catalog_id._id);
+            form.setValue('discount', String(discount));
          },
       },
    );
 
    const { mutate: SuppliesUpdate, isLoading } = useMutation({
-      mutationFn: async (data: MaterialsCatalogSchema) => {
-         return await materialsCatalogService.update(data);
+      mutationFn: async (data: SuppliesSchema) => {
+         return await suppliesService.update({ ...data, discount: Number(data.discount) });
       },
       onSuccess: async () => {
          successMessage('Tạo mới nhà phân phối thành công.');
@@ -62,11 +71,27 @@ const SuppliesUpdate = () => {
       },
    });
 
-   const onSubmitForm: SubmitHandler<MaterialsCatalogSchema> = (data) => SuppliesUpdate(data);
+   const onSubmitForm: SubmitHandler<SuppliesSchema> = (data) => SuppliesUpdate(data);
 
    return (
-      <BaseBreadcrumbs arialabel="Chi tiết" breadcrumbs={breadcrumbs}>
-         <BaseFormSupplies onSubmitForm={onSubmitForm} form={form} isLoading={isLoading} />
+      <BaseBreadcrumbs
+         arialabel="Chi tiết"
+         breadcrumbs={breadcrumbs}
+         sx={({ base }) => ({ bgcolor: base.background.default, border: 'none', p: 0 })}
+      >
+         <LoadingButton type="submit" variant="contained" loading={isLoading} onClick={form.handleSubmit(onSubmitForm)}>
+            Cập nhật
+         </LoadingButton>
+         <Box
+            sx={({ base }) => ({
+               marginTop: '12px',
+               padding: '12px',
+               borderRadius: '5px',
+               backgroundColor: base.background.white as string,
+            })}
+         >
+            <BaseFormSupplies form={form} />
+         </Box>
       </BaseBreadcrumbs>
    );
 };

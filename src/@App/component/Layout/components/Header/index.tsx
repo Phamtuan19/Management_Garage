@@ -2,12 +2,13 @@
 import { Avatar, Box, IconButton, ListItemIcon, Menu, MenuItem, Tooltip, styled, Stack } from '@mui/material';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import { useState } from 'react';
-import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '@App/redux/slices/auth.slice';
 import LazyLoadingImage from '@App/component/customs/LazyLoadingImage';
 import { useConfirm } from '@Core/Component/Comfirm/CoreComfirm';
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+import ROUTE_PATH from '@App/configs/router-path';
 
 const logo: string = 'https://react.vristo.sbthemes.com/assets/images/logo.svg';
 
@@ -17,15 +18,22 @@ interface HeaderProps {
 }
 
 const Header = ({ setisOpenSidebar, isOpenSidebar }: HeaderProps) => {
-   const { authLogout } = useAuth();
+   const { authLogout, user } = useAuth();
    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+   const navigate = useNavigate();
    const coreConfirm = useConfirm();
    const isOpen = Boolean(anchorEl);
    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
       setAnchorEl(anchorEl ? null : event.currentTarget);
    };
+
    const handleClose = () => {
       setAnchorEl(null);
+      navigate(ROUTE_PATH.USER_PROFILE);
+   };
+
+   const handleRedirectProfile = () => {
+      handleClose();
    };
 
    const handleClickLogout = () => {
@@ -87,7 +95,9 @@ const Header = ({ setisOpenSidebar, isOpenSidebar }: HeaderProps) => {
                         aria-haspopup="true"
                         aria-expanded={isOpen ? 'true' : undefined}
                      >
-                        <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+                        <Avatar sx={{ width: 28, height: 28 }} src={user?.avatar_url}>
+                           {user?.full_name.split('')[0]}
+                        </Avatar>
                      </IconButton>
                   </Tooltip>
                </Box>
@@ -101,17 +111,17 @@ const Header = ({ setisOpenSidebar, isOpenSidebar }: HeaderProps) => {
                   transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                   anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                >
-                  <MenuItem onClick={handleClose}>
+                  <MenuItem onClick={handleRedirectProfile}>
                      <ListItemIcon>
-                        <Settings fontSize="small" />
+                        <AccountCircleOutlinedIcon fontSize="small" />
                      </ListItemIcon>
-                     Settings
+                     Tài khoản
                   </MenuItem>
                   <MenuItem onClick={handleClickLogout}>
                      <ListItemIcon>
                         <Logout fontSize="small" />
                      </ListItemIcon>
-                     Logout
+                     Đăng xuất
                   </MenuItem>
                </Menu>
             </Stack>
