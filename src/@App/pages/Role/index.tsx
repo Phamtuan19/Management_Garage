@@ -118,10 +118,12 @@ const Role = () => {
                         <CoreTableActionDelete callback={() => handleDelete(role._id)} />
                      </PermissionAccessRoute>
                      <PermissionAccessRoute module={MODULE_PAGE.ROLES} action="VIEW_ALL">
-                        <CoreTableActionEdit callback={() => navigate(ROUTE_PATH.ROLES + '/update/' + role._id)} />
+                        <CoreTableActionEdit callback={() => navigate(ROUTE_PATH.ROLES + '/' + role._id + '/update')} />
                      </PermissionAccessRoute>
                      <PermissionAccessRoute module={MODULE_PAGE.ROLES} action="VIEW_ONE">
-                        <CoreTableActionViewDetail callback={() => navigate(ROUTE_PATH.ROLES + '/' + role._id)} />
+                        <CoreTableActionViewDetail
+                           callback={() => navigate(ROUTE_PATH.ROLES + '/' + role._id + '/details')}
+                        />
                      </PermissionAccessRoute>
                   </Box>
                );

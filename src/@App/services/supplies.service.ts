@@ -32,6 +32,7 @@ export interface ReadSupplies {
    _id: string;
    isInStock: boolean;
    name_detail: string;
+   supplies_id: string;
    name_supplie: string;
    unit: string;
    discount: number;

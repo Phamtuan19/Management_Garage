@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/naming-convention */
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
-import suppliesService, { ReadSupplies, Supplies } from '@App/services/supplies.service';
+import suppliesService, { ReadSupplies } from '@App/services/supplies.service';
 import ROUTE_PATH from '@App/configs/router-path';
 import MODULE_PAGE from '@App/configs/module-page';
 import TableCore, { columnHelper } from '@Core/Component/Table';
@@ -38,7 +38,6 @@ const Supplies = () => {
    const navigate = useNavigate();
    const queryTable = useQuery(['getListSupplies'], async () => {
       const res = await suppliesService.get();
-
       return res.data;
    });
    const data = useCoreTable(queryTable);
@@ -91,16 +90,19 @@ const Supplies = () => {
          columnHelper.accessor('_id', {
             header: 'Thao tác',
             cell: ({ row }) => {
-               const supplies = row.original as Supplies;
+               const supplies = row.original as ReadSupplies;
 
                return (
                   <Box>
                      <PermissionAccessRoute module={MODULE_PAGE.SUPPLIES} action="VIEW_ONE">
                         <CoreTableActionViewDetail
-                           callback={() => navigate(ROUTE_PATH.SUPPLIES + '/' + supplies._id + '/details')}
+                           callback={() => navigate(ROUTE_PATH.SUPPLIES + '/' + supplies.supplies_id + '/details')}
                         />
                      </PermissionAccessRoute>
-                     <CoreTableActionDelete />
+                     <PermissionAccessRoute module={MODULE_PAGE.SUPPLIES} action="DELETE">
+                        <CoreTableActionDelete />
+                     </PermissionAccessRoute>
+
                      <CoreTableActionEdit
                         callback={() => navigate(ROUTE_PATH.SUPPLIES + '/' + supplies._id + '/update')}
                      />
