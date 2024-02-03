@@ -31,6 +31,9 @@ const ROUTE_PATH = {
 
    CUSTOMERS: '/customers',
 
+   // Profile
+   USER_PROFILE: '/user/profile',
+
    SIGN_IN: '/sign-in',
 
    CREATE: '/create',
