@@ -8,7 +8,7 @@ import LazyLoadingImage from '@App/component/customs/LazyLoadingImage';
 import Switch from '@App/component/customs/Switch';
 import {
    CoreTableActionDelete,
-   CoreTableActionEdit,
+   CoreTableActionLock,
    CoreTableActionViewDetail,
 } from '@Core/Component/Table/components/CoreTableAction';
 import { useMemo } from 'react';
@@ -110,10 +110,12 @@ export default function Personnels() {
                            callback={() => navigate(ROUTE_PATH.PERSONNELS + '/' + personnel._id + '/details')}
                         />
                      </PermissionAccessRoute>
-                     <CoreTableActionDelete />
-                     <CoreTableActionEdit
-                        callback={() => navigate(ROUTE_PATH.PERSONNELS + '/' + personnel._id + '/update')}
-                     />
+                     <PermissionAccessRoute module={MODULE_PAGE.PERSONNELS} action="IS_LOCK">
+                        <CoreTableActionLock />
+                     </PermissionAccessRoute>
+                     <PermissionAccessRoute module={MODULE_PAGE.PERSONNELS} action="DELETE">
+                        <CoreTableActionDelete />
+                     </PermissionAccessRoute>
                   </Box>
                );
             },
