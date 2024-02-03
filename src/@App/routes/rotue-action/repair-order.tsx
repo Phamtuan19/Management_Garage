@@ -6,7 +6,8 @@ import MODULE_PAGE from '@App/configs/module-page';
 import PermissionAccessRoute from '../components/PermissionAccessRoute';
 import Loadable from '../components/loadable';
 
-const Repairorder = Loadable('Repairorder');
+const RepairOrder = Loadable('RepairOrder');
+const RepairOrderCreate = Loadable('RepairOrder/RepairOrderCreate');
 
 const repairorderRoute: RouteObject = {
    path: ROUTE_PATH.REPAIR_ORDERS,
@@ -16,7 +17,15 @@ const repairorderRoute: RouteObject = {
          index: true,
          element: (
             <PermissionAccessRoute module={MODULE_PAGE.REPAIR_ORDERS} action={PAGE_ACTION.VIEW_ALL} type="route">
-               <Repairorder />
+               <RepairOrder />
+            </PermissionAccessRoute>
+         ),
+      },
+      {
+         path: ROUTE_PATH.REPAIR_ORDERS + ROUTE_PATH.CREATE,
+         element: (
+            <PermissionAccessRoute module={MODULE_PAGE.REPAIR_ORDERS} action={PAGE_ACTION.CREATE} type="route">
+               <RepairOrderCreate />
             </PermissionAccessRoute>
          ),
       },
