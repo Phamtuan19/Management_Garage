@@ -35,6 +35,7 @@ const SuppliesInvoicesCreate = () => {
          {/* <LoadingButton type="submit" variant="contained">
             Lưu
          </LoadingButton> */}
+
          <BaseFormSuppliesInvoices form={form} />
       </BaseBreadcrumbs>
    );

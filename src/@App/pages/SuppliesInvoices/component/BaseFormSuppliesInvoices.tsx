@@ -18,7 +18,6 @@ interface BaseFormSuppliesInvoicesPropType {
 
 const BaseFormSuppliesInvoices = ({ form }: BaseFormSuppliesInvoicesPropType) => {
    const { control } = form;
-
    const { user } = useAuth();
 
    // const { data: distributors } = useQuery(['getAllDistributor'], async () => {

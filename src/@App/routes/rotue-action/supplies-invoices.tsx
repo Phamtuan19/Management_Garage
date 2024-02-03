@@ -15,7 +15,7 @@ const suppliesInvoicesRoute: RouteObject = {
       {
          path: ROUTE_PATH.SUPPLIES_INVOICES + ROUTE_PATH.CREATE,
          element: (
-            <PermissionAccessRoute module={MODULE_PAGE.CARS} action={PAGE_ACTION.CREATE} type="route">
+            <PermissionAccessRoute module={MODULE_PAGE.SUPPLIES_INVOICES} action={PAGE_ACTION.CREATE} type="route">
                <SuppliesInvoicesCreate />
             </PermissionAccessRoute>
          ),

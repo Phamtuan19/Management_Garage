@@ -22,9 +22,9 @@ const ROUTE_PATH = {
 
    SUPPLIES_DETAILS: '/wh/supplies-details',
 
+   // Module sửa chữa FIX
    CARS: '/fix/cars',
 
-   // Module sửa chữa FIX
    REPAIR_ORDERS: '/fix/repair-orders',
 
    REPAIR_SERVICES: '/fix/repair-services',
