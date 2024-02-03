@@ -17,7 +17,7 @@ import repairServicesRoute from './rotue-action/repair-services';
 import roleRoute from './rotue-action/role';
 import suppliesInvoicesRoute from './rotue-action/supplies-invoices';
 import suppliesRoute from './rotue-action/supplies';
-
+import repairorderRoute from './rotue-action/repairorder';
 const SignIn = Loadable('auth/SignIn');
 const Doashboard = Loadable('Doashboard');
 
@@ -46,6 +46,7 @@ const routes = (): RouteObject[] => {
             customerRoute,
             distributorRoute,
             materialsCatalogRoute,
+            repairorderRoute,
             personnelRoute,
             repairServicesRoute,
             roleRoute,
