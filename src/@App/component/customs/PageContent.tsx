@@ -5,12 +5,12 @@ const PageContent = ({ children, sx }: { children?: React.ReactNode; sx?: SxProp
    return (
       <Box
          sx={({ base }) => ({
+            sx,
             marginTop: '12px',
             padding: '12px',
             border: '1px solid  #d1d5db5e',
             borderRadius: '5px',
             backgroundColor: base.background.white as string,
-            sx,
          })}
       >
          {children}
