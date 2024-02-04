@@ -45,6 +45,8 @@ const sortList = [
    },
 ];
 
+
+
 const MaterialsCatalog = () => {
    const navigate = useNavigate();
 
