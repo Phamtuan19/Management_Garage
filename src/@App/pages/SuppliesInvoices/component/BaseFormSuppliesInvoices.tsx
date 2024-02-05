@@ -56,10 +56,6 @@ const BaseFormSuppliesInvoices = ({ form }: BaseFormSuppliesInvoicesPropType) =>
    const { control } = form;
    const { user } = useAuth();
 
-   const { data: distributors } = useQuery(['getAllDistributor'], async () => {
-      const res = await distributorService.getAllField();
-      return res?.data?.map((item: any) => ({ label: item.name, _id: item._id })) || [];
-   });
 
    const { data: personnels } = useQuery(['getAllPersonnels'], async () => {
       const res = await personnelService.fieldAll();
@@ -80,15 +76,6 @@ const BaseFormSuppliesInvoices = ({ form }: BaseFormSuppliesInvoicesPropType) =>
                   <ArrowRight options={listArrowRight} check="refused" />
                </Grid>
                <Grid item xs={12} md={9}>
-                  <Box>
-                     <Autocomplete
-                        disablePortal
-                        id="combo-box-demo"
-                        options={distributors}
-                        sx={{ width: 300 }}
-                        renderInput={(params) => <TextField {...params} label="Movie" />}
-                     />
-                  </Box>
                   <PageContent sx={{ mt: 0 }}>
                      <SuppliesInvoicesTable form={form} />
                   </PageContent>

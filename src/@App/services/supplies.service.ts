@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import BaseService from '@Core/Api/BaseService';
-import { AxiosResponseData } from '@Core/Api/axios-config';
 
 const suppliesPath = {
    base: 'supplies',
@@ -41,6 +40,8 @@ export interface ReadSupplies {
    updatedAt: string;
 }
 
+
+
 class SuppliesService extends BaseService {
    BASE_ENDPOINT = suppliesPath.base;
 
@@ -49,7 +50,7 @@ class SuppliesService extends BaseService {
       this.setRequest();
    }
 
-   getAllSupplies(): Promise<AxiosResponseData> {
+   getAllSupplies(): Promise<Supplies> {
       return this.request.get(this.BASE_ENDPOINT + suppliesPath.getAll);
    }
 }

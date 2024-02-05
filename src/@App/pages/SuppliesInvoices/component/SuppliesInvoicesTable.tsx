@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/naming-convention */
 import {
+   Autocomplete,
    Box,
    Button,
    Table,
@@ -21,8 +22,12 @@ import DeleteOutlineRoundedIcon from '@mui/icons-material/DeleteOutlineRounded';
 import { useQuery } from '@tanstack/react-query';
 import suppliesService from '@App/services/supplies.service';
 import ControllerSelect from '@Core/Component/Input/ControllerSelect';
+import distributorService from '@App/services/distributor.service';
+import { useState } from 'react';
 
 import { SuppliesInvoicesSchema } from '../utils/suppliesInvoices.schema';
+
+import SearchSupplies from './SearchSupplies';
 
 const headerConfig = [
    {
@@ -71,6 +76,7 @@ const headerConfig = [
 
 const SuppliesInvoicesTable = ({ form }: { form: UseFormReturn<SuppliesInvoicesSchema> }) => {
    const { control } = form;
+   const [valueDistributor, setValueDistributor] = useState<{ _id: string; label: string } | null>(null);
 
    const { fields, append, remove } = useFieldArray({
       control,
@@ -82,22 +88,18 @@ const SuppliesInvoicesTable = ({ form }: { form: UseFormReturn<SuppliesInvoicesS
       return res.data;
    });
 
+   const { data: distributors } = useQuery(['getAllDistributor'], async () => {
+      const res = await distributorService.getAllField();
+
+      return res.data.map((item) => ({ label: item.name, _id: item._id }));
+   });
+
    return (
       <>
-         <Button
-            sx={{ minWidth: 'auto', px: '12px' }}
-            onClick={() =>
-               append({
-                  supplies_detail_id: '',
-                  quantity_received: '',
-                  cost_price: '0',
-                  selling_price: '0',
-                  describe: '',
-               })
-            }
-         >
-            <AddRoundedIcon />
-         </Button>
+         <Box display="flex" gap="12px">
+            <SearchSupplies supplies={supplies ?? []} />
+         </Box>
+
          <TableContainer>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
                <TableHead>
