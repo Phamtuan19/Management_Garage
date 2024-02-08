@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import BaseService from '@Core/Api/BaseService';
+import { AxiosResponseData } from '@Core/Api/axios-config';
 
 const suppliesPath = {
    base: 'supplies',
@@ -32,7 +33,8 @@ export interface ReadSupplies {
    isInStock: boolean;
    name_detail: string;
    supplies_id: string;
-   name_supplie: string;
+   name_supplie: number;
+   imported_price: number;
    unit: string;
    discount: number;
    name_distributor: string;
@@ -40,7 +42,9 @@ export interface ReadSupplies {
    updatedAt: string;
 }
 
-
+export interface ResponseReadSupplies extends AxiosResponseData {
+   data: ReadSupplies[];
+}
 
 class SuppliesService extends BaseService {
    BASE_ENDPOINT = suppliesPath.base;
@@ -50,8 +54,8 @@ class SuppliesService extends BaseService {
       this.setRequest();
    }
 
-   getAllSupplies(): Promise<Supplies> {
-      return this.request.get(this.BASE_ENDPOINT + suppliesPath.getAll);
+   getAllSupplies(params: { q?: string }): Promise<ResponseReadSupplies> {
+      return this.request.get(this.BASE_ENDPOINT + suppliesPath.getAll, { params });
    }
 }
 const suppliesService = new SuppliesService();

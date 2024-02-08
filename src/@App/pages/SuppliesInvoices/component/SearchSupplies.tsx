@@ -1,27 +1,44 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Box, ButtonBase, InputBase, Stack, Typography, styled } from '@mui/material';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import FormatListBulletedOutlinedIcon from '@mui/icons-material/FormatListBulletedOutlined';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import LazyLoadingImage from '@App/component/customs/LazyLoadingImage';
 import { useOnClickOutside } from '@App/hooks/useOnClickOutside';
 import ScrollbarBase from '@App/component/customs/ScrollbarBase';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import suppliesService, { ReadSupplies } from '@App/services/supplies.service';
+import useDebounce from '@App/hooks/useDebounce';
+import handlePrice from '@Core/Helper/hendlePrice';
+import { UseFormSetValue, UseFormWatch } from 'react-hook-form';
+
+import { SuppliesInvoicesSchema } from '../utils/suppliesInvoices.schema';
 
 interface SearchSupplies {
-   supplies?: {
-      _id: string;
-      name: string;
-   }[];
+   // supplies?: {
+   //    _id: string;
+   //    name: string;
+   // }[];
+   watch: UseFormWatch<SuppliesInvoicesSchema>;
+   setValue: UseFormSetValue<SuppliesInvoicesSchema>;
 }
 
-const SearchSupplies = ({ supplies }: SearchSupplies) => {
+const SearchSupplies = ({ watch, setValue }: SearchSupplies) => {
    const [open, setOpen] = useState<boolean>(false);
-   const [value, setValue] = useState<string>('');
+   const [valueSearch, setValueSearch] = useState<string>('');
 
    const ref = useRef<HTMLElement>(null);
 
    useOnClickOutside(ref, () => setOpen(false));
+
+   const valueDebounce = useDebounce(valueSearch, 500);
+
+   const { data: supplies } = useQuery(['getAllFieldSuppliesDetails', valueDebounce], async () => {
+      const res = await suppliesService.getAllSupplies({ q: valueDebounce ?? '' });
+      return res.data;
+   });
 
    const handleClickList = () => {
       setOpen(false);
@@ -32,12 +49,29 @@ const SearchSupplies = ({ supplies }: SearchSupplies) => {
    };
 
    const handleChangeInput = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-      setValue(event.target.value);
+      setValueSearch(event.target.value);
       if (event.target.value.length > 0) {
          setOpen(true);
       } else {
          setOpen(false);
       }
+   };
+
+   const handleClickSupplieItem = (supplie: ReadSupplies) => {
+      const details = watch('details');
+      setValue('details', [
+         ...details,
+         {
+            code: '',
+            name_detail: supplie.name_detail,
+            unit: supplie.unit,
+            supplies_detail_id: supplie._id,
+            quantity_received: '1',
+            cost_price: String(supplie.imported_price ?? 0),
+            selling_price: String(supplie.imported_price ?? 0),
+            describe: '',
+         },
+      ]);
    };
 
    return (
@@ -54,10 +88,10 @@ const SearchSupplies = ({ supplies }: SearchSupplies) => {
       >
          <SearchOutlinedIcon sx={{ fontSize: '22px' }} />
          <InputBase
-            value={value}
+            value={valueSearch}
             onChange={handleChangeInput}
             onClick={() => {
-               return value.length > 0 && setOpen(true);
+               return valueSearch.length > 0 && setOpen(true);
             }}
             size="small"
             sx={{ p: '8px 12px', '.css-7dqvty-MuiInputBase-input': { p: 0 } }}
@@ -87,7 +121,7 @@ const SearchSupplies = ({ supplies }: SearchSupplies) => {
                   borderRadius: '3px',
                })}
             >
-               {supplies.length > 0 ? (
+               {supplies && supplies.length > 0 ? (
                   <ScrollbarBase
                      sx={{
                         'body::-webkit-scrollbar-track': {
@@ -101,7 +135,7 @@ const SearchSupplies = ({ supplies }: SearchSupplies) => {
                      }}
                   >
                      <Stack sx={{ gap: '6px' }}>
-                        {supplies.map((item) => {
+                        {supplies.map((item: ReadSupplies) => {
                            return (
                               <ButtonBase
                                  key={item._id}
@@ -117,19 +151,20 @@ const SearchSupplies = ({ supplies }: SearchSupplies) => {
                                        color: base.color.contrastText as string,
                                     },
                                  })}
+                                 onClick={() => handleClickSupplieItem(item)}
                               >
                                  <LazyLoadingImage src="" w="36" h="36" />
                                  <Flex sx={{ flexDirection: 'column', flex: 1, gap: '6px' }}>
-                                    <Box sx={{ width: '100%', textAlign: 'left' }}>{item.name}</Box>
-                                    <Flex sx={{ gap: '12px' }}>
+                                    <Box sx={{ width: '100%', textAlign: 'left' }}>{item.name_detail}</Box>
+                                    <Flex sx={{ width: '100%', gap: '12px' }}>
                                        <Box>
                                           <span>#1122</span>
                                        </Box>
-                                       <Flex>
-                                          <p>Giá</p>
-                                          <p>12.000đ</p>
+                                       <Flex sx={{ flex: 2, gap: '3px' }}>
+                                          <p>Giá nhập:</p>
+                                          <p>{handlePrice(item.imported_price ?? 0)}</p>
                                        </Flex>
-                                       <Flex sx={{ gap: '12px' }}>
+                                       <Flex sx={{ flex: 1, gap: '6px' }}>
                                           <Box>Tồn:</Box>
                                           <Box>0</Box>
                                        </Flex>

@@ -11,6 +11,10 @@ export const suppliesInvoicesSchema = yup.object({
               .array()
               .of(
                  yup.object().shape({
+                    code: yup.string().default(''),
+                    name_detail: yup.string().default(''),
+                    unit: yup.string().default(''),
+
                     supplies_detail_id: yup
                        .string()
                        .required(messageValidate.required('Vật tư'))
@@ -38,6 +42,9 @@ export const suppliesInvoicesSchema = yup.object({
               .array()
               .of(
                  yup.object().shape({
+                    code: yup.string().default(''),
+                    name_detail: yup.string().default(''),
+                    unit: yup.string().default(''),
                     supplies_detail_id: yup.string().strict(true).trim(messageValidate.trim()).default(''),
                     quantity_received: yup.string().strict(true).trim(messageValidate.trim()).default(''),
                     cost_price: yup.string().strict(true).trim(messageValidate.trim()).default(''),

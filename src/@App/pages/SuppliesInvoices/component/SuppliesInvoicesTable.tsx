@@ -1,8 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/naming-convention */
 import {
-   Autocomplete,
    Box,
    Button,
    Table,
@@ -11,19 +8,13 @@ import {
    TableContainer,
    TableHead,
    TableRow,
-   TextField,
+   Typography,
    styled,
    tableCellClasses,
 } from '@mui/material';
-import { Control, FieldValues, UseFormReturn, useFieldArray } from 'react-hook-form';
+import { UseFormReturn, useFieldArray } from 'react-hook-form';
 import ControllerTextField from '@Core/Component/Input/ControllerTextField';
-import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import DeleteOutlineRoundedIcon from '@mui/icons-material/DeleteOutlineRounded';
-import { useQuery } from '@tanstack/react-query';
-import suppliesService from '@App/services/supplies.service';
-import ControllerSelect from '@Core/Component/Input/ControllerSelect';
-import distributorService from '@App/services/distributor.service';
-import { useState } from 'react';
 
 import { SuppliesInvoicesSchema } from '../utils/suppliesInvoices.schema';
 
@@ -71,33 +62,22 @@ const headerConfig = [
       id: 8,
       title: '',
       align: 'center',
+      width: '70px',
    },
 ];
 
 const SuppliesInvoicesTable = ({ form }: { form: UseFormReturn<SuppliesInvoicesSchema> }) => {
-   const { control } = form;
-   const [valueDistributor, setValueDistributor] = useState<{ _id: string; label: string } | null>(null);
+   const { control, watch, setValue } = form;
 
-   const { fields, append, remove } = useFieldArray({
+   const { fields, remove } = useFieldArray({
       control,
       name: 'details',
-   });
-
-   const { data: supplies } = useQuery(['getAllSupplies'], async () => {
-      const res = await suppliesService.getAllSupplies();
-      return res.data;
-   });
-
-   const { data: distributors } = useQuery(['getAllDistributor'], async () => {
-      const res = await distributorService.getAllField();
-
-      return res.data.map((item) => ({ label: item.name, _id: item._id }));
    });
 
    return (
       <>
          <Box display="flex" gap="12px">
-            <SearchSupplies supplies={supplies ?? []} />
+            <SearchSupplies watch={watch} setValue={setValue} />
          </Box>
 
          <TableContainer>
@@ -123,24 +103,20 @@ const SuppliesInvoicesTable = ({ form }: { form: UseFormReturn<SuppliesInvoicesS
                         <TableCell component="th" scope="row" align="center">
                            {index + 1}
                         </TableCell>
+
                         {/* Mã vật tư */}
                         <TableCell width="100px" align="center">
-                           #{index + 1}
+                           <Typography sx={{ fontSize: '12px' }}>{watch(`details.${index}.code`)}</Typography>
                         </TableCell>
+
                         {/* Tên vật tư */}
                         <TableCell>
                            {/* <ControllerTextField name={`details.${index}.supplies_detail_id`} control={control} /> */}
-                           <ControllerSelect
-                              options={(supplies as any) || []}
-                              name={`details.${index}.supplies_detail_id`}
-                              valuePath="_id"
-                              titlePath="name"
-                              control={control as unknown as Control<FieldValues>}
-                           />
+                           <Typography sx={{ fontSize: '16px' }}>{watch(`details.${index}.name_detail`)}</Typography>
                         </TableCell>
                         {/* Đơn vị tính */}
-                        <TableCell align="right" sx={{ width: '100px' }}>
-                           <TextField variant="standard" value={''} disabled />
+                        <TableCell align="center" sx={{ width: '100px' }}>
+                           <Typography>{watch(`details.${index}.unit`)}</Typography>
                         </TableCell>
                         {/* Số lượng */}
                         <TableCell align="right" sx={{ width: '100px' }}>
@@ -160,25 +136,11 @@ const SuppliesInvoicesTable = ({ form }: { form: UseFormReturn<SuppliesInvoicesS
                            />
                         </TableCell>
                         {/* Tổng tiền */}
-                        <TableCell align="right" sx={{ width: '130px' }}>
-                           <TextField variant="standard" value={'0'} disabled sx={{ color: 'black !important' }} />
+                        <TableCell align="center" sx={{ width: '130px' }}>
+                           <Typography>0</Typography>
                         </TableCell>
                         <TableCell align="right">
                            <Box display="flex" gap="12px">
-                              <Button
-                                 sx={{ minWidth: 'auto', px: '6px' }}
-                                 onClick={() =>
-                                    append({
-                                       supplies_detail_id: '',
-                                       quantity_received: '',
-                                       cost_price: '0',
-                                       selling_price: '0',
-                                       describe: '',
-                                    })
-                                 }
-                              >
-                                 <AddRoundedIcon sx={{ fontSize: '16px' }} />
-                              </Button>
                               <Button sx={{ minWidth: 'auto', px: '6px' }} color="error" onClick={() => remove(index)}>
                                  <DeleteOutlineRoundedIcon sx={{ fontSize: '16px' }} />
                               </Button>
