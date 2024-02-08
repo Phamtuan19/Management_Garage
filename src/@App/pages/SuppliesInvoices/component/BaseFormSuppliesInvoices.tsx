@@ -56,7 +56,6 @@ const BaseFormSuppliesInvoices = ({ form }: BaseFormSuppliesInvoicesPropType) =>
    const { control } = form;
    const { user } = useAuth();
 
-
    const { data: personnels } = useQuery(['getAllPersonnels'], async () => {
       const res = await personnelService.fieldAll();
       return res.data as { _id: string; full_name: string }[];
