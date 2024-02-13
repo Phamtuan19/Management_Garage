@@ -54,7 +54,7 @@ class SuppliesService extends BaseService {
       this.setRequest();
    }
 
-   getAllSupplies(params: { q?: string }): Promise<ResponseReadSupplies> {
+   getAllSupplies(params: { q?: string; distributor?: string }): Promise<ResponseReadSupplies> {
       return this.request.get(this.BASE_ENDPOINT + suppliesPath.getAll, { params });
    }
 }

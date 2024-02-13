@@ -2,6 +2,7 @@
 import {
    Box,
    Button,
+   Grid,
    Table,
    TableBody,
    TableCell,
@@ -15,6 +16,7 @@ import {
 import { UseFormReturn, useFieldArray } from 'react-hook-form';
 import ControllerTextField from '@Core/Component/Input/ControllerTextField';
 import DeleteOutlineRoundedIcon from '@mui/icons-material/DeleteOutlineRounded';
+import handlePrice from '@Core/Helper/hendlePrice';
 
 import { SuppliesInvoicesSchema } from '../utils/suppliesInvoices.schema';
 
@@ -41,10 +43,11 @@ const headerConfig = [
       id: 4,
       title: 'ĐVT',
       align: 'center',
+      width: '50px',
    },
    {
       id: 5,
-      title: 'Số lượng',
+      title: 'SL',
       align: 'center',
    },
    {
@@ -76,11 +79,11 @@ const SuppliesInvoicesTable = ({ form }: { form: UseFormReturn<SuppliesInvoicesS
 
    return (
       <>
-         <Box display="flex" gap="12px">
+         <Grid container spacing={2}>
             <SearchSupplies watch={watch} setValue={setValue} />
-         </Box>
+         </Grid>
 
-         <TableContainer>
+         <TableContainer sx={{ mt: 2 }}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
                <TableHead>
                   <StyledTableRow>
@@ -124,6 +127,7 @@ const SuppliesInvoicesTable = ({ form }: { form: UseFormReturn<SuppliesInvoicesS
                               variant="standard"
                               name={`details.${index}.quantity_received`}
                               control={control}
+                              number
                            />
                            {/* Số lượng */}
                         </TableCell>
@@ -133,11 +137,18 @@ const SuppliesInvoicesTable = ({ form }: { form: UseFormReturn<SuppliesInvoicesS
                               variant="standard"
                               name={`details.${index}.cost_price`}
                               control={control}
+                              number
                            />
                         </TableCell>
                         {/* Tổng tiền */}
+
                         <TableCell align="center" sx={{ width: '130px' }}>
-                           <Typography>0</Typography>
+                           <Typography>
+                              {handlePrice(
+                                 Number(watch(`details.${index}.cost_price`)) *
+                                    Number(watch(`details.${index}.quantity_received`)),
+                              )}
+                           </Typography>
                         </TableCell>
                         <TableCell align="right">
                            <Box display="flex" gap="12px">
