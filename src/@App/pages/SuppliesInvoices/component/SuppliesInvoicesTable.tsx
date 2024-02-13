@@ -2,7 +2,9 @@
 import {
    Box,
    Button,
+   ButtonBase,
    Grid,
+   InputBase,
    Table,
    TableBody,
    TableCell,
@@ -14,9 +16,10 @@ import {
    tableCellClasses,
 } from '@mui/material';
 import { UseFormReturn, useFieldArray } from 'react-hook-form';
-import ControllerTextField from '@Core/Component/Input/ControllerTextField';
 import DeleteOutlineRoundedIcon from '@mui/icons-material/DeleteOutlineRounded';
 import handlePrice from '@Core/Helper/hendlePrice';
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
 
 import { SuppliesInvoicesSchema } from '../utils/suppliesInvoices.schema';
 
@@ -77,10 +80,25 @@ const SuppliesInvoicesTable = ({ form }: { form: UseFormReturn<SuppliesInvoicesS
       name: 'details',
    });
 
+   const handleIncrease = (index: number) => {
+      setValue(`details.${index}.quantity_received`, String(Number(watch(`details.${index}.quantity_received`)) + 1));
+   };
+
+   const handleReduced = (index: number) => {
+      setValue(
+         `details.${index}.quantity_received`,
+         String(
+            Number(watch(`details.${index}.quantity_received`)) <= 1
+               ? 1
+               : Number(watch(`details.${index}.quantity_received`)) - 1,
+         ),
+      );
+   };
+
    return (
       <>
          <Grid container spacing={2}>
-            <SearchSupplies watch={watch} setValue={setValue} />
+            <SearchSupplies form={form} />
          </Grid>
 
          <TableContainer sx={{ mt: 2 }}>
@@ -122,26 +140,37 @@ const SuppliesInvoicesTable = ({ form }: { form: UseFormReturn<SuppliesInvoicesS
                            <Typography>{watch(`details.${index}.unit`)}</Typography>
                         </TableCell>
                         {/* Số lượng */}
-                        <TableCell align="right" sx={{ width: '100px' }}>
-                           <ControllerTextField
-                              variant="standard"
-                              name={`details.${index}.quantity_received`}
-                              control={control}
-                              number
-                           />
-                           {/* Số lượng */}
+                        <TableCell align="right" sx={{ width: '130px' }}>
+                           <Box display="flex" justifyContent="space-between" gap="6px">
+                              <ButtonAddQuantity onClick={() => handleIncrease(index)}>
+                                 <AddIcon sx={{ fontSize: '16px' }} />
+                              </ButtonAddQuantity>
+                              <Box display="flex" justifyContent="center">
+                                 <ExtendInputBase value={watch(`details.${index}.quantity_received`)} />
+                              </Box>
+                              <ButtonAddQuantity
+                                 sx={({ palette }) => ({
+                                    bgcolor: palette.error.main,
+                                 })}
+                                 onClick={() => {
+                                    handleReduced(index);
+                                 }}
+                              >
+                                 <RemoveIcon sx={{ fontSize: '16px' }} />
+                              </ButtonAddQuantity>
+                           </Box>
                         </TableCell>
                         {/* Đơn giá */}
                         <TableCell align="right" sx={{ width: '130px' }}>
-                           <ControllerTextField
-                              variant="standard"
-                              name={`details.${index}.cost_price`}
-                              control={control}
-                              number
+                           <ExtendInputBase
+                              value={watch(`details.${index}.cost_price`)}
+                              onChange={(e) => {
+                                 setValue(`details.${index}.cost_price`, String(Number(e.target.value)));
+                              }}
                            />
                         </TableCell>
-                        {/* Tổng tiền */}
 
+                        {/* Tổng tiền */}
                         <TableCell align="center" sx={{ width: '130px' }}>
                            <Typography>
                               {handlePrice(
@@ -167,6 +196,23 @@ const SuppliesInvoicesTable = ({ form }: { form: UseFormReturn<SuppliesInvoicesS
 };
 
 export default SuppliesInvoicesTable;
+
+const ExtendInputBase = styled(InputBase)({
+   '.css-yz9k0d-MuiInputBase-input': {
+      padding: '0px',
+      textAlign: 'center',
+   },
+});
+
+const ButtonAddQuantity = styled(ButtonBase)(({ theme }) => ({
+   backgroundColor: theme.palette.primary.main,
+   color: theme.base.text.white,
+   borderRadius: '6px',
+   display: 'flex',
+   alignItems: 'center',
+   justifyContent: 'center',
+   padding: '4px',
+}));
 
 const StyledTableRow = styled(TableRow)(() => ({
    '&:nth-of-type(odd)': {

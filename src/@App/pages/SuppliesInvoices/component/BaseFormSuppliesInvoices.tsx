@@ -9,7 +9,6 @@ import { useQuery } from '@tanstack/react-query';
 import { UseFormReturn } from 'react-hook-form';
 import PageContent from '@App/component/customs/PageContent';
 import ControllerAutoComplate from '@Core/Component/Input/ControllerAutoComplate';
-import ArrowRight from '@App/component/common/ArrowRight';
 import handlePrice from '@Core/Helper/hendlePrice';
 import { format } from 'date-fns';
 import { useConfirm } from '@Core/Component/Comfirm/CoreComfirm';
@@ -23,38 +22,39 @@ interface BaseFormSuppliesInvoicesPropType {
    form: UseFormReturn<SuppliesInvoicesSchema>;
 }
 
-const listArrowRight = [
-   {
-      title: 'Nháp',
-      name: 'draft',
-   },
-   {
-      title: 'Chờ phê duyệt',
-      name: 'waiting_approval',
-   },
-   {
-      title: 'Đã duyệt',
-      name: 'approved',
-   },
-   {
-      title: 'Đang tuyển',
-      name: 'recruiting',
-   },
-   {
-      title: 'Hoàn thành',
-      name: 'done',
-   },
-   {
-      title: 'Từ chối',
-      name: 'refused',
-   },
-];
+// const listArrowRight = [
+//    {
+//       title: 'Nháp',
+//       name: 'draft',
+//    },
+//    {
+//       title: 'Chờ phê duyệt',
+//       name: 'waiting_approval',
+//    },
+//    {
+//       title: 'Đã duyệt',
+//       name: 'approved',
+//    },
+//    {
+//       title: 'Đang tuyển',
+//       name: 'recruiting',
+//    },
+//    {
+//       title: 'Hoàn thành',
+//       name: 'done',
+//    },
+//    {
+//       title: 'Từ chối',
+//       name: 'refused',
+//    },
+// ];
 
 const BaseFormSuppliesInvoices = ({ form }: BaseFormSuppliesInvoicesPropType) => {
    const { control } = form;
    const { user } = useAuth();
    const coreConfirm = useConfirm();
 
+   // tinh tổng tiền
    const total_price =
       form.watch('details') && form.watch('details').length > 0
          ? form.watch('details').reduce((current, item) => {
@@ -90,9 +90,9 @@ const BaseFormSuppliesInvoices = ({ form }: BaseFormSuppliesInvoicesPropType) =>
       <>
          <Box component="form">
             <Grid container spacing={2}>
-               <Grid item xs={12}>
+               {/* <Grid item xs={12}>
                   <ArrowRight options={listArrowRight} check="refused" />
-               </Grid>
+               </Grid> */}
                <Grid item xs={12} md={9}>
                   <PageContent sx={{ mt: 0 }}>
                      <SuppliesInvoicesTable form={form} />

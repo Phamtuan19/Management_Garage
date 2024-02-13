@@ -55,6 +55,7 @@ export const suppliesInvoicesSchema = yup.object({
               .default([]),
    ),
    total_price: yup.number().min(0).default(0),
+   distributor: yup.string().min(0).default(''),
 });
 
 export type SuppliesInvoicesSchema = yup.InferType<typeof suppliesInvoicesSchema>;
