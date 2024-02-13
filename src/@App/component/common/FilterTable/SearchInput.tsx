@@ -72,6 +72,7 @@ const SearchInput = ({ searchType = [] }: { searchType: SortList[] }) => {
                   {searchType.map((item, index) => {
                      return (
                         <Box
+                           key={index}
                            sx={{
                               display: 'flex',
                               alignItems: 'center',
@@ -86,7 +87,7 @@ const SearchInput = ({ searchType = [] }: { searchType: SortList[] }) => {
                            onClick={() => handleClickSearchItem(item.value)}
                         >
                            <KeyboardDoubleArrowRightSharpIcon sx={{ width: '18px' }} />
-                           <Typography key={index} fontSize="16px">
+                           <Typography fontSize="16px">
                               Tìm kiếm{' '}
                               <Box
                                  component="span"

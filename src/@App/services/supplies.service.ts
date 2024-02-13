@@ -11,6 +11,7 @@ export interface Supplies {
    _id: string;
    details: {
       _id: string;
+      code: string;
       describe: string;
       distributor_id: string;
       name_detail: string;

@@ -104,7 +104,7 @@ const Supplies = () => {
                      </PermissionAccessRoute>
 
                      <CoreTableActionEdit
-                        callback={() => navigate(ROUTE_PATH.SUPPLIES + '/' + supplies._id + '/update')}
+                        callback={() => navigate(ROUTE_PATH.SUPPLIES + '/' + supplies.supplies_id + '/update')}
                      />
                   </Box>
                );
@@ -112,6 +112,7 @@ const Supplies = () => {
          }),
       ];
    }, []);
+
    return (
       <BaseBreadcrumbs arialabel="Danh sách vật tư">
          <Box display="flex" gap={1} alignItems="center">
