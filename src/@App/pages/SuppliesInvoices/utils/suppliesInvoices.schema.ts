@@ -5,6 +5,15 @@ import messageValidate from '@App/helpers/messageValidate';
 
 export const suppliesInvoicesSchema = yup.object({
    personnel_id: yup.string().required(messageValidate.required).default(''),
+   distributor_id: yup.string().min(0).default(''),
+
+   transaction: yup.object({
+      total_price: yup.number().min(0).default(0),
+      transfer_money: yup.string().default('0'),
+      cash_money: yup.string().default('0'),
+      payment_type: yup.string(),
+   }),
+
    details: yup.lazy((value: any) =>
       Array.isArray(value) && value.length > 0
          ? yup
@@ -54,8 +63,6 @@ export const suppliesInvoicesSchema = yup.object({
               )
               .default([]),
    ),
-   total_price: yup.number().min(0).default(0),
-   distributor: yup.string().min(0).default(''),
 });
 
 export type SuppliesInvoicesSchema = yup.InferType<typeof suppliesInvoicesSchema>;

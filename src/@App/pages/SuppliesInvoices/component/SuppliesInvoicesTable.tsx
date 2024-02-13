@@ -127,7 +127,7 @@ const SuppliesInvoicesTable = ({ form }: { form: UseFormReturn<SuppliesInvoicesS
 
                         {/* Mã vật tư */}
                         <TableCell width="100px" align="center">
-                           <Typography sx={{ fontSize: '12px' }}>{watch(`details.${index}.code`)}</Typography>
+                           <Typography sx={{ fontSize: '16px' }}>{watch(`details.${index}.code`)}</Typography>
                         </TableCell>
 
                         {/* Tên vật tư */}

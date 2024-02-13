@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { useEffect } from 'react';
@@ -22,35 +23,8 @@ interface BaseFormSuppliesInvoicesPropType {
    form: UseFormReturn<SuppliesInvoicesSchema>;
 }
 
-// const listArrowRight = [
-//    {
-//       title: 'Nháp',
-//       name: 'draft',
-//    },
-//    {
-//       title: 'Chờ phê duyệt',
-//       name: 'waiting_approval',
-//    },
-//    {
-//       title: 'Đã duyệt',
-//       name: 'approved',
-//    },
-//    {
-//       title: 'Đang tuyển',
-//       name: 'recruiting',
-//    },
-//    {
-//       title: 'Hoàn thành',
-//       name: 'done',
-//    },
-//    {
-//       title: 'Từ chối',
-//       name: 'refused',
-//    },
-// ];
-
 const BaseFormSuppliesInvoices = ({ form }: BaseFormSuppliesInvoicesPropType) => {
-   const { control } = form;
+   const { control, handleSubmit } = form;
    const { user } = useAuth();
    const coreConfirm = useConfirm();
 
@@ -63,26 +37,25 @@ const BaseFormSuppliesInvoices = ({ form }: BaseFormSuppliesInvoicesPropType) =>
          : 0;
 
    const { data: personnels } = useQuery(['getAllPersonnels'], async () => {
+      if (user?._id) {
+         form.setValue('personnel_id', user._id);
+      }
       const res = await personnelService.fieldAll();
       return res.data as { _id: string; full_name: string }[];
    });
 
    useEffect(() => {
-      if (user?._id) {
-         form.setValue('personnel_id', user._id);
-      }
-   }, [user?._id]);
-
-   useEffect(() => {
-      form.setValue('total_price', total_price);
+      form.setValue('transaction.total_price', total_price);
    }, [total_price]);
 
-   const handleClickAddSuppliesInvoice = () => {
+   const handleClickAddSuppliesInvoice = (data: SuppliesInvoicesSchema) => {
       coreConfirm({
          content: 'Xác nhận lưu hóa đơn nhập hàng',
          isIcon: true,
          color: 'error',
-         callback: () => {},
+         callbackOK: () => {
+            console.log(data);
+         },
       });
    };
 
@@ -90,9 +63,6 @@ const BaseFormSuppliesInvoices = ({ form }: BaseFormSuppliesInvoicesPropType) =>
       <>
          <Box component="form">
             <Grid container spacing={2}>
-               {/* <Grid item xs={12}>
-                  <ArrowRight options={listArrowRight} check="refused" />
-               </Grid> */}
                <Grid item xs={12} md={9}>
                   <PageContent sx={{ mt: 0 }}>
                      <SuppliesInvoicesTable form={form} />
@@ -117,7 +87,7 @@ const BaseFormSuppliesInvoices = ({ form }: BaseFormSuppliesInvoicesPropType) =>
                            <Box display="flex" justifyContent="space-between">
                               <ControllerLabel title="Ngày tạo" />
                               <ExtendTypography sx={{ fontWeight: 600 }}>
-                                 {format(Date(), 'MM/dd/yyyy')}
+                                 {format(Date(), 'dd/MM/yyyy')}
                               </ExtendTypography>
                            </Box>
                            <Box display="flex" justifyContent="space-between">
@@ -127,19 +97,18 @@ const BaseFormSuppliesInvoices = ({ form }: BaseFormSuppliesInvoicesPropType) =>
                            <Box display="flex" justifyContent="space-between">
                               <ControllerLabel title="Tổng tiền:" />
                               <ExtendTypography sx={{ fontWeight: 600 }}>
-                                 {handlePrice(form.watch('total_price'))}
+                                 {handlePrice(form.watch('transaction.total_price'))}
                               </ExtendTypography>
                            </Box>
                            <Box display="flex" justifyContent="space-between">
                               <ControllerLabel title="Cần thanh toán:" />
                               <ExtendTypography sx={{ fontWeight: 600 }}>
-                                 {handlePrice(form.watch('total_price'))}
+                                 {handlePrice(form.watch('transaction.total_price'))}
                               </ExtendTypography>
                            </Box>
                            <br />
                            <Box display="flex" justifyContent="space-between">
                               <ControllerLabel title="Thanh toán:" />
-                              {/* <ExtendTypography sx={{ fontWeight: 600 }}>{handlePrice(form.watch('total_price'))}</ExtendTypography> */}
                               <Button sx={{ minWidth: 'auto', px: '6px' }} variant="text" onClick={() => {}}>
                                  <CreateSharpIcon sx={{ fontSize: '16px' }} />
                               </Button>
@@ -148,15 +117,16 @@ const BaseFormSuppliesInvoices = ({ form }: BaseFormSuppliesInvoicesPropType) =>
                            <Box display="flex" justifyContent="space-between">
                               <ControllerLabel title="Công nợ:" />
                               <ExtendTypography sx={{ fontWeight: 600 }}>
-                                 {handlePrice(form.watch('total_price'))}
+                                 {handlePrice(form.watch('transaction.total_price'))}
                               </ExtendTypography>
                            </Box>
                         </Grid>
                         <Grid item xs={12}>
                            <Button
+                              type="submit"
                               disabled={form.watch('details') && form.watch('details').length === 0}
                               fullWidth
-                              onClick={handleClickAddSuppliesInvoice}
+                              onClick={handleSubmit(handleClickAddSuppliesInvoice)}
                            >
                               Lưu hóa đơn
                            </Button>

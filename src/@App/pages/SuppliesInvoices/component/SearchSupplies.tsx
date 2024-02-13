@@ -26,7 +26,7 @@ const SearchSupplies = ({ form }: SearchSupplies) => {
    const [valueSearch, setValueSearch] = useState<string>('');
 
    const ref = useRef<HTMLElement>(null);
-   const distributor_id = watch('distributor');
+   const distributor_id = watch('distributor_id');
 
    useOnClickOutside(ref, () => setOpen(false));
 
@@ -87,7 +87,7 @@ const SearchSupplies = ({ form }: SearchSupplies) => {
       setValue('details', [
          ...details,
          {
-            code: '',
+            code: supplie.code,
             name_detail: supplie.name_detail,
             unit: supplie.unit,
             supplies_detail_id: supplie._id,
@@ -127,12 +127,8 @@ const SearchSupplies = ({ form }: SearchSupplies) => {
                renderInput={(params) => <TextField {...params} />}
                // getOptionLabel={(option: { _id: string; label: string }) => option.label || ''}
                onChange={(_, value) => {
-                  if (value) {
-                     const selectedId = (value as { _id: string; label: string })._id;
-                     setValue('distributor', selectedId);
-                  } else {
-                     setValue('distributor', ''); // or whatever default value you prefer
-                  }
+                  const selectedId = value ? (value as { _id: string; label: string })._id : '';
+                  return setValue('distributor_id', selectedId);
                }}
                // isOptionEqualToValue={(option, value) => {
                //    // if (value instanceof Object) {
@@ -167,16 +163,16 @@ const SearchSupplies = ({ form }: SearchSupplies) => {
                   }}
                   disabled={Boolean(!distributor_id)}
                   size="small"
-                  sx={{ p: '6px 12px', '.css-7dqvty-MuiInputBase-input': { p: 0 } }}
+                  sx={{ p: '8px 12px', '.css-7dqvty-MuiInputBase-input': { p: 0 } }}
                   placeholder="Tìm kiếm vật tư"
                />
                <Box sx={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <ButtonBase onClick={handleClickList}>
+                  <ButtonBase onClick={handleClickList} sx={{ borderRadius: '6px' }}>
                      <FormatListBulletedOutlinedIcon
                         sx={{ fontSize: '22px', color: distributor_id ? 'black' : '#00000061' }}
                      />
                   </ButtonBase>
-                  <ButtonBase onClick={handleClickAdd}>
+                  <ButtonBase onClick={handleClickAdd} sx={{ borderRadius: '6px' }}>
                      <AddOutlinedIcon sx={{ fontSize: '22px', color: distributor_id ? 'black' : '#00000061' }} />
                   </ButtonBase>
                </Box>

@@ -31,6 +31,7 @@ export interface Supplies {
 
 export interface ReadSupplies {
    _id: string;
+   code: string;
    isInStock: boolean;
    name_detail: string;
    supplies_id: string;
