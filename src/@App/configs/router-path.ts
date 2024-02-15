@@ -18,8 +18,6 @@ const ROUTE_PATH = {
 
    SUPPLIES: '/wh/supplies',
 
-   SUPPLIES_INVOICES: '/wh/supplies-invoices',
-
    SUPPLIES_DETAILS: '/wh/supplies-details',
 
    // Module sửa chữa FIX
@@ -41,6 +39,9 @@ const ROUTE_PATH = {
    UPDATE: '/:id/update',
 
    DETAILS: '/:id/details',
+
+   // trs - giao dịch
+   SUPPLIES_INVOICES: '/trs/supplies-invoices',
 } as const;
 
 export const routePathSchema = yup.string().oneOf(Object.values(ROUTE_PATH)).required();

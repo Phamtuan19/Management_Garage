@@ -6,12 +6,21 @@ import PAGE_ACTION from '@App/configs/page-action';
 import PermissionAccessRoute from '../components/PermissionAccessRoute';
 import Loadable from '../components/loadable';
 
+const SuppliesInvoices = Loadable('SuppliesInvoices');
 const SuppliesInvoicesCreate = Loadable('SuppliesInvoices/SuppliesInvoicesCreate');
 
 const suppliesInvoicesRoute: RouteObject = {
    path: ROUTE_PATH.SUPPLIES_INVOICES,
    element: <Outlet />,
    children: [
+      {
+         path: ROUTE_PATH.SUPPLIES_INVOICES,
+         element: (
+            <PermissionAccessRoute module={MODULE_PAGE.SUPPLIES_INVOICES} action={PAGE_ACTION.VIEW_ALL} type="route">
+               <SuppliesInvoices />
+            </PermissionAccessRoute>
+         ),
+      },
       {
          path: ROUTE_PATH.SUPPLIES_INVOICES + ROUTE_PATH.CREATE,
          element: (

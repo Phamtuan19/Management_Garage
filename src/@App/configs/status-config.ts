@@ -70,3 +70,28 @@ export const PAYMENT_TYPE = {
 } as const;
 
 export type PaymentType = keyof typeof PAYMENT_TYPE;
+
+/**
+ *
+ * Trạng thái thanh toán
+ * @PAID - Đã thanh toán
+ * @UNPAID - Chưa thanh toán
+ * @DEBT - Công nợ
+ *
+ */
+export const STATUS_PAYMENT = {
+   PAID: {
+      title: 'Đã thanh toán',
+      color: 'success',
+   },
+   UNPAID: {
+      title: 'Chưa thanh toán',
+      color: 'error',
+   },
+   DEBT: {
+      title: 'Công nợ',
+      color: 'warning',
+   },
+} as const;
+
+export type StatusPayment = keyof typeof STATUS_PAYMENT;
