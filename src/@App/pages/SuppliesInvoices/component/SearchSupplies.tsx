@@ -72,12 +72,14 @@ const SearchSupplies = ({ form }: SearchSupplies) => {
       if (isCheck) {
          setValue(
             'details',
-            details.map((item) => {
-               if (item.supplies_detail_id === supplie._id) {
-                  return { ...item, quantity_received: String(Number(item.quantity_received) + 1) };
-               }
-               return item;
-            }),
+            details
+               ? details.map((item) => {
+                    if (item.supplies_detail_id === supplie._id) {
+                       return { ...item, quantity_received: item.quantity_received + 1 };
+                    }
+                    return item;
+                 })
+               : [],
          );
 
          setOpen(false);
@@ -91,9 +93,9 @@ const SearchSupplies = ({ form }: SearchSupplies) => {
             name_detail: supplie.name_detail,
             unit: supplie.unit,
             supplies_detail_id: supplie._id,
-            quantity_received: '1',
-            cost_price: String(supplie.imported_price ?? 0),
-            selling_price: String(supplie.imported_price ?? 0),
+            quantity_received: 1,
+            cost_price: supplie.imported_price ?? 0,
+            selling_price: supplie.imported_price ?? 0,
             describe: '',
          },
       ]);

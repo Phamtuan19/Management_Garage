@@ -51,3 +51,22 @@ export const CAR_STATUS = {
 } as const;
 
 export type CarStatusKeys = keyof typeof CAR_STATUS;
+
+/**
+ *
+ * Loại hình thanh toán
+ *
+ * @TRANSFER - Chuyển khoản
+ * @CASH - Tiền mặt
+ * @TRANSFER_CASH - chuyển khoản và tiền mặt
+ * @EMPTY - trống
+ *
+ */
+export const PAYMENT_TYPE = {
+   TRANSFER: 'TRANSFER',
+   CASH: 'CASH',
+   TRANSFER_CASH: 'TRANSFER_CASH',
+   EMPTY: 'EMPTY',
+} as const;
+
+export type PaymentType = keyof typeof PAYMENT_TYPE;

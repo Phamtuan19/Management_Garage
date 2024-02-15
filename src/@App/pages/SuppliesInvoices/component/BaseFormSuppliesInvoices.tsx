@@ -1,12 +1,12 @@
-/* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { useEffect } from 'react';
 import { useAuth } from '@App/redux/slices/auth.slice';
 import personnelService from '@App/services/personnel.service';
 import ControllerLabel from '@Core/Component/Input/ControllerLabel';
 import { Box, Button, Grid, Typography, styled } from '@mui/material';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { UseFormReturn } from 'react-hook-form';
 import PageContent from '@App/component/customs/PageContent';
 import ControllerAutoComplate from '@Core/Component/Input/ControllerAutoComplate';
@@ -14,6 +14,8 @@ import handlePrice from '@Core/Helper/hendlePrice';
 import { format } from 'date-fns';
 import { useConfirm } from '@Core/Component/Comfirm/CoreComfirm';
 import CreateSharpIcon from '@mui/icons-material/CreateSharp';
+import { errorMessage, successMessage } from '@Core/Helper/message';
+import suppliesInvoiceService from '@App/services/supplies-invoice';
 
 import { SuppliesInvoicesSchema } from '../utils/suppliesInvoices.schema';
 
@@ -44,6 +46,18 @@ const BaseFormSuppliesInvoices = ({ form }: BaseFormSuppliesInvoicesPropType) =>
       return res.data as { _id: string; full_name: string }[];
    });
 
+   const { mutate: createSuppliesInvoice } = useMutation({
+      mutationFn: async (data: SuppliesInvoicesSchema) => {
+         return await suppliesInvoiceService.create(data);
+      },
+      onSuccess: () => {
+         successMessage('Tạo mới nhà thành công.');
+      },
+      onError: () => {
+         return errorMessage('Đã có lỗi xảy ra');
+      },
+   });
+
    useEffect(() => {
       form.setValue('transaction.total_price', total_price);
    }, [total_price]);
@@ -54,7 +68,7 @@ const BaseFormSuppliesInvoices = ({ form }: BaseFormSuppliesInvoicesPropType) =>
          isIcon: true,
          color: 'error',
          callbackOK: () => {
-            console.log(data);
+            createSuppliesInvoice(data);
          },
       });
    };
@@ -124,7 +138,7 @@ const BaseFormSuppliesInvoices = ({ form }: BaseFormSuppliesInvoicesPropType) =>
                         <Grid item xs={12}>
                            <Button
                               type="submit"
-                              disabled={form.watch('details') && form.watch('details').length === 0}
+                              disabled={form.watch('details')?.length === 0}
                               fullWidth
                               onClick={handleSubmit(handleClickAddSuppliesInvoice)}
                            >

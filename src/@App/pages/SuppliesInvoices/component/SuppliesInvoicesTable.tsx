@@ -81,17 +81,13 @@ const SuppliesInvoicesTable = ({ form }: { form: UseFormReturn<SuppliesInvoicesS
    });
 
    const handleIncrease = (index: number) => {
-      setValue(`details.${index}.quantity_received`, String(Number(watch(`details.${index}.quantity_received`)) + 1));
+      setValue(`details.${index}.quantity_received`, watch(`details.${index}.quantity_received`) + 1);
    };
 
    const handleReduced = (index: number) => {
       setValue(
          `details.${index}.quantity_received`,
-         String(
-            Number(watch(`details.${index}.quantity_received`)) <= 1
-               ? 1
-               : Number(watch(`details.${index}.quantity_received`)) - 1,
-         ),
+         watch(`details.${index}.quantity_received`) <= 1 ? 1 : watch(`details.${index}.quantity_received`) - 1,
       );
    };
 
@@ -165,7 +161,7 @@ const SuppliesInvoicesTable = ({ form }: { form: UseFormReturn<SuppliesInvoicesS
                            <ExtendInputBase
                               value={watch(`details.${index}.cost_price`)}
                               onChange={(e) => {
-                                 setValue(`details.${index}.cost_price`, String(Number(e.target.value)));
+                                 setValue(`details.${index}.cost_price`, Number(e.target.value));
                               }}
                            />
                         </TableCell>
