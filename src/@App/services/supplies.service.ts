@@ -42,6 +42,8 @@ export interface ReadSupplies {
    name_distributor: string;
    createdAt: string;
    updatedAt: string;
+   quantity_received: number;
+   quantity_sold: number;
 }
 
 export interface ResponseReadSupplies extends AxiosResponseData {
