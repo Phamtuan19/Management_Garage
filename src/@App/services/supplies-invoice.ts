@@ -29,6 +29,37 @@ export interface SuppliesInvoicesResponse {
    total_supplies_details: number;
    total_supplies: number;
 }
+
+interface SuppliesInvoiceDetails {
+   _id: string;
+   code: string;
+   supplies_invoice_id: string;
+   supplies_detail_id: string;
+   quantity_received: number;
+   cost_price: number;
+   selling_price: number;
+   describe: string;
+   name_detail: string;
+   unit: string;
+}
+
+interface Transactions {
+   _id: string;
+   total_price: number;
+   transfer_money: number;
+   cash_money: number;
+   payment_type: string;
+}
+export interface ResponseGetSuppliesInvoice {
+   _id: string;
+   code: string;
+   describe: string;
+   details: Array<SuppliesInvoiceDetails>;
+   transactions: Transactions;
+   personnel: { _id: string; full_name: string };
+   distributor_id: string;
+}
+
 class SuppliesInvoiceService extends BaseService {
    BASE_ENDPOINT = repairorderPath.base;
    constructor() {
