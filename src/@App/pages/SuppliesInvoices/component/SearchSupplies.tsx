@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { Autocomplete, Box, ButtonBase, Grid, InputBase, Stack, TextField, Typography } from '@mui/material';
+import { Box, ButtonBase, Grid, InputBase, Stack, Typography } from '@mui/material';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import FormatListBulletedOutlinedIcon from '@mui/icons-material/FormatListBulletedOutlined';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
@@ -11,6 +11,8 @@ import suppliesService, { ReadSupplies } from '@App/services/supplies.service';
 import useDebounce from '@App/hooks/useDebounce';
 import { UseFormReturn } from 'react-hook-form';
 import distributorService from '@App/services/distributor.service';
+import ControllerAutoComplate from '@Core/Component/Input/ControllerAutoComplate';
+import { useParams } from 'react-router-dom';
 
 import { SuppliesInvoicesSchema } from '../utils/suppliesInvoices.schema';
 
@@ -21,6 +23,7 @@ interface SearchSupplies {
 }
 
 const SearchSupplies = ({ form }: SearchSupplies) => {
+   const { id: suppliesInvoiceId } = useParams();
    const { watch, setValue } = form;
    const [open, setOpen] = useState<boolean>(false);
    const [valueSearch, setValueSearch] = useState<string>('');
@@ -34,7 +37,7 @@ const SearchSupplies = ({ form }: SearchSupplies) => {
 
    const { data: distributors } = useQuery(['getAllFieldDistributors'], async () => {
       const res = await distributorService.getAllField();
-      return res.data.map((item) => ({ _id: item._id, label: item.name }));
+      return res.data;
    });
 
    const { data: supplies } = useQuery(['getAllFieldSuppliesDetails', valueDebounce, distributor_id], async () => {
@@ -111,18 +114,19 @@ const SearchSupplies = ({ form }: SearchSupplies) => {
 
    return (
       <Grid container spacing={2} mt={0.5} ml={0.5}>
-         {/* <Grid item xs={4}>
+         <Grid item xs={4}>
             <ControllerAutoComplate
                label="Nhà phân phối"
-               options={distributors ?? []}
+               options={distributors || []}
                valuePath="_id"
                titlePath="name"
-               name="distributor"
-               control={control}
+               name="distributor_id"
+               control={form.control}
+               disabled={Boolean(suppliesInvoiceId)}
             />
-         </Grid> */}
-         <Grid item xs={4}>
-            <Autocomplete
+         </Grid>
+         {/* <Grid item xs={4}> */}
+         {/* <Autocomplete
                fullWidth
                // value={autoCompleteDistributor as { _id: string; label: string } | null}
                options={distributors ?? []}
@@ -140,8 +144,8 @@ const SearchSupplies = ({ form }: SearchSupplies) => {
                //    // return option._id === value;
                //    return false;
                // }}
-            />
-         </Grid>
+            /> */}
+         {/* </Grid> */}
          <Grid item xs={8}>
             <Box
                sx={{
@@ -165,7 +169,7 @@ const SearchSupplies = ({ form }: SearchSupplies) => {
                   }}
                   disabled={Boolean(!distributor_id)}
                   size="small"
-                  sx={{ p: '8px 12px', '.css-7dqvty-MuiInputBase-input': { p: 0 } }}
+                  sx={{ p: '6px 12px', '.css-7dqvty-MuiInputBase-input': { p: 0 } }}
                   placeholder="Tìm kiếm vật tư"
                />
                <Box sx={{ display: 'flex', alignItems: 'center', gap: '6px' }}>

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/restrict-plus-operands */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/naming-convention */
 import FilterTable from '@App/component/common/FilterTable';
@@ -105,20 +106,26 @@ const SuppliesInvoices = () => {
                return <Box textAlign="center">{format(row.getValue('updatedAt'), 'yyyy-MM-dd')}</Box>;
             },
          }),
-         columnHelper.accessor('', {
+         columnHelper.accessor('_id', {
             header: 'Thao tác',
-            cell: () => {
+            cell: ({ row }) => {
                return (
                   <Box>
                      <PermissionAccessRoute module={MODULE_PAGE.SUPPLIES_INVOICES} action="DELETE">
                         <CoreTableActionDelete callback={() => {}} />
                      </PermissionAccessRoute>
                      <PermissionAccessRoute module={MODULE_PAGE.SUPPLIES_INVOICES} action="VIEW_ALL">
-                        <CoreTableActionEdit callback={() => navigate(ROUTE_PATH.ROLES + '/' + '/update')} />
+                        <CoreTableActionEdit
+                           callback={() =>
+                              navigate(ROUTE_PATH.SUPPLIES_INVOICES + '/' + row.getValue('_id') + '/update')
+                           }
+                        />
                      </PermissionAccessRoute>
                      <PermissionAccessRoute module={MODULE_PAGE.SUPPLIES_INVOICES} action="VIEW_ONE">
                         <CoreTableActionViewDetail
-                           callback={() => navigate(ROUTE_PATH.SUPPLIES_INVOICES + '/' + '/details')}
+                           callback={() =>
+                              navigate(ROUTE_PATH.SUPPLIES_INVOICES + '/' + row.getValue('_id') + '/details')
+                           }
                         />
                      </PermissionAccessRoute>
                   </Box>

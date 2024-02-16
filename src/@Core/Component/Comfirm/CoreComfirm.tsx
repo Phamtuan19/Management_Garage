@@ -115,7 +115,7 @@ function ConfirmProvider(props: { children: ReactNode }) {
                <Button
                   size="medium"
                   variant="outlined"
-                  color="primary"
+                  color="error"
                   className="text-gray-400"
                   onClick={() => {
                      void handleClose();
@@ -127,7 +127,7 @@ function ConfirmProvider(props: { children: ReactNode }) {
                   variant="contained"
                   loading={isLoading}
                   className="text-white"
-                  color={(config.color as never) ? (config.color as never) : 'primary'}
+                  color={(config.color as never) ?? 'primary'}
                   onClick={() => {
                      void handleConfirm();
                   }}
