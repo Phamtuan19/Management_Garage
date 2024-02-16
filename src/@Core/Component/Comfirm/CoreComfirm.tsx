@@ -22,7 +22,8 @@ interface ConfigType {
    content?: string | null;
    isIcon?: boolean;
    color?: string | null;
-   callback: () => Promise<void> | void;
+   callbackOK: () => Promise<void> | void;
+   callBackClose?: () => Promise<void> | void;
    confirmOk?: string | null;
    icon?: ReactNode;
 }
@@ -44,7 +45,8 @@ function ConfirmProvider(props: { children: ReactNode }) {
       content: null,
       color: null,
       confirmOk: null,
-      callback: () => {},
+      callbackOK: () => {},
+      callBackClose: () => {},
    });
    const [isOpen, setIsOpen] = useState<boolean>(false);
    const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -54,20 +56,21 @@ function ConfirmProvider(props: { children: ReactNode }) {
       setIsOpen(true);
    }, []);
 
-   const handleClose = () => {
-      setIsOpen(false);
+   const handleClose = async () => {
+      config?.callBackClose && (await config.callBackClose());
+      return setIsOpen(false);
    };
 
    const handleConfirm = async () => {
-      if (config?.callback) {
+      if (config?.callbackOK) {
          setIsLoading(true);
          try {
-            await config.callback();
+            await config.callbackOK();
          } catch (error) {
             console.error('Error during callback:', error);
          }
          setIsLoading(false);
-         handleClose();
+         setIsOpen(false);
       }
    };
 
@@ -78,7 +81,9 @@ function ConfirmProvider(props: { children: ReactNode }) {
             open={isOpen}
             PaperComponent={StyledPaper}
             keepMounted
-            onClose={handleClose}
+            onClose={() => {
+               void handleClose();
+            }}
             maxWidth="sm"
             sx={{
                zIndex: 9999,
@@ -107,7 +112,15 @@ function ConfirmProvider(props: { children: ReactNode }) {
             )}
             <Divider sx={{ margin: '10px' }} />
             <DialogActions>
-               <Button size="medium" variant="outlined" color="primary" className="text-gray-400" onClick={handleClose}>
+               <Button
+                  size="medium"
+                  variant="outlined"
+                  color="primary"
+                  className="text-gray-400"
+                  onClick={() => {
+                     void handleClose();
+                  }}
+               >
                   Hủy bỏ
                </Button>
                <LoadingButton

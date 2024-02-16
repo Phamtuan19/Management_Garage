@@ -42,7 +42,7 @@ const Header = ({ setisOpenSidebar, isOpenSidebar }: HeaderProps) => {
          title: 'Đăng xuất',
          confirmOk: 'Đăng xuất',
          content: 'Bạn có chắc muốn đăng xuất',
-         callback: authLogout,
+         callbackOK: authLogout,
       });
    };
 

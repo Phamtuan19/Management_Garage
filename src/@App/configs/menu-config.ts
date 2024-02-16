@@ -3,6 +3,7 @@ import PeopleIcon from '@mui/icons-material/People';
 import FaceRetouchingNaturalIcon from '@mui/icons-material/FaceRetouchingNatural';
 import WidgetsOutlinedIcon from '@mui/icons-material/WidgetsOutlined';
 import ConstructionRoundedIcon from '@mui/icons-material/ConstructionRounded';
+import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 
 import PAGE_ACTION from './page-action';
 import ROUTE_PATH from './router-path';
@@ -76,7 +77,6 @@ const menuConfig: MenuConfigItem[] = [
          },
       ],
    },
-
    {
       id: 4,
       title: 'Nhân sự',
@@ -111,6 +111,22 @@ const menuConfig: MenuConfigItem[] = [
             title: 'Khách hàng',
             link: ROUTE_PATH.CUSTOMERS,
             module: MODULE_PAGE.CUSTOMERS,
+            action: PAGE_ACTION.VIEW_ALL,
+         },
+      ],
+   },
+   {
+      id: 6,
+      title: 'Giao dịch',
+      link: '/trs',
+      icon: ReceiptLongIcon,
+      module: MODULE_PAGE.DOASHBOARD,
+      children: [
+         {
+            id: 6.1,
+            title: 'Nhập hàng',
+            link: ROUTE_PATH.SUPPLIES_INVOICES,
+            module: MODULE_PAGE.SUPPLIES_INVOICES,
             action: PAGE_ACTION.VIEW_ALL,
          },
       ],

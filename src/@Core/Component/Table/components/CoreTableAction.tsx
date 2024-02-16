@@ -19,7 +19,7 @@ export const CoreTableActionDelete = ({
          content: content,
          isIcon: true,
          color: 'error',
-         callback,
+         callbackOK: callback,
       });
    };
 

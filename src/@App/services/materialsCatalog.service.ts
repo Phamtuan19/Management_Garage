@@ -25,6 +25,10 @@ export interface MaterialsCatalogResponse {
    updatedAt: string;
 }
 
+export interface ResponseGetAllFieldMaterialsCatalog extends AxiosResponseData {
+   data: Pick<MaterialsCatalogResponse, '_id' | 'name'>[];
+}
+
 class MaterialsCatalogService extends BaseService {
    BASE_ENDPOINT = permissionServicePath.base;
 
@@ -33,7 +37,7 @@ class MaterialsCatalogService extends BaseService {
       this.setRequest();
    }
 
-   getAll(): Promise<AxiosResponseData> {
+   getAll(): Promise<ResponseGetAllFieldMaterialsCatalog> {
       return this.request(this.BASE_ENDPOINT + permissionServicePath.getAllQuery);
    }
 }

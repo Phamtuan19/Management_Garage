@@ -10,7 +10,7 @@ interface StyledBoxProps {
    item: { title: string; name: string };
    check: string;
    index: number;
-   isLast: boolean;
+   islast: string;
 }
 
 const ArrowRight = ({ options, check }: ArrowRightType) => {
@@ -26,7 +26,13 @@ const ArrowRight = ({ options, check }: ArrowRightType) => {
          })}
       >
          {options.map((item: { title: string; name: string }, index: number) => (
-            <StyledBox key={index} item={item} check={check} index={index} isLast={index + 1 === options.length}>
+            <StyledBox
+               key={index}
+               item={item}
+               check={check}
+               index={index}
+               islast={String(index + 1 === options.length)}
+            >
                {index !== 0 && item.name === check && (
                   <Box
                      sx={{
@@ -66,7 +72,7 @@ const ArrowRight = ({ options, check }: ArrowRightType) => {
    );
 };
 
-const StyledBox = styled(Box)<StyledBoxProps>(({ theme, item, check, index, isLast }) => ({
+const StyledBox = styled(Box)<StyledBoxProps>(({ theme, item, check, index, islast }) => ({
    position: 'relative',
    height: '32px',
    width: 'auto',
@@ -75,7 +81,7 @@ const StyledBox = styled(Box)<StyledBoxProps>(({ theme, item, check, index, isLa
    borderLeft: index === 0 ? '1px solid #DADADA' : 'none',
    //    borderLeft: index !== 0 ? `1px solid transparent` : 'none',
    paddingLeft: index !== 0 ? theme.spacing(3) : '0',
-   paddingRight: isLast ? theme.spacing(3) : theme.spacing(2),
+   paddingRight: islast ? theme.spacing(3) : theme.spacing(2),
    display: 'flex',
    alignItems: 'center',
    justifyContent: 'center',

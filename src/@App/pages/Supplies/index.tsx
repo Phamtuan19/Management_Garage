@@ -18,6 +18,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import useCoreTable from '@App/hooks/useCoreTable';
 import PageContent from '@App/component/customs/PageContent';
 import FilterTable from '@App/component/common/FilterTable';
+import LazyLoadingImage from '@App/component/customs/LazyLoadingImage';
 
 const sortList = [
    {
@@ -51,7 +52,15 @@ const Supplies = () => {
          }),
          columnHelper.accessor('code', {
             header: () => <Box sx={{ textAlign: 'center' }}>Mã</Box>,
-            cell: (info) => <Box sx={{ textAlign: 'center' }}>{info.getValue()}</Box>,
+            cell: (info) => <Box sx={{ textAlign: 'center' }}>#{info.getValue()}</Box>,
+         }),
+         columnHelper.accessor('avatar', {
+            header: () => <Box sx={{ textAlign: 'center' }}>Hình ảnh</Box>,
+            cell: ({ row }) => (
+               <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                  <LazyLoadingImage src={row.getValue('avatar')} w="35" h="35" style={{ borderRadius: '50%' }} />
+               </Box>
+            ),
          }),
          columnHelper.accessor('name_supplie', {
             header: 'Nhóm vật tư',
@@ -64,6 +73,20 @@ const Supplies = () => {
          }),
          columnHelper.accessor('unit', {
             header: 'DVT',
+         }),
+         columnHelper.accessor('quantity_received', {
+            header: () => <Box sx={{ textAlign: 'center' }}>SL Nhập</Box>,
+            cell: ({ row }) => {
+               const supplies = row.original as ReadSupplies;
+               return <Typography textAlign="center">{supplies.quantity_received} sp</Typography>;
+            },
+         }),
+         columnHelper.accessor('quantity_sold', {
+            header: () => <Box sx={{ textAlign: 'center' }}>SL Bán</Box>,
+            cell: ({ row }) => {
+               const supplies = row.original as ReadSupplies;
+               return <Typography textAlign="center">{supplies.quantity_sold} sp</Typography>;
+            },
          }),
          columnHelper.accessor('discount', {
             header: () => <Typography textAlign="center">Giảm giá</Typography>,
@@ -87,7 +110,7 @@ const Supplies = () => {
                );
             },
          }),
-         columnHelper.accessor('_id', {
+         columnHelper.accessor('', {
             header: 'Thao tác',
             cell: ({ row }) => {
                const supplies = row.original as ReadSupplies;
@@ -104,7 +127,7 @@ const Supplies = () => {
                      </PermissionAccessRoute>
 
                      <CoreTableActionEdit
-                        callback={() => navigate(ROUTE_PATH.SUPPLIES + '/' + supplies._id + '/update')}
+                        callback={() => navigate(ROUTE_PATH.SUPPLIES + '/' + supplies.supplies_id + '/update')}
                      />
                   </Box>
                );
@@ -112,6 +135,7 @@ const Supplies = () => {
          }),
       ];
    }, []);
+
    return (
       <BaseBreadcrumbs arialabel="Danh sách vật tư">
          <Box display="flex" gap={1} alignItems="center">

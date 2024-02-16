@@ -49,16 +49,19 @@ const FormSuppliesDetails = ({ form }: { form: UseFormReturn<SuppliesSchema> }) 
                }}
             >
                Thêm vật tư chi tiết
-               {/* <Box component="span" ml={0.5} color="red">
-          *
-       </Box> */}
             </Typography>
             {fields.length === 0 && watch('name') && (
                <Button
                   size="small"
                   sx={{ minWidth: 'auto', px: '12px' }}
                   onClick={() =>
-                     append({ distributor_id: '', name_detail: watch('name'), describe: '', imported_price: '0' })
+                     append({
+                        code: '',
+                        distributor_id: '',
+                        name_detail: watch('name'),
+                        describe: '',
+                        imported_price: '0',
+                     })
                   }
                >
                   <AddRoundedIcon />
@@ -68,7 +71,16 @@ const FormSuppliesDetails = ({ form }: { form: UseFormReturn<SuppliesSchema> }) 
          {fields.map((item, index) => {
             return (
                <>
-                  <Grid container spacing={2} mt={0.5} key={item.id}>
+                  <Grid container spacing={1} mt={0.5} key={item.id}>
+                     <Grid item xs={12} md={1}>
+                        <ControllerLabel title="Mã vật tư" />
+                        <ControllerTextField
+                           disabled
+                           placeholder="Tự động"
+                           name={`details.${index}.code`}
+                           control={control}
+                        />
+                     </Grid>
                      <Grid item xs={12} md={3}>
                         <ControllerLabel title="Nhà phân phối" required />
 
@@ -84,11 +96,11 @@ const FormSuppliesDetails = ({ form }: { form: UseFormReturn<SuppliesSchema> }) 
                         <ControllerLabel title="Tên riêng" />
                         <ControllerTextField name={`details.${index}.name_detail`} control={control} />
                      </Grid>
-                     <Grid item xs={12} md={1.8}>
+                     <Grid item xs={12} md={1}>
                         <ControllerLabel title="Giá nhập" />
                         <ControllerTextField number name={`details.${index}.imported_price`} control={control} />
                      </Grid>
-                     <Grid item xs={12} md={3}>
+                     <Grid item xs={12} md={2.8}>
                         <ControllerLabel title="Mô tả ngắn" />
                         <ControllerTextField name={`details.${index}.describe`} control={control} />
                      </Grid>
@@ -99,6 +111,7 @@ const FormSuppliesDetails = ({ form }: { form: UseFormReturn<SuppliesSchema> }) 
                                  sx={{ minWidth: 'auto', px: '12px' }}
                                  onClick={() =>
                                     append({
+                                       code: '',
                                        distributor_id: '',
                                        name_detail: watch('name'),
                                        describe: '',

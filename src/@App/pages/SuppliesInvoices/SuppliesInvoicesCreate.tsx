@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import ROUTE_PATH from '@App/configs/router-path';
 import { useForm } from 'react-hook-form';
@@ -17,17 +16,7 @@ const breadcrumbs = [
 const SuppliesInvoicesCreate = () => {
    const form = useForm<SuppliesInvoicesSchema>({
       resolver: yupResolver(suppliesInvoicesSchema),
-      defaultValues: {
-         details: [
-            {
-               supplies_detail_id: '',
-               quantity_received: '0',
-               cost_price: '0',
-               selling_price: '0',
-               describe: '',
-            },
-         ],
-      },
+      defaultValues: suppliesInvoicesSchema.getDefault(),
    });
 
    return (
@@ -35,6 +24,7 @@ const SuppliesInvoicesCreate = () => {
          {/* <LoadingButton type="submit" variant="contained">
             Lưu
          </LoadingButton> */}
+
          <BaseFormSuppliesInvoices form={form} />
       </BaseBreadcrumbs>
    );
