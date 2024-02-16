@@ -5,19 +5,17 @@ import { useEffect } from 'react';
 import { useAuth } from '@App/redux/slices/auth.slice';
 import personnelService from '@App/services/personnel.service';
 import ControllerLabel from '@Core/Component/Input/ControllerLabel';
-import { Box, Button, Grid, Typography, styled } from '@mui/material';
+import { Box, Button, Grid } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import { UseFormReturn } from 'react-hook-form';
 import PageContent from '@App/component/customs/PageContent';
 import ControllerAutoComplate from '@Core/Component/Input/ControllerAutoComplate';
-import handlePrice from '@Core/Helper/hendlePrice';
-import { format } from 'date-fns';
-import CreateSharpIcon from '@mui/icons-material/CreateSharp';
 import { useParams } from 'react-router-dom';
 
 import { SuppliesInvoicesSchema } from '../utils/suppliesInvoices.schema';
 
 import SuppliesInvoicesTable from './SuppliesInvoicesTable';
+import SuppliesInvoiceInfo from './SuppliesInvoiceInfo';
 
 interface BaseFormSuppliesInvoicesPropType {
    form: UseFormReturn<SuppliesInvoicesSchema>;
@@ -75,42 +73,7 @@ const BaseFormSuppliesInvoices = ({ form, handleSubmitSuppliesInvoice }: BaseFor
                            </Box>
                         </Grid>
                         <Grid item xs={12}>
-                           <Box display="flex" justifyContent="space-between">
-                              <ControllerLabel title="Ngày tạo" />
-                              <ExtendTypography sx={{ fontWeight: 600 }}>
-                                 {format(Date(), 'dd/MM/yyyy')}
-                              </ExtendTypography>
-                           </Box>
-                           <Box display="flex" justifyContent="space-between">
-                              <ControllerLabel title="Trạng thái:" />
-                              <ExtendTypography>Nháp</ExtendTypography>
-                           </Box>
-                           <Box display="flex" justifyContent="space-between">
-                              <ControllerLabel title="Tổng tiền:" />
-                              <ExtendTypography sx={{ fontWeight: 600 }}>
-                                 {handlePrice(form.watch('transaction.total_price'))}
-                              </ExtendTypography>
-                           </Box>
-                           <Box display="flex" justifyContent="space-between">
-                              <ControllerLabel title="Cần thanh toán:" />
-                              <ExtendTypography sx={{ fontWeight: 600 }}>
-                                 {handlePrice(form.watch('transaction.total_price'))}
-                              </ExtendTypography>
-                           </Box>
-                           <br />
-                           <Box display="flex" justifyContent="space-between">
-                              <ControllerLabel title="Thanh toán:" />
-                              <Button sx={{ minWidth: 'auto', px: '6px' }} variant="text" onClick={() => {}}>
-                                 <CreateSharpIcon sx={{ fontSize: '16px' }} />
-                              </Button>
-                           </Box>
-                           <br />
-                           <Box display="flex" justifyContent="space-between">
-                              <ControllerLabel title="Công nợ:" />
-                              <ExtendTypography sx={{ fontWeight: 600 }}>
-                                 {handlePrice(form.watch('transaction.total_price'))}
-                              </ExtendTypography>
-                           </Box>
+                           <SuppliesInvoiceInfo form={form} />
                         </Grid>
                         <Grid item xs={12}>
                            <Button
@@ -130,18 +93,5 @@ const BaseFormSuppliesInvoices = ({ form, handleSubmitSuppliesInvoice }: BaseFor
       </>
    );
 };
-
-const ExtendTypography = styled(Typography)(({ theme }) => ({
-   color: theme.base.text.gray2,
-   display: 'flex',
-   alignItems: 'center',
-   fontSize: 15,
-   padding: '5px 0',
-   fontWeight: 500,
-   gap: 0.5,
-   pt: 0,
-   pb: 0.5,
-   pl: 0.5,
-}));
 
 export default BaseFormSuppliesInvoices;
