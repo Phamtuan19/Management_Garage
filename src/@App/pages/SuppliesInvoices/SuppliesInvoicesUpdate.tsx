@@ -79,8 +79,15 @@ const SuppliesInvoicesUpdate = () => {
    });
 
    const handleSubmitSuppliesInvoice = (data: SuppliesInvoicesSchema) => {
+      const textComfirm =
+         Number(form.watch('transaction.total_price')) -
+            (Number(form.watch('transaction.cash_money')) + Number(form.watch('transaction.transfer_money'))) <=
+         0
+            ? 'Xác nhận lưu hóa đơn nhập hàng'
+            : 'Đơn hàng chưa được thanh toán. bạn có muốn lưu lại?';
+
       coreConfirm({
-         content: 'Xác nhận lưu hóa đơn nhập hàng',
+         content: textComfirm,
          isIcon: true,
          callbackOK: () => {
             updateSuppliesInvoice(data);

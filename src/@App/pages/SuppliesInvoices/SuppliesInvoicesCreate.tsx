@@ -30,7 +30,7 @@ const SuppliesInvoicesCreate = () => {
          return await suppliesInvoiceService.create(data);
       },
       onSuccess: () => {
-         successMessage('Tạo mới nhà thành công.');
+         successMessage('Tạo mới thành công.');
       },
       onError: () => {
          return errorMessage('Đã có lỗi xảy ra');
