@@ -67,7 +67,9 @@ const SuppliesInvoiceInfo = ({ form }: SuppliesInvoiceInfoProps) => {
          <br />
          <Box display="flex" justifyContent="space-between">
             <ControllerLabel title="Cần thanh toán:" />
-            <ExtendTypography sx={{ fontWeight: 600 }}>{handlePrice(debt)}</ExtendTypography>
+            <ExtendTypography sx={{ fontWeight: 600, color: Number(total_price) >= 0 ? 'red' : '#555555' }}>
+               {handlePrice(debt)}
+            </ExtendTypography>
          </Box>
 
          {/* Modal thanh toán */}
