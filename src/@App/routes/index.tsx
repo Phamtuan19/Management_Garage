@@ -18,6 +18,7 @@ import roleRoute from './rotue-action/role';
 import suppliesInvoicesRoute from './rotue-action/supplies-invoices';
 import suppliesRoute from './rotue-action/supplies';
 import repairorderRoute from './rotue-action/repair-order';
+import repairServicesRoutes from './rotue-action/repair-services';
 const SignIn = Loadable('auth/SignIn');
 const Doashboard = Loadable('Doashboard');
 
@@ -51,6 +52,7 @@ const routes = (): RouteObject[] => {
             roleRoute,
             suppliesInvoicesRoute,
             suppliesRoute,
+            repairServicesRoutes,
          ],
       },
 
