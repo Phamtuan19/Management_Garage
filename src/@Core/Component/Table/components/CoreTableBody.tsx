@@ -20,10 +20,11 @@ import { Table as TypeReactTable, flexRender } from '@tanstack/react-table';
 interface TabelHeaderProps<T> {
    table: TypeReactTable<T>;
    isLoading: boolean;
+   noData: React.ReactNode;
 }
 
 function CoreTableBody<T>(props: TabelHeaderProps<T>) {
-   const { table, isLoading } = props;
+   const { table, isLoading, noData } = props;
 
    const renderTableBody = () => {
       const { rows } = table && table.getRowModel();
@@ -53,7 +54,7 @@ function CoreTableBody<T>(props: TabelHeaderProps<T>) {
          return (
             <StyledTableRow>
                <StyledTableCell align="center" colSpan={allColumns.length} sx={{ py: 2 }}>
-                  Không tìm thấy dữ liệu!
+                  {noData ? noData : 'Không tìm thấy dữ liệu!'}
                </StyledTableCell>
             </StyledTableRow>
          );

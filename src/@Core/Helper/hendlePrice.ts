@@ -1,4 +1,4 @@
-const handlePrice = (number: number, space: string = '.', currencyUnit: string = 'đ'): string => {
+const handlePrice = (number: number | string, space: string = '.', currencyUnit: string = 'đ'): string => {
    if (!number || number === 0) {
       return 0 + currencyUnit;
    }
