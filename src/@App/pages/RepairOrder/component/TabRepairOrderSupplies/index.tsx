@@ -1,65 +1,68 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/naming-convention */
 import TableCore, { columnHelper } from '@Core/Component/Table';
-import { Box, Button, ButtonBase, IconButton, InputBase, Typography, styled } from '@mui/material';
+import { Box, ButtonBase, IconButton, InputBase, Typography, styled } from '@mui/material';
 import { UseFormReturn, useFieldArray } from 'react-hook-form';
 import ControllerAutoComplate from '@Core/Component/Input/ControllerAutoComplate';
 import handlePrice from '@Core/Helper/hendlePrice';
-import { useMutation, useQuery } from '@tanstack/react-query';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import DeleteIcon from '@mui/icons-material/Delete';
-import suppliesService, { ReadSupplies } from '@App/services/supplies.service';
-import distributorService from '@App/services/distributor.service';
+import { useQuery } from '@tanstack/react-query';
+import suppliesInvoiceService from '@App/services/supplies-invoice';
+import { useConfirm } from '@Core/Component/Comfirm/CoreComfirm';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import { ReadSupplies } from '@App/services/supplies.service';
 
-import { RepairorderSchema } from '../utils/repairorderSchema';
+import { RepairorderSchema } from '../../utils/repairorderSchema';
+
+import FilterSearchSupplies from './FilterSearchSupplies';
 
 interface TabRepairOrderSuppliesPropType {
    form: UseFormReturn<RepairorderSchema>;
 }
 
-const appendFieldArray = {
-   describe: '',
-   discount: 0,
-   selling_price: 0,
-   quantity: 1,
-   surcharge: 0,
-   supplies_detail_id: '',
-   code: '',
-   distributor_id: '',
-   supplies_invoices_code: '',
-};
-
 const TabRepairOrderSupplies = ({ form }: TabRepairOrderSuppliesPropType) => {
    const { watch, control, setValue } = form;
+   const coreConfirm = useConfirm();
 
    const serviceOrder = watch('suppliesOrder');
 
-   const { remove, append } = useFieldArray({
+   const { remove } = useFieldArray({
       control,
       name: 'suppliesOrder',
    });
 
-   const {
-      data: suppliesDetail,
-      isLoading,
-      mutate: handleGetSupplies,
-   } = useMutation(['getAllfieldSupplies'], async (distributor_id: string) => {
-      const res = await suppliesService.getAllSupplies({
-         distributor_id,
-      });
-      return res.data;
-   });
-
-   const { data: distributors } = useQuery(['getAllFieldDistributors'], async () => {
-      const res = await distributorService.getAllField();
-      return res.data;
-   });
-
    // Tăng số lượng vật tư
    const handleIncrease = (index: number) => {
-      setValue(`suppliesOrder.${index}.quantity`, watch(`suppliesOrder.${index}.quantity`) + 1);
+      const quantity = watch(`suppliesOrder.${index}.quantity`) + 1;
+
+      if (quantity > watch(`suppliesOrder.${index}.total_supplies_crrent`)) {
+         return coreConfirm({
+            icon: <ErrorOutlineIcon sx={{ fontSize: '56px' }} color="warning" />,
+            title: 'Cảnh báo',
+            confirmOk: 'Xác nhận',
+            content: 'Sản phẩm này trong lô hàng không đủ số lượng.',
+            callbackOK: () => {},
+            isIcon: true,
+         });
+      }
+
+      return setValue(`suppliesOrder.${index}.quantity`, watch(`suppliesOrder.${index}.quantity`) + 1);
    };
+
+   const { data: suppliesDetails } = useQuery(
+      ['getListSuppliesDetails'],
+      async () => {
+         const res = await suppliesInvoiceService.getListSuppliesInvoiceDetails();
+         return res.data;
+      },
+      {},
+   );
 
    // Giảm số lượng vật tư
    const handleReduced = (index: number) => {
@@ -91,24 +94,13 @@ const TabRepairOrderSupplies = ({ form }: TabRepairOrderSuppliesPropType) => {
             return <Box sx={{ textAlign: 'center' }}>#{supllies.code}</Box>;
          },
       }),
-      columnHelper.accessor('distributor_id', {
-         id: 'distributor_id',
+      columnHelper.accessor('distributor_name', {
+         id: 'distributor_name',
          header: () => <Box>Nhà phân phối</Box>,
          cell: ({ row }) => {
             return (
-               <Box sx={{ textAlign: 'center', minWidth: '200px' }}>
-                  <ControllerAutoComplate
-                     name={`suppliesOrder.${row.index}.distributor_id`}
-                     options={(distributors as never) || []}
-                     valuePath="_id"
-                     titlePath="name"
-                     control={control}
-                     loading={isLoading}
-                     onChange={(value: { _id: string; name: string }) => {
-                        // setValue(`suppliesOrder.${row.index}.distributor_id`, value._id);
-                        handleGetSupplies(value._id);
-                     }}
-                  />
+               <Box sx={{ textAlign: 'left', maxWidth: '200px' }}>
+                  <Typography>{watch(`suppliesOrder.${row.index}.distributor_name`)}</Typography>
                </Box>
             );
          },
@@ -118,54 +110,60 @@ const TabRepairOrderSupplies = ({ form }: TabRepairOrderSuppliesPropType) => {
          header: () => <Box>Vật tư</Box>,
          cell: ({ row }) => {
             return (
-               <Box sx={{ textAlign: 'center', minWidth: '200px' }}>
+               <Box sx={{ textAlign: 'left', maxWidth: '200px' }}>
+                  <Typography>{watch(`suppliesOrder.${row.index}.name_detail`)}</Typography>
+               </Box>
+            );
+         },
+      }),
+      columnHelper.accessor('supplies_invoices_code', {
+         id: 'supplies_invoices_code',
+         header: () => <Box sx={{ textAlign: 'center' }}>Mã Lô hàng</Box>,
+         cell: ({ row }) => {
+            const dataSuppliesDetails = suppliesDetails
+               ? suppliesDetails.filter(
+                    (item) => item.supplies_detail_id === watch(`suppliesOrder.${row.index}.supplies_detail_id`),
+                 )
+               : [];
+            console.log(watch(`suppliesOrder.${row.index}.supplies_invoices_id`));
+            console.log(dataSuppliesDetails);
+            return (
+               <Box sx={{ textAlign: 'center', minWidth: '150px' }}>
                   <ControllerAutoComplate
-                     name={`suppliesOrder.${row.index}.supplies_detail_id`}
-                     options={(suppliesDetail as never) || []}
-                     valuePath="_id"
-                     titlePath="name_detail"
+                     name={`suppliesOrder.${row.index}.supplies_invoices_id`}
+                     options={dataSuppliesDetails as any}
+                     valuePath="supplies_invoice_id"
+                     titlePath="code"
                      control={control}
-                     loading={isLoading}
-                     disabled={Boolean(!watch(`suppliesOrder.${row.index}.distributor_id`))}
-                     onChange={(value: ReadSupplies) => {
-                        setValue(`suppliesOrder.${row.index}.supplies_detail_id`, value._id);
-                        setValue(`suppliesOrder.${row.index}.code`, value.code);
-                        setValue(`suppliesOrder.${row.index}.selling_price`, value.selling_price);
-                        setValue(`suppliesOrder.${row.index}.discount`, value.discount);
+                     onChange={(e: ReadSupplies) => {
+                        if (e.quantity_received < watch(`suppliesOrder.${row.index}.total_supplies_crrent`)) {
+                           setValue(`suppliesOrder.${row.index}.quantity`, e.quantity_received);
+                        }
+
+                        if (e.quantity_received === 0) {
+                           setValue(`suppliesOrder.${row.index}.quantity`, e.quantity_received);
+                        }
+                        setValue(`suppliesOrder.${row.index}.total_supplies_crrent`, e.quantity_received);
                      }}
                   />
                </Box>
             );
          },
       }),
-      columnHelper.accessor('code', {
-         id: 'code',
-         header: () => <Box sx={{ textAlign: 'center' }}>Mã Lô hàng</Box>,
-         cell: ({ row }) => {
-            return (
-               <Box sx={{ textAlign: 'center', minWidth: '100px' }}>
-                  <ControllerAutoComplate
-                     name={`suppliesOrder.${row.index}.supplies_invoices_code`}
-                     options={(distributors as never) || []}
-                     valuePath="_id"
-                     titlePath="name"
-                     control={control}
-                     loading={isLoading}
-                     disabled={Boolean(!watch(`suppliesOrder.${row.index}.distributor_id`))}
-                     onChange={(value: { _id: string; name: string }) => {
-                        // setValue(`suppliesOrder.${row.index}.distributor_id`, value._id);
-                        handleGetSupplies(value._id);
-                     }}
-                  />
-               </Box>
-            );
-         },
+      columnHelper.accessor('price', {
+         id: 'price',
+         header: () => <Box sx={{ textAlign: 'center' }}>Tòn kho</Box>,
+         cell: ({ row }) => (
+            <Box sx={{ textAlign: 'center', width: '100px' }}>
+               <Typography>{watch(`suppliesOrder.${row.index}.total_supplies_crrent`) ?? 0}</Typography>
+            </Box>
+         ),
       }),
       columnHelper.accessor('quantity', {
          id: 'quantity',
          header: () => <Box sx={{ textAlign: 'center' }}>SL</Box>,
          cell: ({ row }) => (
-            <Box display="flex" width="90px" justifyContent="space-between" gap="6px">
+            <Box display="flex" width="100px" justifyContent="space-between" gap="6px">
                <ButtonAddQuantity onClick={() => handleIncrease(row.index)}>
                   <AddIcon sx={{ fontSize: '16px' }} />
                </ButtonAddQuantity>
@@ -189,14 +187,14 @@ const TabRepairOrderSupplies = ({ form }: TabRepairOrderSuppliesPropType) => {
          id: 'price',
          header: () => <Box sx={{ textAlign: 'center' }}>Giá</Box>,
          cell: ({ row }) => (
-            <Box sx={{ textAlign: 'center' }}>
+            <Box sx={{ textAlign: 'center', width: '100px' }}>
                <Typography>{handlePrice(watch(`suppliesOrder.${row.index}.selling_price`) ?? 0)}</Typography>
             </Box>
          ),
       }),
       columnHelper.accessor('discount', {
          id: 'discount',
-         header: () => <Box sx={{ textAlign: 'center' }}>Giảm giá</Box>,
+         header: () => <Box sx={{ textAlign: 'center', width: '100px' }}>Giảm giá</Box>,
          cell: ({ row }) => (
             <Box sx={{ textAlign: 'center' }}>
                <Typography>{handlePrice(watch(`suppliesOrder.${row.index}.discount`) ?? 0)}</Typography>
@@ -205,7 +203,7 @@ const TabRepairOrderSupplies = ({ form }: TabRepairOrderSuppliesPropType) => {
       }),
       columnHelper.accessor('total_price', {
          id: 'total_price',
-         header: () => <Box sx={{ textAlign: 'center' }}>Tổng</Box>,
+         header: () => <Box sx={{ textAlign: 'center', width: '100px' }}>Tổng</Box>,
          cell: ({ row }) => (
             <Box sx={{ textAlign: 'center' }}>
                <Typography>
@@ -224,7 +222,7 @@ const TabRepairOrderSupplies = ({ form }: TabRepairOrderSuppliesPropType) => {
             return (
                <Box display="flex" justifyContent="right" gap="6px">
                   {serviceOrder.length === row.index + 1 && (
-                     <IconButton color="primary" onClick={() => append(appendFieldArray)}>
+                     <IconButton color="primary" onClick={() => {}}>
                         <AddIcon />
                      </IconButton>
                   )}
@@ -238,14 +236,10 @@ const TabRepairOrderSupplies = ({ form }: TabRepairOrderSuppliesPropType) => {
    ];
 
    return (
-      <>
-         <TableCore
-            columns={columnsService}
-            data={serviceOrder ?? []}
-            isPagination={false}
-            noData={<Button onClick={() => append(appendFieldArray)}>Thêm Vật tư</Button>}
-         />
-      </>
+      <Box>
+         <FilterSearchSupplies form={form} />
+         <TableCore height={380} columns={columnsService} data={serviceOrder ?? []} isPagination={false} />
+      </Box>
    );
 };
 

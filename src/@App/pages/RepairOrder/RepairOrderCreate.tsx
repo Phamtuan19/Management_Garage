@@ -33,10 +33,12 @@ const RepairOrderCreate = () => {
          return errorMessage(err);
       },
    });
-   const onSubmitForm: SubmitHandler<RepairorderSchema> = (data) => handleCreateRepairOrder(data);
+   const handleOnSubmitForm: SubmitHandler<RepairorderSchema> = (data) => {
+      console.log(data);
+   };
    return (
       <BaseBreadcrumbs arialabel="Phiếu sửa chữa">
-         <BaseFormRepairOrder onSubmitForm={onSubmitForm} form={form} isLoading={isLoading} />
+         <BaseFormRepairOrder onSubmitForm={handleOnSubmitForm} form={form} isLoading={isLoading} />
       </BaseBreadcrumbs>
    );
 };

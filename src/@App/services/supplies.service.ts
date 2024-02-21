@@ -46,6 +46,9 @@ export interface ReadSupplies {
    quantity_sold: number;
    selling_price: number;
    distributor_id: string;
+   supplies_invoice_total: number;
+   supplies_invoice_id: string;
+   supplies_invoices_code: string;
 }
 
 export interface ResponseReadSupplies extends AxiosResponseData {

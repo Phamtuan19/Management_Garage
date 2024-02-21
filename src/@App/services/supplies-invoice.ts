@@ -1,9 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { StatusPayment } from '@App/configs/status-config';
 import BaseService from '@Core/Api/BaseService';
+import { AxiosResponseData } from '@Core/Api/axios-config';
 
-const repairorderPath = {
+const suppliesInvoicederPath = {
    base: 'supplies-invoices',
+   getListDeatils: 'details',
 };
 
 export interface SuppliesInvoicesResponse {
@@ -60,11 +63,31 @@ export interface ResponseGetSuppliesInvoice {
    distributor_id: string;
 }
 
+export interface DataSuppliesDetails {
+   code: string;
+   _id: string;
+   supplies_invoice_id: string;
+   supplies_detail_id: string;
+   quantity_received: number;
+   cost_price: number;
+   selling_price: number;
+   quantity_sold: number;
+   describe: string;
+}
+
+export interface ResponseSuppliesDetails extends AxiosResponseData {
+   data: DataSuppliesDetails[];
+}
+
 class SuppliesInvoiceService extends BaseService {
-   BASE_ENDPOINT = repairorderPath.base;
+   BASE_ENDPOINT = suppliesInvoicederPath.base;
    constructor() {
       super();
       this.setRequest();
+   }
+
+   getListSuppliesInvoiceDetails(): Promise<ResponseSuppliesDetails> {
+      return this.request.get(this.BASE_ENDPOINT + '/' + suppliesInvoicederPath.getListDeatils);
    }
 }
 const suppliesInvoiceService = new SuppliesInvoiceService();

@@ -7,10 +7,7 @@ const customerPath = {
 };
 
 interface ResponseGetAllField extends AxiosResponseData {
-   data: Array<{
-      _id: string;
-      name: string;
-   }>;
+   data: Array<ICustomer>;
 }
 export interface ICustomer {
    _id: string;

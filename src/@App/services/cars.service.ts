@@ -7,11 +7,19 @@ const carsPath = {
    ALL_FIELD: '/all-field',
 };
 
+export interface DataGetAllFieldCart {
+   _id: string;
+   code: string;
+   name: string;
+   brand_car: string;
+   license_plate: string;
+   production_year: string;
+   car_color: string;
+   car_type: string;
+   status: string;
+}
 interface ResponseGetAllField extends AxiosResponseData {
-   data: Array<{
-      _id: string;
-      name: string;
-   }>;
+   data: Array<DataGetAllFieldCart>;
 }
 
 class CarsService extends BaseService {
