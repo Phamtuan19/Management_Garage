@@ -39,7 +39,7 @@ const SearchSuppliesItem = ({ supplie, handleClickSupplieItem }: SearchSuppliesi
                </Flex>
                <Flex sx={{ flex: 1, gap: '6px' }}>
                   <Box>Tồn:</Box>
-                  <Box>0</Box>
+                  <Box>{supplie.supplies_invoice_total}</Box>
                </Flex>
             </Flex>
          </Flex>

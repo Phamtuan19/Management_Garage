@@ -30,7 +30,7 @@ export interface Supplies {
 }
 
 export interface ReadSupplies {
-   _id: string;
+   _id: string; // id của chi tiết sản phẩm
    code: string;
    isInStock: boolean;
    name_detail: string;
@@ -44,10 +44,15 @@ export interface ReadSupplies {
    updatedAt: string;
    quantity_received: number;
    quantity_sold: number;
+   selling_price: number;
+   distributor_id: string;
+   supplies_invoice_total: number;
+   supplies_invoice_id: string;
+   supplies_invoices_code: string;
 }
 
 export interface ResponseReadSupplies extends AxiosResponseData {
-   data: ReadSupplies[];
+   data: Array<ReadSupplies>;
 }
 
 class SuppliesService extends BaseService {
@@ -58,7 +63,7 @@ class SuppliesService extends BaseService {
       this.setRequest();
    }
 
-   getAllSupplies(params: { q?: string; distributor_id: string }): Promise<ResponseReadSupplies> {
+   getAllSupplies(params: { q?: string; distributor_id?: string }): Promise<ResponseReadSupplies> {
       return this.request.get(this.BASE_ENDPOINT + suppliesPath.getAll, { params });
    }
 }
