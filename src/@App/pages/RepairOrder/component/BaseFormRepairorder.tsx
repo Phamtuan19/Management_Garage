@@ -24,11 +24,7 @@ interface BaseFormRepairOrderPropType {
    onSubmitForm: SubmitHandler<RepairorderSchema>;
 }
 const BaseFormRepairOrder = ({ form, onSubmitForm }: BaseFormRepairOrderPropType) => {
-   const {
-      control,
-      handleSubmit,
-      formState: { errors },
-   } = form;
+   const { control, handleSubmit } = form;
    const { user } = useAuth();
    const [valueTab, setValueTab] = useState<string>('1');
 
@@ -45,7 +41,7 @@ const BaseFormRepairOrder = ({ form, onSubmitForm }: BaseFormRepairOrderPropType
    });
 
    return (
-      <form>
+      <Box component="form" sx={{ mt: 1 }}>
          <Grid container spacing={2}>
             <Grid item xs={9}>
                <PageContent sx={{ mt: 0, px: 0 }}>
@@ -94,7 +90,7 @@ const BaseFormRepairOrder = ({ form, onSubmitForm }: BaseFormRepairOrderPropType
                </PageContent>
             </Grid>
          </Grid>
-      </form>
+      </Box>
    );
 };
 export default BaseFormRepairOrder;

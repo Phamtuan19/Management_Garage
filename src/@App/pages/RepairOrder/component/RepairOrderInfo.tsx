@@ -94,7 +94,7 @@ const RepairOrderInfo = ({ form }: RepairOrderInfoPropsType) => {
          </Grid>
          <Grid item md={6} xs={12} sx={{ minHeight: '109px' }}>
             <ControllerLabel title="Số Km" required />
-            <ControllerTextField placeholder="Số ki-lo-met của xe" name="car.kilometer" control={control} />
+            <ControllerTextField placeholder="Số ki-lo-met của xe" number name="car.kilometer" control={control} />
          </Grid>
          <Grid item md={6} xs={12} sx={{ minHeight: '109px' }}>
             <ControllerLabel title="Biển số xe" />

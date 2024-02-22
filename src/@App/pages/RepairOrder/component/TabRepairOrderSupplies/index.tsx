@@ -1,8 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/naming-convention */
 import TableCore, { columnHelper } from '@Core/Component/Table';
 import { Box, ButtonBase, IconButton, InputBase, Typography, styled } from '@mui/material';
@@ -72,14 +67,6 @@ const TabRepairOrderSupplies = ({ form }: TabRepairOrderSuppliesPropType) => {
       );
    };
 
-   // const suppliesDetails = useMemo(() => {
-   //    const dSuppliesId = serviceOrder
-   //       .filter((item) => item.supplies_detail_id !== '')
-   //       .map((item) => item.supplies_detail_id);
-
-   //    return suppliesDetail?.filter((item) => !dSuppliesId.includes(item._id));
-   // }, [serviceOrder, suppliesDetail]);
-
    const columnsService = [
       columnHelper.accessor('', {
          id: 'stt',
@@ -125,13 +112,11 @@ const TabRepairOrderSupplies = ({ form }: TabRepairOrderSuppliesPropType) => {
                     (item) => item.supplies_detail_id === watch(`suppliesOrder.${row.index}.supplies_detail_id`),
                  )
                : [];
-            console.log(watch(`suppliesOrder.${row.index}.supplies_invoices_id`));
-            console.log(dataSuppliesDetails);
             return (
                <Box sx={{ textAlign: 'center', minWidth: '150px' }}>
                   <ControllerAutoComplate
                      name={`suppliesOrder.${row.index}.supplies_invoices_id`}
-                     options={dataSuppliesDetails as any}
+                     options={dataSuppliesDetails as never}
                      valuePath="supplies_invoice_id"
                      titlePath="code"
                      control={control}
@@ -143,6 +128,8 @@ const TabRepairOrderSupplies = ({ form }: TabRepairOrderSuppliesPropType) => {
                         if (e.quantity_received === 0) {
                            setValue(`suppliesOrder.${row.index}.quantity`, e.quantity_received);
                         }
+                        setValue(`suppliesOrder.${row.index}.selling_price`, e.selling_price);
+                        setValue(`suppliesOrder.${row.index}.discount`, e.discount);
                         setValue(`suppliesOrder.${row.index}.total_supplies_crrent`, e.quantity_received);
                      }}
                   />

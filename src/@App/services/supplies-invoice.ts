@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { StatusPayment } from '@App/configs/status-config';
 import BaseService from '@Core/Api/BaseService';

@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/naming-convention */
 import TableCore, { columnHelper } from '@Core/Component/Table';
 import { Box, Button, ButtonBase, IconButton, InputBase, Typography, styled } from '@mui/material';

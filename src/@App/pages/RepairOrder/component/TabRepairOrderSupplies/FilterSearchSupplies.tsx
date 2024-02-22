@@ -45,7 +45,6 @@ const FilterSearchSupplies = ({ form }: { form: UseFormReturn<RepairorderSchema>
    const handleClickSupplieItem = (suppliesDetail: ReadSupplies) => {
       const details = watch('suppliesOrder');
       const isCheck = details.find((item) => item.supplies_detail_id === suppliesDetail._id);
-      console.log(suppliesDetail.supplies_invoices_code);
       if (isCheck) {
          setValue(
             'suppliesOrder',
