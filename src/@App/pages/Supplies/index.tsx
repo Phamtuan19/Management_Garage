@@ -19,26 +19,32 @@ import useCoreTable from '@App/hooks/useCoreTable';
 import PageContent from '@App/component/customs/PageContent';
 import FilterTable from '@App/component/common/FilterTable';
 import LazyLoadingImage from '@App/component/customs/LazyLoadingImage';
+import useSearchParamsHook from '@App/hooks/useSearchParamsHook';
 
 const sortList = [
    {
+      title: 'Code',
+      value: 'code',
+   },
+   {
+      title: 'Nhóm',
+      value: 'name_supplie',
+   },
+   {
       title: 'Tên',
-      value: 'full_name',
+      value: 'name_detail',
    },
    {
-      title: 'Email',
-      value: 'email',
-   },
-   {
-      title: 'Số điện thoại',
-      value: 'phone',
+      title: 'Nhà Phân Phối',
+      value: 'name_distributor',
    },
 ];
 
 const Supplies = () => {
    const navigate = useNavigate();
-   const queryTable = useQuery(['getListSupplies'], async () => {
-      const res = await suppliesService.get();
+   const { searchParams } = useSearchParamsHook();
+   const queryTable = useQuery(['getListSupplies', searchParams], async () => {
+      const res = await suppliesService.get(searchParams);
       return res.data;
    });
    const data = useCoreTable(queryTable);
@@ -74,29 +80,15 @@ const Supplies = () => {
          columnHelper.accessor('unit', {
             header: 'DVT',
          }),
-         columnHelper.accessor('quantity_received', {
-            header: () => <Box sx={{ textAlign: 'center' }}>SL Nhập</Box>,
-            cell: ({ row }) => {
-               const supplies = row.original as ReadSupplies;
-               return <Typography textAlign="center">{supplies.quantity_received} sp</Typography>;
-            },
-         }),
-         columnHelper.accessor('quantity_sold', {
-            header: () => <Box sx={{ textAlign: 'center' }}>SL Bán</Box>,
-            cell: ({ row }) => {
-               const supplies = row.original as ReadSupplies;
-               return <Typography textAlign="center">{supplies.quantity_sold} sp</Typography>;
-            },
-         }),
          columnHelper.accessor('discount', {
-            header: () => <Typography textAlign="center">Giảm giá</Typography>,
+            header: () => <Box textAlign="center">Giảm giá</Box>,
             cell: ({ row }) => {
                const supplies = row.original as ReadSupplies;
                return <Typography textAlign="center">{supplies.discount}%</Typography>;
             },
          }),
          columnHelper.accessor('isInStock', {
-            header: () => <Typography textAlign="center">Mô tả</Typography>,
+            header: () => <Box textAlign="center">Mô tả</Box>,
             cell: ({ row }) => {
                const supplies = row.original as ReadSupplies;
 

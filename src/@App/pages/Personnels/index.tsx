@@ -32,7 +32,7 @@ const sortList = [
       value: 'email',
    },
    {
-      title: 'Số điện thoại',
+      title: 'SĐT',
       value: 'phone',
    },
 ];
@@ -64,6 +64,7 @@ export default function Personnels() {
          return errorMessage((dataError?.message as unknown as string) || 'Xóa thất bại');
       },
    });
+
 
    const columns = useMemo(() => {
       return [
