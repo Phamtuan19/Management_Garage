@@ -30,7 +30,7 @@ const sortList = [
       value: 'email',
    },
    {
-      title: 'Số điện thoại',
+      title: 'SĐT',
       value: 'phone',
    },
 ];
@@ -45,6 +45,7 @@ export default function Personnels() {
    });
 
    const data = useCoreTable(queryTable);
+
    const columns = useMemo(() => {
       return [
          columnHelper.accessor('avatar', {

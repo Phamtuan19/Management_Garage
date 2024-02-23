@@ -28,7 +28,14 @@ import FilterTable from '@App/component/common/FilterTable';
 
 const sortList = [
    {
-      title: 'Tên dịch vụ sửa chữa',
+      title: 'Tên',
+      value: 'name',
+   },
+];
+
+const sortOptions = [
+   {
+      title: 'Tên',
       value: 'name',
    },
    {
@@ -37,11 +44,11 @@ const sortList = [
    },
    {
       title: 'Giảm giá',
-      value: 'brand_car',
+      value: 'discount',
    },
    {
-      title: 'Mô tả',
-      value: 'describe',
+      title: 'Ngày tạo',
+      value: 'createdAt',
    },
 ];
 
@@ -153,7 +160,7 @@ const RepairServices = () => {
 
          <PageContent>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-               <FilterTable sortList={sortList} searchType={sortList} />
+               <FilterTable sortList={sortOptions} searchType={sortList} />
 
                {/* <Button component={Link} to="create" endIcon={<AddIcon />}>
                Thêm mới
