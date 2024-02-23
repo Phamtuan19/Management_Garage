@@ -29,27 +29,28 @@ import CoreTableHeader from './components/CoreTableHeader';
 interface TableCoreProps<TData = unknown[], TValue = never> {
    data: TData;
    columns: ColumnDef<TData, TValue>[];
-   isLoading: boolean;
+   isLoading?: boolean;
    isPagination?: boolean;
    pageCount?: number;
    height?: number;
-   limit: number;
-   page: number;
-   refetch: any;
-   total_page: number;
-   total_record: number;
+   limit?: number;
+   page?: number;
+   refetch?: any;
+   total_page?: number;
+   total_record?: number;
+   noData?: React.ReactNode;
 }
 
 export const columnHelper = createColumnHelper();
 
 function TableCore<TData = unknown[], TValue = never>(props: TableCoreProps<TData, TValue>) {
-   const { data, columns, isLoading, isPagination = true, height = 410, ...dataPagination } = props;
+   const { data, columns, isLoading, isPagination = true, height = 410, noData, ...dataPagination } = props;
 
    const [totalPage, setTotalPage] = useState(1);
 
    useEffect(() => {
       if (!isLoading) {
-         setTotalPage(dataPagination.total_page);
+         setTotalPage(dataPagination.total_page || 1);
       }
    }, [isLoading]);
 
@@ -85,7 +86,7 @@ function TableCore<TData = unknown[], TValue = never>(props: TableCoreProps<TDat
                size="small"
             >
                <CoreTableHeader table={table as any} />
-               <CoreTableBody table={table} isLoading={isLoading} />
+               <CoreTableBody table={table} isLoading={isLoading ?? false} noData={noData} />
             </Table>
          </ScrollbarBase>
 

@@ -37,6 +37,7 @@ const SearchInput = ({ searchType = [] }: { searchType: SortList[] }) => {
                value={value}
                onChange={handleChangeInput}
                onKeyDown={handleInputKeyDown}
+               placeholder="Tìm kiếm"
                sx={{
                   height: '38.21px',
                   borderRadius: '6px',

@@ -6,6 +6,7 @@ import { Autocomplete, CircularProgress, Box, TextField } from '@mui/material';
 import { find, get, isObject, map } from 'lodash';
 import React, { useCallback } from 'react';
 import { type Control, type FieldValues, type Path, Controller } from 'react-hook-form';
+import ClearIcon from '@mui/icons-material/Clear';
 
 interface OptionProps {
    [key: string]: string;
@@ -26,6 +27,7 @@ interface ControllerAutoComplateProps<TFieldValues extends FieldValues = FieldVa
    readOnly?: boolean;
    control: Control<TFieldValues>;
    defaultValue?: string;
+   onChange?: (e: any) => void;
 }
 
 function ControllerAutoComplate<TFieldValues extends FieldValues = FieldValues>(
@@ -46,6 +48,7 @@ function ControllerAutoComplate<TFieldValues extends FieldValues = FieldValues>(
       multiple = false,
       readOnly = false,
       defaultValue = '',
+      onChange: onChangeInput = () => {},
       ...restProps
    } = props;
 
@@ -123,8 +126,10 @@ function ControllerAutoComplate<TFieldValues extends FieldValues = FieldValues>(
                   onBlur={onBlur}
                   onChange={(_, value: any) => {
                      const newValue = value ? get(value, valuePath) : '';
-                     return onChange(newValue);
+                     onChange(newValue);
+                     return onChangeInput(value);
                   }}
+                  clearIcon={<ClearIcon sx={{ fontSize: '16px' }} />}
                   renderInput={(params) => {
                      return (
                         <TextField

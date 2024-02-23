@@ -1,103 +1,96 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import { SubmitHandler, UseFormReturn, FieldValues, Control } from 'react-hook-form';
-import { Box, Grid } from '@mui/material';
+import { SubmitHandler, UseFormReturn } from 'react-hook-form';
+import { Box, Button, Grid, Tab } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import personnelService from '@App/services/personnel.service';
 import ControllerLabel from '@Core/Component/Input/ControllerLabel';
-import ControllerTextField from '@Core/Component/Input/ControllerTextField';
-import carsService from '@App/services/cars.service';
-import { LoadingButton } from '@mui/lab';
-import ControllerSelect from '@Core/Component/Input/ControllerSelect';
-import { car_status } from '@App/pages/Cars/utils';
+import PageContent from '@App/component/customs/PageContent';
+import ControllerAutoComplate from '@Core/Component/Input/ControllerAutoComplate';
+import { useAuth } from '@App/redux/slices/auth.slice';
+import ScrollbarBase from '@App/component/customs/ScrollbarBase';
+import { useState } from 'react';
+import { TabContext, TabList, TabPanel } from '@mui/lab';
 
 import { RepairorderSchema } from '../utils/repairorderSchema';
+
+import RepairOrderInfo from './RepairOrderInfo';
+import TabRepairOrderService from './TabRepairOrderService';
+import TabRepairOrderSupplies from './TabRepairOrderSupplies';
 
 interface BaseFormRepairOrderPropType {
    form: UseFormReturn<RepairorderSchema>;
    isLoading: boolean;
    onSubmitForm: SubmitHandler<RepairorderSchema>;
 }
-const BaseFormRepairOrder = ({ form, onSubmitForm, isLoading }: BaseFormRepairOrderPropType) => {
+const BaseFormRepairOrder = ({ form, onSubmitForm }: BaseFormRepairOrderPropType) => {
    const { control, handleSubmit } = form;
-   const { data: personnel } = useQuery(['getAllPersonnel'], async () => {
-      try {
-         const res = await personnelService.get();
-         return res.data?.data as Array<Record<string, string | number>>;
-      } catch (error) {
-         return [];
-      }
-   });
-   const { data: cars } = useQuery(['getAllCars'], async () => {
-      try {
-         const res = await carsService.get();
-         return res?.data.data as Array<Record<string, string | number>>;
-      } catch (error) {
-         return [];
+   const { user } = useAuth();
+   const [valueTab, setValueTab] = useState<string>('1');
+
+   const handleChange = (_event: React.SyntheticEvent, newValue: string) => {
+      setValueTab(newValue);
+   };
+
+   const { data: personnels } = useQuery(['getAllPersonnels'], async () => {
+      if (user) {
+         form.setValue('personnel_id', user._id);
+         const res = await personnelService.fieldAll();
+         return res.data as { _id: string; full_name: string }[];
       }
    });
 
    return (
-      <form onSubmit={handleSubmit(onSubmitForm)}>
-         <Box>
-            <LoadingButton type="submit" variant="contained" loading={isLoading}>
-               Thêm mới
-            </LoadingButton>
-            <Box sx={{ mt: 2, bgcolor: '#FFF', p: 2, borderRadius: 2 }}>
-               <Grid container spacing={2}>
-                  <Grid item md={6}>
-                     <Box sx={{ minHeight: '80px' }}>
-                        <ControllerLabel title="Mã phiếu sửa chữa" required />
-                        <ControllerTextField name="code" control={control} />
-                     </Box>
+      <Box component="form" sx={{ mt: 1 }}>
+         <Grid container spacing={2}>
+            <Grid item xs={9}>
+               <PageContent sx={{ mt: 0, px: 0 }}>
+                  <ScrollbarBase sx={{ px: '12px', height: 'calc(100vh - 185px)' }}>
+                     <TabContext value={valueTab}>
+                        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                           <TabList onChange={handleChange} aria-label="lab API tabs example">
+                              <Tab label="Thôn tin khách hàng" value="1" />
+                              <Tab label="Dịch vụ" value="2" />
+                              <Tab label="Vật tư" value="3" />
+                           </TabList>
+                        </Box>
+                        <TabPanel value="1" sx={{ px: 0 }}>
+                           <RepairOrderInfo form={form} />
+                        </TabPanel>
+                        <TabPanel value="2" sx={{ px: 0 }}>
+                           <TabRepairOrderService form={form} />
+                        </TabPanel>
+                        <TabPanel value="3" sx={{ px: 0 }}>
+                           <TabRepairOrderSupplies form={form} />
+                        </TabPanel>
+                     </TabContext>
+                  </ScrollbarBase>
+               </PageContent>
+            </Grid>
+            <Grid item xs={3}>
+               <PageContent sx={{ mt: 0 }}>
+                  <Grid container spacing={2}>
+                     <Grid item xs={12}>
+                        <ControllerLabel title="Nhân viên tạo phiếu" required />
+                        <ControllerAutoComplate
+                           options={personnels || []}
+                           valuePath="_id"
+                           titlePath="full_name"
+                           name="personnel_id"
+                           control={control}
+                        />
+                     </Grid>
+
+                     <Grid item xs={12}>
+                        <Button type="submit" fullWidth onClick={handleSubmit(onSubmitForm)}>
+                           Tạo lệnh sửa chữa
+                        </Button>
+                     </Grid>
                   </Grid>
-                  <Grid item md={6}>
-                     <ControllerLabel title="Nhân viên tạo xe" required />
-                     <ControllerSelect
-                        options={personnel || []}
-                        valuePath="_id"
-                        titlePath="full_name"
-                        defaultValue=""
-                        name="personnel_id"
-                        control={control as unknown as Control<FieldValues>}
-                     />
-                  </Grid>
-                  <Grid item md={6}>
-                     <ControllerLabel title="Xe" required />
-                     <ControllerSelect
-                        options={cars || []}
-                        valuePath="_id"
-                        titlePath="name"
-                        defaultValue=""
-                        name="car_id"
-                        control={control as unknown as Control<FieldValues>}
-                     />
-                  </Grid>
-                  <Grid item md={6}>
-                     <Box sx={{ minHeight: '80px' }}>
-                        <ControllerLabel title="Kilometer" required />
-                        <ControllerTextField name="kilometer" control={control} />
-                     </Box>
-                  </Grid>
-                  <Grid item md={6}>
-                     <ControllerLabel title="Trạng thái" />
-                     <ControllerSelect
-                        options={car_status}
-                        valuePath="key"
-                        titlePath="title"
-                        name="status"
-                        control={control as unknown as Control<FieldValues>}
-                     />
-                  </Grid>
-                  <Grid item md={6}>
-                     <Box sx={{ minHeight: '80px' }}>
-                        <ControllerLabel title="Mô tả" required />
-                        <ControllerTextField name="describe" control={control} />
-                     </Box>
-                  </Grid>
-               </Grid>
-            </Box>
-         </Box>
-      </form>
+               </PageContent>
+            </Grid>
+         </Grid>
+      </Box>
    );
 };
 export default BaseFormRepairOrder;
