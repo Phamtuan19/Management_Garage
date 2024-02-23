@@ -2,7 +2,7 @@
 import { Box, Button, Chip } from '@mui/material';
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import personnelService, { IPersonnel } from '@App/services/personnel.service';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import TableCore, { columnHelper } from '@Core/Component/Table';
 import LazyLoadingImage from '@App/component/customs/LazyLoadingImage';
 import Switch from '@App/component/customs/Switch';
@@ -20,6 +20,10 @@ import AddIcon from '@mui/icons-material/Add';
 import PermissionAccessRoute from '@App/routes/components/PermissionAccessRoute';
 import ROUTE_PATH from '@App/configs/router-path';
 import MODULE_PAGE from '@App/configs/module-page';
+import { AxiosResponseData, HandleErrorApi } from '@Core/Api/axios-config';
+import { AxiosError } from 'axios';
+import { errorMessage, successMessage } from '@Core/Helper/message';
+
 const sortList = [
    {
       title: 'Tên',
@@ -30,7 +34,7 @@ const sortList = [
       value: 'email',
    },
    {
-      title: 'Số điện thoại',
+      title: 'SĐT',
       value: 'phone',
    },
 ];
@@ -45,6 +49,24 @@ export default function Personnels() {
    });
 
    const data = useCoreTable(queryTable);
+
+   const { mutate: handleDelete } = useMutation({
+      mutationFn: async (id: string) => {
+         const res = await personnelService.delete(id);
+         return res;
+      },
+      onSuccess: (data: AxiosResponseData) => {
+         successMessage(data.message || 'Xóa thành công');
+         const refetch = queryTable.refetch;
+         return refetch();
+      },
+      onError: (err: AxiosError) => {
+         const dataError = err.response?.data as HandleErrorApi;
+
+         return errorMessage((dataError?.message as unknown as string) || 'Xóa thất bại');
+      },
+   });
+
    const columns = useMemo(() => {
       return [
          columnHelper.accessor('avatar', {
@@ -110,12 +132,16 @@ export default function Personnels() {
                            callback={() => navigate(ROUTE_PATH.PERSONNELS + '/' + personnel._id + '/details')}
                         />
                      </PermissionAccessRoute>
-                     <PermissionAccessRoute module={MODULE_PAGE.PERSONNELS} action="IS_LOCK">
-                        <CoreTableActionLock />
-                     </PermissionAccessRoute>
-                     <PermissionAccessRoute module={MODULE_PAGE.PERSONNELS} action="DELETE">
-                        <CoreTableActionDelete />
-                     </PermissionAccessRoute>
+                     {personnel.isAdmin === false && (
+                        <>
+                           <PermissionAccessRoute module={MODULE_PAGE.PERSONNELS} action="IS_LOCK">
+                              <CoreTableActionLock />
+                           </PermissionAccessRoute>
+                           <PermissionAccessRoute module={MODULE_PAGE.PERSONNELS} action="DELETE">
+                              <CoreTableActionDelete callback={() => handleDelete(personnel._id)} />
+                           </PermissionAccessRoute>
+                        </>
+                     )}
                   </Box>
                );
             },

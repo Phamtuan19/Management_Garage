@@ -32,6 +32,7 @@ interface InitialState {
       phone: string;
       avatar_url: string;
       role_id: string;
+      isAdmin: boolean;
    } | null;
    isAuhthentication: boolean;
    isInitialized: boolean;

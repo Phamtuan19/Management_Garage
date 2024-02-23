@@ -43,6 +43,7 @@ export interface IPersonnel {
    isLock?: boolean;
    createdAt: string;
    updatedAt: string;
+   isAdmin: boolean;
 }
 class PersonnelService extends BaseService {
    BASE_ENDPOINT = personnelPathUrl.BASE;

@@ -4,16 +4,22 @@ import ControllerLabel from '@Core/Component/Input/ControllerLabel';
 import ControllerTextField from '@Core/Component/Input/ControllerTextField';
 import ControllerTextFieldPassword from '@Core/Component/Input/ControllerTextFieldPassword';
 import ControllerAutoComplate from '@Core/Component/Input/ControllerAutoComplate';
+import { useQuery } from '@tanstack/react-query';
+import roleService from '@App/services/role.service';
 
 import { ValidationFormCreate } from '../utils/personnel.schema';
-import { POSITION } from '../utils/contants';
-
 interface BaseFormPersonnelPropType {
    form: UseFormReturn<ValidationFormCreate>;
 }
 
 const BaseFormPersonnel = ({ form }: BaseFormPersonnelPropType) => {
    const { control } = form;
+
+   const { data: roles } = useQuery(['getAllRole'], async () => {
+      const res = await roleService.fieldAll();
+      return res.data;
+   });
+
    return (
       <Box component="form" sx={{ pb: 3, pt: 1 }}>
          <Grid container spacing={4}>
@@ -27,9 +33,9 @@ const BaseFormPersonnel = ({ form }: BaseFormPersonnelPropType) => {
                <Box height="65px">
                   <ControllerLabel title="Chức vụ" required />
                   <ControllerAutoComplate
-                     options={POSITION}
-                     valuePath="id"
-                     titlePath="lable"
+                     options={roles ?? []}
+                     valuePath="_id"
+                     titlePath="name"
                      name="role_id"
                      control={control}
                   />
