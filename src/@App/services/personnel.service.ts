@@ -37,6 +37,7 @@ export interface IPersonnel {
    bankAccountId?: string;
    roleId?: string; // Tên chức vụ - có thể là null nếu lưu dữ liệu khách hàng
    isLock?: boolean;
+   isAdmin: boolean;
 }
 
 class PersonnelService extends BaseService {

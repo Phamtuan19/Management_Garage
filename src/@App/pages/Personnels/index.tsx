@@ -20,6 +20,7 @@ import AddIcon from '@mui/icons-material/Add';
 import PermissionAccessRoute from '@App/routes/components/PermissionAccessRoute';
 import ROUTE_PATH from '@App/configs/router-path';
 import MODULE_PAGE from '@App/configs/module-page';
+
 const sortList = [
    {
       title: 'Tên',
@@ -111,12 +112,17 @@ export default function Personnels() {
                            callback={() => navigate(ROUTE_PATH.PERSONNELS + '/' + personnel._id + '/details')}
                         />
                      </PermissionAccessRoute>
-                     <PermissionAccessRoute module={MODULE_PAGE.PERSONNELS} action="IS_LOCK">
-                        <CoreTableActionLock />
-                     </PermissionAccessRoute>
-                     <PermissionAccessRoute module={MODULE_PAGE.PERSONNELS} action="DELETE">
-                        <CoreTableActionDelete />
-                     </PermissionAccessRoute>
+
+                     {personnel.isAdmin === false && (
+                        <>
+                           <PermissionAccessRoute module={MODULE_PAGE.PERSONNELS} action="IS_LOCK">
+                              <CoreTableActionLock />
+                           </PermissionAccessRoute>
+                           <PermissionAccessRoute module={MODULE_PAGE.PERSONNELS} action="DELETE">
+                              <CoreTableActionDelete />
+                           </PermissionAccessRoute>
+                        </>
+                     )}
                   </Box>
                );
             },
