@@ -2,6 +2,7 @@
 import { HttpStatusCodeSType } from '@Core/Configs/HttpStatusCode';
 
 export interface AxiosResponseData<TData = Record<string, any>> {
+   [x: string]: RoleResponseData;
    map: any;
    success: boolean;
    message: string;
