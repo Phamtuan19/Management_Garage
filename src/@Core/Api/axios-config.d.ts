@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { HttpStatusCodeSType } from '@Core/Configs/HttpStatusCode';
 
@@ -14,14 +13,7 @@ export interface AxiosResponseDataType<TData = Record<string, any>> {
 }
 
 export interface HandleErrorApi {
-   [x: string]: {
-      account_name?: string[] | undefined;
-      full_name?: string[] | undefined;
-      password?: string[] | undefined;
-      email?: string[] | undefined;
-      phone?: string[] | undefined;
-      role_id?: string[] | undefined;
-   };
+   data: any;
    success: boolean;
    statusCode: HttpStatusCodeSType;
    message: { [key: string]: string[] };

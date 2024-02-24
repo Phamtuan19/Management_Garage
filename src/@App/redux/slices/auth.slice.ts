@@ -33,6 +33,11 @@ interface InitialState {
       avatar_url: string;
       role_id: string;
       isAdmin: boolean;
+      gender: string;
+      birth_day: string;
+      address: string;
+      cccd_number: string;
+      hire_date: string;
    } | null;
    isAuhthentication: boolean;
    isInitialized: boolean;

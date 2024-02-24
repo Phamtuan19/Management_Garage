@@ -8,9 +8,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
 import { SingleInputDateRangeField } from '@mui/x-date-pickers-pro/SingleInputDateRangeField';
-import dayjs, { Dayjs } from 'dayjs';
-import { PickersShortcutsItem } from '@mui/x-date-pickers';
-import { DateRange } from '@mui/lab';
+import dayjs from 'dayjs';
 
 const dataSelectTime = [
    'Tùy chỉnh',

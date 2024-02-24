@@ -25,7 +25,6 @@ const PersonnelDetails = () => {
       const personnelRes = await personnelService.find(personnelId as string);
       return personnelRes.data;
    });
-   console.log(personnels);
 
    const personnelDetails = [
       { label: 'Mã nhân viên', value: 'code' },

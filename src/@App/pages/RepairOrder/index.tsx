@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/naming-convention */
 import FilterTable from '@App/component/common/FilterTable';
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
