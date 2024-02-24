@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Button, Chip } from '@mui/material';
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import personnelService, { IPersonnel } from '@App/services/personnel.service';
@@ -22,6 +23,7 @@ import MODULE_PAGE from '@App/configs/module-page';
 import { AxiosResponseData, HandleErrorApi } from '@Core/Api/axios-config';
 import { AxiosError } from 'axios';
 import { errorMessage, successMessage } from '@Core/Helper/message';
+
 const sortList = [
    {
       title: 'Tên',
@@ -64,7 +66,6 @@ export default function Personnels() {
          return errorMessage((dataError?.message as unknown as string) || 'Xóa thất bại');
       },
    });
-
 
    const columns = useMemo(() => {
       return [
@@ -131,12 +132,16 @@ export default function Personnels() {
                            callback={() => navigate(ROUTE_PATH.PERSONNELS + '/' + personnel._id + '/details')}
                         />
                      </PermissionAccessRoute>
-                     <PermissionAccessRoute module={MODULE_PAGE.PERSONNELS} action="IS_LOCK">
-                        <CoreTableActionLock />
-                     </PermissionAccessRoute>
-                     <PermissionAccessRoute module={MODULE_PAGE.PERSONNELS} action="DELETE">
-                        <CoreTableActionDelete callback={() => handleDelete(personnel._id)}/>
-                     </PermissionAccessRoute>
+                     {personnel.isAdmin === false && (
+                        <>
+                           <PermissionAccessRoute module={MODULE_PAGE.PERSONNELS} action="IS_LOCK">
+                              <CoreTableActionLock />
+                           </PermissionAccessRoute>
+                           <PermissionAccessRoute module={MODULE_PAGE.PERSONNELS} action="DELETE">
+                              <CoreTableActionDelete callback={() => handleDelete(personnel._id)} />
+                           </PermissionAccessRoute>
+                        </>
+                     )}
                   </Box>
                );
             },

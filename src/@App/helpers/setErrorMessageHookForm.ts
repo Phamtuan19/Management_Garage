@@ -7,7 +7,9 @@ const setErrorMessageHookForm = <T extends FieldValues>(
    return Object.keys(dataError).map((key) => {
       return setError(key as Path<T>, {
          type: 'error',
-         message: dataError[key as keyof T]?.[0] ?? '',
+         message: String(
+            Array.isArray(dataError[key as keyof T]) ? dataError[key as keyof T]?.[0] : dataError[key as keyof T] ?? '',
+         ),
       });
    });
 };
