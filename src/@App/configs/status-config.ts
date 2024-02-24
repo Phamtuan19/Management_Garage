@@ -96,7 +96,6 @@ export const STATUS_PAYMENT = {
 
 export type StatusPayment = keyof typeof STATUS_PAYMENT;
 
-
 /**
  *
  * Trạng thái sửa chữa
