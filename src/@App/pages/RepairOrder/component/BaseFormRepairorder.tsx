@@ -11,12 +11,14 @@ import { useAuth } from '@App/redux/slices/auth.slice';
 import ScrollbarBase from '@App/component/customs/ScrollbarBase';
 import { useState } from 'react';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
+// import ControllerTextField from '@Core/Component/Input/ControllerTextField';
 
 import { RepairorderSchema } from '../utils/repairorderSchema';
 
 import RepairOrderInfo from './RepairOrderInfo';
 import TabRepairOrderService from './TabRepairOrderService';
 import TabRepairOrderSupplies from './TabRepairOrderSupplies';
+import RepairOrderBill from './RepairOrderBill';
 
 interface BaseFormRepairOrderPropType {
    form: UseFormReturn<RepairorderSchema>;
@@ -80,10 +82,12 @@ const BaseFormRepairOrder = ({ form, onSubmitForm }: BaseFormRepairOrderPropType
                            control={control}
                         />
                      </Grid>
-
+                     <Grid item xs={12}>
+                        <RepairOrderBill form={form} />
+                     </Grid>
                      <Grid item xs={12}>
                         <Button type="submit" fullWidth onClick={handleSubmit(onSubmitForm)}>
-                           Tạo lệnh sửa chữa
+                           Lưu hóa đơn
                         </Button>
                      </Grid>
                   </Grid>
@@ -93,4 +97,5 @@ const BaseFormRepairOrder = ({ form, onSubmitForm }: BaseFormRepairOrderPropType
       </Box>
    );
 };
+
 export default BaseFormRepairOrder;

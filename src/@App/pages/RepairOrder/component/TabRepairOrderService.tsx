@@ -135,7 +135,9 @@ const TabRepairOrderService = ({ form }: TabRepairOrderServicePropType) => {
                <Typography>
                   {handlePrice(
                      Number(watch(`serviceOrder.${row.index}.quantity`)) *
-                        Number(watch(`serviceOrder.${row.index}.price`)),
+                        (Number(watch(`serviceOrder.${row.index}.price`)) +
+                           Number(watch(`serviceOrder.${row.index}.surcharge`))) -
+                        Number(watch(`serviceOrder.${row.index}.discount`)),
                   )}
                </Typography>
             </Box>
