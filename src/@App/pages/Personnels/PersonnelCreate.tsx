@@ -33,11 +33,12 @@ const PersonnelCreate = () => {
       },
       onSuccess: () => {
          successMessage('Thêm mới nhân viên thành công');
-         return form.reset();
+         form.reset();
+         form.setValue('password', '');
       },
       onError: (err: AxiosError) => {
          const dataError = err.response?.data as HandleErrorApi;
-         setErrorMessageHookForm(form.setError, dataError.message);
+         setErrorMessageHookForm(form.setError, dataError.data as unknown as never);
          return errorMessage(err);
       },
    });

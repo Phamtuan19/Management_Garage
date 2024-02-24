@@ -76,7 +76,7 @@ const RepairOrderInfo = ({ form }: RepairOrderInfoPropsType) => {
                      valuePath="_id"
                      titlePath="name"
                      name="car.car_id"
-                     placeholder="Chọn xe cần sủa chữa"
+                     placeholder="Chọn xe cần sữa chữa"
                      control={control}
                      disabled={!customerId}
                      onChange={(e: DataGetAllFieldCart) => {

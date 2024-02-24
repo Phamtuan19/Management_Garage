@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
 import messageValidate from '@App/helpers/messageValidate';
+import { PAYMENT_TYPE } from '@App/configs/status-config';
 import * as yup from 'yup';
 
 const serviceOrder = yup
@@ -14,6 +15,12 @@ const serviceOrder = yup
          surcharge: yup.number().default(0),
          discount: yup.number().default(0),
          describe: yup.string().default(''),
+         // transaction: yup.object({
+         //    total_price: yup.number().min(0).default(0),
+         //    transfer_money: yup.number().min(0).default(0),
+         //    cash_money: yup.number().min(0).default(0),
+         //    payment_type: yup.string().default(PAYMENT_TYPE.EMPTY),
+         // }),
       }),
    )
    .default([]);
@@ -68,6 +75,12 @@ export const repairorderSchema = yup.object({
    filterSearch: yup.object({
       distributor_id: yup.string(),
       supplies_detail: yup.string(),
+   }),
+   transaction: yup.object({
+      total_price: yup.number().min(0).default(0),
+      transfer_money: yup.number().min(0).default(0),
+      cash_money: yup.number().min(0).default(0),
+      payment_type: yup.string().default(PAYMENT_TYPE.EMPTY),
    }),
 });
 

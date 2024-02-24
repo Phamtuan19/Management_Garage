@@ -95,3 +95,38 @@ export const STATUS_PAYMENT = {
 } as const;
 
 export type StatusPayment = keyof typeof STATUS_PAYMENT;
+
+/**
+ *
+ * Trạng thái sửa chữa
+ * @DRAFT - Xóa
+ * @CHECK - Kiểm tra
+ * @REPAIR - Sửa chữa
+ * @COMPLETE - Hoàn thành
+ *
+ */
+
+export const STATUS_REPAIR = {
+   draft: {
+      title: 'Nháp',
+      color: 'error',
+   },
+   check: {
+      title: 'Kiểm tra',
+      color: 'default',
+   },
+   repair: {
+      title: 'Sửa chữa',
+      color: 'secondary',
+   },
+   pay: {
+      title: 'Thanh toán',
+      color: 'warning',
+   },
+   complete: {
+      title: 'Hoàn thành',
+      color: 'success',
+   },
+} as const;
+
+export type StatusRepair = keyof typeof STATUS_REPAIR;
