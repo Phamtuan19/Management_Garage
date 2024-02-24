@@ -28,6 +28,8 @@ const MODULE_PAGE = {
    REPAIR_SERVICES: 'REPAIR_SERVICES',
 
    USER_PROFILE: 'USER_PROFILE',
+
+   RESET_PASSWORD: 'RESET_PASSWORD',
 } as const;
 
 export const modulePageSchema = yup.string().oneOf(Object.values(MODULE_PAGE)).required();

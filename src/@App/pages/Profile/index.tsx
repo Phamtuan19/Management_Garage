@@ -112,10 +112,10 @@ const Profile = () => {
                   <Typography variant="body1" paragraph>
                      Số điện thoại: {user.phone}
                   </Typography>
-                  <Typography variant="body1" gutterBottom>
+                  {/* <Typography variant="body1" gutterBottom>
                      Địa chỉ: {user?.address?.province?.name || ''}, {user?.address?.district?.name || ''},
                      {user?.address?.wards?.name || ''}, {user?.address?.specific || ''}
-                  </Typography>
+                  </Typography> */}
                   <Typography variant="body1" gutterBottom>
                      CCCD: {user.cccd_number}
                   </Typography>

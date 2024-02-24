@@ -32,6 +32,8 @@ const ROUTE_PATH = {
    // Profile
    USER_PROFILE: '/user/profile',
 
+   RESET_PASSWORD: '/reset/password',
+
    SIGN_IN: '/sign-in',
 
    CREATE: '/create',
