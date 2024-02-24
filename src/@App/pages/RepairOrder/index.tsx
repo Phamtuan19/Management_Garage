@@ -10,13 +10,10 @@ import useCoreTable from '@App/hooks/useCoreTable';
 import useSearchParamsHook from '@App/hooks/useSearchParamsHook';
 import PermissionAccessRoute from '@App/routes/components/PermissionAccessRoute';
 import repairorderService, { RepairOrdersResponse } from '@App/services/repairorder.service';
-import { AxiosResponseData, HandleErrorApi } from '@Core/Api/axios-config';
 import TableCore, { columnHelper } from '@Core/Component/Table';
-import { CoreTableActionDelete, CoreTableActionEdit, CoreTableActionViewDetail } from '@Core/Component/Table/components/CoreTableAction';
-import { errorMessage, successMessage } from '@Core/Helper/message';
+import { CoreTableActionEdit, CoreTableActionViewDetail } from '@Core/Component/Table/components/CoreTableAction';
 import { Box, Button, Chip } from '@mui/material';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
+import { useQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import { useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -27,11 +24,11 @@ const sortList = [
       value: 'code',
    },
    {
-      title: 'Tổng giá sửa chữa',
+      title: 'Số lượng',
       value: 'repair_order_detail',
    },
    {
-      title: 'Giá sửa chữa',
+      title: 'Giá',
       value: 'repair_order_detail',
    },
 ];
@@ -46,23 +43,6 @@ const Repairorder = () => {
    });
 
    const data = useCoreTable(queryTable);
-
-   const { mutate: handleDelete } = useMutation({
-      mutationFn: async (id: string) => {
-         const res = await repairorderService.delete(id);
-         return res;
-      },
-      onSuccess: (data: AxiosResponseData) => {
-         successMessage(data.message || 'Xóa thành công');
-         const refetch = queryTable.refetch;
-         return refetch();
-      },
-      onError: (err: AxiosError) => {
-         const dataError = err.response?.data as HandleErrorApi;
-
-         return errorMessage((dataError?.message as unknown as string) || 'Xóa thất bại');
-      },
-   });
 
    const columns = useMemo(() => {
       return [
@@ -107,7 +87,7 @@ const Repairorder = () => {
                );
             },
          }),
-         
+
          columnHelper.accessor('createdAt', {
             header: () => <Box textAlign="center">Ngày tạo</Box>,
             cell: ({ row }) => {
@@ -120,9 +100,6 @@ const Repairorder = () => {
                const repairOrder = row.original as RepairOrdersResponse;
                return (
                   <Box>
-                     <PermissionAccessRoute module={MODULE_PAGE.REPAIR_ORDERS} action="DELETE">
-                        <CoreTableActionDelete callback={() => handleDelete(repairOrder._id)} />
-                     </PermissionAccessRoute>
                      <PermissionAccessRoute module={MODULE_PAGE.REPAIR_ORDERS} action="VIEW_ALL">
                         <CoreTableActionEdit callback={() => navigate(ROUTE_PATH.REPAIR_ORDERS + '/' + repairOrder._id + '/update')} />
                      </PermissionAccessRoute>

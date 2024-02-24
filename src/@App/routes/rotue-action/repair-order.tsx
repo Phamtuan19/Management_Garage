@@ -1,3 +1,4 @@
+/* eslint-disable import/order */
 import ROUTE_PATH from '@App/configs/router-path';
 import PAGE_ACTION from '@App/configs/page-action';
 import { Outlet, RouteObject } from 'react-router-dom';
@@ -5,8 +6,10 @@ import MODULE_PAGE from '@App/configs/module-page';
 
 import PermissionAccessRoute from '../components/PermissionAccessRoute';
 import Loadable from '../components/loadable';
+import RepairOrderDetails from '@App/pages/RepairOrder/RepairOrderDetails';
 
 const RepairOrder = Loadable('RepairOrder');
+// const RepairOrderDetails = Loadable('RepairOrder/RepairOrderDetails')
 const RepairOrderCreate = Loadable('RepairOrder/RepairOrderCreate');
 
 const repairorderRoute: RouteObject = {
@@ -18,6 +21,14 @@ const repairorderRoute: RouteObject = {
          element: (
             <PermissionAccessRoute module={MODULE_PAGE.REPAIR_ORDERS} action={PAGE_ACTION.VIEW_ALL} type="route">
                <RepairOrder />
+            </PermissionAccessRoute>
+         ),
+      },
+      {
+         path: ROUTE_PATH.REPAIR_ORDERS + ROUTE_PATH.DETAILS,
+         element: (
+            <PermissionAccessRoute module={MODULE_PAGE.REPAIR_ORDERS} action={PAGE_ACTION.VIEW_ONE} type="route">
+               <RepairOrderDetails />
             </PermissionAccessRoute>
          ),
       },
