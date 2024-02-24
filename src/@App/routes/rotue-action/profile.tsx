@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import ROUTE_PATH from '@App/configs/router-path';
 import PAGE_ACTION from '@App/configs/page-action';
 import { Outlet, RouteObject } from 'react-router-dom';

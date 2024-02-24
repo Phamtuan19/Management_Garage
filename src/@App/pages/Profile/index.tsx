@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
@@ -12,6 +11,9 @@ import { useQuery } from '@tanstack/react-query';
 import roleService from '@App/services/role.service';
 import { useNavigate } from 'react-router-dom';
 import RateReviewRoundedIcon from '@mui/icons-material/RateReviewRounded';
+import { useState } from 'react';
+
+import ResetPassword from './ResetPassword';
 
 const breadcrumbs = [
    {
@@ -21,6 +23,8 @@ const breadcrumbs = [
 ];
 const Profile = () => {
    const navigate = useNavigate();
+   const [open, setOpen] = useState<boolean>(false);
+
    const { user } = useAuth();
    const userId = user?._id;
    const { data: userData } = useQuery(['getUser', userId], async () => {
@@ -42,11 +46,14 @@ const Profile = () => {
       return <div>User not logged in</div>;
    }
    return (
-      <BaseBreadcrumbs
-         breadcrumbs={breadcrumbs}
-         arialabel="Thông tin tài khoản"
-         sx={({ base }) => ({ bgcolor: base.background.default, border: 'none', p: 0 })}
-      >
+      <BaseBreadcrumbs breadcrumbs={breadcrumbs} arialabel="Thông tin tài khoản">
+         <Button
+            onClick={() => {
+               setOpen(true);
+            }}
+         >
+            Đổi mật khẩu
+         </Button>
          <Grid
             container
             spacing={2}
@@ -136,6 +143,12 @@ const Profile = () => {
                </Typography>
             </Grid>
          </Grid>
+         <ResetPassword
+            open={open}
+            handleClose={() => {
+               setOpen(false);
+            }}
+         />
       </BaseBreadcrumbs>
    );
 };

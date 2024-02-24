@@ -6,6 +6,7 @@ import { AxiosResponseData } from '@Core/Api/axios-config';
 export const personnelPathUrl = {
    BASE: 'personnel',
    ALL_FIELD: '/all-field',
+   CHANGE_PASSWORD: '/change-password',
 };
 export interface IPersonnel {
    _id: string;
@@ -55,6 +56,10 @@ class PersonnelService extends BaseService {
 
    fieldAll(): Promise<AxiosResponseData> {
       return this.request(this.BASE_ENDPOINT + personnelPathUrl.ALL_FIELD);
+   }
+
+   changePassword(id: string, data: { new_password: string; old_password: string }) {
+      return this.request.patch(this.BASE_ENDPOINT + personnelPathUrl.CHANGE_PASSWORD + '/' + id, data);
    }
 }
 
