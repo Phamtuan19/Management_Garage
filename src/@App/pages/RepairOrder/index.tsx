@@ -12,6 +12,7 @@ import PermissionAccessRoute from '@App/routes/components/PermissionAccessRoute'
 import repairorderService, { RepairOrdersResponse } from '@App/services/repairorder.service';
 import TableCore, { columnHelper } from '@Core/Component/Table';
 import { CoreTableActionEdit, CoreTableActionViewDetail } from '@Core/Component/Table/components/CoreTableAction';
+import handlePrice from '@Core/Helper/hendlePrice';
 import { Box, Button, Chip } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
@@ -20,16 +21,8 @@ import { Link, useNavigate } from 'react-router-dom';
 
 const sortList = [
    {
-      title: 'Mã dịch vụ sửa chữa',
+      title: 'Mã phiếu',
       value: 'code',
-   },
-   {
-      title: 'Số lượng',
-      value: 'repair_order_detail',
-   },
-   {
-      title: 'Giá',
-      value: 'repair_order_detail',
    },
 ];
 
@@ -59,18 +52,33 @@ const Repairorder = () => {
                return <Box textAlign="center">{row.getValue('code')} </Box>;
             },
          }),
+         columnHelper.accessor('customer', {
+            header: () => <Box textAlign="center">Khách hàng</Box>,
+            cell: ({ row }) => {
+               const repairOrder = row.original as RepairOrdersResponse;
+
+               return <Box textAlign="center">{repairOrder.customer[0].name} </Box>;
+            },
+         }),
+         columnHelper.accessor('personnel_id', {
+            header: () => <Box textAlign="center">NV Tạo</Box>,
+            cell: ({ row }) => {
+               const repairOrder = row.original as RepairOrdersResponse;
+               return <Box textAlign="center">{repairOrder.personnel_id.full_name} </Box>;
+            },
+         }),
          columnHelper.accessor('repair_order_detail', {
             header: () => <Box textAlign="center">Số lượng</Box>,
             cell: ({ row }) => {
                const repairOrder = row.original as RepairOrdersResponse;
-               return <Box textAlign="center">{repairOrder.repair_order_detail.totle_quantity}</Box>;
+               return <Box textAlign="center">{repairOrder.repair_order_detail.totel_detail}</Box>;
             },
          }),
          columnHelper.accessor('repair_order_detail', {
             header: () => <Box textAlign="center">Giá</Box>,
             cell: ({ row }) => {
                const repairOrder = row.original as RepairOrdersResponse;
-               return <Box textAlign="center">{repairOrder.repair_order_detail.totel_detail}</Box>;
+               return <Box textAlign="center">{handlePrice(repairOrder.repair_order_detail.totle_price)}</Box>;
             },
          }),
          columnHelper.accessor('status', {
@@ -101,7 +109,9 @@ const Repairorder = () => {
                return (
                   <Box>
                      <PermissionAccessRoute module={MODULE_PAGE.REPAIR_ORDERS} action="VIEW_ALL">
-                        <CoreTableActionEdit callback={() => navigate(ROUTE_PATH.REPAIR_ORDERS + '/' + repairOrder._id + '/update')} />
+                        <CoreTableActionEdit
+                           callback={() => navigate(ROUTE_PATH.REPAIR_ORDERS + '/' + repairOrder._id + '/update')}
+                        />
                      </PermissionAccessRoute>
                      <PermissionAccessRoute module={MODULE_PAGE.REPAIR_ORDERS} action="VIEW_ONE">
                         <CoreTableActionViewDetail

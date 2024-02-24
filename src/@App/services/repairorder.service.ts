@@ -14,22 +14,30 @@ export interface RepairOrdersResponse {
    updatedAt: string;
    status: StatusRepair;
    car_id: {
-      _id: string,
-      code: string,
-      customer_id: string,
-      name: string,
-      brand_car: string,
-      license_plate: string,
-      production_year: string,
-      car_color: string,
-      car_type: string,
-      status: string,
-      createdAt: string,
-      updatedAt: string,
+      _id: string;
+      code: string;
+      customer_id: string;
+      name: string;
+      brand_car: string;
+      license_plate: string;
+      production_year: string;
+      car_color: string;
+      car_type: string;
+      status: StatusRepair;
+      createdAt: string;
+      updatedAt: string;
+   };
+   customer: {
+      _id: string;
+      name: string;
+   }[];
+   personnel_id: {
+      _id: string;
+      full_name: string;
    };
    repair_order_detail: {
-      totel_detail: number,
-      totle_quantity: number
+      totel_detail: number;
+      totle_price: number;
    };
 }
 class RepairOrderService extends BaseService {
