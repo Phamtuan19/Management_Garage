@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
+/* eslint-disable @typescript-eslint/await-thenable */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Button, Chip } from '@mui/material';
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
@@ -9,6 +11,7 @@ import Switch from '@App/component/customs/Switch';
 import {
    CoreTableActionDelete,
    CoreTableActionLock,
+   CoreTableActionLockOpen,
    CoreTableActionViewDetail,
 } from '@Core/Component/Table/components/CoreTableAction';
 import { useMemo } from 'react';
@@ -37,6 +40,12 @@ const sortList = [
       title: 'SĐT',
       value: 'phone',
    },
+];
+const lock = [
+   {
+      title: 'Khóa',
+      value: 'true',
+   }
 ];
 
 export default function Personnels() {
@@ -67,6 +76,41 @@ export default function Personnels() {
       },
    });
 
+   // 65d8bc35d6b107bb3eb8d390
+   // 65bdd1c7d2e36066f7a4f653
+
+
+   const { mutate: handleIsLock } = useMutation({
+      mutationFn: async (id: string) => {
+         const res = await personnelService.lockPersonnel(id);
+         return res;
+      },
+      onSuccess: (data: AxiosResponseData) => {
+
+         successMessage(data.message || 'Khóa thành công');
+         const refetch = queryTable.refetch;
+         return refetch();
+      },
+      onError: (err: AxiosError) => {
+         const dataError = err.response?.data as HandleErrorApi;
+         return errorMessage((dataError?.message as unknown as string) || 'Khóa thất bại');
+      },
+   });
+   const handleLockClick = async (personnelId: string) => {
+      try {
+         await handleIsLock(personnelId);
+      } catch (error) {
+         // console.error('Error locking personnel:', error);
+      }
+   };
+
+   const handleUnlockClick = async (personnelId: string) => {
+      try {
+         await handleIsLock(personnelId);
+      } catch (error) {
+         // console.error('Error unlocking personnel:', error);
+      }
+   };
    const columns = useMemo(() => {
       return [
          columnHelper.accessor('avatar', {
@@ -135,7 +179,11 @@ export default function Personnels() {
                      {personnel.isAdmin === false && (
                         <>
                            <PermissionAccessRoute module={MODULE_PAGE.PERSONNELS} action="IS_LOCK">
-                              <CoreTableActionLock />
+                              {personnel.isLocked ? (
+                                 <CoreTableActionLockOpen callback={() => handleUnlockClick(personnel._id)} />
+                              ) : (
+                                 <CoreTableActionLock callback={() => handleLockClick(personnel._id)} />
+                              )}
                            </PermissionAccessRoute>
                            <PermissionAccessRoute module={MODULE_PAGE.PERSONNELS} action="DELETE">
                               <CoreTableActionDelete callback={() => handleDelete(personnel._id)} />
@@ -167,8 +215,11 @@ export default function Personnels() {
             })}
          >
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-               <FilterTable sortList={sortList} searchType={sortList} />
+
+               <FilterTable sortList={sortList}  searchType={sortList} lock={lock} />
+
             </Box>
+
 
             <TableCore columns={columns} {...data} />
          </Box>
