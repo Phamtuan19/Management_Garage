@@ -17,7 +17,7 @@ import {
 import { useMemo } from 'react';
 import useCoreTable from '@App/hooks/useCoreTable';
 import useSearchParamsHook from '@App/hooks/useSearchParamsHook';
-import FilterTable from '@App/component/common/FilterTable';
+import { FilterTable, Lock } from '@App/component/common/FilterTable';
 import { Link, useNavigate } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
 import PermissionAccessRoute from '@App/routes/components/PermissionAccessRoute';
@@ -214,13 +214,10 @@ export default function Personnels() {
                backgroundColor: base.background.white as string,
             })}
          >
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-
-               <FilterTable sortList={sortList}  searchType={sortList} lock={lock} />
-
-            </Box>
-
-
+               <Box  sx={{ display: 'flex', justifyContent: 'space-between',  alignItems: 'center'}}  >
+                  <FilterTable sortList={sortList} searchType={sortList} />
+                  <Lock lock={lock} />
+               </Box>
             <TableCore columns={columns} {...data} />
          </Box>
       </BaseBreadcrumbs>

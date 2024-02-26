@@ -20,7 +20,7 @@ import distributorService, { IDistributor } from '@App/services/distributor.serv
 import { Link } from 'react-router-dom';
 import useSearchParamsHook from '@App/hooks/useSearchParamsHook';
 import PageContent from '@App/component/customs/PageContent';
-import FilterTable from '@App/component/common/FilterTable';
+import {FilterTable} from '@App/component/common/FilterTable';
 
 const sortOptions = [
    {

@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/naming-convention */
-import FilterTable from '@App/component/common/FilterTable';
+import {FilterTable} from '@App/component/common/FilterTable';
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import PageContent from '@App/component/customs/PageContent';
 import MODULE_PAGE from '@App/configs/module-page';
