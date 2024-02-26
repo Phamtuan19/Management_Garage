@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Button, Chip } from '@mui/material';
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
@@ -40,6 +41,11 @@ const Customer = () => {
    const navigate = useNavigate();
    const columns = useMemo(() => {
       return [
+         columnHelper.accessor((_, index) => index + 1, {
+            id: 'STT',
+            header: () => <Box sx={{ textAlign: 'center' }}>STT</Box>,
+            cell: (info) => <Box sx={{ textAlign: 'center' }}>{info.getValue()}</Box>,
+         }),
          columnHelper.accessor('name', {
             header: 'Tên khách hàng',
          }),
@@ -57,8 +63,7 @@ const Customer = () => {
                      {row.getValue('gender') ? (
                         <Chip
                            key={row.getValue('gender')}
-                           color={row.getValue('gender') === 'MAN' ? 'secondary' : 'info'}
-                           variant="outlined"
+                           color={row.getValue('gender') === 'Nam' ? 'info' : 'secondary'}
                            label={row.getValue('gender')}
                            sx={{ textTransform: 'capitalize' }}
                         />

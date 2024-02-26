@@ -28,7 +28,7 @@ const breadcrumbs = [
 ];
 
 const SuppliesUpdate = () => {
-   const { id: materialsCatalogId } = useParams();
+   const { id: suppliesId } = useParams();
 
    const form = useForm<SuppliesSchema>({
       resolver: yupResolver(suppliesSchema),
@@ -36,9 +36,9 @@ const SuppliesUpdate = () => {
    });
 
    const { refetch: getMaterialsCatalog } = useQuery(
-      ['getDistributorDetail', materialsCatalogId],
+      ['getDistributorDetail', suppliesId],
       async () => {
-         const res = await suppliesService.find(materialsCatalogId!);
+         const res = await suppliesService.find(suppliesId!);
          return res.data;
       },
       {
@@ -54,10 +54,19 @@ const SuppliesUpdate = () => {
 
    const { mutate: SuppliesUpdate, isLoading } = useMutation({
       mutationFn: async (data: SuppliesSchema) => {
-         return await suppliesService.update({ ...data, discount: Number(data.discount) });
+         const { details, ...resData } = data;
+
+         return await suppliesService.update(
+            {
+               ...resData,
+               discount: Number(resData.discount),
+               details: details?.map((item) => ({ ...item, imported_price: Number(item.imported_price) })),
+            },
+            suppliesId,
+         );
       },
       onSuccess: async () => {
-         successMessage('Tạo mới nhà phân phối thành công.');
+         successMessage('Cập nhật thành công.');
          await getMaterialsCatalog();
       },
       onError: (err: AxiosError) => {

@@ -51,3 +51,82 @@ export const CAR_STATUS = {
 } as const;
 
 export type CarStatusKeys = keyof typeof CAR_STATUS;
+
+/**
+ *
+ * Loại hình thanh toán
+ *
+ * @TRANSFER - Chuyển khoản
+ * @CASH - Tiền mặt
+ * @TRANSFER_CASH - chuyển khoản và tiền mặt
+ * @EMPTY - trống
+ *
+ */
+export const PAYMENT_TYPE = {
+   TRANSFER: 'TRANSFER',
+   CASH: 'CASH',
+   TRANSFER_CASH: 'TRANSFER_CASH',
+   EMPTY: 'EMPTY',
+} as const;
+
+export type PaymentType = keyof typeof PAYMENT_TYPE;
+
+/**
+ *
+ * Trạng thái thanh toán
+ * @PAID - Đã thanh toán
+ * @UNPAID - Chưa thanh toán
+ * @DEBT - Công nợ
+ *
+ */
+export const STATUS_PAYMENT = {
+   PAID: {
+      title: 'Đã thanh toán',
+      color: 'success',
+   },
+   UNPAID: {
+      title: 'Chưa thanh toán',
+      color: 'error',
+   },
+   DEBT: {
+      title: 'Công nợ',
+      color: 'warning',
+   },
+} as const;
+
+export type StatusPayment = keyof typeof STATUS_PAYMENT;
+
+/**
+ *
+ * Trạng thái sửa chữa
+ * @DRAFT - Xóa
+ * @CHECK - Kiểm tra
+ * @REPAIR - Sửa chữa
+ * @COMPLETE - Hoàn thành
+ *
+ */
+
+export const STATUS_REPAIR = {
+   draft: {
+      title: 'Nháp',
+      color: 'error',
+   },
+   check: {
+      title: 'Kiểm tra',
+      color: 'default',
+   },
+   repair: {
+      title: 'Sửa chữa',
+      color: 'secondary',
+   },
+   pay: {
+      title: 'Thanh toán',
+      color: 'warning',
+   },
+   complete: {
+      title: 'Hoàn thành',
+      color: 'success',
+   },
+} as const;
+
+export type StatusRepair = keyof typeof STATUS_REPAIR;

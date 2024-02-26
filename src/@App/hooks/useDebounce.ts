@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 
 type UseDebounce = (value: string, delay: number) => string | null;
 
-const useDebounce: UseDebounce = (value, delay) => {
+const useDebounce: UseDebounce = (value, delay = 500) => {
    const [debounceValue, setDebounceValue] = useState<string | null>(null);
    const timer = useRef<number | null>(null);
 

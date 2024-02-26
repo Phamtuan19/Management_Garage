@@ -37,6 +37,7 @@ const SearchInput = ({ searchType = [] }: { searchType: SortList[] }) => {
                value={value}
                onChange={handleChangeInput}
                onKeyDown={handleInputKeyDown}
+               placeholder="Tìm kiếm"
                sx={{
                   height: '38.21px',
                   borderRadius: '6px',
@@ -72,6 +73,7 @@ const SearchInput = ({ searchType = [] }: { searchType: SortList[] }) => {
                   {searchType.map((item, index) => {
                      return (
                         <Box
+                           key={index}
                            sx={{
                               display: 'flex',
                               alignItems: 'center',
@@ -86,7 +88,7 @@ const SearchInput = ({ searchType = [] }: { searchType: SortList[] }) => {
                            onClick={() => handleClickSearchItem(item.value)}
                         >
                            <KeyboardDoubleArrowRightSharpIcon sx={{ width: '18px' }} />
-                           <Typography key={index} fontSize="16px">
+                           <Typography fontSize="16px">
                               Tìm kiếm{' '}
                               <Box
                                  component="span"

@@ -18,26 +18,33 @@ import { Link, useNavigate } from 'react-router-dom';
 import useCoreTable from '@App/hooks/useCoreTable';
 import PageContent from '@App/component/customs/PageContent';
 import FilterTable from '@App/component/common/FilterTable';
+import LazyLoadingImage from '@App/component/customs/LazyLoadingImage';
+import useSearchParamsHook from '@App/hooks/useSearchParamsHook';
 
 const sortList = [
    {
+      title: 'Code',
+      value: 'code',
+   },
+   {
+      title: 'Nhóm',
+      value: 'name_supplie',
+   },
+   {
       title: 'Tên',
-      value: 'full_name',
+      value: 'name_detail',
    },
    {
-      title: 'Email',
-      value: 'email',
-   },
-   {
-      title: 'Số điện thoại',
-      value: 'phone',
+      title: 'Nhà Phân Phối',
+      value: 'name_distributor',
    },
 ];
 
 const Supplies = () => {
    const navigate = useNavigate();
-   const queryTable = useQuery(['getListSupplies'], async () => {
-      const res = await suppliesService.get();
+   const { searchParams } = useSearchParamsHook();
+   const queryTable = useQuery(['getListSupplies', searchParams], async () => {
+      const res = await suppliesService.get(searchParams);
       return res.data;
    });
    const data = useCoreTable(queryTable);
@@ -51,7 +58,15 @@ const Supplies = () => {
          }),
          columnHelper.accessor('code', {
             header: () => <Box sx={{ textAlign: 'center' }}>Mã</Box>,
-            cell: (info) => <Box sx={{ textAlign: 'center' }}>{info.getValue()}</Box>,
+            cell: (info) => <Box sx={{ textAlign: 'center' }}>#{info.getValue()}</Box>,
+         }),
+         columnHelper.accessor('avatar', {
+            header: () => <Box sx={{ textAlign: 'center' }}>Hình ảnh</Box>,
+            cell: ({ row }) => (
+               <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                  <LazyLoadingImage src={row.getValue('avatar')} w="35" h="35" style={{ borderRadius: '50%' }} />
+               </Box>
+            ),
          }),
          columnHelper.accessor('name_supplie', {
             header: 'Nhóm vật tư',
@@ -66,14 +81,14 @@ const Supplies = () => {
             header: 'DVT',
          }),
          columnHelper.accessor('discount', {
-            header: () => <Typography textAlign="center">Giảm giá</Typography>,
+            header: () => <Box textAlign="center">Giảm giá</Box>,
             cell: ({ row }) => {
                const supplies = row.original as ReadSupplies;
                return <Typography textAlign="center">{supplies.discount}%</Typography>;
             },
          }),
          columnHelper.accessor('isInStock', {
-            header: () => <Typography textAlign="center">Mô tả</Typography>,
+            header: () => <Box textAlign="center">Mô tả</Box>,
             cell: ({ row }) => {
                const supplies = row.original as ReadSupplies;
 
@@ -87,7 +102,7 @@ const Supplies = () => {
                );
             },
          }),
-         columnHelper.accessor('_id', {
+         columnHelper.accessor('', {
             header: 'Thao tác',
             cell: ({ row }) => {
                const supplies = row.original as ReadSupplies;
@@ -104,7 +119,7 @@ const Supplies = () => {
                      </PermissionAccessRoute>
 
                      <CoreTableActionEdit
-                        callback={() => navigate(ROUTE_PATH.SUPPLIES + '/' + supplies._id + '/update')}
+                        callback={() => navigate(ROUTE_PATH.SUPPLIES + '/' + supplies.supplies_id + '/update')}
                      />
                   </Box>
                );
@@ -112,6 +127,7 @@ const Supplies = () => {
          }),
       ];
    }, []);
+
    return (
       <BaseBreadcrumbs arialabel="Danh sách vật tư">
          <Box display="flex" gap={1} alignItems="center">

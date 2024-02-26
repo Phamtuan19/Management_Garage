@@ -20,6 +20,44 @@ import distributorService, { IDistributor } from '@App/services/distributor.serv
 import { Link } from 'react-router-dom';
 import useSearchParamsHook from '@App/hooks/useSearchParamsHook';
 import PageContent from '@App/component/customs/PageContent';
+import FilterTable from '@App/component/common/FilterTable';
+
+const sortOptions = [
+   {
+      title: 'Code',
+      value: 'code',
+   },
+   {
+      title: 'Tên',
+      value: 'name',
+   },
+   {
+      title: 'SĐT',
+      value: 'phone',
+   },
+   {
+      title: 'Ngày Tạo',
+      value: 'createdAt',
+   },
+];
+const sortList = [
+   {
+      title: 'Code',
+      value: 'code',
+   },
+   {
+      title: 'Tên',
+      value: 'name',
+   },
+   {
+      title: 'SĐT',
+      value: 'phone',
+   },
+   {
+      title: 'Email',
+      value: 'email',
+   },
+];
 
 const Distributors = () => {
    const navigate = useNavigate();
@@ -92,8 +130,8 @@ const Distributors = () => {
    }, []);
 
    return (
-      <BaseBreadcrumbs arialabel="Danh sách nhà phân phối">
-         <Box sx={{ display: 'flex', justifyContent: 'end', alignItems: 'center' }}>
+      <BaseBreadcrumbs arialabel="Nhà phân phối">
+         <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <PermissionAccessRoute module={MODULE_PAGE.DISTRIBUTORS} action={PAGE_ACTION.CREATE}>
                <Button component={Link} to="create" size="medium">
                   Thêm mới
@@ -101,6 +139,9 @@ const Distributors = () => {
             </PermissionAccessRoute>
          </Box>
          <PageContent>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+               <FilterTable sortList={sortOptions} searchType={sortList} />
+            </Box>
             <TableCore columns={columns} {...data} />
          </PageContent>
       </BaseBreadcrumbs>

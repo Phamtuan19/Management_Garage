@@ -1,23 +1,26 @@
+/* eslint-disable @typescript-eslint/naming-convention */
+
 import BaseService from '@Core/Api/BaseService';
 import { AxiosResponseData } from '@Core/Api/axios-config';
 
 export const personnelPathUrl = {
    BASE: 'personnel',
    ALL_FIELD: '/all-field',
+   CHANGE_PASSWORD: '/change-password',
 };
 export interface IPersonnel {
    _id: string;
-   code: string;
-   fullName?: string;
+   code?: string;
+   full_name?: string;
    email?: string;
-   accountName?: string;
+   account_name?: string;
    phone?: string;
    password?: string;
-   avatarUrl?: string;
-   birthDay?: Date;
-   hireDate?: Date; // Ngày nhận việc
-   leaveDate?: Date; // Ngày nghỉ làm
-   cccdNumber?: string; // Số CMND hoặc chứng minh nhân dân
+   avatar_url?: string;
+   birth_day?: Date;
+   hire_date?: Date; // Ngày nhận việc
+   leave_date?: Date; // Ngày nghỉ làm
+   cccd_number?: string; // Số CMND hoặc chứng minh nhân dân
    gender?: string;
    address?: {
       province: {
@@ -35,10 +38,14 @@ export interface IPersonnel {
       specific: string;
    };
    bankAccountId?: string;
-   roleId?: string; // Tên chức vụ - có thể là null nếu lưu dữ liệu khách hàng
+   role_id: {
+      name: string;
+   }; // Tên chức vụ - có thể là null nếu lưu dữ liệu khách hàng
    isLock?: boolean;
+   createdAt: string;
+   updatedAt: string;
+   isAdmin: boolean;
 }
-
 class PersonnelService extends BaseService {
    BASE_ENDPOINT = personnelPathUrl.BASE;
 
@@ -49,6 +56,10 @@ class PersonnelService extends BaseService {
 
    fieldAll(): Promise<AxiosResponseData> {
       return this.request(this.BASE_ENDPOINT + personnelPathUrl.ALL_FIELD);
+   }
+
+   changePassword(id: string, data: { new_password: string; old_password: string }) {
+      return this.request.patch(this.BASE_ENDPOINT + personnelPathUrl.CHANGE_PASSWORD + '/' + id, data);
    }
 }
 

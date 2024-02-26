@@ -13,6 +13,7 @@ export interface AxiosResponseDataType<TData = Record<string, any>> {
 }
 
 export interface HandleErrorApi {
+   data: any;
    success: boolean;
    statusCode: HttpStatusCodeSType;
    message: { [key: string]: string[] };

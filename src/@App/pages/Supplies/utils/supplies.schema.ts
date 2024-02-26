@@ -47,6 +47,7 @@ export const suppliesSchema = yup.object({
       Array.isArray(value) && value.length > 0
          ? yup.array().of(
               yup.object().shape({
+                 code: yup.string().default(''),
                  distributor_id: yup.string().required(messageValidate.required('Tên danh mục')).default(''),
                  name_detail: yup.string().default(''),
                  imported_price: yup
@@ -63,6 +64,7 @@ export const suppliesSchema = yup.object({
            )
          : yup.array().of(
               yup.object().shape({
+                 code: yup.string().default(''),
                  distributor_id: yup.string().default(''),
                  name_detail: yup.string().default(''),
                  imported_price: yup.string().default('0'),

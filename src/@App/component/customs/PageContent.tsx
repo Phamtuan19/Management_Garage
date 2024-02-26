@@ -1,17 +1,17 @@
 import { Box, SxProps, Theme } from '@mui/material';
 import React from 'react';
 
-const PageContent = ({ children, sx }: { children?: React.ReactNode; sx?: SxProps<Theme> }) => {
+const PageContent = ({ children, sx }: { children?: React.ReactNode; sx?: SxProps<Theme> | undefined }) => {
    return (
       <Box
-         sx={({ base }) => ({
-            sx,
+         sx={{
             marginTop: '12px',
             padding: '12px',
             border: '1px solid  #d1d5db5e',
             borderRadius: '5px',
-            backgroundColor: base.background.white as string,
-         })}
+            backgroundColor: '#FFFF',
+            ...sx,
+         }}
       >
          {children}
       </Box>

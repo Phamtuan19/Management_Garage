@@ -53,7 +53,6 @@ const CarsDetails = () => {
       const res = await carsService.find(carsId as string);
       return res.data;
    });
-
    const customerDetails = [
       { label: 'Tên khách hàng', value: cars?.customer_id.name },
       { label: 'Số điện thoại', value: cars?.customer_id.phone },

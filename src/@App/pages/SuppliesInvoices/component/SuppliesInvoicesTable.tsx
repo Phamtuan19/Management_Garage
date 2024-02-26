@@ -1,28 +1,29 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/naming-convention */
 import {
    Box,
    Button,
+   ButtonBase,
+   Grid,
+   InputBase,
    Table,
    TableBody,
    TableCell,
    TableContainer,
    TableHead,
    TableRow,
-   TextField,
+   Typography,
    styled,
    tableCellClasses,
 } from '@mui/material';
-import { Control, FieldValues, UseFormReturn, useFieldArray } from 'react-hook-form';
-import ControllerTextField from '@Core/Component/Input/ControllerTextField';
-import AddRoundedIcon from '@mui/icons-material/AddRounded';
+import { UseFormReturn, useFieldArray } from 'react-hook-form';
 import DeleteOutlineRoundedIcon from '@mui/icons-material/DeleteOutlineRounded';
-import { useQuery } from '@tanstack/react-query';
-import suppliesService from '@App/services/supplies.service';
-import ControllerSelect from '@Core/Component/Input/ControllerSelect';
+import handlePrice from '@Core/Helper/hendlePrice';
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
 
 import { SuppliesInvoicesSchema } from '../utils/suppliesInvoices.schema';
+
+import SearchSupplies from './SearchSupplies';
 
 const headerConfig = [
    {
@@ -45,10 +46,11 @@ const headerConfig = [
       id: 4,
       title: 'ĐVT',
       align: 'center',
+      width: '50px',
    },
    {
       id: 5,
-      title: 'Số lượng',
+      title: 'SL',
       align: 'center',
    },
    {
@@ -66,39 +68,36 @@ const headerConfig = [
       id: 8,
       title: '',
       align: 'center',
+      width: '70px',
    },
 ];
 
 const SuppliesInvoicesTable = ({ form }: { form: UseFormReturn<SuppliesInvoicesSchema> }) => {
-   const { control } = form;
+   const { control, watch, setValue } = form;
 
-   const { fields, append, remove } = useFieldArray({
+   const { fields, remove } = useFieldArray({
       control,
       name: 'details',
    });
 
-   const { data: supplies } = useQuery(['getAllSupplies'], async () => {
-      const res = await suppliesService.getAllSupplies();
-      return res.data;
-   });
+   const handleIncrease = (index: number) => {
+      setValue(`details.${index}.quantity_received`, watch(`details.${index}.quantity_received`) + 1);
+   };
+
+   const handleReduced = (index: number) => {
+      setValue(
+         `details.${index}.quantity_received`,
+         watch(`details.${index}.quantity_received`) <= 1 ? 1 : watch(`details.${index}.quantity_received`) - 1,
+      );
+   };
 
    return (
       <>
-         <Button
-            sx={{ minWidth: 'auto', px: '12px' }}
-            onClick={() =>
-               append({
-                  supplies_detail_id: '',
-                  quantity_received: '',
-                  cost_price: '0',
-                  selling_price: '0',
-                  describe: '',
-               })
-            }
-         >
-            <AddRoundedIcon />
-         </Button>
-         <TableContainer>
+         <Grid container spacing={2}>
+            <SearchSupplies form={form} />
+         </Grid>
+
+         <TableContainer sx={{ mt: 2 }}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
                <TableHead>
                   <StyledTableRow>
@@ -121,62 +120,63 @@ const SuppliesInvoicesTable = ({ form }: { form: UseFormReturn<SuppliesInvoicesS
                         <TableCell component="th" scope="row" align="center">
                            {index + 1}
                         </TableCell>
+
                         {/* Mã vật tư */}
                         <TableCell width="100px" align="center">
-                           #{index + 1}
+                           <Typography sx={{ fontSize: '16px' }}>{watch(`details.${index}.code`)}</Typography>
                         </TableCell>
+
                         {/* Tên vật tư */}
                         <TableCell>
                            {/* <ControllerTextField name={`details.${index}.supplies_detail_id`} control={control} /> */}
-                           <ControllerSelect
-                              options={(supplies as any) || []}
-                              name={`details.${index}.supplies_detail_id`}
-                              valuePath="_id"
-                              titlePath="name"
-                              control={control as unknown as Control<FieldValues>}
-                           />
+                           <Typography sx={{ fontSize: '16px' }}>{watch(`details.${index}.name_detail`)}</Typography>
                         </TableCell>
                         {/* Đơn vị tính */}
-                        <TableCell align="right" sx={{ width: '100px' }}>
-                           <TextField variant="standard" value={''} disabled />
+                        <TableCell align="center" sx={{ width: '100px' }}>
+                           <Typography>{watch(`details.${index}.unit`)}</Typography>
                         </TableCell>
                         {/* Số lượng */}
-                        <TableCell align="right" sx={{ width: '100px' }}>
-                           <ControllerTextField
-                              variant="standard"
-                              name={`details.${index}.quantity_received`}
-                              control={control}
-                           />
-                           {/* Số lượng */}
+                        <TableCell align="right" sx={{ width: '130px' }}>
+                           <Box display="flex" justifyContent="space-between" gap="6px">
+                              <ButtonAddQuantity onClick={() => handleIncrease(index)}>
+                                 <AddIcon sx={{ fontSize: '16px' }} />
+                              </ButtonAddQuantity>
+                              <Box display="flex" justifyContent="center">
+                                 <ExtendInputBase value={watch(`details.${index}.quantity_received`)} />
+                              </Box>
+                              <ButtonAddQuantity
+                                 sx={({ palette }) => ({
+                                    bgcolor: palette.error.main,
+                                 })}
+                                 onClick={() => {
+                                    handleReduced(index);
+                                 }}
+                              >
+                                 <RemoveIcon sx={{ fontSize: '16px' }} />
+                              </ButtonAddQuantity>
+                           </Box>
                         </TableCell>
                         {/* Đơn giá */}
                         <TableCell align="right" sx={{ width: '130px' }}>
-                           <ControllerTextField
-                              variant="standard"
-                              name={`details.${index}.cost_price`}
-                              control={control}
+                           <ExtendInputBase
+                              value={watch(`details.${index}.cost_price`)}
+                              onChange={(e) => {
+                                 setValue(`details.${index}.cost_price`, Number(e.target.value));
+                              }}
                            />
                         </TableCell>
+
                         {/* Tổng tiền */}
-                        <TableCell align="right" sx={{ width: '130px' }}>
-                           <TextField variant="standard" value={'0'} disabled sx={{ color: 'black !important' }} />
+                        <TableCell align="center" sx={{ width: '130px' }}>
+                           <Typography>
+                              {handlePrice(
+                                 Number(watch(`details.${index}.cost_price`)) *
+                                    Number(watch(`details.${index}.quantity_received`)),
+                              )}
+                           </Typography>
                         </TableCell>
                         <TableCell align="right">
                            <Box display="flex" gap="12px">
-                              <Button
-                                 sx={{ minWidth: 'auto', px: '6px' }}
-                                 onClick={() =>
-                                    append({
-                                       supplies_detail_id: '',
-                                       quantity_received: '',
-                                       cost_price: '0',
-                                       selling_price: '0',
-                                       describe: '',
-                                    })
-                                 }
-                              >
-                                 <AddRoundedIcon sx={{ fontSize: '16px' }} />
-                              </Button>
                               <Button sx={{ minWidth: 'auto', px: '6px' }} color="error" onClick={() => remove(index)}>
                                  <DeleteOutlineRoundedIcon sx={{ fontSize: '16px' }} />
                               </Button>
@@ -192,6 +192,23 @@ const SuppliesInvoicesTable = ({ form }: { form: UseFormReturn<SuppliesInvoicesS
 };
 
 export default SuppliesInvoicesTable;
+
+const ExtendInputBase = styled(InputBase)({
+   '.css-yz9k0d-MuiInputBase-input': {
+      padding: '0px',
+      textAlign: 'center',
+   },
+});
+
+const ButtonAddQuantity = styled(ButtonBase)(({ theme }) => ({
+   backgroundColor: theme.palette.primary.main,
+   color: theme.base.text.white,
+   borderRadius: '6px',
+   display: 'flex',
+   alignItems: 'center',
+   justifyContent: 'center',
+   padding: '4px',
+}));
 
 const StyledTableRow = styled(TableRow)(() => ({
    '&:nth-of-type(odd)': {

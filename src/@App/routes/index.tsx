@@ -13,11 +13,13 @@ import customerRoute from './rotue-action/customer';
 import distributorRoute from './rotue-action/distributor';
 import materialsCatalogRoute from './rotue-action/materials-catalog';
 import personnelRoute from './rotue-action/personnels';
-import repairServicesRoute from './rotue-action/repair-services';
+// import repairServicesRoute from './rotue-action/repair-services';
 import roleRoute from './rotue-action/role';
 import suppliesInvoicesRoute from './rotue-action/supplies-invoices';
 import suppliesRoute from './rotue-action/supplies';
-import repairorderRoute from './rotue-action/repairorder';
+import repairorderRoute from './rotue-action/repair-order';
+import repairServicesRoutes from './rotue-action/repair-services';
+import profileRoute from './rotue-action/profile';
 const SignIn = Loadable('auth/SignIn');
 const Doashboard = Loadable('Doashboard');
 
@@ -48,10 +50,11 @@ const routes = (): RouteObject[] => {
             materialsCatalogRoute,
             repairorderRoute,
             personnelRoute,
-            repairServicesRoute,
             roleRoute,
             suppliesInvoicesRoute,
             suppliesRoute,
+            repairServicesRoutes,
+            profileRoute,
          ],
       },
 

@@ -6,21 +6,21 @@ import MODULE_PAGE from '@App/configs/module-page';
 import PermissionAccessRoute from '../components/PermissionAccessRoute';
 import Loadable from '../components/loadable';
 
-const Repairorder = Loadable('Repairorder');
+const Profile = Loadable('Profile');
 
-const repairorderRoute: RouteObject = {
-   path: ROUTE_PATH.REPAIR_ORDERS,
+const profileRoute: RouteObject = {
+   path: ROUTE_PATH.USER_PROFILE,
    element: <Outlet />,
    children: [
       {
          index: true,
          element: (
-            <PermissionAccessRoute module={MODULE_PAGE.REPAIR_ORDERS} action={PAGE_ACTION.VIEW_ALL} type="route">
-               <Repairorder />
+            <PermissionAccessRoute module={MODULE_PAGE.USER_PROFILE} action={PAGE_ACTION.VIEW_ALL} type="route">
+               <Profile />
             </PermissionAccessRoute>
          ),
       },
    ],
 };
 
-export default repairorderRoute;
+export default profileRoute;

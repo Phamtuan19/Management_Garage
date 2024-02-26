@@ -9,7 +9,7 @@ import LazyLoadingImage from '@App/component/customs/LazyLoadingImage';
 import { useConfirm } from '@Core/Component/Comfirm/CoreComfirm';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import ROUTE_PATH from '@App/configs/router-path';
-
+import SettingsIcon from '@mui/icons-material/Settings';
 const logo: string = 'https://react.vristo.sbthemes.com/assets/images/logo.svg';
 
 interface HeaderProps {
@@ -31,6 +31,10 @@ const Header = ({ setisOpenSidebar, isOpenSidebar }: HeaderProps) => {
       setAnchorEl(null);
       navigate(ROUTE_PATH.USER_PROFILE);
    };
+   const handleResetPassword = () => {
+      handleClose();
+      navigate(ROUTE_PATH.RESET_PASSWORD);
+   };
 
    const handleRedirectProfile = () => {
       handleClose();
@@ -42,7 +46,7 @@ const Header = ({ setisOpenSidebar, isOpenSidebar }: HeaderProps) => {
          title: 'Đăng xuất',
          confirmOk: 'Đăng xuất',
          content: 'Bạn có chắc muốn đăng xuất',
-         callback: authLogout,
+         callbackOK: authLogout,
       });
    };
 
@@ -116,6 +120,12 @@ const Header = ({ setisOpenSidebar, isOpenSidebar }: HeaderProps) => {
                         <AccountCircleOutlinedIcon fontSize="small" />
                      </ListItemIcon>
                      Tài khoản
+                  </MenuItem>
+                  <MenuItem onClick={handleResetPassword}>
+                     <ListItemIcon>
+                        <SettingsIcon fontSize="small" />
+                     </ListItemIcon>
+                     Cài đặt
                   </MenuItem>
                   <MenuItem onClick={handleClickLogout}>
                      <ListItemIcon>

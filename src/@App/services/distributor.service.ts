@@ -34,6 +34,13 @@ export interface IDistributor {
    updatedAt: string;
 }
 
+interface ResponseDataGetAllField extends AxiosResponseData {
+   data: {
+      _id: string;
+      name: string;
+   }[];
+}
+
 class DistributorService extends BaseService {
    BASE_ENDPOINT = distributorPath.BASE;
 
@@ -42,7 +49,7 @@ class DistributorService extends BaseService {
       this.setRequest();
    }
 
-   getAllField(): Promise<AxiosResponseData> {
+   getAllField(): Promise<ResponseDataGetAllField> {
       return this.request.get(this.BASE_ENDPOINT + distributorPath.allField);
    }
 }

@@ -25,7 +25,7 @@ const BaseFormSupplies = ({ form }: BaseFormSuppliesPropType) => {
    const { data: materialsCatalogs } = useQuery(['getMaterialsCatalogs'], async () => {
       try {
          const res = await materialsCatalogService.getAll();
-         return res.data as Array<Record<string, string>>;
+         return res.data;
       } catch (err: any) {
          const dataError = err.response.data as HandleErrorApi;
          return errorMessage(dataError?.message as unknown as string);
