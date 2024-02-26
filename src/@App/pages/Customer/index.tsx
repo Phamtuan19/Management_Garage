@@ -8,7 +8,7 @@ import { CoreTableActionDelete, CoreTableActionEdit } from '@Core/Component/Tabl
 import { useMemo } from 'react';
 import useCoreTable from '@App/hooks/useCoreTable';
 import useSearchParamsHook from '@App/hooks/useSearchParamsHook';
-import FilterTable from '@App/component/common/FilterTable';
+import {FilterTable} from '@App/component/common/FilterTable';
 import { Link } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
 import customerService, { ICustomer } from '@App/services/customer.service';

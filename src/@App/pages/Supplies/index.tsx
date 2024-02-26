@@ -17,7 +17,7 @@ import { useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import useCoreTable from '@App/hooks/useCoreTable';
 import PageContent from '@App/component/customs/PageContent';
-import FilterTable from '@App/component/common/FilterTable';
+import {FilterTable} from '@App/component/common/FilterTable';
 import LazyLoadingImage from '@App/component/customs/LazyLoadingImage';
 import useSearchParamsHook from '@App/hooks/useSearchParamsHook';
 

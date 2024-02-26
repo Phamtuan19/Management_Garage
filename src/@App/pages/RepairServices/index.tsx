@@ -24,7 +24,7 @@ import { AxiosResponseData, HandleErrorApi } from '@Core/Api/axios-config';
 import { AxiosError } from 'axios';
 import repairServiceService from '@App/services/repairService.service';
 import PageContent from '@App/component/customs/PageContent';
-import FilterTable from '@App/component/common/FilterTable';
+import {FilterTable} from '@App/component/common/FilterTable';
 
 const sortList = [
    {

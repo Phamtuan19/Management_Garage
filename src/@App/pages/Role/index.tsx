@@ -23,7 +23,7 @@ import { errorMessage, successMessage } from '@Core/Helper/message';
 import { AxiosResponseData, HandleErrorApi } from '@Core/Api/axios-config';
 import { AxiosError } from 'axios';
 import PageContent from '@App/component/customs/PageContent';
-import FilterTable from '@App/component/common/FilterTable';
+import {FilterTable} from '@App/component/common/FilterTable';
 
 const sortList = [
    {
