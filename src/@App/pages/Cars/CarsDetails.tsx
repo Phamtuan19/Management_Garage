@@ -12,7 +12,8 @@ import { Box, Typography, Stack, Button, Grid } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import carsService from '@App/services/cars.service';
-import { format } from 'date-fns';
+import PageContent from '@App/component/customs/PageContent';
+import hendleDateTime from '@Core/Helper/hendleDateTime';
 
 const breadcrumbs = [
    {
@@ -20,31 +21,6 @@ const breadcrumbs = [
       link: ROUTE_PATH.CARS,
    },
 ];
-
-const formatDate = (dateString: string | number | Date) => {
-   return dateString ? format(new Date(dateString), 'MM-dd-yyyy') : '';
-};
-
-const DetailsItem = ({ label, value }: { label: string; value: string }) => (
-   <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-      <Grid item xs={3}>
-         <Typography sx={{ p: 1, fontSize: '1rem', color: theme.palette.grey[800] }}>
-            {label}
-         </Typography>
-      </Grid>
-      <Grid item xs={9}>
-         <Typography sx={{ p: 1, flexGrow: 1, fontSize: '1rem', height: '40px',  fontWeight: '500'}}>{value}</Typography>
-         <Divider variant="inset" sx={{ m: 0 }} />
-      </Grid>
-   </Grid>
-);
-
-const DetailsSection = ({ details }: { details: { label: string; value: string }[] }) =>
-   details.map((detail, index) => (
-      <Grid key={index}>
-         <DetailsItem label={detail.label} value={detail.value} />
-      </Grid>
-   ));
 
 const CarsDetails = () => {
    const { id: carsId } = useParams();
@@ -57,8 +33,8 @@ const CarsDetails = () => {
       { label: 'Tên khách hàng', value: cars?.customer_id.name },
       { label: 'Số điện thoại', value: cars?.customer_id.phone },
       { label: 'Giới tính', value: cars?.customer_id.gender },
-      { label: 'Ngày tạo', value: formatDate(cars?.customer_id.createdAt) },
-      { label: 'Ngày cập nhật cuối', value: formatDate(cars?.customer_id.updatedAt) },
+      { label: 'Ngày tạo', value: hendleDateTime(cars?.customer_id.createdAt) },
+      { label: 'Ngày cập nhật cuối', value: hendleDateTime(cars?.customer_id.updatedAt) },
    ];
 
    const carDetails = [
@@ -69,59 +45,83 @@ const CarsDetails = () => {
       { label: 'Màu xe', value: cars?.car_color },
       { label: 'Loại xe', value: cars?.car_type },
       { label: 'Trạng thái', value: cars?.status },
-      { label: 'Ngày tạo', value: formatDate(cars?.createdAt) },
-      { label: 'Ngày cập nhật cuối', value: formatDate(cars?.updatedAt) },
+      { label: 'Ngày tạo', value: hendleDateTime(cars?.createdAt) },
+      { label: 'Ngày cập nhật cuối', value: hendleDateTime(cars?.updatedAt) },
    ];
 
    return (
-      <Box>
-         <BaseBreadcrumbs
-            breadcrumbs={breadcrumbs}
-            arialabel="Chi tiết nhà phân phối"
-            sx={({ base }) => ({ bgcolor: base.background.default, border: 'none', p: 0 })}
-         >
-            <Box >
-                        <PermissionAccessRoute module={MODULE_PAGE.CARS} action="VIEW_ALL">
-                           <Button
-                              variant="contained"
-                              onClick={() => navigate(ROUTE_PATH.CARS + '/' + carsId + '/update')}
-                              endIcon={<RateReviewRoundedIcon />}
-                           >
-                              Chỉnh sửa
-                           </Button>
-                        </PermissionAccessRoute>
-                     </Box>
+      <BaseBreadcrumbs
+         breadcrumbs={breadcrumbs}
+         arialabel="Chi tiết nhà phân phối"
+      >
+         <Box >
+            <PermissionAccessRoute module={MODULE_PAGE.CARS} action="VIEW_ALL">
+               <Button
+                  variant="contained"
+                  onClick={() => navigate(ROUTE_PATH.CARS + '/' + carsId + '/update')}
+                  endIcon={<RateReviewRoundedIcon />}
+               >
+                  Chỉnh sửa
+               </Button>
+            </PermissionAccessRoute>
+         </Box>
+         <PageContent>
+
             {cars && (
                <Stack>
-                  <Box sx={{ mt: 3, bgcolor: '#FFFF', p: '0px 16px 16px 16px', borderRadius: 2, position: 'relative' }}>
-                     
-                     <Box>
-                        <Box sx={{ mt: 4, p: 4, borderRadius: 2, position: 'relative' }}>
-                           <Box sx={{ mb: 2, minHeight: '50px', display: 'flex', gap: 25 }}>
+                     <Box sx={{ml: '25px', mr: '25px'}}>
+                        <Grid container spacing={2} >
+                           <Grid item xs={12} >
                               <Typography
-                                 sx={{ fontWeight: '900', fontSize: '1.5rem', color: theme.palette.grey[800] }}
+                                 sx={{ fontWeight: '600', fontSize: '1.5rem', color: theme.palette.grey[800] }}
                               >
                                  Thông tin khách hàng
                               </Typography>
-                           </Box>
-                           <DetailsSection details={customerDetails} />
-                        </Box>
-                        <Box sx={{ mt: 4, p: 4, borderRadius: 2, position: 'relative' }}>
-                           <Box sx={{ mb: 2, minHeight: '50px', display: 'flex', gap: 25 }}>
+                           </Grid>
+
+                           {customerDetails?.map((detail, index) => (
+                              <>
+                                 <Grid item xs={2} key={index}>
+                                    <Typography sx={{ fontSize: '1rem', color: theme.palette.grey[800] }}>
+                                       {detail.label}
+                                    </Typography>
+                                 </Grid >
+                                 <Grid item xs={10}>
+                                    <Typography sx={{ fontSize: '1rem', lineHeight: '32px', fontWeight: '500' }}>{detail.value}</Typography>
+                                    <Divider variant="inset" sx={{ ml: 0 }} />
+                                 </Grid>
+                              </>
+                           ))
+                           }
+                        </Grid>
+                        <Grid container spacing={2} mt={3} >
+                           <Grid item xs={12} >
                               <Typography
-                                 sx={{ fontWeight: '900', fontSize: '1.5rem', color: theme.palette.grey[800] }}
+                                 sx={{ fontWeight: '600', fontSize: '1.5rem', color: theme.palette.grey[800] }}
                               >
                                  Thông tin xe
                               </Typography>
-                           </Box>
-                           <DetailsSection details={carDetails} />
-                        </Box>
+                           </Grid>
+                           {carDetails?.map((detail, index) => (
+                              <>
+                                 <Grid item xs={2} key={index}>
+                                    <Typography sx={({ base }) => ({ fontSize: '1rem', color: base.color.text as string })}>
+                                       {detail.label}
+                                    </Typography>
+                                 </Grid>
+                                 <Grid item xs={10}>
+                                    <Typography sx={{ fontSize: '1rem', lineHeight: '32px', fontWeight: '500' }}>{detail.value}</Typography>
+                                    <Divider variant="inset" sx={{ m: 0 }} />
+                                 </Grid>
+                              </>
+                           ))
+                           }
+                        </Grid>
                      </Box>
-                  </Box>
                </Stack>
             )}
-         </BaseBreadcrumbs>
-      </Box>
+         </PageContent>
+      </BaseBreadcrumbs>
    );
 };
 

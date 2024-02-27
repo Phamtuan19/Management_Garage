@@ -8,7 +8,3 @@ interface SearchType {
    value: string;
 }
 
-interface Lock {
-   title: string;
-   value: string;
-}
