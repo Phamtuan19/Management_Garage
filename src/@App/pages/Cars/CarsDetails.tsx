@@ -28,12 +28,12 @@ const formatDate = (dateString: string | number | Date) => {
 const DetailsItem = ({ label, value }: { label: string; value: string }) => (
    <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
       <Grid item xs={3}>
-         <Typography sx={{ p: 1, fontWeight: '700', fontSize: '1rem', color: theme.palette.grey[800] }}>
+         <Typography sx={{ p: 1, fontSize: '1rem', color: theme.palette.grey[800] }}>
             {label}
          </Typography>
       </Grid>
       <Grid item xs={9}>
-         <Typography sx={{ p: 1, flexGrow: 1, fontSize: '1rem' }}>{value}</Typography>
+         <Typography sx={{ p: 1, flexGrow: 1, fontSize: '1rem', height: '40px',  fontWeight: '500'}}>{value}</Typography>
          <Divider variant="inset" sx={{ m: 0 }} />
       </Grid>
    </Grid>
@@ -80,10 +80,7 @@ const CarsDetails = () => {
             arialabel="Chi tiết nhà phân phối"
             sx={({ base }) => ({ bgcolor: base.background.default, border: 'none', p: 0 })}
          >
-            {cars && (
-               <Stack>
-                  <Box sx={{ mt: 3, bgcolor: '#FFFF', p: '0px 16px 16px 16px', borderRadius: 2, position: 'relative' }}>
-                     <Box sx={{ position: 'absolute', top: '0', right: '0', p: 1 }}>
+            <Box >
                         <PermissionAccessRoute module={MODULE_PAGE.CARS} action="VIEW_ALL">
                            <Button
                               variant="contained"
@@ -94,6 +91,10 @@ const CarsDetails = () => {
                            </Button>
                         </PermissionAccessRoute>
                      </Box>
+            {cars && (
+               <Stack>
+                  <Box sx={{ mt: 3, bgcolor: '#FFFF', p: '0px 16px 16px 16px', borderRadius: 2, position: 'relative' }}>
+                     
                      <Box>
                         <Box sx={{ mt: 4, p: 4, borderRadius: 2, position: 'relative' }}>
                            <Box sx={{ mb: 2, minHeight: '50px', display: 'flex', gap: 25 }}>
