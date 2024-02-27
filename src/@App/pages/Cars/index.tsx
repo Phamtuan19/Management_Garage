@@ -18,7 +18,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import useCoreTable from '@App/hooks/useCoreTable';
 import carsService from '@App/services/cars.service';
 import { CAR_STATUS } from '@App/configs/status-config';
-import {FilterTable} from '@App/component/common/FilterTable';
+import FilterTable from '@App/component/common/FilterTable';
 import PAGE_ACTION from '@App/configs/page-action';
 import PageContent from '@App/component/customs/PageContent';
 
