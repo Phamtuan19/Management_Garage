@@ -13,8 +13,8 @@ export interface IMaterialsCatalog {
    name: string;
    status: CarStatusKeys;
    describe: string;
-   createdAt: string;
-   updatedAt: string;
+   createdAt:string;
+   updatedAt:string;
 }
 
 export interface MaterialsCatalogResponse {
