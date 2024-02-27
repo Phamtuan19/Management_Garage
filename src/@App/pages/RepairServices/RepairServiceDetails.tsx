@@ -33,12 +33,12 @@ const RepairServiceDetails = () => {
    const DetailsItem = ({ label, value }: { label: string; value: string }) => (
       <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
          <Grid item xs={3}>
-            <Typography sx={{ p: 1, fontWeight: '700', fontSize: '1rem', color: theme.palette.grey[800] }}>
+            <Typography sx={{ p: 1, fontSize: '1rem', color: theme.palette.grey[800] }}>
                {label}
             </Typography>
          </Grid>
          <Grid item xs={9}>
-            <Typography sx={{ p: 1, flexGrow: 1, fontSize: '1rem' }}>{value}</Typography>
+            <Typography sx={{ p: 1, flexGrow: 1, fontSize: '1rem', fontWeight: '500', height: '40px' }}>{value}</Typography>
             <Divider variant="inset" sx={{ m: 0 }} />
          </Grid>
       </Grid>
@@ -65,10 +65,7 @@ const RepairServiceDetails = () => {
             arialabel="Chi tiết dịch vụ sửa chữa"
             sx={({ base }) => ({ bgcolor: base.background.default, border: 'none', p: 0 })}
          >
-            {repairService && (
-               <Stack>
-                  <Box sx={{ mt: 3, bgcolor: '#FFFF', p: '0px 16px 16px 16px', borderRadius: 2, position: 'relative' }}>
-                     <Box sx={{ position: 'absolute', top: '0', right: '0', p: 1 }}>
+            <Box>
                         <PermissionAccessRoute module={MODULE_PAGE.REPAIR_SERVICES} action="VIEW_ALL">
                            <Button
                               variant="contained"
@@ -79,6 +76,10 @@ const RepairServiceDetails = () => {
                            </Button>
                         </PermissionAccessRoute>
                      </Box>
+            {repairService && (
+               <Stack>
+                  <Box sx={{ mt: 3, bgcolor: '#FFFF', p: '0px 16px 16px 16px', borderRadius: 2, position: 'relative' }}>
+                     
                      <Box>
                         <Box sx={{ mt: 4, p: 4, borderRadius: 2, position: 'relative' }}>
                            <Box sx={{ mb: 2, minHeight: '50px', display: 'flex', gap: 25 }}>
