@@ -7,7 +7,7 @@ const MODULE_PAGE = {
 
    CUSTOMERS: 'CUSTOMERS', //
 
-   ROLES: 'ROLES', // 
+   ROLES: 'ROLES', //
 
    DISTRIBUTORS: 'DISTRIBUTORS', //
 
