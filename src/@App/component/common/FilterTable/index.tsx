@@ -2,15 +2,27 @@ import { Box } from '@mui/material';
 
 import SearchInput from './SearchInput';
 import SortTable from './SortTable';
+import LockButton from './LockButton';
 
-const FilterTable = (props: { sortList: SortList[]; searchType: SortList[] }) => {
+
+export const FilterTable = (props: { sortList: SortList[]; searchType: SortList[] }) => {
    return (
       <Box sx={{ flex: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 2 }}>
          <SearchInput {...props} />
-         {/* Sort table */}
          <SortTable sortList={props.sortList} />
+         {/* <LockButton lock={props.lock} /> */}
       </Box>
    );
 };
 
-export default FilterTable;
+// export default FilterTable;
+
+export const Lock = (props: {  lock: Lock[] }) => {
+   return (
+      <Box sx={{ flex: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 2 }}>
+         <LockButton lock={props.lock} />
+      </Box>
+   );
+};
+
+// export default  Lock ;
