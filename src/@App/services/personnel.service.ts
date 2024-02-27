@@ -46,6 +46,13 @@ export interface IPersonnel {
    updatedAt: string;
    isAdmin: boolean;
 }
+
+export interface ResponseFieldAll extends AxiosResponseData {
+   data: Array<{
+      _id: string;
+      full_name: string;
+   }>;
+}
 class PersonnelService extends BaseService {
    BASE_ENDPOINT = personnelPathUrl.BASE;
 
@@ -54,7 +61,7 @@ class PersonnelService extends BaseService {
       this.setRequest();
    }
 
-   fieldAll(): Promise<AxiosResponseData> {
+   fieldAll(): Promise<ResponseFieldAll> {
       return this.request(this.BASE_ENDPOINT + personnelPathUrl.ALL_FIELD);
    }
 

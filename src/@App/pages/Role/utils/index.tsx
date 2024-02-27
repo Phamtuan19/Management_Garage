@@ -20,6 +20,16 @@ export interface RolePropsTypeConfig {
 }
 
 export const ROLES: RolePropsTypeConfig[] = [
+   {
+      name: MODULE_PAGE.DOASHBOARD,
+      title: 'Thống kê',
+      action: [
+         {
+            name: PAGE_ACTION.VIEW_ALL,
+            title: 'Xem thống kê',
+         },
+      ],
+   },
    // DISTRIBUTORS
    {
       name: MODULE_PAGE.DISTRIBUTORS,
@@ -129,6 +139,195 @@ export const ROLES: RolePropsTypeConfig[] = [
          {
             name: PAGE_ACTION.UPDATE,
             title: 'Cập nhật thông tin vai trò',
+         },
+      ],
+   },
+   // CAR
+   {
+      name: MODULE_PAGE.CARS,
+      title: 'Xe',
+      action: [
+         {
+            name: PAGE_ACTION.VIEW_ALL,
+            title: 'Xem Danh sách xe',
+         },
+         {
+            name: PAGE_ACTION.VIEW_ONE,
+            title: 'Xem Chi tiết thông tin xe',
+         },
+         {
+            name: PAGE_ACTION.CREATE,
+            title: 'Thêm mới thông tin xe',
+         },
+         {
+            name: PAGE_ACTION.DELETE,
+            title: 'Xóa thông tin xe',
+         },
+         {
+            name: PAGE_ACTION.UPDATE,
+            title: 'Cập nhật thông tin xe',
+         },
+      ],
+   },
+   // CUSTOMERS
+   {
+      name: MODULE_PAGE.CUSTOMERS,
+      title: 'Người dùng',
+      action: [
+         {
+            name: PAGE_ACTION.VIEW_ALL,
+            title: 'Xem Danh sách người dùng',
+         },
+         {
+            name: PAGE_ACTION.VIEW_ONE,
+            title: 'Xem Chi tiết thông tin người dùng',
+         },
+         {
+            name: PAGE_ACTION.CREATE,
+            title: 'Thêm mới thông tin người dùng',
+         },
+         {
+            name: PAGE_ACTION.DELETE,
+            title: 'Xóa thông tin người dùng',
+         },
+         {
+            name: PAGE_ACTION.UPDATE,
+            title: 'Cập nhật thông tin người dùng',
+         },
+      ],
+   },
+   // SUPPLIES_INVOICES
+   {
+      name: MODULE_PAGE.SUPPLIES_INVOICES,
+      title: 'Hóa đơn nhập vật tư',
+      action: [
+         {
+            name: PAGE_ACTION.VIEW_ALL,
+            title: 'Xem Danh sách hóa đơn nhập vật tư',
+         },
+         {
+            name: PAGE_ACTION.VIEW_ONE,
+            title: 'Xem Chi tiết thông tin hóa đơn nhập vật tư',
+         },
+         {
+            name: PAGE_ACTION.CREATE,
+            title: 'Thêm mới thông tin hóa đơn nhập vật tư',
+         },
+         {
+            name: PAGE_ACTION.DELETE,
+            title: 'Xóa thông tin hóa đơn nhập vật tư',
+         },
+         {
+            name: PAGE_ACTION.UPDATE,
+            title: 'Cập nhật thông tin hóa đơn nhập vật tư',
+         },
+      ],
+   },
+   // SUPPLIES_DETAILS
+   {
+      name: MODULE_PAGE.SUPPLIES_DETAILS,
+      title: 'Vật tư chi tiết',
+      action: [
+         {
+            name: PAGE_ACTION.VIEW_ALL,
+            title: 'Xem Danh sách Vật tư chi tiết',
+         },
+         {
+            name: PAGE_ACTION.VIEW_ONE,
+            title: 'Xem Chi tiết thông tin Vật tư chi tiết',
+         },
+         {
+            name: PAGE_ACTION.CREATE,
+            title: 'Thêm mới thông tin Vật tư chi tiết',
+         },
+         {
+            name: PAGE_ACTION.DELETE,
+            title: 'Xóa thông tin Vật tư chi tiết',
+         },
+         {
+            name: PAGE_ACTION.UPDATE,
+            title: 'Cập nhật thông tin Vật tư chi tiết',
+         },
+      ],
+   },
+   // WAREHOUSES
+   {
+      name: MODULE_PAGE.WAREHOUSES,
+      title: 'kho hàng',
+      action: [
+         {
+            name: PAGE_ACTION.VIEW_ALL,
+            title: 'Xem Danh sách kho hàng',
+         },
+         {
+            name: PAGE_ACTION.VIEW_ONE,
+            title: 'Xem Chi tiết thông tin kho hàng',
+         },
+         {
+            name: PAGE_ACTION.CREATE,
+            title: 'Thêm mới thông tin kho hàng',
+         },
+         {
+            name: PAGE_ACTION.DELETE,
+            title: 'Xóa thông tin kho hàng',
+         },
+         {
+            name: PAGE_ACTION.UPDATE,
+            title: 'Cập nhật thông tin kho hàng',
+         },
+      ],
+   },
+   // REPAIR_ORDERS
+   {
+      name: MODULE_PAGE.REPAIR_ORDERS,
+      title: 'Hóa đơn sử chữa',
+      action: [
+         {
+            name: PAGE_ACTION.VIEW_ALL,
+            title: 'Xem Danh sách hóa đơn sử chữa',
+         },
+         {
+            name: PAGE_ACTION.VIEW_ONE,
+            title: 'Xem Chi tiết thông tin hóa đơn sử chữa',
+         },
+         {
+            name: PAGE_ACTION.CREATE,
+            title: 'Thêm mới thông tin hóa đơn sử chữa',
+         },
+         {
+            name: PAGE_ACTION.DELETE,
+            title: 'Xóa thông tin hóa đơn sử chữa',
+         },
+         {
+            name: PAGE_ACTION.UPDATE,
+            title: 'Cập nhật thông tin hóa đơn sử chữa',
+         },
+      ],
+   },
+   // REPAIR_SERVICES
+   {
+      name: MODULE_PAGE.REPAIR_SERVICES,
+      title: 'Dịch vụ sửa chữa',
+      action: [
+         {
+            name: PAGE_ACTION.VIEW_ALL,
+            title: 'Xem Danh sách dịch vụ sửa chữa',
+         },
+         {
+            name: PAGE_ACTION.VIEW_ONE,
+            title: 'Xem Chi tiết thông tin dịch vụ sửa chữa',
+         },
+         {
+            name: PAGE_ACTION.CREATE,
+            title: 'Thêm mới thông tin dịch vụ sửa chữa',
+         },
+         {
+            name: PAGE_ACTION.DELETE,
+            title: 'Xóa thông tin dịch vụ sửa chữa',
+         },
+         {
+            name: PAGE_ACTION.UPDATE,
+            title: 'Cập nhật thông tin dịch vụ sửa chữa',
          },
       ],
    },

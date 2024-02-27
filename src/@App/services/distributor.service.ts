@@ -5,6 +5,7 @@ import { AxiosResponseData } from '@Core/Api/axios-config';
 const distributorPath = {
    BASE: 'distributors',
    allField: '/all-field',
+   DistrictsRepairInvoice: '/repair-invoice',
 };
 
 export interface IAddressOption {
@@ -40,6 +41,15 @@ interface ResponseDataGetAllField extends AxiosResponseData {
       name: string;
    }[];
 }
+interface ResponseDataSuppliesInvoice extends AxiosResponseData {
+   data: {
+      distributor_id: string;
+      distributor_code: string;
+      supplies_detail_id: string;
+      supplies_detail_code: string;
+      supplies_detail_name: string;
+   }[];
+}
 
 class DistributorService extends BaseService {
    BASE_ENDPOINT = distributorPath.BASE;
@@ -51,6 +61,10 @@ class DistributorService extends BaseService {
 
    getAllField(): Promise<ResponseDataGetAllField> {
       return this.request.get(this.BASE_ENDPOINT + distributorPath.allField);
+   }
+
+   getDistrictsRepairInvoice(params: { supplies_id: string }): Promise<ResponseDataSuppliesInvoice> {
+      return this.request.get(this.BASE_ENDPOINT + distributorPath.DistrictsRepairInvoice, { params });
    }
 }
 

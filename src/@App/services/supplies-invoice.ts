@@ -6,6 +6,7 @@ import { AxiosResponseData } from '@Core/Api/axios-config';
 const suppliesInvoicederPath = {
    base: 'supplies-invoices',
    getListDeatils: 'details',
+   getListDeatilsSort: 'sort-createAt',
 };
 
 export interface SuppliesInvoicesResponse {
@@ -78,6 +79,15 @@ export interface ResponseSuppliesDetails extends AxiosResponseData {
    data: DataSuppliesDetails[];
 }
 
+export interface ResponseSuppliesDetailsSort extends AxiosResponseData {
+   data: {
+      _id: string;
+      selling_price: number;
+      supplies_invoice_code: string;
+      inventory: number;
+   }[];
+}
+
 class SuppliesInvoiceService extends BaseService {
    BASE_ENDPOINT = suppliesInvoicederPath.base;
    constructor() {
@@ -87,6 +97,10 @@ class SuppliesInvoiceService extends BaseService {
 
    getListSuppliesInvoiceDetails(): Promise<ResponseSuppliesDetails> {
       return this.request.get(this.BASE_ENDPOINT + '/' + suppliesInvoicederPath.getListDeatils);
+   }
+
+   getListDeatilsSort(params: { supplies_detail_id: string }): Promise<ResponseSuppliesDetailsSort> {
+      return this.request.get(this.BASE_ENDPOINT + '/' + suppliesInvoicederPath.getListDeatilsSort, { params });
    }
 }
 const suppliesInvoiceService = new SuppliesInvoiceService();

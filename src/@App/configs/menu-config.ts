@@ -75,6 +75,13 @@ const menuConfig: MenuConfigItem[] = [
             module: MODULE_PAGE.DISTRIBUTORS,
             action: PAGE_ACTION.VIEW_ALL,
          },
+         {
+            id: 6.1,
+            title: 'Nhập hàng',
+            link: ROUTE_PATH.SUPPLIES_INVOICES,
+            module: MODULE_PAGE.SUPPLIES_INVOICES,
+            action: PAGE_ACTION.VIEW_ALL,
+         },
       ],
    },
    {
@@ -111,22 +118,6 @@ const menuConfig: MenuConfigItem[] = [
             title: 'Khách hàng',
             link: ROUTE_PATH.CUSTOMERS,
             module: MODULE_PAGE.CUSTOMERS,
-            action: PAGE_ACTION.VIEW_ALL,
-         },
-      ],
-   },
-   {
-      id: 6,
-      title: 'Giao dịch',
-      link: '/trs',
-      icon: ReceiptLongIcon,
-      module: MODULE_PAGE.DOASHBOARD,
-      children: [
-         {
-            id: 6.1,
-            title: 'Nhập hàng',
-            link: ROUTE_PATH.SUPPLIES_INVOICES,
-            module: MODULE_PAGE.SUPPLIES_INVOICES,
             action: PAGE_ACTION.VIEW_ALL,
          },
       ],
