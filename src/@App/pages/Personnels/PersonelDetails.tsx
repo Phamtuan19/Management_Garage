@@ -61,7 +61,8 @@ const PersonnelDetails = () => {
                         <Box sx={{ mt: 4, p: 4, borderRadius: 2, position: 'relative' }}>
                            <Box sx={{ mb: 2, minHeight: '50px', display: 'flex', gap: 25 }}>
                               <Typography
-                                 sx={{ fontWeight: '900', fontSize: '1.5rem', color: theme.palette.grey[800] }}
+                                 // sx={{ fontWeight: '900', fontSize: '1.5rem', color: theme.palette.grey[800] }}
+                                 variant="h6"
                               >
                                  Thông tin nhân viên
                               </Typography>
@@ -80,7 +81,7 @@ const PersonnelDetails = () => {
                                        <Typography
                                           sx={{
                                              p: 1,
-                                             fontWeight: '700',
+
                                              fontSize: '1rem',
                                              color: theme.palette.grey[800],
                                           }}
@@ -89,7 +90,7 @@ const PersonnelDetails = () => {
                                        </Typography>
                                     </Grid>
                                     <Grid item xs={9}>
-                                       <Typography sx={{ p: 1, flexGrow: 1, fontSize: '1rem' }}>
+                                       <Typography sx={{ p: 1, flexGrow: 1, fontSize: '1rem', fontWeight: '700' }}>
                                           <Chip label={personnels[0].role_id.name} color="success" />
                                        </Typography>
                                        <Divider variant="inset" sx={{ m: 0 }} />
@@ -110,14 +111,35 @@ const PersonnelDetails = () => {
 };
 
 const DetailsItem = ({ label, value }: { label: string; value: string }) => (
-   <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+   <Grid container rowSpacing={0} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
       <Grid item xs={3}>
-         <Typography sx={{ p: 1, fontWeight: '700', fontSize: '1rem', color: theme.palette.grey[800] }}>
+         <Typography
+            sx={{
+               p: 1,
+               fontSize: '1rem',
+               color: theme.palette.grey[800],
+               height: '35px',
+               display: 'flex',
+               alignItems: 'center',
+            }}
+         >
             {label}
          </Typography>
       </Grid>
       <Grid item xs={9}>
-         <Typography sx={{ p: 1, flexGrow: 1, fontSize: '1rem' }}>{value}</Typography>
+         <Typography
+            sx={{
+               p: 1,
+               flexGrow: 1,
+               fontSize: '1rem',
+               height: '35px',
+               fontWeight: '700',
+               display: 'flex',
+               alignItems: 'center',
+            }}
+         >
+            {value || ''}
+         </Typography>
          <Divider variant="inset" sx={{ m: 0 }} />
       </Grid>
       <Grid item md={12}></Grid>
