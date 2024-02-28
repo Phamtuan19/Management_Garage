@@ -41,7 +41,7 @@ const sortList = [
 
 export default function Personnels() {
    const navigate = useNavigate();
-   const { searchParams } = useSearchParamsHook();
+   const { searchParams, setParams } = useSearchParamsHook();
 
    const queryTable = useQuery(['getPersonnelList', searchParams], async () => {
       const res = await personnelService.get(searchParams);
@@ -49,6 +49,11 @@ export default function Personnels() {
    });
 
    const data = useCoreTable(queryTable);
+
+   const handleClickIsLock = (key: string) => {
+      const newIsLockValue = key === 'true' ? 'false' : 'true';
+      setParams('is_lock', newIsLockValue);
+   };
 
    const { mutate: handleDelete } = useMutation({
       mutationFn: async (id: string) => {
@@ -66,6 +71,35 @@ export default function Personnels() {
          return errorMessage((dataError?.message as unknown as string) || 'Xóa thất bại');
       },
    });
+
+   // 65d8bc35d6b107bb3eb8d390
+   // 65bdd1c7d2e36066f7a4f653
+
+   const { mutate: handleIsLock } = useMutation({
+      mutationFn: async (id: string) => {
+         const res = await personnelService.lockPersonnel(id);
+         return res;
+      },
+      onSuccess: (data: AxiosResponseData) => {
+         successMessage(data.message || 'Khóa thành công');
+         const refetch = queryTable.refetch;
+         return refetch();
+      },
+      onError: (err: AxiosError) => {
+         const dataError = err.response?.data as HandleErrorApi;
+         return errorMessage((dataError?.message as unknown as string) || 'Khóa thất bại');
+      },
+   });
+
+   // const handleLockClick = async (personnelId: string) => {
+   //    try {
+   //       await personnelService.lockPersonnel(personnelId);
+   //       const refetch = queryTable.refetch;
+   //       return refetch();
+   //    } catch (error) {
+   //       // console.error('Error locking personnel:', error);
+   //    }
+   // };
 
    const columns = useMemo(() => {
       return [
@@ -135,7 +169,7 @@ export default function Personnels() {
                      {personnel.isAdmin === false && (
                         <>
                            <PermissionAccessRoute module={MODULE_PAGE.PERSONNELS} action="IS_LOCK">
-                              <CoreTableActionLock />
+                              <CoreTableActionLock callback={() => handleIsLock(personnel._id)} />
                            </PermissionAccessRoute>
                            <PermissionAccessRoute module={MODULE_PAGE.PERSONNELS} action="DELETE">
                               <CoreTableActionDelete callback={() => handleDelete(personnel._id)} />
@@ -157,7 +191,6 @@ export default function Personnels() {
          <Button size="medium" component={Link} to="create" sx={{ py: '5px', px: '12px' }} endIcon={<AddIcon />}>
             Thêm mới
          </Button>
-
          <Box
             sx={({ base }) => ({
                marginTop: '12px',
@@ -166,8 +199,12 @@ export default function Personnels() {
                backgroundColor: base.background.white as string,
             })}
          >
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 1, alignItems: 'center' }}>
                <FilterTable sortList={sortList} searchType={sortList} />
+
+               <Button onClick={() => handleClickIsLock(searchParams.is_lock)}>
+                  {searchParams.is_lock === 'true' ? 'Tài khoản đã mở' : 'Tài khoản bị khóa'}
+               </Button>
             </Box>
 
             <TableCore columns={columns} {...data} />

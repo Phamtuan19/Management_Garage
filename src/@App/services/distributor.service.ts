@@ -25,12 +25,11 @@ export interface IDistributor {
       specific: string;
    };
    bank_account_id: {
-      _id: string;
+      bank_name: string;
+      bank_branch: string;
+      account_holder_name: string;
+      bank_account_number: string;
    };
-   bank_name: string;
-   bank_branch: string;
-   account_holder_name: string;
-   bank_account_number: string;
    createdAt: string;
    updatedAt: string;
 }

@@ -61,6 +61,20 @@ const Repairorder = () => {
                return <Box textAlign="center">{repairOrder.customer[0].name} </Box>;
             },
          }),
+         columnHelper.accessor('car_id', {
+            header: () => <Box textAlign="center">Tên xe</Box>,
+            cell: ({ row }) => {
+               const repairOrder = row.original as RepairOrdersResponse;
+               return <Box textAlign="center">{repairOrder.car_id.name} </Box>;
+            },
+         }),
+         columnHelper.accessor('car_id', {
+            header: () => <Box textAlign="center">Biển số xe</Box>,
+            cell: ({ row }) => {
+               const repairOrder = row.original as RepairOrdersResponse;
+               return <Box textAlign="center">{repairOrder.car_id.license_plate} </Box>;
+            },
+         }),
          columnHelper.accessor('personnel_id', {
             header: () => <Box textAlign="center">NV Tạo</Box>,
             cell: ({ row }) => {

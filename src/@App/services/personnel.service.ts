@@ -7,6 +7,7 @@ export const personnelPathUrl = {
    BASE: 'personnel',
    ALL_FIELD: '/all-field',
    CHANGE_PASSWORD: '/change-password',
+   IS_LOCK: '/lock',
 };
 export interface IPersonnel {
    _id: string;
@@ -67,6 +68,9 @@ class PersonnelService extends BaseService {
 
    changePassword(id: string, data: { new_password: string; old_password: string }) {
       return this.request.patch(this.BASE_ENDPOINT + personnelPathUrl.CHANGE_PASSWORD + '/' + id, data);
+   }
+   lockPersonnel(id: string): Promise<AxiosResponseData> {
+      return this.request.put(this.BASE_ENDPOINT + personnelPathUrl.IS_LOCK + '/' + id);
    }
 }
 
