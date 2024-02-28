@@ -11,11 +11,12 @@ import theme from '@Core/Theme';
 import { Box, Typography, Stack, Grid } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
-import { format } from 'date-fns';
 import suppliesInvoiceService from '@App/services/supplies-invoice';
 import { TableContainer, Table, TableBody, TableRow, TableCell, Paper } from '@mui/material';
 import TableHead from '@mui/material/TableHead';
-// import TabSuppliesInvoicesDetails from './component/TabSuppliesIvoices';
+import PageContent from '@App/component/customs/PageContent';
+import ScrollbarBase from '@App/component/customs/ScrollbarBase';
+import hendleDateTime from '@Core/Helper/hendleDateTime';
 
 const breadcrumbs = [
    {
@@ -31,10 +32,6 @@ const SuppliesInvoicesDetails = () => {
       return suppliesInvoicesRes.data;
    });
 
-   const formDate = (dateString: string | number | Date) => {
-      return dateString ? format(new Date(dateString), 'MM-dd-yyyy') : '';
-   };
-
    const suppliesInvoicesDetails = [
       { label: 'Mã hóa đơn', value: suppliesinvoices?.code },
       { label: 'Người tạo phiếu', value: suppliesinvoices?.personnel.full_name },
@@ -43,7 +40,7 @@ const SuppliesInvoicesDetails = () => {
       { label: 'HT thanh toán', value: suppliesinvoices?.transactions.payment_type },
       { label: 'Tiền mặt', value: suppliesinvoices?.transactions.transfer_money },
       { label: 'Chuyển khoản', value: suppliesinvoices?.transactions.cash_money },
-      { label: 'Ngày tạo', value: formDate(suppliesinvoices?.createdAt) },
+      { label: 'Ngày tạo', value: hendleDateTime(suppliesinvoices?.createdAt) },
    ];
 
    const DetailssuppliesInvoices = [
@@ -56,42 +53,44 @@ const SuppliesInvoicesDetails = () => {
       { label: 'Đơn vị tính', value: 'unit' },
    ];
    return (
-      <Box>
-         <BaseBreadcrumbs
-            breadcrumbs={breadcrumbs}
-            arialabel="Chi tiết phiếu nhập hàng"
-            sx={({ base }) => ({ bgcolor: base.background.default, border: 'none', p: 0 })}
-         >
+      <BaseBreadcrumbs breadcrumbs={breadcrumbs} arialabel="Chi tiết phiếu nhập hàng">
+         <PageContent>
             {suppliesinvoices && (
                <Stack>
-                  <Box sx={{ mt: 3, bgcolor: '#FFFF', p: '0px 16px 16px 16px', borderRadius: 2, position: 'relative' }}>
-                     <Box>
-                        <Box sx={{ mt: 4, p: 4, borderRadius: 2, position: 'relative' }}>
-                           <Box sx={{ mb: 2, minHeight: '50px', display: 'flex', gap: 25 }}>
-                              <Typography
-                                 sx={{ fontWeight: '900', fontSize: '1.5rem', color: theme.palette.grey[800] }}
-                              >
-                                 Thông tin phiếu nhập hàng
-                              </Typography>
-                           </Box>
+                  <Box sx={{ ml: '25px', mr: '25px' }}>
+                     <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                           <Typography sx={{ fontWeight: '600', fontSize: '1.5rem', color: theme.palette.grey[800] }}>
+                              Thông tin phiếu nhập hàng
+                           </Typography>
+                        </Grid>
 
-                           {suppliesInvoicesDetails.map((detail: { label: string; value: string }, index: number) => {
-                              return (
-                                 <Grid item key={index} xs={12}>
-                                    <DetailsItem label={detail.label} value={detail.value} />
-                                 </Grid>
-                              );
-                           })}
-                        </Box>
-                        <Box sx={{ mt: 4, p: 4, borderRadius: 2, position: 'relative' }}>
-                           <Box sx={{ mb: 2, minHeight: '50px', display: 'flex', gap: 25 }}>
-                              <Typography
-                                 sx={{ fontWeight: '900', fontSize: '1.5rem', color: theme.palette.grey[800] }}
-                              >
-                                 Thông tin chi tiết phiếu nhập hàng
-                              </Typography>
-                           </Box>
-                           <TableContainer component={Paper}>
+                        {suppliesInvoicesDetails?.map((detail, index) => (
+                           <>
+                              <Grid item xs={2} key={index}>
+                                 <Typography sx={{ fontSize: '1rem', color: theme.palette.grey[800] }}>
+                                    {detail.label}
+                                 </Typography>
+                              </Grid>
+                              <Grid item xs={10}>
+                                 <Typography
+                                    sx={{ fontSize: '1rem', lineHeight: '32px', height: '32px', fontWeight: '500' }}
+                                 >
+                                    {detail.value}
+                                 </Typography>
+                                 <Divider variant="inset" sx={{ ml: 0 }} />
+                              </Grid>
+                           </>
+                        ))}
+                     </Grid>
+                     <Grid container spacing={2} mt={3}>
+                        <Grid item xs={12}>
+                           <Typography sx={{ fontWeight: '600', fontSize: '1.5rem', color: theme.palette.grey[800] }}>
+                              Thông tin chi tiết phiếu nhập hàng
+                           </Typography>
+                        </Grid>
+                        <TableContainer component={Paper}>
+                           <ScrollbarBase>
                               <Table sx={{ minWidth: 650 }}>
                                  <TableHead>
                                     <TableRow>
@@ -121,28 +120,15 @@ const SuppliesInvoicesDetails = () => {
                                     ))}
                                  </TableBody>
                               </Table>
-                           </TableContainer>
-                        </Box>
-                     </Box>
+                           </ScrollbarBase>
+                        </TableContainer>
+                     </Grid>
                   </Box>
                </Stack>
             )}
-         </BaseBreadcrumbs>
-      </Box>
+         </PageContent>
+      </BaseBreadcrumbs>
    );
 };
-const DetailsItem = ({ label, value }: { label: string; value: string }) => (
-   <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-      <Grid item xs={3}>
-         <Typography sx={{ p: 1, fontWeight: '700', fontSize: '1rem', color: theme.palette.grey[800] }}>
-            {label}
-         </Typography>
-      </Grid>
-      <Grid item xs={9}>
-         <Typography sx={{ p: 1, flexGrow: 1, fontSize: '1rem', height: '40px' }}>{value}</Typography>
-         <Divider variant="inset" sx={{ m: 0 }} />
-      </Grid>
-   </Grid>
-);
 
 export default SuppliesInvoicesDetails;
