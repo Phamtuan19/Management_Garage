@@ -8,6 +8,7 @@ import { Box, Typography, Stack, Button, Grid } from '@mui/material';
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import distributorService, { IDistributor } from '@App/services/distributor.service';
 import Divider from '@mui/material/Divider';
+import PageContent from '@App/component/customs/PageContent';
 import { format } from 'date-fns';
 import { useParams, useNavigate } from 'react-router-dom';
 
@@ -34,7 +35,7 @@ const DistributorDetails = () => {
       { label: 'Số điện thoại', value: distributor?.phone },
       {
          label: 'Địa chỉ',
-         value: `${distributor?.address.province?.name}, ${distributor?.address.district?.name}, ${distributor?.address.wards?.name}, ${distributor?.address.specific}`,
+         value: `${distributor?.address?.province?.name || ''}, ${distributor?.address?.district?.name || ''}, ${distributor?.address?.wards?.name || ''}, ${distributor?.address?.specific || ''}`,
       },
       { label: 'Ngày tạo', value: formDate(distributor?.createdAt) },
       { label: 'Ngày cập nhật cuối', value: formDate(distributor?.updatedAt) },
@@ -47,61 +48,55 @@ const DistributorDetails = () => {
    ];
 
    return (
-      <Box>
-         <BaseBreadcrumbs
-            breadcrumbs={breadcrumbs}
-            arialabel="Chi tiết nhà phân phối"
-            sx={({ base }) => ({ bgcolor: base.background.default, border: 'none', p: 0 })}
-         >
-            <Box sx={{ p: 1 }}>
-               <PermissionAccessRoute module={MODULE_PAGE.DISTRIBUTORS} action="VIEW_ALL">
-                  <Button
-                     variant="contained"
-                     onClick={() => navigate(ROUTE_PATH.DISTRIBUTORS + '/' + distributorId + '/update')}
-                     endIcon={<RateReviewRoundedIcon />}
-                  >
-                     Chỉnh sửa
-                  </Button>
-               </PermissionAccessRoute>
-            </Box>
+      <BaseBreadcrumbs
+         breadcrumbs={breadcrumbs}
+         arialabel="Chi tiết nhà phân phối"
+         sx={({ base }) => ({ bgcolor: base.background.default, border: 'none', p: 0 })}
+      >
+         <Box>
+            <PermissionAccessRoute module={MODULE_PAGE.DISTRIBUTORS} action="VIEW_ALL">
+               <Button
+                  variant="contained"
+                  onClick={() => navigate(ROUTE_PATH.DISTRIBUTORS + '/' + distributorId + '/update')}
+                  endIcon={<RateReviewRoundedIcon />}
+               >
+                  Chỉnh sửa
+               </Button>
+            </PermissionAccessRoute>
+         </Box>
+         <PageContent>
             {distributor && (
                <Stack>
-                  <Box sx={{ mt: 3, bgcolor: '#FFFF', p: '0px 16px 16px 16px', borderRadius: 2, position: 'relative' }}>
-                     <Box>
-                        <Box sx={{ mt: 2, p: 2, borderRadius: 2, position: 'relative' }}>
-                           <Box sx={{ mb: 2, minHeight: '50px', display: 'flex', gap: 25 }}>
-                              <Typography
-                                 sx={{ fontWeight: '900', fontSize: '1.5rem', color: theme.palette.grey[800] }}
-                              >
-                                 Thông tin nhà phân phối
-                              </Typography>
-                           </Box>
-                           {ditributordetails.map((detail, index) => (
-                              <Grid key={index}>
-                                 <DetailsItem label={detail.label} value={detail.value} />
-                              </Grid>
-                           ))}
+                  <Box sx={{ ml: 2, bgcolor: '#FFFF', borderRadius: 2, position: 'relative' }}>
+                     <Box sx={{ borderRadius: 2, position: 'relative' }}>
+                        <Box sx={{ minHeight: '50px', display: 'flex', gap: 25 }}>
+                           <Typography sx={{ fontWeight: '600', fontSize: '1.5rem', color: theme.palette.grey[800] }}>
+                              Thông tin nhà phân phối
+                           </Typography>
                         </Box>
-                        <Box sx={{ mt: 2, p: 2, borderRadius: 2, position: 'relative' }}>
-                           <Box sx={{ mb: 2, minHeight: '50px', display: 'flex', gap: 25 }}>
-                              <Typography
-                                 sx={{ fontWeight: '900', fontSize: '1.5rem', color: theme.palette.grey[800] }}
-                              >
-                                 Tài khoản thụ hưởng
-                              </Typography>
-                           </Box>
-                           {bankAccountdetails.map((detail, index) => (
-                              <Grid key={index}>
-                                 <DetailsItem label={detail.label} value={detail.value} />
-                              </Grid>
-                           ))}
+                        {ditributordetails.map((detail, index) => (
+                           <Grid key={index}>
+                              <DetailsItem label={detail.label} value={detail.value} />
+                           </Grid>
+                        ))}
+                     </Box>
+                     <Box sx={{ mt: 3, borderRadius: 2, position: 'relative' }}>
+                        <Box sx={{ minHeight: '50px', display: 'flex', gap: 25 }}>
+                           <Typography sx={{ fontWeight: '600', fontSize: '1.5rem', color: theme.palette.grey[800] }}>
+                              Tài khoản thụ hưởng
+                           </Typography>
                         </Box>
+                        {bankAccountdetails.map((detail, index) => (
+                           <Grid key={index}>
+                              <DetailsItem label={detail.label} value={detail.value} />
+                           </Grid>
+                        ))}
                      </Box>
                   </Box>
                </Stack>
             )}
-         </BaseBreadcrumbs>
-      </Box>
+         </PageContent>
+      </BaseBreadcrumbs>
    );
 };
 const DetailsItem = ({ label, value }: { label: string; value: string | undefined }) => (
@@ -110,7 +105,7 @@ const DetailsItem = ({ label, value }: { label: string; value: string | undefine
          <Typography sx={{ p: 1, fontSize: '1rem', color: theme.palette.grey[800] }}>{label}</Typography>
       </Grid>
       <Grid item xs={9}>
-         <Typography sx={{ p: 1, fontWeight: '500', flexGrow: 1, fontSize: '1rem', height: '50px' }}>
+         <Typography sx={{ p: 1, fontWeight: '500', flexGrow: 1, fontSize: '1rem', lineHeight: '32px' }}>
             {value}
          </Typography>
          <Divider variant="inset" sx={{ m: 0 }} />
