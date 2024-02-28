@@ -1,8 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/naming-convention */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+
 import { Box, Typography, Button, Avatar, Stack } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import { useAuth } from '@App/redux/slices/auth.slice';
