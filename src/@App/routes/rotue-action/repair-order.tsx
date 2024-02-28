@@ -1,4 +1,3 @@
-
 import ROUTE_PATH from '@App/configs/router-path';
 import PAGE_ACTION from '@App/configs/page-action';
 import { Outlet, RouteObject } from 'react-router-dom';
@@ -8,11 +7,14 @@ import PermissionAccessRoute from '../components/PermissionAccessRoute';
 import Loadable from '../components/loadable';
 
 const RepairOrder = Loadable('RepairOrder');
-const RepairOrderDetails = Loadable('RepairOrder/RepairOrderDetails')
-const RepairOrderCreate = Loadable('RepairOrder/RepairOrderCreate');
+// const RepairOrderDetails = Loadable('RepairOrder/RepairOrderDetails')
+// const RepairOrderCreate = Loadable('RepairOrder/RepairOrderCreate');
+const RepairInvoiceCreate = Loadable('RepairInvoice/RepairInvoiceCreate');
+const RepairInvoiceUpdate = Loadable('RepairInvoice/RepairInvoiceUpdate');
+const RepairOrderDetails = Loadable('RepairOrder/RepairOrderDetails');
 
 const repairorderRoute: RouteObject = {
-   path: ROUTE_PATH.REPAIR_ORDERS,
+   path: ROUTE_PATH.REPAIR_INVOICE,
    element: <Outlet />,
    children: [
       {
@@ -24,7 +26,7 @@ const repairorderRoute: RouteObject = {
          ),
       },
       {
-         path: ROUTE_PATH.REPAIR_ORDERS + ROUTE_PATH.DETAILS,
+         path: ROUTE_PATH.REPAIR_INVOICE + ROUTE_PATH.DETAILS,
          element: (
             <PermissionAccessRoute module={MODULE_PAGE.REPAIR_ORDERS} action={PAGE_ACTION.VIEW_ONE} type="route">
                <RepairOrderDetails />
@@ -32,10 +34,18 @@ const repairorderRoute: RouteObject = {
          ),
       },
       {
-         path: ROUTE_PATH.REPAIR_ORDERS + ROUTE_PATH.CREATE,
+         path: ROUTE_PATH.REPAIR_INVOICE + ROUTE_PATH.CREATE,
          element: (
             <PermissionAccessRoute module={MODULE_PAGE.REPAIR_ORDERS} action={PAGE_ACTION.CREATE} type="route">
-               <RepairOrderCreate />
+               <RepairInvoiceCreate />
+            </PermissionAccessRoute>
+         ),
+      },
+      {
+         path: ROUTE_PATH.REPAIR_INVOICE + ROUTE_PATH.UPDATE,
+         element: (
+            <PermissionAccessRoute module={MODULE_PAGE.REPAIR_ORDERS} action={PAGE_ACTION.CREATE} type="route">
+               <RepairInvoiceUpdate />
             </PermissionAccessRoute>
          ),
       },

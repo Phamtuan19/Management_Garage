@@ -125,12 +125,12 @@ const Repairorder = () => {
                   <Box>
                      <PermissionAccessRoute module={MODULE_PAGE.REPAIR_ORDERS} action="VIEW_ALL">
                         <CoreTableActionEdit
-                           callback={() => navigate(ROUTE_PATH.REPAIR_ORDERS + '/' + repairOrder._id + '/update')}
+                           callback={() => navigate(ROUTE_PATH.REPAIR_INVOICE + '/' + repairOrder._id + '/update')}
                         />
                      </PermissionAccessRoute>
                      <PermissionAccessRoute module={MODULE_PAGE.REPAIR_ORDERS} action="VIEW_ONE">
                         <CoreTableActionViewDetail
-                           callback={() => navigate(ROUTE_PATH.REPAIR_ORDERS + '/' + repairOrder._id + '/details')}
+                           callback={() => navigate(ROUTE_PATH.REPAIR_INVOICE + '/' + repairOrder._id + '/details')}
                         />
                      </PermissionAccessRoute>
                   </Box>

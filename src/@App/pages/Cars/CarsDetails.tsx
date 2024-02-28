@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
@@ -51,11 +50,8 @@ const CarsDetails = () => {
    ];
 
    return (
-      <BaseBreadcrumbs
-         breadcrumbs={breadcrumbs}
-         arialabel="Chi tiết nhà phân phối"
-      >
-         <Box >
+      <BaseBreadcrumbs breadcrumbs={breadcrumbs} arialabel="Chi tiết nhà phân phối">
+         <Box>
             <PermissionAccessRoute module={MODULE_PAGE.CARS} action="VIEW_ALL">
                <Button
                   variant="contained"
@@ -67,58 +63,57 @@ const CarsDetails = () => {
             </PermissionAccessRoute>
          </Box>
          <PageContent>
-
             {cars && (
                <Stack>
-                     <Box sx={{ml: '25px', mr: '25px'}}>
-                        <Grid container spacing={2} >
-                           <Grid item xs={12} >
-                              <Typography
-                                 sx={{ fontWeight: '600', fontSize: '1.5rem', color: theme.palette.grey[800] }}
-                              >
-                                 Thông tin khách hàng
-                              </Typography>
-                           </Grid>
+                  <Box sx={{ ml: '25px', mr: '25px' }}>
+                     <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                           <Typography sx={{ fontWeight: '600', fontSize: '1.5rem', color: theme.palette.grey[800] }}>
+                              Thông tin khách hàng
+                           </Typography>
+                        </Grid>
 
-                           {customerDetails?.map((detail, index) => (
-                              <>
-                                 <Grid item xs={2} key={index}>
-                                    <Typography sx={{ fontSize: '1rem', color: theme.palette.grey[800] }}>
-                                       {detail.label}
-                                    </Typography>
-                                 </Grid >
-                                 <Grid item xs={10}>
-                                    <Typography sx={{ fontSize: '1rem', lineHeight: '32px', fontWeight: '500' }}>{detail.value}</Typography>
-                                    <Divider variant="inset" sx={{ ml: 0 }} />
-                                 </Grid>
-                              </>
-                           ))
-                           }
+                        {customerDetails?.map((detail, index) => (
+                           <>
+                              <Grid item xs={2} key={index}>
+                                 <Typography sx={{ fontSize: '1rem', color: theme.palette.grey[800] }}>
+                                    {detail.label}
+                                 </Typography>
+                              </Grid>
+                              <Grid item xs={10}>
+                                 <Typography sx={{ fontSize: '1rem', lineHeight: '32px', fontWeight: '500' }}>
+                                    {detail.value}
+                                 </Typography>
+                                 <Divider variant="inset" sx={{ ml: 0 }} />
+                              </Grid>
+                           </>
+                        ))}
+                     </Grid>
+                     <Grid container spacing={2} mt={3}>
+                        <Grid item xs={12}>
+                           <Typography sx={{ fontWeight: '600', fontSize: '1.5rem', color: theme.palette.grey[800] }}>
+                              Thông tin xe
+                           </Typography>
                         </Grid>
-                        <Grid container spacing={2} mt={3} >
-                           <Grid item xs={12} >
-                              <Typography
-                                 sx={{ fontWeight: '600', fontSize: '1.5rem', color: theme.palette.grey[800] }}
-                              >
-                                 Thông tin xe
-                              </Typography>
-                           </Grid>
-                           {carDetails?.map((detail, index) => (
-                              <>
-                                 <Grid item xs={2} key={index}>
-                                    <Typography sx={({ base }) => ({ fontSize: '1rem', color: base.color.text as string })}>
-                                       {detail.label}
-                                    </Typography>
-                                 </Grid>
-                                 <Grid item xs={10}>
-                                    <Typography sx={{ fontSize: '1rem', lineHeight: '32px', fontWeight: '500' }}>{detail.value}</Typography>
-                                    <Divider variant="inset" sx={{ m: 0 }} />
-                                 </Grid>
-                              </>
-                           ))
-                           }
-                        </Grid>
-                     </Box>
+                        {carDetails?.map((detail, index) => (
+                           <>
+                              <Grid item xs={2} key={index}>
+                                 <Typography
+                                    sx={({ base }) => ({ fontSize: '1rem', color: base.color.text as string })}
+                                 >
+                                    {detail.label}
+                                 </Typography>
+                              </Grid>
+                              <Grid item xs={10}>
+                                 <Typography sx={{ fontSize: '1rem', lineHeight: '32px', fontWeight: '500' }}>
+                                    {detail.value}
+                                 </Typography>
+                                 <Divider variant="inset" sx={{ m: 0 }} />
+                              </Grid>
+                           </>
+                        ))}
+                     </Grid>
+                  </Box>
                </Stack>
             )}
          </PageContent>

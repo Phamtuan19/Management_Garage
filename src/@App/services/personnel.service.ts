@@ -47,6 +47,13 @@ export interface IPersonnel {
    updatedAt: string;
    isAdmin: boolean;
 }
+
+export interface ResponseFieldAll extends AxiosResponseData {
+   data: Array<{
+      _id: string;
+      full_name: string;
+   }>;
+}
 class PersonnelService extends BaseService {
    BASE_ENDPOINT = personnelPathUrl.BASE;
 
@@ -55,14 +62,14 @@ class PersonnelService extends BaseService {
       this.setRequest();
    }
 
-   fieldAll(): Promise<AxiosResponseData> {
+   fieldAll(): Promise<ResponseFieldAll> {
       return this.request(this.BASE_ENDPOINT + personnelPathUrl.ALL_FIELD);
    }
 
    changePassword(id: string, data: { new_password: string; old_password: string }) {
       return this.request.patch(this.BASE_ENDPOINT + personnelPathUrl.CHANGE_PASSWORD + '/' + id, data);
    }
-   lockPersonnel(id: string) {
+   lockPersonnel(id: string): Promise<AxiosResponseData> {
       return this.request.put(this.BASE_ENDPOINT + personnelPathUrl.IS_LOCK + '/' + id);
    }
 }

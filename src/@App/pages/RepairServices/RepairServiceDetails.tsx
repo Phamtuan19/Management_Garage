@@ -1,7 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useParams, useNavigate } from 'react-router-dom';
 import ROUTE_PATH from '@App/configs/router-path';
 import { useQuery } from '@tanstack/react-query';
@@ -39,11 +37,8 @@ const RepairServiceDetails = () => {
    ];
 
    return (
-      <BaseBreadcrumbs
-         breadcrumbs={breadcrumbs}
-         arialabel="Chi tiết dịch vụ sửa chữa"
-      >
-         <Box >
+      <BaseBreadcrumbs breadcrumbs={breadcrumbs} arialabel="Chi tiết dịch vụ sửa chữa">
+         <Box>
             <PermissionAccessRoute module={MODULE_PAGE.REPAIR_SERVICES} action="VIEW_ALL">
                <Button
                   variant="contained"
@@ -55,15 +50,12 @@ const RepairServiceDetails = () => {
             </PermissionAccessRoute>
          </Box>
          <PageContent>
-
             {repairService && (
                <Stack>
                   <Box sx={{ ml: '25px', mr: '25px' }}>
-                     <Grid container spacing={2} >
-                        <Grid item xs={12} >
-                           <Typography
-                              sx={{ fontWeight: '600', fontSize: '1.5rem', color: theme.palette.grey[800] }}
-                           >
+                     <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                           <Typography sx={{ fontWeight: '600', fontSize: '1.5rem', color: theme.palette.grey[800] }}>
                               Thông tin khách hàng
                            </Typography>
                         </Grid>
@@ -74,14 +66,17 @@ const RepairServiceDetails = () => {
                                  <Typography sx={{ fontSize: '1rem', color: theme.palette.grey[800] }}>
                                     {detail.label}
                                  </Typography>
-                              </Grid >
+                              </Grid>
                               <Grid item xs={10}>
-                                 <Typography sx={{ fontSize: '1rem', lineHeight: '32px', height: '32px', fontWeight: '500' }}>{detail.value}</Typography>
+                                 <Typography
+                                    sx={{ fontSize: '1rem', lineHeight: '32px', height: '32px', fontWeight: '500' }}
+                                 >
+                                    {detail.value}
+                                 </Typography>
                                  <Divider variant="inset" sx={{ ml: 0 }} />
                               </Grid>
                            </>
-                        ))
-                        }
+                        ))}
                      </Grid>
                   </Box>
                </Stack>

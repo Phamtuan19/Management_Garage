@@ -53,20 +53,14 @@ const SuppliesInvoicesDetails = () => {
       { label: 'Đơn vị tính', value: 'unit' },
    ];
    return (
-
-      <BaseBreadcrumbs
-         breadcrumbs={breadcrumbs}
-         arialabel="Chi tiết phiếu nhập hàng"
-      >
+      <BaseBreadcrumbs breadcrumbs={breadcrumbs} arialabel="Chi tiết phiếu nhập hàng">
          <PageContent>
             {suppliesinvoices && (
                <Stack>
                   <Box sx={{ ml: '25px', mr: '25px' }}>
-                     <Grid container spacing={2} >
-                        <Grid item xs={12} >
-                           <Typography
-                              sx={{ fontWeight: '600', fontSize: '1.5rem', color: theme.palette.grey[800] }}
-                           >
+                     <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                           <Typography sx={{ fontWeight: '600', fontSize: '1.5rem', color: theme.palette.grey[800] }}>
                               Thông tin phiếu nhập hàng
                            </Typography>
                         </Grid>
@@ -77,20 +71,21 @@ const SuppliesInvoicesDetails = () => {
                                  <Typography sx={{ fontSize: '1rem', color: theme.palette.grey[800] }}>
                                     {detail.label}
                                  </Typography>
-                              </Grid >
+                              </Grid>
                               <Grid item xs={10}>
-                                 <Typography sx={{ fontSize: '1rem', lineHeight: '32px', height: '32px', fontWeight: '500' }}>{detail.value}</Typography>
+                                 <Typography
+                                    sx={{ fontSize: '1rem', lineHeight: '32px', height: '32px', fontWeight: '500' }}
+                                 >
+                                    {detail.value}
+                                 </Typography>
                                  <Divider variant="inset" sx={{ ml: 0 }} />
                               </Grid>
                            </>
-                        ))
-                        }
+                        ))}
                      </Grid>
-                     <Grid container spacing={2} mt={3} >
-                        <Grid item xs={12} >
-                           <Typography
-                              sx={{ fontWeight: '600', fontSize: '1.5rem', color: theme.palette.grey[800] }}
-                           >
+                     <Grid container spacing={2} mt={3}>
+                        <Grid item xs={12}>
+                           <Typography sx={{ fontWeight: '600', fontSize: '1.5rem', color: theme.palette.grey[800] }}>
                               Thông tin chi tiết phiếu nhập hàng
                            </Typography>
                         </Grid>

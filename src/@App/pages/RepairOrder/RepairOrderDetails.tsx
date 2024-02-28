@@ -1,7 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/naming-convention */
-/* eslint-disable @typescript-eslint/no-misused-promises */
-
 import { Box, Grid, Tab } from '@mui/material';
 import PageContent from '@App/component/customs/PageContent';
 import ScrollbarBase from '@App/component/customs/ScrollbarBase';
@@ -18,7 +15,7 @@ import PepairOderSupplieDetails from './component/PepairOderBillDetails.tsx/Pepa
 const breadcrumbs = [
    {
       title: 'Phiếu sửa chữa',
-      link: ROUTE_PATH.REPAIR_ORDERS,
+      link: ROUTE_PATH.REPAIR_INVOICE,
    },
 ];
 const RepairOrderDetails = () => {

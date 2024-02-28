@@ -28,6 +28,7 @@ interface ControllerAutoComplateProps<TFieldValues extends FieldValues = FieldVa
    control: Control<TFieldValues>;
    defaultValue?: string;
    onChange?: (e: any) => void;
+   renderOptionChildren?: (props: any, e: any) => React.ReactNode;
 }
 
 function ControllerAutoComplate<TFieldValues extends FieldValues = FieldValues>(
@@ -49,6 +50,7 @@ function ControllerAutoComplate<TFieldValues extends FieldValues = FieldValues>(
       readOnly = false,
       defaultValue = '',
       onChange: onChangeInput = () => {},
+      renderOptionChildren,
       ...restProps
    } = props;
 
@@ -81,7 +83,9 @@ function ControllerAutoComplate<TFieldValues extends FieldValues = FieldValues>(
       if (!option) {
          return null;
       }
-
+      if (renderOptionChildren) {
+         return renderOptionChildren(props, option);
+      }
       return (
          <Box component="li" sx={{ px: 2, py: 1, cursor: 'pointer' }} {...props}>
             {get(option, titlePath)}

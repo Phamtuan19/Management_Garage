@@ -49,10 +49,10 @@ const RoleDetail = ({ role, name, control }: RoleDetailPropsType) => {
          if (value[role.name] === '*') {
             return true;
          } else {
-            if (value[role.name].includes(action)) {
+            if (value?.[role.name]?.includes(action)) {
                return true;
             }
-
+            // console.log(value[role.name]);
             return false;
          }
       },

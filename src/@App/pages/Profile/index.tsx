@@ -1,4 +1,4 @@
-
+/* eslint-disable @typescript-eslint/naming-convention */
 import { Box, Typography, Button, Avatar, Stack } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import { useAuth } from '@App/redux/slices/auth.slice';
@@ -31,7 +31,6 @@ const Profile = () => {
    const userId = user?._id;
 
    const { data: roleDetail } = useQuery<RoleResponseData, Error>(['getDetailRole'], async () => {
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
       const res = await roleService.find(user?.role_id as string);
       return res.data as RoleResponseData;
    });

@@ -7,4 +7,3 @@ interface SearchType {
    title: string;
    value: string;
 }
-

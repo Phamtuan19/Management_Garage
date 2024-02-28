@@ -110,22 +110,37 @@ export const STATUS_REPAIR = {
    draft: {
       title: 'Nháp',
       color: 'error',
+      key: 'draft',
    },
    check: {
       title: 'Kiểm tra',
       color: 'default',
+      key: 'check',
    },
    repair: {
       title: 'Sửa chữa',
       color: 'secondary',
+      key: 'repair',
    },
    pay: {
       title: 'Thanh toán',
       color: 'warning',
+      key: 'pay',
    },
    complete: {
       title: 'Hoàn thành',
       color: 'success',
+      key: 'complete',
+   },
+   close: {
+      title: 'Hủy',
+      color: 'error',
+      key: 'close',
+   },
+   shipped: {
+      title: 'Lấy vật tư',
+      color: 'info',
+      key: 'shipped',
    },
 } as const;
 

@@ -25,7 +25,7 @@ const TabRepairOrderService = ({ form }: TabRepairOrderServicePropType) => {
    });
 
    const { data: repairService, isLoading } = useQuery(['getAllFieldRepairServices'], async () => {
-      const res = await repairServiceService.fieldAll();
+      const res = await repairServiceService.fieldAll({});
       return res.data;
    });
 

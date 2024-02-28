@@ -112,7 +112,7 @@ const SuppliesInvoices = () => {
                return (
                   <Box>
                      <PermissionAccessRoute module={MODULE_PAGE.SUPPLIES_INVOICES} action="DELETE">
-                        <CoreTableActionDelete callback={() => { }} />
+                        <CoreTableActionDelete callback={() => {}} />
                      </PermissionAccessRoute>
                      <PermissionAccessRoute module={MODULE_PAGE.SUPPLIES_INVOICES} action="VIEW_ALL">
                         <CoreTableActionEdit
