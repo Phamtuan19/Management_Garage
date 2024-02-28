@@ -79,7 +79,7 @@ const DetailsItem = ({ label, value }: { label: string; value: string | undefine
          <Typography sx={{ p: 1, fontSize: '1rem', color: theme.palette.grey[800] }}>{label}</Typography>
       </Grid>
       <Grid item xs={9}>
-         <Typography sx={{ p: 1, fontWeight: '500', flexGrow: 1, fontSize: '1rem', lineHeight: '32px' }}>
+         <Typography sx={{ p: 1, fontWeight: '500', flexGrow: 1, fontSize: '1rem', height: '32px' }}>
             {value}
          </Typography>
          <Divider variant="inset" sx={{ m: 0 }} />
