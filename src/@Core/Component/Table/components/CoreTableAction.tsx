@@ -6,7 +6,6 @@ import PreviewIcon from '@mui/icons-material/Preview';
 import LockIcon from '@mui/icons-material/Lock';
 import LockOpenSharpIcon from '@mui/icons-material/LockOpenSharp';
 
-
 export const CoreTableActionDelete = ({
    callback = () => {},
    content = 'Bạn có chắc chắn muốn xóa bản ghi này?',

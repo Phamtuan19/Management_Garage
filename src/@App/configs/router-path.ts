@@ -23,7 +23,7 @@ const ROUTE_PATH = {
    // Module sửa chữa FIX
    CARS: '/fix/cars',
 
-   REPAIR_ORDERS: '/fix/repair-orders',
+   REPAIR_INVOICE: '/fix/repair-invoices',
 
    REPAIR_SERVICES: '/fix/repair-services',
 
@@ -43,7 +43,7 @@ const ROUTE_PATH = {
    DETAILS: '/:id/details',
 
    // trs - giao dịch
-   SUPPLIES_INVOICES: '/trs/supplies-invoices',
+   SUPPLIES_INVOICES: '/wh/supplies-invoices',
 } as const;
 
 export const routePathSchema = yup.string().oneOf(Object.values(ROUTE_PATH)).required();

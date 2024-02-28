@@ -39,6 +39,7 @@ export interface RepairOrdersResponse {
       totel_detail: number;
       totle_price: number;
    };
+   is_shipped: boolean;
 }
 class RepairOrderService extends BaseService {
    BASE_ENDPOINT = repairorderPath.base;

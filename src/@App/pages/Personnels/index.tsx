@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Button, Chip } from '@mui/material';
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import personnelService, { IPersonnel } from '@App/services/personnel.service';
@@ -80,7 +81,6 @@ export default function Personnels() {
          return res;
       },
       onSuccess: (data: AxiosResponseData) => {
-
          successMessage(data.message || 'Khóa thành công');
          const refetch = queryTable.refetch;
          return refetch();
@@ -199,10 +199,12 @@ export default function Personnels() {
                backgroundColor: base.background.white as string,
             })}
          >
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 1, alignItems: 'center' }}  >
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 1, alignItems: 'center' }}>
                <FilterTable sortList={sortList} searchType={sortList} />
 
-               <Button onClick={() => handleClickIsLock(searchParams.is_lock)}>{searchParams.is_lock === 'true' ? 'Tài khoản đã mở' : 'Tài khoản bị khóa'}</Button>
+               <Button onClick={() => handleClickIsLock(searchParams.is_lock)}>
+                  {searchParams.is_lock === 'true' ? 'Tài khoản đã mở' : 'Tài khoản bị khóa'}
+               </Button>
             </Box>
 
             <TableCore columns={columns} {...data} />

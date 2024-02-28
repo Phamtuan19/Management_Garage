@@ -1,8 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
@@ -62,7 +61,7 @@ const RepairOrderDetails = () => {
                               <TableRow key={rowIndex} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                  {supplie.map((detail: { label: string; value: string }, colIndex: number) => (
                                     <TableCell key={colIndex} align="center" sx={{ p: 1 }}>
-                                       {detailObject[detail.value]}
+                                       {detailObject[detail.value as any]}
                                     </TableCell>
                                  ))}
                               </TableRow>

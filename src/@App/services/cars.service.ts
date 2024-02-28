@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
+import { CarStatusKeys } from '@App/configs/status-config';
 import BaseService from '@Core/Api/BaseService';
 import { AxiosResponseData } from '@Core/Api/axios-config';
 
@@ -16,7 +17,7 @@ export interface DataGetAllFieldCart {
    production_year: string;
    car_color: string;
    car_type: string;
-   status: string;
+   status: CarStatusKeys;
 }
 interface ResponseGetAllField extends AxiosResponseData {
    data: Array<DataGetAllFieldCart>;
