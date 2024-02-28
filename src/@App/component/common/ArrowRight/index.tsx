@@ -22,7 +22,7 @@ const ArrowRight = ({ options, check }: ArrowRightType) => {
             backgroundColor: base.background.white as string,
             display: 'flex',
             justifyContent: 'flex-end',
-            border: '1px solid #DADADA',
+            border: '1px solid  #d1d5db5e',
          })}
       >
          {options.map((item: { title: string; name: string }, index: number) => (

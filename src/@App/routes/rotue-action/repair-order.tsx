@@ -10,10 +10,12 @@ import RepairOrderDetails from '@App/pages/RepairOrder/RepairOrderDetails';
 
 const RepairOrder = Loadable('RepairOrder');
 // const RepairOrderDetails = Loadable('RepairOrder/RepairOrderDetails')
-const RepairOrderCreate = Loadable('RepairOrder/RepairOrderCreate');
+// const RepairOrderCreate = Loadable('RepairOrder/RepairOrderCreate');
+const RepairInvoiceCreate = Loadable('RepairInvoice/RepairInvoiceCreate');
+const RepairInvoiceUpdate = Loadable('RepairInvoice/RepairInvoiceUpdate');
 
 const repairorderRoute: RouteObject = {
-   path: ROUTE_PATH.REPAIR_ORDERS,
+   path: ROUTE_PATH.REPAIR_INVOICE,
    element: <Outlet />,
    children: [
       {
@@ -25,7 +27,7 @@ const repairorderRoute: RouteObject = {
          ),
       },
       {
-         path: ROUTE_PATH.REPAIR_ORDERS + ROUTE_PATH.DETAILS,
+         path: ROUTE_PATH.REPAIR_INVOICE + ROUTE_PATH.DETAILS,
          element: (
             <PermissionAccessRoute module={MODULE_PAGE.REPAIR_ORDERS} action={PAGE_ACTION.VIEW_ONE} type="route">
                <RepairOrderDetails />
@@ -33,10 +35,18 @@ const repairorderRoute: RouteObject = {
          ),
       },
       {
-         path: ROUTE_PATH.REPAIR_ORDERS + ROUTE_PATH.CREATE,
+         path: ROUTE_PATH.REPAIR_INVOICE + ROUTE_PATH.CREATE,
          element: (
             <PermissionAccessRoute module={MODULE_PAGE.REPAIR_ORDERS} action={PAGE_ACTION.CREATE} type="route">
-               <RepairOrderCreate />
+               <RepairInvoiceCreate />
+            </PermissionAccessRoute>
+         ),
+      },
+      {
+         path: ROUTE_PATH.REPAIR_INVOICE + ROUTE_PATH.UPDATE,
+         element: (
+            <PermissionAccessRoute module={MODULE_PAGE.REPAIR_ORDERS} action={PAGE_ACTION.CREATE} type="route">
+               <RepairInvoiceUpdate />
             </PermissionAccessRoute>
          ),
       },

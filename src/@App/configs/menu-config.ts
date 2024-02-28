@@ -3,7 +3,6 @@ import PeopleIcon from '@mui/icons-material/People';
 import FaceRetouchingNaturalIcon from '@mui/icons-material/FaceRetouchingNatural';
 import WidgetsOutlinedIcon from '@mui/icons-material/WidgetsOutlined';
 import ConstructionRoundedIcon from '@mui/icons-material/ConstructionRounded';
-import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 
 import PAGE_ACTION from './page-action';
 import ROUTE_PATH from './router-path';
@@ -35,7 +34,7 @@ const menuConfig: MenuConfigItem[] = [
          {
             id: 5.2,
             title: 'Phiếu sửa chữa',
-            link: ROUTE_PATH.REPAIR_ORDERS,
+            link: ROUTE_PATH.REPAIR_INVOICE,
             module: MODULE_PAGE.REPAIR_ORDERS,
             action: PAGE_ACTION.VIEW_ALL,
          },

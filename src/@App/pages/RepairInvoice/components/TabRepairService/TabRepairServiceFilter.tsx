@@ -1,25 +1,24 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { Box, ButtonBase, Chip, Grid, InputBase, MenuItem, Select, Stack, Typography, styled } from '@mui/material';
+import { Box, ButtonBase, Grid, InputBase, Stack, Typography, styled } from '@mui/material';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import { useRef, useState } from 'react';
-import ScrollbarBase from '@App/component/customs/ScrollbarBase';
-import { useQuery } from '@tanstack/react-query';
-import suppliesService, { SuppliesItem } from '@App/services/supplies.service';
-import useDebounce from '@App/hooks/useDebounce';
 import { useOnClickOutside } from '@App/hooks/useOnClickOutside';
+import { useQuery } from '@tanstack/react-query';
+import ScrollbarBase from '@App/component/customs/ScrollbarBase';
+import repairServiceService from '@App/services/repairService.service';
+import useDebounce from '@App/hooks/useDebounce';
 import LazyLoadingImage from '@App/component/customs/LazyLoadingImage';
 import { UseFieldArrayReturn } from 'react-hook-form';
 import { errorMessage } from '@Core/Helper/message';
 
 import { RepairInvoiceSchema } from '../../utils/repair-invoice';
 
-const RepairInvoiceFilterSupplies = ({ fieldArray }: { fieldArray: UseFieldArrayReturn<RepairInvoiceSchema> }) => {
-   const { append, fields } = fieldArray;
+const TabRepairServiceFilter = ({ fieldArray }: { fieldArray: UseFieldArrayReturn<RepairInvoiceSchema> }) => {
+   const { fields, append } = fieldArray;
 
    const [open, setOpen] = useState<boolean>(false);
-   const [field, setField] = useState<string>('name_detail');
    const [valueSearch, setValueSearch] = useState<string>('');
    const ref = useRef<HTMLElement>(null);
 
@@ -27,36 +26,27 @@ const RepairInvoiceFilterSupplies = ({ fieldArray }: { fieldArray: UseFieldArray
 
    const valueDebounce = useDebounce(valueSearch, 500);
 
-   const { data: suppliesDetail } = useQuery(['getSupplies', valueDebounce, field], async () => {
-      const res = await suppliesService.getSupplies({
-         q: valueDebounce ?? '',
-         field: field,
-      });
+   const { data: repairService } = useQuery(['getAllFieldRepairServices', valueDebounce], async () => {
+      const res = await repairServiceService.fieldAll({ q: valueDebounce ?? '' });
       return res.data;
    });
 
-   const handleClickSuppliesItem = (suppliesItem: SuppliesItem) => {
-      if (suppliesItem.isInStock) {
-         const isSuppliesInvoiceCode: boolean = fields.some(
-            (item: any) => item.supplies_invoices_code === suppliesItem.supplies_invoices_code,
-         );
+   const handleClickSuppliesItem = (service: RepairService) => {
+      const isCheck = fields.some((item: any) => item.repair_service_id === service._id);
 
+      if (!isCheck) {
          return append({
-            supplies_detail_code: suppliesItem.code,
-            distributor_name: suppliesItem.distributor.name,
-            inventory: suppliesItem.supplies_invoices_quantity_received ?? 0,
-            quantity: suppliesItem.supplies_invoices_quantity_received > 0 ? 1 : 0,
-            selling_price: suppliesItem.supplies_invoices_selling_price ?? 0,
-            supplies_detail_id: suppliesItem._id,
-            supplies_detail_name: suppliesItem.name_detail,
-            supplies_invoices_code: isSuppliesInvoiceCode ? '' : suppliesItem.supplies_invoices_code,
-            supplies_invoices_id: isSuppliesInvoiceCode ? '' : suppliesItem.supplies_invoices_id,
-            supplies_id: suppliesItem.supplies_id,
             describe: '',
+            discount: service.discount,
+            price: service.price,
+            repair_service_id: service._id,
+            repair_service_name: service.name,
+            quantity: 1,
+            repair_service_code: service.code,
          });
       }
 
-      return errorMessage('Vật tư không còn hàng tồn.');
+      return errorMessage('Dịch vụ đã tồn tại.');
    };
 
    return (
@@ -86,7 +76,7 @@ const RepairInvoiceFilterSupplies = ({ fieldArray }: { fieldArray: UseFieldArray
                   }}
                   size="small"
                   sx={{ p: '6px 12px', '.css-7dqvty-MuiInputBase-input': { p: 0 } }}
-                  placeholder="Tìm kiếm vật tư"
+                  placeholder="Tìm kiếm dịch vụ"
                />
 
                {/* List Supplies */}
@@ -105,7 +95,7 @@ const RepairInvoiceFilterSupplies = ({ fieldArray }: { fieldArray: UseFieldArray
                         borderRadius: '3px',
                      })}
                   >
-                     {suppliesDetail && suppliesDetail.length > 0 ? (
+                     {repairService && repairService.length > 0 ? (
                         <ScrollbarBase
                            sx={{
                               'body::-webkit-scrollbar-track': {
@@ -119,7 +109,7 @@ const RepairInvoiceFilterSupplies = ({ fieldArray }: { fieldArray: UseFieldArray
                            }}
                         >
                            <Stack sx={{ gap: '6px' }}>
-                              {suppliesDetail.map((item) => {
+                              {repairService.map((item) => {
                                  return (
                                     <SearchSuppliesItem
                                        key={item._id}
@@ -142,35 +132,24 @@ const RepairInvoiceFilterSupplies = ({ fieldArray }: { fieldArray: UseFieldArray
                )}
             </Box>
          </Grid>
-         <Grid item xs={3}>
-            <Box>
-               <Select onChange={(e) => setField(e.target.value)} value={field}>
-                  <MenuItem value="name_detail">Vật tư chi tiết</MenuItem>
-                  <MenuItem value="supplies.name">Tên nhóm</MenuItem>
-                  <MenuItem value="distributors.name">Nhà phân phối</MenuItem>
-               </Select>
-            </Box>
-         </Grid>
       </Grid>
    );
 };
 
-interface SearchSuppliesItemSupplie {
-   _id: string;
+interface RepairService {
    code: string;
-   name_detail: string;
-   isInStock: string;
-   supplies_id: string;
-   unit: string;
-   distributor: {
-      _id: string;
-      name: string;
-   };
+   createdAt: string;
+   describe: string;
+   discount: number;
+   name: string;
+   price: number;
+   updatedAt: string;
+   _id: string;
 }
 
 interface SearchSuppliesItemPropsType {
-   supplie: SearchSuppliesItemSupplie;
-   handleClickSupplieItem: (supplie: SearchSuppliesItemSupplie) => void;
+   supplie: RepairService;
+   handleClickSupplieItem: (supplie: RepairService) => void;
 }
 
 const SearchSuppliesItem = ({ supplie, handleClickSupplieItem }: SearchSuppliesItemPropsType) => {
@@ -192,19 +171,12 @@ const SearchSuppliesItem = ({ supplie, handleClickSupplieItem }: SearchSuppliesI
       >
          <LazyLoadingImage src="" w="36" h="36" />
          <Flex sx={{ flexDirection: 'column', flex: 1, gap: '6px' }}>
-            <Box sx={{ width: '100%', textAlign: 'left' }}>{supplie.name_detail}</Box>
+            <Box sx={{ width: '100%', textAlign: 'left' }}>{supplie.name}</Box>
             <Flex sx={{ width: '100%', gap: '12px' }}>
                <Box>
                   <span>#{supplie.code}</span>
                </Box>
-               <Flex sx={{ flex: 2, gap: '3px' }}>{supplie.distributor.name}</Flex>
-               <Flex sx={{ flex: 1, gap: '6px' }}>
-                  <Chip
-                     label={supplie.isInStock ? 'còn hàng' : 'hết hàng'}
-                     variant="outlined"
-                     color={supplie.isInStock ? 'success' : 'error'}
-                  />
-               </Flex>
+               {/* <Flex sx={{ flex: 2, gap: '3px' }}>{supplie.distributor.name}</Flex> */}
             </Flex>
          </Flex>
       </ButtonBase>
@@ -218,4 +190,4 @@ const Flex = styled('div')({
    justifyContent: 'flex-start',
 });
 
-export default RepairInvoiceFilterSupplies;
+export default TabRepairServiceFilter;

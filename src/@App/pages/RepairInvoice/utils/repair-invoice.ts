@@ -2,6 +2,21 @@
 import messageValidate from '@App/helpers/messageValidate';
 import * as yup from 'yup';
 
+const suppliesService = yup
+   .array()
+   .of(
+      yup.object({
+         repair_service_id: yup.string().default(''), // id của dịch vụ sửa chữa
+         repair_service_code: yup.string().default(''), // code của dịch vụ sửa chữa
+         repair_service_name: yup.string().default(''), // tên của dịch vụ sửa chữa
+         quantity: yup.number().default(1), // Số lượng sử dụng dịch vụ sửa chữa
+         price: yup.number().default(0), // giá dịch vụ sửa chữa
+         discount: yup.number().default(0), // giá khuyến mại dịch vụ sửa chữa
+         describe: yup.string().default(''),
+      }),
+   )
+   .default([]);
+
 const suppliesInvoice = yup
    .array()
    .of(
@@ -11,7 +26,7 @@ const suppliesInvoice = yup
          supplies_detail_name: yup.string().default(''), // tên của chi tiết vật tư
          quantity: yup.number().default(0), // số lượng sản phẩm đang chọn
          selling_price: yup.number().default(0), // giá bán của sản phẩm đang chọn
-         // describe: yup.string().default(''), // mô tả
+         describe: yup.string().default(''), // mô tả
          supplies_invoices_code: yup.string().default(''), // mã code của hóa đơn nhập
          supplies_invoices_id: yup.string().default(''), // mã id của hóa đơn nhập
          inventory: yup.number().default(0), // số lượng tồn kho
@@ -38,9 +53,12 @@ export const repairInvoiceSchema = yup.object({
       car_type: yup.string().default(''),
       brand_car: yup.string().default(''),
       license_plate: yup.string().default(''),
+      kilometer: yup.string().default(''),
    }),
 
    suppliesInvoice: suppliesInvoice,
+
+   suppliesService: suppliesService,
 });
 
 export type RepairInvoiceSchema = yup.InferType<typeof repairInvoiceSchema>;

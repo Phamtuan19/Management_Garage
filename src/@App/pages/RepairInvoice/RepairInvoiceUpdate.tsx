@@ -1,22 +1,22 @@
 /* eslint-disable @typescript-eslint/naming-convention */
+import ArrowRight from '@App/component/common/ArrowRight';
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
+import { Box } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useMutation } from '@tanstack/react-query';
-import repairorderService from '@App/services/repairorder.service';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import repairorderService, { RepairOrdersResponse } from '@App/services/repairorder.service';
 import { errorMessage, successMessage } from '@Core/Helper/message';
 import { AxiosError } from 'axios';
 import { HandleErrorApi } from '@Core/Api/axios-config';
 import setErrorMessageHookForm from '@App/helpers/setErrorMessageHookForm';
-import ArrowRight from '@App/component/common/ArrowRight';
-import { Box } from '@mui/material';
-import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
 import { RepairInvoiceSchema, repairInvoiceSchema } from './utils/repair-invoice';
 import BaseFormRepairInvoice from './components/BaseFormRepairInvoice';
 import { arrowRightOption } from './utils';
 
-const RepairInvoiceCreate = () => {
+const RepairInvoiceUpdate = () => {
    const form = useForm<RepairInvoiceSchema>({
       mode: 'onSubmit',
       reValidateMode: 'onSubmit',
@@ -24,11 +24,24 @@ const RepairInvoiceCreate = () => {
       defaultValues: repairInvoiceSchema.getDefault(),
    });
 
-   useEffect(() => {
-      if (Object.keys(form.formState.errors).length > 0) {
-         return errorMessage('Vui lòng điền đẩy đủ thông tin.');
-      }
-   }, [form.formState.errors]);
+   const { id: repairOrderId } = useParams();
+
+   const { data } = useQuery(
+      ['getRepairDetail', repairOrderId],
+      async () => {
+         const res = await repairorderService.find(repairOrderId as string);
+         return res.data as RepairOrdersResponse;
+      },
+      {
+         onSuccess: (data) => {
+            // form.setValue('customer.customer_id', data.customer)
+            if (data.status === 'shipped') {
+               errorMessage('Bạn không thể sửa với trạng thái lấy vật tư');
+            }
+            return data;
+         },
+      },
+   );
 
    const { mutate: handleCreateRepairOrder, isLoading } = useMutation({
       mutationFn: async (data: RepairInvoiceSchema) => {
@@ -60,7 +73,7 @@ const RepairInvoiceCreate = () => {
             details: [...supplies, ...service],
          };
 
-         return await repairorderService.create(newData);
+         return await repairorderService.update(newData);
       },
       onSuccess: () => {
          successMessage('Thêm mới nhân viên thành công');
@@ -80,11 +93,16 @@ const RepairInvoiceCreate = () => {
    return (
       <BaseBreadcrumbs arialabel="Phiếu sửa chữa">
          <Box mb={1}>
-            <ArrowRight options={arrowRightOption} check="draft" />
+            <ArrowRight options={arrowRightOption} check={data?.status ?? 'draft'} />
          </Box>
-         <BaseFormRepairInvoice form={form} isLoading={isLoading} onSubmitForm={onSubmitForm} />
+         <BaseFormRepairInvoice
+            form={form}
+            isLoading={isLoading}
+            isShipped={data?.status === 'shipped'}
+            onSubmitForm={onSubmitForm}
+         />
       </BaseBreadcrumbs>
    );
 };
 
-export default RepairInvoiceCreate;
+export default RepairInvoiceUpdate;

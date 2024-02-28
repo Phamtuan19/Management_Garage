@@ -15,7 +15,7 @@ import repairorderService from '@App/services/repairorder.service';
 const breadcrumbs = [
    {
       title: 'Phiếu sửa chữa',
-      link: ROUTE_PATH.REPAIR_ORDERS,
+      link: ROUTE_PATH.REPAIR_INVOICE,
    },
 ];
 const RepairOrderDetails = () => {

@@ -39,8 +39,8 @@ class RepairServiceService extends BaseService {
       this.setRequest();
    }
 
-   fieldAll(): Promise<ResponseGetAllField> {
-      return this.request(this.BASE_ENDPOINT + repairServicePath.ALL_FIELD);
+   fieldAll(params: { q?: string }): Promise<ResponseGetAllField> {
+      return this.request(this.BASE_ENDPOINT + repairServicePath.ALL_FIELD, { params });
    }
 }
 const repairServiceService = new RepairServiceService();

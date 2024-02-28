@@ -4,14 +4,13 @@ import TableCore, { columnHelper } from '@Core/Component/Table';
 import { Box, ButtonBase, IconButton, InputBase, styled } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
-import ControllerAutoComplate from '@Core/Component/Input/ControllerAutoComplate';
-import { useQuery } from '@tanstack/react-query';
-import suppliesInvoiceService from '@App/services/supplies-invoice';
 import handlePrice from '@Core/Helper/hendlePrice';
 import RemoveIcon from '@mui/icons-material/Remove';
+import EditIcon from '@mui/icons-material/Edit';
 
 import { RepairInvoiceSchema } from '../../utils/repair-invoice';
-import { useMemo } from 'react';
+
+import ColumnSuppliesInvoicesCode from './ColumnSuppliesInvoicesCode';
 
 interface TabRepairInvoiceSuppliesPropType {
    form: UseFormReturn<RepairInvoiceSchema>;
@@ -20,7 +19,7 @@ interface TabRepairInvoiceSuppliesPropType {
    fieldArray: UseFieldArrayReturn<RepairInvoiceSchema>;
 }
 
-interface SuppliesInvoiceItem {
+export interface SuppliesInvoiceItem {
    supplies_detail_code: string;
    supplies_detail_id: string;
    supplies_detail_name: string;
@@ -86,33 +85,9 @@ const TabRepairInvoiceSupplies = ({ form, fieldArray }: TabRepairInvoiceSupplies
          cell: ({ row }) => {
             const supplies = row.original as SuppliesInvoiceItem;
 
-            const { data, isLoading } = useQuery(['getSuppliesInvoice', supplies.supplies_detail_id], async () => {
-               const res = await suppliesInvoiceService.getListDeatilsSort({
-                  supplies_detail_id: supplies.supplies_detail_id,
-               });
-
-               return res.data;
-            });
-
             return (
                <Box sx={{ textAlign: 'center', width: '150px' }}>
-                  <ControllerAutoComplate
-                     loading={isLoading}
-                     name={`suppliesInvoice.${row.index}.supplies_invoices_code`}
-                     options={(data as never) || []}
-                     valuePath="_id"
-                     titlePath="supplies_invoice_code"
-                     onChange={(e: {
-                        inventory: number;
-                        selling_price: number;
-                        supplies_invoice_code: string;
-                        _id: string;
-                     }) => {
-                        form.setValue(`suppliesInvoice.${row.index}.inventory`, e.inventory);
-                        form.setValue(`suppliesInvoice.${row.index}.selling_price`, e.selling_price);
-                     }}
-                     control={form.control}
-                  />
+                  <ColumnSuppliesInvoicesCode form={form} index={row.index} supplies={supplies} />
                </Box>
             );
          },
@@ -173,9 +148,10 @@ const TabRepairInvoiceSupplies = ({ form, fieldArray }: TabRepairInvoiceSupplies
       columnHelper.accessor('total_price', {
          header: () => <Box sx={{ textAlign: 'center' }}>Tổng</Box>,
          cell: ({ row }) => {
-            // const supllies = row.original as SuppliesItem;
+            const quantity = form.watch(`suppliesInvoice.${row.index}.quantity`);
+            const selling_price = form.watch(`suppliesInvoice.${row.index}.selling_price`);
 
-            return <Box sx={{ textAlign: 'center' }}>{handlePrice(0)}</Box>;
+            return <Box sx={{ textAlign: 'center' }}>{handlePrice(quantity * selling_price)}</Box>;
          },
       }),
       columnHelper.accessor('action', {
@@ -184,6 +160,9 @@ const TabRepairInvoiceSupplies = ({ form, fieldArray }: TabRepairInvoiceSupplies
             return (
                <Box display="flex" justifyContent="right" gap="6px">
                   {/* {serviceOrder.length === row.index + 1 && ( */}
+                  <IconButton color="warning" onClick={() => {}}>
+                     <EditIcon />
+                  </IconButton>
                   <IconButton color="primary" onClick={() => {}}>
                      <AddIcon />
                   </IconButton>
@@ -204,7 +183,7 @@ const TabRepairInvoiceSupplies = ({ form, fieldArray }: TabRepairInvoiceSupplies
 
    return (
       <>
-         <TableCore height={380} columns={columnsService} data={fields} isPagination={false} />
+         <TableCore height={340} columns={columnsService} data={fields} isPagination={false} />
       </>
    );
 };

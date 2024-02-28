@@ -67,6 +67,10 @@ export interface SuppliesItem {
       _id: string;
       name: string;
    };
+   supplies_invoices_code: string;
+   supplies_invoices_id: string;
+   supplies_invoices_quantity_received: number;
+   supplies_invoices_selling_price: number;
 }
 
 export interface ResponseReadSuppliesA extends AxiosResponseData {

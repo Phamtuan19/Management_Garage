@@ -1,7 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { UseFormReturn } from 'react-hook-form';
-import { Box, Button, Grid } from '@mui/material';
+import { Box, Button, Chip, Grid } from '@mui/material';
 import ControllerLabel from '@Core/Component/Input/ControllerLabel';
 import ControllerAutoComplate from '@Core/Component/Input/ControllerAutoComplate';
 import AddIcon from '@mui/icons-material/Add';
@@ -10,6 +13,8 @@ import carsService, { DataGetAllFieldCart } from '@App/services/cars.service';
 import customerService, { ICustomer } from '@App/services/customer.service';
 import ControllerTextField from '@Core/Component/Input/ControllerTextField';
 import { useEffect } from 'react';
+import { CAR_STATUS } from '@App/configs/status-config';
+import { errorMessage } from '@Core/Helper/message';
 
 import { RepairInvoiceSchema } from '../../utils/repair-invoice';
 
@@ -97,6 +102,29 @@ const TabRepairInvoiceCustomer = ({ form }: TabRepairInvoicePropType) => {
                      placeholder="Chọn xe cần sữa chữa"
                      control={control}
                      disabled={!customer_id}
+                     renderOptionChildren={(props, e: DataGetAllFieldCart) => {
+                        return (
+                           <Box
+                              sx={{
+                                 px: 2,
+                                 py: 1,
+                                 cursor: 'pointer',
+                                 display: 'block',
+                              }}
+                              {...props}
+                              onClick={(e: any) => {
+                                 e.status === 'EMPTY' ? props.onClick(e) : errorMessage(`Không thể chọn xe này.`);
+                              }}
+                           >
+                              {e.name}
+                              <Chip
+                                 color={e.status !== 'EMPTY' ? 'error' : 'success'}
+                                 label={CAR_STATUS[e.status].title as string}
+                                 size="small"
+                              />
+                           </Box>
+                        );
+                     }}
                      onChange={(e: DataGetAllFieldCart) => {
                         setValue('car.car_color', e.car_color);
                         setValue('car.car_type', e.car_type);

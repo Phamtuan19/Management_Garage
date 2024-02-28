@@ -23,7 +23,7 @@ const ROUTE_PATH = {
    // Module sửa chữa FIX
    CARS: '/fix/cars',
 
-   REPAIR_ORDERS: '/fix/repair-orders',
+   REPAIR_INVOICE: '/fix/repair-invoices',
 
    REPAIR_SERVICES: '/fix/repair-services',
 
