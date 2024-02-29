@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
+
 import {
    Box,
    Button,
@@ -20,6 +21,7 @@ import DeleteOutlineRoundedIcon from '@mui/icons-material/DeleteOutlineRounded';
 import handlePrice from '@Core/Helper/hendlePrice';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
+import Regexs from '@Core/Configs/Regexs';
 
 import { SuppliesInvoicesSchema } from '../utils/suppliesInvoices.schema';
 
@@ -56,6 +58,16 @@ const headerConfig = [
    {
       id: 6,
       title: 'Đơn giá',
+      align: 'center',
+   },
+   {
+      id: 9,
+      title: 'Giá bán',
+      align: 'center',
+   },
+   {
+      id: 10,
+      title: 'Giảm giá',
       align: 'center',
    },
 
@@ -127,7 +139,7 @@ const SuppliesInvoicesTable = ({ form }: { form: UseFormReturn<SuppliesInvoicesS
                         </TableCell>
 
                         {/* Tên vật tư */}
-                        <TableCell>
+                        <TableCell width="250px">
                            {/* <ControllerTextField name={`details.${index}.supplies_detail_id`} control={control} /> */}
                            <Typography sx={{ fontSize: '16px' }}>{watch(`details.${index}.name_detail`)}</Typography>
                         </TableCell>
@@ -156,18 +168,61 @@ const SuppliesInvoicesTable = ({ form }: { form: UseFormReturn<SuppliesInvoicesS
                               </ButtonAddQuantity>
                            </Box>
                         </TableCell>
-                        {/* Đơn giá */}
+                        {/* Đơn nhâp */}
+                        <TableCell align="right" sx={{ width: '250px' }}>
+                           <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                              <ExtendInputBase
+                                 fullWidth
+                                 value={watch(`details.${index}.cost_price`)}
+                                 onChange={(e) => {
+                                    setValue(`details.${index}.cost_price`, Number(e.target.value));
+                                 }}
+                              />
+                              <Box>đ</Box>
+                           </Box>
+                        </TableCell>
+                        {/* Giá bán */}
                         <TableCell align="right" sx={{ width: '130px' }}>
-                           <ExtendInputBase
-                              value={watch(`details.${index}.cost_price`)}
-                              onChange={(e) => {
-                                 setValue(`details.${index}.cost_price`, Number(e.target.value));
-                              }}
-                           />
+                           <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                              <ExtendInputBase
+                                 fullWidth
+                                 value={watch(`details.${index}.selling_price`)}
+                                 onChange={(e) => {
+                                    setValue(`details.${index}.selling_price`, Number(e.target.value));
+                                 }}
+                              />
+                              đ
+                           </Box>
+                        </TableCell>
+                        {/* Giảm giá */}
+                        <TableCell align="right" sx={{ width: '200px' }}>
+                           <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                              <ExtendInputBase
+                                 fullWidth
+                                 value={watch(`details.${index}.discount`)}
+                                 onChange={(e) => {
+                                    if (Number(e.target.value) < 0) {
+                                       return setValue(`details.${index}.discount`, 0);
+                                    }
+
+                                    if (Number(e.target.value) > 100) {
+                                       return setValue(`details.${index}.discount`, 100);
+                                    }
+
+                                    return setValue(`details.${index}.discount`, Number(e.target.value));
+                                 }}
+                                 onInput={(event: React.ChangeEvent<HTMLInputElement>) => {
+                                    return (event.target.value = String(
+                                       Number(event.target.value.replace(Regexs.integer, '')),
+                                    ));
+                                 }}
+                              />
+                              %
+                           </Box>
                         </TableCell>
 
                         {/* Tổng tiền */}
-                        <TableCell align="center" sx={{ width: '130px' }}>
+                        <TableCell align="center" sx={{ width: '250px' }}>
                            <Typography>
                               {handlePrice(
                                  Number(watch(`details.${index}.cost_price`)) *

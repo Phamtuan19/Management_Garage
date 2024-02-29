@@ -28,7 +28,7 @@ const BaseFormRepairService = ({ form, isLoading, onSubmitForm, isUpdate }: Base
             <Grid item xs={12}>
                <Box>
                   <ControllerLabel title="Giá" required />
-                  <ControllerTextField name="price" control={control} placeholder="Giá dịch vụ ?" />
+                  <ControllerTextField name="price" number control={control} placeholder="Giá dịch vụ ?" />
                </Box>
             </Grid>
             <Grid item xs={12}>

@@ -42,6 +42,7 @@ const RepairInvoiceFilterSupplies = ({ fieldArray }: { fieldArray: UseFieldArray
          );
 
          return append({
+            _id: '',
             supplies_detail_code: suppliesItem.code,
             distributor_name: suppliesItem.distributor.name,
             inventory: suppliesItem.supplies_invoices_quantity_received ?? 0,
@@ -53,6 +54,7 @@ const RepairInvoiceFilterSupplies = ({ fieldArray }: { fieldArray: UseFieldArray
             supplies_invoices_id: isSuppliesInvoiceCode ? '' : suppliesItem.supplies_invoices_id,
             supplies_id: suppliesItem.supplies_id,
             describe: '',
+            discount: 0,
          });
       }
 

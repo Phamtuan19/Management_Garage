@@ -36,6 +36,7 @@ export const suppliesInvoicesSchema = yup.object({
                     quantity_received: yup.number().default(0),
                     cost_price: yup.number().default(0),
                     selling_price: yup.number().default(0),
+                    discount: yup.number().default(0),
                     describe: yup.string().strict(true).trim(messageValidate.trim()).default(''),
                  }),
               )
@@ -51,6 +52,7 @@ export const suppliesInvoicesSchema = yup.object({
                     quantity_received: yup.number().default(0),
                     cost_price: yup.number().default(0),
                     selling_price: yup.number().default(0),
+                    discount: yup.number().default(0),
                     describe: yup.string().strict(true).trim(messageValidate.trim()).default(''),
                  }),
               )

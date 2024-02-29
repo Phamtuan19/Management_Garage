@@ -3,10 +3,16 @@ import { UseFieldArrayReturn, UseFormReturn } from 'react-hook-form';
 import TableCore, { columnHelper } from '@Core/Component/Table';
 import { Box, ButtonBase, IconButton, InputBase, styled } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import DeleteIcon from '@mui/icons-material/Delete';
 import handlePrice from '@Core/Helper/hendlePrice';
 import RemoveIcon from '@mui/icons-material/Remove';
 import EditIcon from '@mui/icons-material/Edit';
+import { CoreTableActionDelete } from '@Core/Component/Table/components/CoreTableAction';
+import { useMutation } from '@tanstack/react-query';
+import repairOrderDetailService from '@App/services/repairOrderDetail.service';
+import { AxiosResponseData, HandleErrorApi } from '@Core/Api/axios-config';
+import { errorMessage, successMessage } from '@Core/Helper/message';
+import { AxiosError } from 'axios';
+import { useParams } from 'react-router-dom';
 
 import { RepairInvoiceSchema } from '../../utils/repair-invoice';
 
@@ -20,6 +26,7 @@ interface TabRepairInvoiceSuppliesPropType {
 }
 
 export interface SuppliesInvoiceItem {
+   _id: string;
    supplies_detail_code: string;
    supplies_detail_id: string;
    supplies_detail_name: string;
@@ -32,6 +39,7 @@ export interface SuppliesInvoiceItem {
 }
 
 const TabRepairInvoiceSupplies = ({ form, fieldArray }: TabRepairInvoiceSuppliesPropType) => {
+   const { id: repairOrderId } = useParams();
    const { fields, remove } = fieldArray;
 
    // Tăng số lượng vật tư
@@ -60,6 +68,29 @@ const TabRepairInvoiceSupplies = ({ form, fieldArray }: TabRepairInvoiceSupplies
       );
    };
 
+   const { mutate: handleDeleteRepairDetailsSupplies } = useMutation({
+      mutationFn: async (id: string) => {
+         const res = await repairOrderDetailService.delete(id);
+         return res;
+      },
+      onSuccess: (data: AxiosResponseData) => {
+         successMessage(data.message || 'Xóa thành công');
+      },
+      onError: (err: AxiosError) => {
+         const dataError = err.response?.data as HandleErrorApi;
+
+         return errorMessage((dataError?.message as unknown as string) || 'Xóa thất bại');
+      },
+   });
+
+   const handleDeleteItem = (id: string, index: number) => {
+      if (repairOrderId) {
+         handleDeleteRepairDetailsSupplies(id);
+      }
+
+      return remove(index);
+   };
+
    const columnsService = [
       columnHelper.accessor('', {
          id: 'stt',
@@ -68,16 +99,16 @@ const TabRepairInvoiceSupplies = ({ form, fieldArray }: TabRepairInvoiceSupplies
       }),
       columnHelper.accessor('supplies_detail_code', {
          header: () => <Box sx={{ textAlign: 'center' }}>Mã VT</Box>,
-         cell: (info) => <Box sx={{ textAlign: 'center' }}>{info.getValue()}</Box>,
+         cell: (info) => <Box sx={{ textAlign: 'center' }}>#{info.getValue()}</Box>,
       }),
       columnHelper.accessor('supplies_detail_name', {
          header: () => <Box sx={{ textAlign: 'center' }}>Tên VT</Box>,
          cell: (info) => <Box sx={{ textAlign: 'center', width: '180px' }}>{info.getValue()}</Box>,
       }),
       columnHelper.accessor('distributor_name', {
-         header: () => <Box sx={{ textAlign: 'center' }}>Nhà phân phối</Box>,
+         header: () => <Box>Nhà phân phối</Box>,
          cell: (info) => {
-            return <Box sx={{ textAlign: 'center', width: '180px' }}>{info.getValue()}</Box>;
+            return <Box sx={{ width: '180px' }}>{info.getValue()}</Box>;
          },
       }),
       columnHelper.accessor('supplies_invoices_code', {
@@ -157,6 +188,8 @@ const TabRepairInvoiceSupplies = ({ form, fieldArray }: TabRepairInvoiceSupplies
       columnHelper.accessor('action', {
          header: () => <Box sx={{ textAlign: 'center' }}>Thao tác</Box>,
          cell: ({ row }) => {
+            const supplies = row.original as SuppliesInvoiceItem;
+            console.log(supplies);
             return (
                <Box display="flex" justifyContent="right" gap="6px">
                   {/* {serviceOrder.length === row.index + 1 && ( */}
@@ -166,15 +199,8 @@ const TabRepairInvoiceSupplies = ({ form, fieldArray }: TabRepairInvoiceSupplies
                   <IconButton color="primary" onClick={() => {}}>
                      <AddIcon />
                   </IconButton>
-                  {/* )} */}
-                  <IconButton
-                     color="error"
-                     onClick={() => {
-                        remove(row.index);
-                     }}
-                  >
-                     <DeleteIcon />
-                  </IconButton>
+
+                  <CoreTableActionDelete callback={() => handleDeleteItem(supplies._id, row.index)} />
                </Box>
             );
          },

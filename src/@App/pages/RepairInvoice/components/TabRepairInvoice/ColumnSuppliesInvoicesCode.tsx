@@ -1,5 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/naming-convention */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import suppliesInvoiceService from '@App/services/supplies-invoice';
 import { UseFormReturn } from 'react-hook-form';
@@ -33,6 +35,7 @@ const ColumnSuppliesInvoicesCode = ({ form, index, supplies }: ColumnSuppliesInv
          valuePath="supplies_invoice_code"
          titlePath="supplies_invoice_code"
          onChange={(e: { inventory: number; selling_price: number; supplies_invoice_code: string; _id: string }) => {
+            console.log(e);
             setValue(`suppliesInvoice.${index}.inventory`, e.inventory);
             setValue(`suppliesInvoice.${index}.selling_price`, e.selling_price);
             setValue(`suppliesInvoice.${index}.quantity`, e.inventory > 0 ? 1 : 0);

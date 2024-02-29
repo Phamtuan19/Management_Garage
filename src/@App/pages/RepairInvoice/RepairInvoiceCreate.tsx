@@ -39,6 +39,9 @@ const RepairInvoiceCreate = () => {
             price: item.selling_price,
             surcharge: 0,
             discount: 0,
+            supplies_invoices_code: item.supplies_invoices_code,
+            supplies_invoices_id: item.supplies_invoices_id,
+            supplies_detail_code: item.supplies_detail_code,
             describe: '',
          }));
 
@@ -49,6 +52,7 @@ const RepairInvoiceCreate = () => {
             price: item.price,
             surcharge: 0,
             discount: item.discount,
+            repair_service_code: item.repair_service_code,
             describe: '',
          }));
 

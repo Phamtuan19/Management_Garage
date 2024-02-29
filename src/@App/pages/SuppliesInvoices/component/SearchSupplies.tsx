@@ -100,6 +100,7 @@ const SearchSupplies = ({ form }: SearchSupplies) => {
             cost_price: supplie.imported_price ?? 0,
             selling_price: supplie.imported_price ?? 0,
             describe: '',
+            discount: 0,
          },
       ]);
 

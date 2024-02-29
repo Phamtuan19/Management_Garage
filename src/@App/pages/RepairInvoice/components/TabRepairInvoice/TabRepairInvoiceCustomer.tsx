@@ -14,17 +14,16 @@ import customerService, { ICustomer } from '@App/services/customer.service';
 import ControllerTextField from '@Core/Component/Input/ControllerTextField';
 import { useEffect } from 'react';
 import { CAR_STATUS } from '@App/configs/status-config';
-import { errorMessage } from '@Core/Helper/message';
+import { useParams } from 'react-router-dom';
 
 import { RepairInvoiceSchema } from '../../utils/repair-invoice';
 
 interface TabRepairInvoicePropType {
    form: UseFormReturn<RepairInvoiceSchema>;
-   // isLoading: boolean;
-   // onSubmitForm: SubmitHandler<RepairInvoiceSchema>;
 }
 
 const TabRepairInvoiceCustomer = ({ form }: TabRepairInvoicePropType) => {
+   const { id: repairOrderId } = useParams();
    const { control, watch, setValue } = form;
 
    const customer_id: string = watch('customer.customer_id');
@@ -65,6 +64,7 @@ const TabRepairInvoiceCustomer = ({ form }: TabRepairInvoicePropType) => {
             <Box display="flex" gap="0px 12px">
                <Box flex={1}>
                   <ControllerAutoComplate
+                     disabled={Boolean(repairOrderId)}
                      options={(customers as never) || []}
                      valuePath="_id"
                      titlePath="name"
@@ -101,7 +101,7 @@ const TabRepairInvoiceCustomer = ({ form }: TabRepairInvoicePropType) => {
                      name="car.car_id"
                      placeholder="Chọn xe cần sữa chữa"
                      control={control}
-                     disabled={!customer_id}
+                     disabled={!customer_id || Boolean(repairOrderId)}
                      renderOptionChildren={(props, e: DataGetAllFieldCart) => {
                         return (
                            <Box
@@ -112,9 +112,9 @@ const TabRepairInvoiceCustomer = ({ form }: TabRepairInvoicePropType) => {
                                  display: 'block',
                               }}
                               {...props}
-                              onClick={(e: any) => {
-                                 e.status === 'EMPTY' ? props.onClick(e) : errorMessage(`Không thể chọn xe này.`);
-                              }}
+                              // onClick={(e: any) => {
+                              //    e.status === 'EMPTY' ? props.onClick(e) : errorMessage(`Không thể chọn xe này.`);
+                              // }}
                            >
                               {e.name}
                               <Chip
