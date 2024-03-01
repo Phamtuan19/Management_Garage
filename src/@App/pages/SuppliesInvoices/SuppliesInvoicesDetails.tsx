@@ -65,7 +65,7 @@ const SuppliesInvoicesDetails = () => {
                   <Box sx={{ ml: '25px', mr: '25px' }}>
                      <Grid container spacing={2}>
                         <Grid item xs={12}>
-                           <Typography sx={{ fontWeight: '600', fontSize: '1.5rem', color: theme.palette.grey[800] }}>
+                           <Typography sx={{ fontWeight: '500', fontSize: '1.5rem', color: theme.palette.grey[800] }}>
                               Thông tin phiếu nhập hàng
                            </Typography>
                         </Grid>
@@ -79,7 +79,12 @@ const SuppliesInvoicesDetails = () => {
                               </Grid>
                               <Grid item xs={10}>
                                  <Typography
-                                    sx={{ fontSize: '1rem', lineHeight: '32px', height: '32px', fontWeight: '500' }}
+                                    sx={{
+                                       fontSize: '1rem',
+
+                                       height: '32px',
+                                       fontWeight: '500',
+                                    }}
                                  >
                                     {detail.value}
                                  </Typography>
@@ -90,7 +95,7 @@ const SuppliesInvoicesDetails = () => {
                      </Grid>
                      <Grid container spacing={2} mt={3}>
                         <Grid item xs={12}>
-                           <Typography sx={{ fontWeight: '600', fontSize: '1.5rem', color: theme.palette.grey[800] }}>
+                           <Typography sx={{ fontWeight: '500', fontSize: '1.5rem', color: theme.palette.grey[800] }}>
                               Chi tiết phiếu nhập hàng
                            </Typography>
                         </Grid>
