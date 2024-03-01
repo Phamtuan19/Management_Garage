@@ -1,3 +1,6 @@
+/* eslint-disable import/order */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
@@ -11,8 +14,9 @@ import theme from '@Core/Theme';
 import { Box, Typography, Stack, Grid } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
-import suppliesInvoiceService from '@App/services/supplies-invoice';
+import suppliesInvoiceService, { SuppliesInvoiceDetails } from '@App/services/supplies-invoice';
 import { TableContainer, Table, TableBody, TableRow, TableCell, Paper } from '@mui/material';
+
 import TableHead from '@mui/material/TableHead';
 import PageContent from '@App/component/customs/PageContent';
 import ScrollbarBase from '@App/component/customs/ScrollbarBase';
@@ -43,15 +47,16 @@ const SuppliesInvoicesDetails = () => {
       { label: 'Ngày tạo', value: hendleDateTime(suppliesinvoices?.createdAt) },
    ];
 
-   const DetailssuppliesInvoices = [
-      { label: 'Mã vật tư', value: 'code' },
-      { label: 'Tên vật tư', value: 'name_detail' },
-      { label: 'Giá vốn', value: 'cost_price' },
-      { label: 'Giá bán', value: 'selling_price' },
-      { label: 'SL nhập', value: 'quantity_received' },
-      { label: 'SL bán', value: 'quantity_sold' },
-      { label: 'Đơn vị tính', value: 'unit' },
+   const columns = [
+      { field: 'code', headerName: 'Mã vật tư', headerAlign: 'center', align: 'center' },
+      { field: 'name_detail', headerName: 'Tên vật tư', headerAlign: 'center', align: 'center' },
+      { field: 'cost_price', headerName: 'Giá vốn', headerAlign: 'center', align: 'center' },
+      { field: 'selling_price', headerName: 'Giá bán', headerAlign: 'center', align: 'center' },
+      { field: 'quantity_received', headerName: 'SL nhập', headerAlign: 'center', align: 'center' },
+      { field: 'quantity_sold', headerName: 'SL bán', headerAlign: 'center', align: 'center' },
+      { field: 'unit', headerName: 'Đơn vị tính', headerAlign: 'center', align: 'center' },
    ];
+
    return (
       <BaseBreadcrumbs breadcrumbs={breadcrumbs} arialabel="Chi tiết phiếu nhập hàng">
          <PageContent>
@@ -86,38 +91,41 @@ const SuppliesInvoicesDetails = () => {
                      <Grid container spacing={2} mt={3}>
                         <Grid item xs={12}>
                            <Typography sx={{ fontWeight: '600', fontSize: '1.5rem', color: theme.palette.grey[800] }}>
-                              Thông tin chi tiết phiếu nhập hàng
+                              Chi tiết phiếu nhập hàng
                            </Typography>
                         </Grid>
-                        <TableContainer component={Paper}>
+
+                        <TableContainer
+                           component={Paper}
+                           elevation={3}
+                           sx={{ mt: 2, borderRadius: '12px', overflow: 'hidden' }}
+                        >
                            <ScrollbarBase>
                               <Table sx={{ minWidth: 650 }}>
-                                 <TableHead>
+                                 <TableHead sx={{ background: theme.palette.grey[200] }}>
                                     <TableRow>
-                                       {DetailssuppliesInvoices.map(
-                                          (detail: { label: string; value: string }, index: number) => (
-                                             <TableCell key={index} align="center" sx={{ p: 1 }}>
-                                                {detail.label}
-                                             </TableCell>
-                                          ),
-                                       )}
+                                       {columns.map((column) => (
+                                          <TableCell key={column.field} align="center" sx={{ p: 2, height: '60px' }}>
+                                             {column.headerName}
+                                          </TableCell>
+                                       ))}
                                     </TableRow>
                                  </TableHead>
                                  <TableBody>
-                                    {suppliesinvoices?.details.map((detailObject: any, rowIndex: number) => (
-                                       <TableRow
-                                          key={rowIndex}
-                                          sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                       >
-                                          {DetailssuppliesInvoices.map(
-                                             (detail: { label: string; value: string }, colIndex: number) => (
-                                                <TableCell key={colIndex} align="center" sx={{ p: 1 }}>
-                                                   {detailObject[detail.value]}
+                                    {suppliesinvoices?.details.map(
+                                       (detailObject: SuppliesInvoiceDetails, rowIndex: number) => (
+                                          <TableRow
+                                             key={rowIndex}
+                                             sx={{ '&:last-child td, &:last-child th': { border: 0, height: '60px' } }}
+                                          >
+                                             {columns.map((column) => (
+                                                <TableCell key={column.field} align="center" sx={{ p: 1 }}>
+                                                   {detailObject[column.field]}
                                                 </TableCell>
-                                             ),
-                                          )}
-                                       </TableRow>
-                                    ))}
+                                             ))}
+                                          </TableRow>
+                                       ),
+                                    )}
                                  </TableBody>
                               </Table>
                            </ScrollbarBase>
