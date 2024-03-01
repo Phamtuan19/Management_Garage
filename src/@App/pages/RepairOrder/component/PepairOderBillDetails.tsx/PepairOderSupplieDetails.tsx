@@ -42,13 +42,13 @@ const RepairOrderDetails = () => {
             <Stack>
                <Box sx={{ mt: 3, bgcolor: '#FFFF', p: '0px 16px 16px 16px', borderRadius: 2, position: 'relative' }}>
                   <Box sx={{ mb: 2, minHeight: '50px', display: 'flex', gap: 25 }}>
-                     <Typography sx={{ fontWeight: '900', fontSize: '1.5rem', color: theme.palette.grey[800] }}>
+                     <Typography sx={{ fontWeight: '500', fontSize: '1.5rem', color: theme.palette.grey[800] }}>
                         Thông tin vật tư
                      </Typography>
                   </Box>
                   <TableContainer component={Paper}>
                      <Table sx={{ minWidth: 650 }}>
-                        <TableHead>
+                        <TableHead sx={{ background: theme.palette.grey[200] }}>
                            <TableRow>
                               {supplie.map((detail: { label: string; value: string }, index: number) => (
                                  <TableCell key={index} align="center" sx={{ p: 1 }}>

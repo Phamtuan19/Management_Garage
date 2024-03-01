@@ -46,12 +46,12 @@ const RepairOrderDetails = () => {
 const DetailsItem = ({ label, value }: { label: string; value: string }) => (
    <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
       <Grid item xs={3}>
-         <Typography sx={{ p: 1, fontWeight: '700', fontSize: '1rem', color: theme.palette.grey[800] }}>
-            {label}
-         </Typography>
+         <Typography sx={{ p: 1, fontSize: '1rem', color: theme.palette.grey[800] }}>{label}</Typography>
       </Grid>
       <Grid item xs={9}>
-         <Typography sx={{ p: 1, flexGrow: 1, fontSize: '1rem' }}>{value}</Typography>
+         <Typography sx={{ p: 1, fontWeight: '500', flexGrow: 1, fontSize: '1rem', height: '40px' }}>
+            {value}
+         </Typography>
          <Divider variant="inset" sx={{ m: 0 }} />
       </Grid>
    </Grid>

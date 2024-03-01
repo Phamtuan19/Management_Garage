@@ -80,7 +80,6 @@ const PersonnelDetails = () => {
                                        <Typography
                                           sx={{
                                              p: 1,
-
                                              fontSize: '1rem',
                                              color: theme.palette.grey[800],
                                           }}
