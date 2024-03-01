@@ -44,6 +44,7 @@ interface SuppliesInvoiceDetails {
    describe: string;
    name_detail: string;
    unit: string;
+   discount: number;
 }
 
 interface Transactions {

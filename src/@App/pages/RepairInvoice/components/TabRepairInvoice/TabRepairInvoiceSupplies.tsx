@@ -83,9 +83,11 @@ const TabRepairInvoiceSupplies = ({ form, fieldArray }: TabRepairInvoiceSupplies
       },
    });
 
-   const handleDeleteItem = (id: string, index: number) => {
+   const handleDeleteItem = (supplies: SuppliesInvoiceItem, index: number) => {
       if (repairOrderId) {
-         handleDeleteRepairDetailsSupplies(id);
+         if (supplies._id) {
+            handleDeleteRepairDetailsSupplies(supplies._id);
+         }
       }
 
       return remove(index);
@@ -189,7 +191,7 @@ const TabRepairInvoiceSupplies = ({ form, fieldArray }: TabRepairInvoiceSupplies
          header: () => <Box sx={{ textAlign: 'center' }}>Thao tác</Box>,
          cell: ({ row }) => {
             const supplies = row.original as SuppliesInvoiceItem;
-            console.log(supplies);
+
             return (
                <Box display="flex" justifyContent="right" gap="6px">
                   {/* {serviceOrder.length === row.index + 1 && ( */}
@@ -200,7 +202,7 @@ const TabRepairInvoiceSupplies = ({ form, fieldArray }: TabRepairInvoiceSupplies
                      <AddIcon />
                   </IconButton>
 
-                  <CoreTableActionDelete callback={() => handleDeleteItem(supplies._id, row.index)} />
+                  <CoreTableActionDelete callback={() => handleDeleteItem(supplies, row.index)} />
                </Box>
             );
          },

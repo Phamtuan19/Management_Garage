@@ -6,6 +6,7 @@ const suppliesService = yup
    .array()
    .of(
       yup.object({
+         _id: yup.string().default(''),
          repair_service_id: yup.string().default(''), // id của dịch vụ sửa chữa
          repair_service_code: yup.string().default(''), // code của dịch vụ sửa chữa
          repair_service_name: yup.string().default(''), // tên của dịch vụ sửa chữa

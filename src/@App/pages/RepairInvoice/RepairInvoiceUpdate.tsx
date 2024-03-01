@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/naming-convention */
 import ArrowRight from '@App/component/common/ArrowRight';
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
@@ -28,7 +26,7 @@ const RepairInvoiceUpdate = () => {
 
    const { id: repairOrderId } = useParams();
 
-   const { data } = useQuery(
+   const { data: repairOrder } = useQuery(
       ['getRepairDetail', repairOrderId],
       async () => {
          const res = await repairorderService.find(repairOrderId as string);
@@ -56,6 +54,7 @@ const RepairInvoiceUpdate = () => {
                   kilometer: data.kilometer,
                },
                suppliesService: data.services.map((item) => ({
+                  _id: item._id,
                   repair_service_id: item.repair_service_id,
                   repair_service_code: item.repair_service.code,
                   repair_service_name: item.repair_service.name,
@@ -87,25 +86,33 @@ const RepairInvoiceUpdate = () => {
       },
    );
 
-   const { mutate: handleCreateRepairOrder, isLoading } = useMutation({
+   const { mutate: handleUpdateRepairOrder, isLoading } = useMutation({
       mutationFn: async (data: RepairInvoiceSchema) => {
-         const supplies = data.suppliesInvoice.map((item) => ({
-            supplies_detail_id: item.supplies_detail_id,
-            repair_service_id: '',
-            quantity: item.quantity,
-            price: item.selling_price,
-            surcharge: 0,
-            discount: 0,
-            describe: '',
-         }));
+         const supplies = data.suppliesInvoice.map((item) => {
+            return {
+               _id: item._id,
+               supplies_detail_id: item.supplies_detail_id,
+               repair_service_id: '',
+               quantity: item.quantity,
+               price: item.selling_price,
+               surcharge: 0,
+               discount: 0,
+               supplies_invoices_code: item.supplies_invoices_code,
+               supplies_invoices_id: item.supplies_invoices_id,
+               supplies_detail_code: item.supplies_detail_code,
+               describe: '',
+            };
+         });
 
          const service = data.suppliesService.map((item) => ({
+            _id: item._id,
             supplies_detail_id: '',
             repair_service_id: item.repair_service_id,
             quantity: item.quantity,
             price: item.price,
             surcharge: 0,
             discount: item.discount,
+            repair_service_code: item.repair_service_code,
             describe: '',
          }));
 
@@ -114,10 +121,11 @@ const RepairInvoiceUpdate = () => {
             car_id: data.car.car_id,
             kilometer: Number(data.car.kilometer),
             describe: '',
+            // status: repairOrder?.status,
             details: [...supplies, ...service],
          };
 
-         return await repairorderService.update(newData);
+         return await repairorderService.update(newData, repairOrderId);
       },
       onSuccess: () => {
          successMessage('Thêm mới nhân viên thành công');
@@ -132,17 +140,17 @@ const RepairInvoiceUpdate = () => {
       },
    });
 
-   const onSubmitForm: SubmitHandler<RepairInvoiceSchema> = (data) => handleCreateRepairOrder(data);
+   const onSubmitForm: SubmitHandler<RepairInvoiceSchema> = (data) => handleUpdateRepairOrder(data);
 
    return (
       <BaseBreadcrumbs arialabel="Phiếu sửa chữa">
          <Box mb={1}>
-            <ArrowRight options={arrowRightOption} check={data?.status ?? 'draft'} />
+            <ArrowRight options={arrowRightOption} check={repairOrder?.status ?? 'draft'} />
          </Box>
          <BaseFormRepairInvoice
             form={form}
             isLoading={isLoading}
-            isShipped={data?.status === 'shipped'}
+            isShipped={repairOrder?.status === 'shipped'}
             onSubmitForm={onSubmitForm}
          />
       </BaseBreadcrumbs>

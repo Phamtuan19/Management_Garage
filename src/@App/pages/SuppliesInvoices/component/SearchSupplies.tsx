@@ -12,7 +12,7 @@ import useDebounce from '@App/hooks/useDebounce';
 import { UseFormReturn } from 'react-hook-form';
 import distributorService from '@App/services/distributor.service';
 import ControllerAutoComplate from '@Core/Component/Input/ControllerAutoComplate';
-import { useParams } from 'react-router-dom';
+// import { useParams } from 'react-router-dom';
 
 import { SuppliesInvoicesSchema } from '../utils/suppliesInvoices.schema';
 
@@ -23,7 +23,7 @@ interface SearchSupplies {
 }
 
 const SearchSupplies = ({ form }: SearchSupplies) => {
-   const { id: suppliesInvoiceId } = useParams();
+   // const { id: suppliesInvoiceId } = useParams();
    const { watch, setValue } = form;
    const [open, setOpen] = useState<boolean>(false);
    const [valueSearch, setValueSearch] = useState<string>('');
@@ -123,7 +123,7 @@ const SearchSupplies = ({ form }: SearchSupplies) => {
                titlePath="name"
                name="distributor_id"
                control={form.control}
-               disabled={Boolean(suppliesInvoiceId)}
+               // disabled={Boolean(suppliesInvoiceId)}
             />
          </Grid>
          {/* <Grid item xs={4}> */}

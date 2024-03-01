@@ -4,8 +4,14 @@ import TableCore, { columnHelper } from '@Core/Component/Table';
 import { Box, IconButton } from '@mui/material';
 import handlePrice from '@Core/Helper/hendlePrice';
 import AddIcon from '@mui/icons-material/Add';
-import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import { useParams } from 'react-router-dom';
+import { useMutation } from '@tanstack/react-query';
+import repairOrderDetailService from '@App/services/repairOrderDetail.service';
+import { AxiosResponseData, HandleErrorApi } from '@Core/Api/axios-config';
+import { errorMessage, successMessage } from '@Core/Helper/message';
+import { AxiosError } from 'axios';
+import { CoreTableActionDelete } from '@Core/Component/Table/components/CoreTableAction';
 
 import { RepairInvoiceSchema } from '../../utils/repair-invoice';
 
@@ -15,11 +21,47 @@ interface TabSuppliesServicePropType {
    // onSubmitForm: SubmitHandler<RepairInvoiceSchema>;
    fieldArray: UseFieldArrayReturn<RepairInvoiceSchema>;
 }
+interface ReapirService {
+   _id: string;
+   repair_service_id: string;
+   repair_service_code: string;
+   repair_service_name: string;
+   quantity: number;
+   price: number;
+   discount: number;
+   describe: string;
+}
 
 const TabRepairService = ({ form, fieldArray }: TabSuppliesServicePropType) => {
+   const { id: repairOrderId } = useParams();
    const { watch } = form;
 
    const { fields, remove } = fieldArray;
+
+   const { mutate: handleDeleteRepairDetailsSupplies } = useMutation({
+      mutationFn: async (id: string) => {
+         const res = await repairOrderDetailService.delete(id);
+         return res;
+      },
+      onSuccess: (data: AxiosResponseData) => {
+         successMessage(data.message || 'Xóa thành công');
+      },
+      onError: (err: AxiosError) => {
+         const dataError = err.response?.data as HandleErrorApi;
+
+         return errorMessage((dataError?.message as unknown as string) || 'Xóa thất bại');
+      },
+   });
+
+   const handleDeleteItem = (invoice: ReapirService, index: number) => {
+      if (repairOrderId) {
+         if (invoice._id) {
+            handleDeleteRepairDetailsSupplies(invoice._id);
+         }
+      }
+
+      return remove(index);
+   };
 
    const columnsService = [
       columnHelper.accessor('', {
@@ -64,24 +106,18 @@ const TabRepairService = ({ form, fieldArray }: TabSuppliesServicePropType) => {
       columnHelper.accessor('action', {
          header: () => <Box sx={{ textAlign: 'center' }}>Thao tác</Box>,
          cell: ({ row }) => {
+            const invoice = row.original as ReapirService;
+
             return (
                <Box display="flex" justifyContent="right" gap="6px">
-                  {/* {serviceOrder.length === row.index + 1 && ( */}
                   <IconButton color="warning" onClick={() => {}}>
                      <EditIcon />
                   </IconButton>
                   <IconButton color="primary" onClick={() => {}}>
                      <AddIcon />
                   </IconButton>
-                  {/* )} */}
-                  <IconButton
-                     color="error"
-                     onClick={() => {
-                        remove(row.index);
-                     }}
-                  >
-                     <DeleteIcon />
-                  </IconButton>
+
+                  <CoreTableActionDelete callback={() => handleDeleteItem(invoice, row.index)} />
                </Box>
             );
          },

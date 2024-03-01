@@ -51,8 +51,13 @@ const SuppliesInvoicesUpdate = () => {
             form.setValue('describe', data.describe);
             form.setValue('image', '');
 
-            form.setValue('details', data.details);
-            form.setValue('distributor_id', data.distributor_id);
+            form.setValue(
+               'details',
+               data.details.map((item) => ({
+                  ...item,
+                  discount: item.discount ?? 0,
+               })),
+            );
          },
       },
    );
