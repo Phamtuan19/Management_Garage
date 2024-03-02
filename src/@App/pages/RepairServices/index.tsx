@@ -109,6 +109,11 @@ const RepairServices = () => {
          }),
          columnHelper.accessor('describe', {
             header: 'Mô tả',
+            cell: ({ row }) => {
+               const describeHTML: string = String(row.getValue('describe'));
+
+               return <div dangerouslySetInnerHTML={{ __html: describeHTML }} />;
+            },
          }),
          columnHelper.accessor('createdAt', {
             header: () => <Box textAlign="center">Ngày tạo</Box>,
@@ -161,10 +166,6 @@ const RepairServices = () => {
          <PageContent>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                <FilterTable sortList={sortOptions} searchType={sortList} />
-
-               {/* <Button component={Link} to="create" endIcon={<AddIcon />}>
-               Thêm mới
-            </Button> */}
             </Box>
             <TableCore columns={columns} {...data} />
          </PageContent>

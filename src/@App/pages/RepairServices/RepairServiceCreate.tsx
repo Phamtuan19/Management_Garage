@@ -46,7 +46,19 @@ const RepairServiceCreate = () => {
    const onSubmitForm: SubmitHandler<RepairServiceSchema> = (data) => handleCreateRepairService(data);
 
    return (
-      <BaseBreadcrumbs arialabel="Thêm mới" breadcrumbs={breadcrumbs}>
+      <BaseBreadcrumbs
+         arialabel="Thêm mới"
+         breadcrumbs={breadcrumbs}
+         sx={({ base }) => ({
+            marginTop: '12px',
+            padding: '12px',
+            borderRadius: '5px',
+            backgroundColor: base.background.white as string,
+            bgcolor: base.background.default,
+            border: 'none',
+            p: 0,
+         })}
+      >
          <BaseFormRepairService form={form} onSubmitForm={onSubmitForm} isLoading={isLoading} />
       </BaseBreadcrumbs>
    );
