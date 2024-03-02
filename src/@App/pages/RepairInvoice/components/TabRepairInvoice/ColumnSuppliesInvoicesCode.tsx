@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/naming-convention */
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import suppliesInvoiceService from '@App/services/supplies-invoice';
 import { UseFormReturn } from 'react-hook-form';
@@ -16,7 +17,7 @@ interface ColumnSuppliesInvoicesCodePropsType {
 }
 
 const ColumnSuppliesInvoicesCode = ({ form, index, supplies }: ColumnSuppliesInvoicesCodePropsType) => {
-   const { setValue, control } = form;
+   const { setValue, control, watch } = form;
 
    const { data, isLoading } = useQuery(['getSuppliesInvoice', supplies.supplies_detail_id], async () => {
       const res = await suppliesInvoiceService.getListDeatilsSort({
@@ -25,18 +26,48 @@ const ColumnSuppliesInvoicesCode = ({ form, index, supplies }: ColumnSuppliesInv
       return res.data;
    });
 
+   const suppliesInvoice = watch('suppliesInvoice');
+
+   const newData = useMemo(() => {
+      if (data) {
+         if (suppliesInvoice.length > 0) {
+            return data.filter(
+               (item1) =>
+                  !suppliesInvoice
+                     .filter((item2) => {
+                        return (
+                           watch(`suppliesInvoice.${index}.supplies_invoices_code`) !== item2.supplies_invoices_code
+                        );
+                     })
+                     .some((item2) => {
+                        return item1.supplies_invoice_code === item2.supplies_invoices_code;
+                     }),
+            );
+         }
+
+         return data;
+      }
+      return [];
+   }, [data, suppliesInvoice]);
+
    return (
       <ControllerAutoComplate
          loading={isLoading}
          name={`suppliesInvoice.${index}.supplies_invoices_code`}
-         options={(data as never) || []}
+         options={(newData as never) || []}
          valuePath="supplies_invoice_code"
          titlePath="supplies_invoice_code"
-         onChange={(e: { inventory: number; selling_price: number; supplies_invoice_code: string; _id: string }) => {
+         onChange={(e: {
+            _id: string;
+            inventory: number;
+            selling_price: number;
+            supplies_invoice_code: string;
+            supplies_invoice_id: string;
+         }) => {
             setValue(`suppliesInvoice.${index}.inventory`, e.inventory);
             setValue(`suppliesInvoice.${index}.selling_price`, e.selling_price);
             setValue(`suppliesInvoice.${index}.quantity`, e.inventory > 0 ? 1 : 0);
-            // form.setValue(`suppliesInvoice.${row.index}.supplies_invoices_id`, e._id);
+            setValue(`suppliesInvoice.${index}.supplies_invoices_id`, e.supplies_invoice_id);
          }}
          control={control}
       />

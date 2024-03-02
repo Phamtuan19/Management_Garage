@@ -43,6 +43,7 @@ const TabRepairServiceFilter = ({ fieldArray }: { fieldArray: UseFieldArrayRetur
             repair_service_name: service.name,
             quantity: 1,
             repair_service_code: service.code,
+            _id: '',
          });
       }
 

@@ -1,6 +1,3 @@
-/* eslint-disable import/order */
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
@@ -14,9 +11,8 @@ import theme from '@Core/Theme';
 import { Box, Typography, Stack, Grid } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
-import suppliesInvoiceService, { SuppliesInvoiceDetails } from '@App/services/supplies-invoice';
+import suppliesInvoiceService from '@App/services/supplies-invoice';
 import { TableContainer, Table, TableBody, TableRow, TableCell, Paper } from '@mui/material';
-
 import TableHead from '@mui/material/TableHead';
 import PageContent from '@App/component/customs/PageContent';
 import ScrollbarBase from '@App/component/customs/ScrollbarBase';
@@ -117,20 +113,18 @@ const SuppliesInvoicesDetails = () => {
                                     </TableRow>
                                  </TableHead>
                                  <TableBody>
-                                    {suppliesinvoices?.details.map(
-                                       (detailObject: SuppliesInvoiceDetails, rowIndex: number) => (
-                                          <TableRow
-                                             key={rowIndex}
-                                             sx={{ '&:last-child td, &:last-child th': { border: 0, height: '60px' } }}
-                                          >
-                                             {columns.map((column) => (
-                                                <TableCell key={column.field} align="center" sx={{ p: 1 }}>
-                                                   {detailObject[column.field]}
-                                                </TableCell>
-                                             ))}
-                                          </TableRow>
-                                       ),
-                                    )}
+                                    {suppliesinvoices?.details.map((detailObject: any, rowIndex: number) => (
+                                       <TableRow
+                                          key={rowIndex}
+                                          sx={{ '&:last-child td, &:last-child th': { border: 0, height: '60px' } }}
+                                       >
+                                          {columns.map((column) => (
+                                             <TableCell key={column.field} align="center" sx={{ p: 1 }}>
+                                                {detailObject[column.field]}
+                                             </TableCell>
+                                          ))}
+                                       </TableRow>
+                                    ))}
                                  </TableBody>
                               </Table>
                            </ScrollbarBase>

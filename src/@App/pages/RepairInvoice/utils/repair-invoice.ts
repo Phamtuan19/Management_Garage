@@ -6,6 +6,7 @@ const suppliesService = yup
    .array()
    .of(
       yup.object({
+         _id: yup.string().default(''),
          repair_service_id: yup.string().default(''), // id của dịch vụ sửa chữa
          repair_service_code: yup.string().default(''), // code của dịch vụ sửa chữa
          repair_service_name: yup.string().default(''), // tên của dịch vụ sửa chữa
@@ -21,6 +22,7 @@ const suppliesInvoice = yup
    .array()
    .of(
       yup.object({
+         _id: yup.string().default(''),
          supplies_detail_code: yup.string().default(''), // mã code của vật tư chi tiết
          supplies_detail_id: yup.string().default(''), // id của chi tiết vật tư
          supplies_detail_name: yup.string().default(''), // tên của chi tiết vật tư
@@ -32,6 +34,7 @@ const suppliesInvoice = yup
          inventory: yup.number().default(0), // số lượng tồn kho
          distributor_name: yup.string().default(''),
          supplies_id: yup.string().default(''), // id của vật tư chính
+         discount: yup.number().default(0),
       }),
    )
    .default([]);

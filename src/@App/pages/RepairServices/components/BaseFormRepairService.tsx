@@ -1,8 +1,5 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/naming-convention */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable import/order */
 import { LoadingButton } from '@mui/lab';
 import { Box, Grid, Typography } from '@mui/material';

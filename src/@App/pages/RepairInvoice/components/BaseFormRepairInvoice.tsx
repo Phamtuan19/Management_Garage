@@ -57,9 +57,8 @@ const BaseFormRepairInvoice = ({ form, onSubmitForm, isShipped = false }: BaseFo
    });
 
    const total_price_supplies = form.watch('suppliesInvoice').reduce((total, supplies) => {
-      return total + (supplies.selling_price - (supplies.selling_price * supplies.quantity) / 100);
+      return total + (supplies.selling_price - (supplies.selling_price * supplies.quantity * supplies.discount) / 100);
    }, 0);
-
    const total_price_service = form.watch('suppliesService').reduce((total, service) => {
       return total + (service.price - (service.price * service.discount) / 100);
    }, 0);
@@ -110,6 +109,19 @@ const BaseFormRepairInvoice = ({ form, onSubmitForm, isShipped = false }: BaseFo
                         <RepairOrderBill form={form} />
                      </Grid> */}
                      <Grid item xs={12}>
+                        <Box display="flex" justifyContent="space-between">
+                           <ControllerLabel title="Dịch vụ:" />
+                           <ExtendTypography sx={{ fontWeight: 600 }}>
+                              {handlePrice(total_price_service)}
+                           </ExtendTypography>
+                        </Box>
+                        <Box display="flex" justifyContent="space-between">
+                           <ControllerLabel title="Vật tư:" />
+                           <ExtendTypography sx={{ fontWeight: 600 }}>
+                              {handlePrice(total_price_supplies)}
+                           </ExtendTypography>
+                        </Box>
+                        <hr />
                         <Box display="flex" justifyContent="space-between">
                            <ControllerLabel title="Tổng tiền:" />
                            <ExtendTypography sx={{ fontWeight: 600 }}>
