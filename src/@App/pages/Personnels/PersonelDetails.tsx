@@ -43,20 +43,19 @@ const PersonnelDetails = () => {
             arialabel="Chi tiết nhân viên"
             sx={({ base }) => ({ bgcolor: base.background.default, border: 'none', p: 0 })}
          >
+            <PermissionAccessRoute module={MODULE_PAGE.PERSONNELS} action="VIEW_ALL">
+               <Button
+                  variant="contained"
+                  onClick={() => navigate(ROUTE_PATH.PERSONNELS + '/' + personnelId + '/update')}
+                  endIcon={<RateReviewRoundedIcon />}
+                  sx={{ py: '5px', px: '12px' }}
+               >
+                  Chỉnh sửa
+               </Button>
+            </PermissionAccessRoute>
             {personnels && (
                <Stack>
                   <Box sx={{ mt: 3, bgcolor: '#FFFF', p: '0px 16px 16px 16px', borderRadius: 2, position: 'relative' }}>
-                     <Box sx={{ position: 'absolute', top: '0', right: '0', p: 1 }}>
-                        <PermissionAccessRoute module={MODULE_PAGE.PERSONNELS} action="VIEW_ALL">
-                           <Button
-                              variant="contained"
-                              onClick={() => navigate(ROUTE_PATH.PERSONNELS + '/' + personnelId + '/update')}
-                              endIcon={<RateReviewRoundedIcon />}
-                           >
-                              Chỉnh sửa
-                           </Button>
-                        </PermissionAccessRoute>
-                     </Box>
                      <Box>
                         <Box sx={{ mt: 4, p: 4, borderRadius: 2, position: 'relative' }}>
                            <Box sx={{ mb: 2, minHeight: '50px', display: 'flex', gap: 25 }}>
@@ -77,11 +76,10 @@ const PersonnelDetails = () => {
                               })}
                               <Grid item xs={12}>
                                  <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                                    <Grid item xs={3}>
+                                    <Grid item xs={2}>
                                        <Typography
                                           sx={{
                                              p: 1,
-
                                              fontSize: '1rem',
                                              color: theme.palette.grey[800],
                                           }}
@@ -89,7 +87,7 @@ const PersonnelDetails = () => {
                                           Vai trò
                                        </Typography>
                                     </Grid>
-                                    <Grid item xs={9}>
+                                    <Grid item xs={10}>
                                        <Typography sx={{ p: 1, flexGrow: 1, fontSize: '1rem', fontWeight: '700' }}>
                                           <Chip label={personnels[0].role_id.name} color="success" />
                                        </Typography>
@@ -112,7 +110,7 @@ const PersonnelDetails = () => {
 
 const DetailsItem = ({ label, value }: { label: string; value: string }) => (
    <Grid container rowSpacing={0} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-      <Grid item xs={3}>
+      <Grid item xs={2}>
          <Typography
             sx={{
                p: 1,
@@ -126,7 +124,7 @@ const DetailsItem = ({ label, value }: { label: string; value: string }) => (
             {label}
          </Typography>
       </Grid>
-      <Grid item xs={9}>
+      <Grid item xs={10}>
          <Typography
             sx={{
                p: 1,

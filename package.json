@@ -17,6 +17,8 @@
       "validate": "npm-run-all lint type:check"
    },
    "dependencies": {
+      "@ckeditor/ckeditor5-build-classic": "^41.1.0",
+      "@ckeditor/ckeditor5-react": "^6.2.0",
       "@emotion/react": "^11.11.3",
       "@emotion/styled": "^11.11.0",
       "@hookform/resolvers": "^3.3.4",
@@ -32,6 +34,7 @@
       "@types/axios": "^0.14.0",
       "@types/nprogress": "^0.2.3",
       "axios": "^1.6.7",
+      "ckeditor": "^4.12.1",
       "combine-reducers": "^1.0.0",
       "date-fns": "^3.3.1",
       "dayjs": "^1.11.10",

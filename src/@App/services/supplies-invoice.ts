@@ -33,7 +33,7 @@ export interface SuppliesInvoicesResponse {
    total_supplies: number;
 }
 
-interface SuppliesInvoiceDetails {
+export interface SuppliesInvoiceDetails {
    _id: string;
    code: string;
    supplies_invoice_id: string;
