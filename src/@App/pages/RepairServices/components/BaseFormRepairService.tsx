@@ -24,18 +24,18 @@ const BaseFormRepairService = ({ form, isLoading, onSubmitForm, isUpdate }: Base
       <Box component="form" onSubmit={handleSubmit(onSubmitForm)}>
          <Grid container spacing={2}>
             <Grid item xs={12}>
-               <Box height="96.5px">
+               <Box height="92px">
                   <ControllerLabel title="Tên dịch vụ" required />
                   <ControllerTextField name="name" control={control} placeholder="Tên dịch vụ " />
                </Box>
             </Grid>
-            <Grid item xs={12}>
-               <Box>
+            <Grid item xs={6}>
+               <Box height="92px">
                   <ControllerLabel title="Giá" required />
                   <ControllerTextField name="price" number control={control} placeholder="Giá dịch vụ " />
                </Box>
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={6} height="92px">
                <ControllerLabel title="Giảm giá (%)" required />
                <ControllerTextField name="discount" number control={control} placeholder="Giảm giá " />
             </Grid>

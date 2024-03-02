@@ -9,6 +9,7 @@ import { HandleErrorApi } from '@Core/Api/axios-config';
 import ROUTE_PATH from '@App/configs/router-path';
 import repairServiceService from '@App/services/repairService.service';
 import { useNavigate } from 'react-router-dom';
+import PageContent from '@App/component/customs/PageContent';
 
 import { RepairServiceSchema, validationFormCreate } from './utils/repairService.schema';
 import BaseFormRepairService from './components/BaseFormRepairService';
@@ -47,7 +48,9 @@ const RepairServiceCreate = () => {
 
    return (
       <BaseBreadcrumbs arialabel="Thêm mới" breadcrumbs={breadcrumbs}>
-         <BaseFormRepairService form={form} onSubmitForm={onSubmitForm} isLoading={isLoading} />
+         <PageContent>
+            <BaseFormRepairService form={form} onSubmitForm={onSubmitForm} isLoading={isLoading} />
+         </PageContent>
       </BaseBreadcrumbs>
    );
 };

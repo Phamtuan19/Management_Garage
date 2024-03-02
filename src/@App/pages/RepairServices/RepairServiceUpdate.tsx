@@ -10,6 +10,7 @@ import setErrorMessageHookForm from '@App/helpers/setErrorMessageHookForm';
 import { HandleErrorApi } from '@Core/Api/axios-config';
 import repairServiceService from '@App/services/repairService.service';
 import setValueHookForm from '@App/helpers/setValueHookForm';
+import PageContent from '@App/component/customs/PageContent';
 
 import { RepairServiceSchema, validationFormCreate } from './utils/repairService.schema';
 import BaseFormRepairService from './components/BaseFormRepairService';
@@ -59,7 +60,9 @@ const RepairServiceUpdate = () => {
    const onSubmitForm: SubmitHandler<RepairServiceSchema> = (data) => handleUpdateRepairService(data);
    return (
       <BaseBreadcrumbs arialabel="Cập nhật" breadcrumbs={breadcrumbs}>
-         <BaseFormRepairService form={form} onSubmitForm={onSubmitForm} isLoading={isLoading} isUpdate />
+         <PageContent>
+            <BaseFormRepairService form={form} onSubmitForm={onSubmitForm} isLoading={isLoading} isUpdate />
+         </PageContent>
       </BaseBreadcrumbs>
    );
 };
