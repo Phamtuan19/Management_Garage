@@ -1,3 +1,4 @@
+/* eslint-disable import/order */
 /* eslint-disable @typescript-eslint/naming-convention */
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -15,6 +16,14 @@ import { useEffect } from 'react';
 import { RepairInvoiceSchema, repairInvoiceSchema } from './utils/repair-invoice';
 import BaseFormRepairInvoice from './components/BaseFormRepairInvoice';
 import { arrowRightOption } from './utils';
+import ROUTE_PATH from '@App/configs/router-path';
+
+const breadcrumbs = [
+   {
+      title: 'Phiếu Sửa Chữa',
+      link: ROUTE_PATH.REPAIR_INVOICE,
+   },
+];
 
 const RepairInvoiceCreate = () => {
    const form = useForm<RepairInvoiceSchema>({
@@ -82,7 +91,7 @@ const RepairInvoiceCreate = () => {
    const onSubmitForm: SubmitHandler<RepairInvoiceSchema> = (data) => handleCreateRepairOrder(data);
 
    return (
-      <BaseBreadcrumbs arialabel="Phiếu sửa chữa">
+      <BaseBreadcrumbs arialabel="Thêm mới" breadcrumbs={breadcrumbs}>
          <Box mb={1}>
             <ArrowRight options={arrowRightOption} check="draft" />
          </Box>

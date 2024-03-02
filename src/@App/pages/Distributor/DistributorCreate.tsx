@@ -1,3 +1,4 @@
+/* eslint-disable import/order */
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -9,11 +10,16 @@ import { AxiosError } from 'axios';
 import HttpStatusCode from '@Core/Configs/HttpStatusCode';
 import setErrorMessageHookForm from '@App/helpers/setErrorMessageHookForm';
 import { useNavigate } from 'react-router-dom';
-import PageContent from '@App/component/customs/PageContent';
-
 import { DistributorSchema, distributorSchema } from './utils/distributor.schema';
 import BaseFormDistributor from './components/BaseFormDistributor';
+import ROUTE_PATH from '@App/configs/router-path';
 
+const breadcrumbs = [
+   {
+      title: 'Nhà Phân Phối',
+      link: ROUTE_PATH.DISTRIBUTORS,
+   },
+];
 const DistributorCreate = () => {
    const navigate = useNavigate();
    const form = useForm<DistributorSchema>({
@@ -47,10 +53,20 @@ const DistributorCreate = () => {
    const onSubmitForm: SubmitHandler<DistributorSchema> = (data) => handleCreateDistributor(data);
 
    return (
-      <BaseBreadcrumbs arialabel="thêm nhà phân phối">
-         <PageContent>
-            <BaseFormDistributor form={form} onSubmitForm={onSubmitForm} isLoading={isLoading} />
-         </PageContent>
+      <BaseBreadcrumbs
+         arialabel="Thêm mới"
+         breadcrumbs={breadcrumbs}
+         sx={({ base }) => ({
+            marginTop: '12px',
+            padding: '12px',
+            borderRadius: '5px',
+            backgroundColor: base.background.white as string,
+            bgcolor: base.background.default,
+            border: 'none',
+            p: 0,
+         })}
+      >
+         <BaseFormDistributor form={form} onSubmitForm={onSubmitForm} isLoading={isLoading} />
       </BaseBreadcrumbs>
    );
 };

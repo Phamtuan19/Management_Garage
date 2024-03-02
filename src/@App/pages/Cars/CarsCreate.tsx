@@ -16,7 +16,7 @@ import { CarsSchema, carsSchema } from './utils/cars.schema';
 
 const breadcrumbs = [
    {
-      title: 'Dịch vụ sửa chữa',
+      title: 'Thông Tin Xe',
       link: ROUTE_PATH.CARS,
    },
 ];
@@ -49,8 +49,20 @@ const CarsCreate = () => {
    const onSubmitForm: SubmitHandler<CarsSchema> = (data) => CarsCreate(data);
 
    return (
-      <BaseBreadcrumbs arialabel="Thêm mới" breadcrumbs={breadcrumbs}>
-         <BaseFormCars onSubmitForm={onSubmitForm} form={form} isLoading={isLoading} />
+      <BaseBreadcrumbs
+         arialabel="Thêm mới"
+         breadcrumbs={breadcrumbs}
+         sx={({ base }) => ({
+            marginTop: '12px',
+            padding: '12px',
+            borderRadius: '5px',
+            backgroundColor: base.background.white as string,
+            bgcolor: base.background.default,
+            border: 'none',
+            p: 0,
+         })}
+      >
+         <BaseFormCars form={form} onSubmitForm={onSubmitForm} isLoading={isLoading} />
       </BaseBreadcrumbs>
    );
 };

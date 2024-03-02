@@ -30,71 +30,73 @@ const BaseFormCars = ({ form, onSubmitForm, isLoading, isUpdate }: BaseFormCarsP
 
    return (
       <Box component="form" onSubmit={handleSubmit(onSubmitForm)}>
-         <Grid container spacing={2}>
-            <Grid item md={6}>
-               <ControllerLabel title="Chủ xe" required />
-               <ControllerSelect
-                  options={customers || []}
-                  valuePath="_id"
-                  titlePath="name"
-                  defaultValue=""
-                  name="customer_id"
-                  control={control as unknown as Control<FieldValues>}
-               />
-            </Grid>
+         <Box>
+            <LoadingButton type="submit" variant="contained" loading={isLoading}>
+               {isUpdate ? 'Cập nhật' : 'Thêm mới'}
+            </LoadingButton>
+         </Box>
+         <Box sx={{ mt: 2, bgcolor: '#FFFF', p: 2, borderRadius: 2 }}>
+            <Grid container spacing={2}>
+               <Grid item md={6}>
+                  <ControllerLabel title="Chủ xe" required />
+                  <ControllerSelect
+                     options={customers || []}
+                     valuePath="_id"
+                     titlePath="name"
+                     defaultValue=""
+                     name="customer_id"
+                     control={control as unknown as Control<FieldValues>}
+                  />
+               </Grid>
 
-            <Grid item xs={12} md={6}>
-               <Box height="96.5px">
-                  <ControllerLabel title="Tên xe" required />
-                  <ControllerTextField name="name" control={control} />
-               </Box>
+               <Grid item xs={12} md={6}>
+                  <Box height="96.5px">
+                     <ControllerLabel title="Tên xe" required />
+                     <ControllerTextField name="name" control={control} />
+                  </Box>
+               </Grid>
+               <Grid item xs={12} md={6}>
+                  <Box height="96.5px">
+                     <ControllerLabel title="Thương hiệu xe" required />
+                     <ControllerTextField name="brand_car" control={control} />
+                  </Box>
+               </Grid>
+               <Grid item xs={12} md={6}>
+                  <Box height="96.5px">
+                     <ControllerLabel title="Biển số xe" required />
+                     <ControllerTextField name="license_plate" control={control} />
+                  </Box>
+               </Grid>
+               <Grid item xs={12} md={6}>
+                  <Box height="96.5px">
+                     <ControllerLabel title="Năm sản xuất" required />
+                     <ControllerTextField name="production_year" control={control} />
+                  </Box>
+               </Grid>
+               <Grid item xs={12} md={6}>
+                  <Box height="96.5px">
+                     <ControllerLabel title="Màu sắc xe" required />
+                     <ControllerTextField name="car_color" control={control} />
+                  </Box>
+               </Grid>
+               <Grid item xs={12} md={6}>
+                  <Box height="96.5px">
+                     <ControllerLabel title="Kiểu dáng xe" required />
+                     <ControllerTextField name="car_type" control={control} />
+                  </Box>
+               </Grid>
+               <Grid item md={6}>
+                  <ControllerLabel title="Trạng thái" />
+                  <ControllerSelect
+                     options={car_status}
+                     valuePath="key"
+                     titlePath="title"
+                     name="status"
+                     control={control as unknown as Control<FieldValues>}
+                  />
+               </Grid>
             </Grid>
-            <Grid item xs={12} md={6}>
-               <Box height="96.5px">
-                  <ControllerLabel title="Thương hiệu xe" required />
-                  <ControllerTextField name="brand_car" control={control} />
-               </Box>
-            </Grid>
-            <Grid item xs={12} md={6}>
-               <Box height="96.5px">
-                  <ControllerLabel title="Biển số xe" required />
-                  <ControllerTextField name="license_plate" control={control} />
-               </Box>
-            </Grid>
-            <Grid item xs={12} md={6}>
-               <Box height="96.5px">
-                  <ControllerLabel title="Năm sản xuất" required />
-                  <ControllerTextField name="production_year" control={control} />
-               </Box>
-            </Grid>
-            <Grid item xs={12} md={6}>
-               <Box height="96.5px">
-                  <ControllerLabel title="Màu sắc xe" required />
-                  <ControllerTextField name="car_color" control={control} />
-               </Box>
-            </Grid>
-            <Grid item xs={12} md={6}>
-               <Box height="96.5px">
-                  <ControllerLabel title="Kiểu dáng xe" required />
-                  <ControllerTextField name="car_type" control={control} />
-               </Box>
-            </Grid>
-            <Grid item md={6}>
-               <ControllerLabel title="Trạng thái" />
-               <ControllerSelect
-                  options={car_status}
-                  valuePath="key"
-                  titlePath="title"
-                  name="status"
-                  control={control as unknown as Control<FieldValues>}
-               />
-            </Grid>
-            <Grid item xs={12}>
-               <LoadingButton type="submit" variant="contained" loading={isLoading}>
-                  {isUpdate ? 'Cập nhật' : 'Thêm mới'}
-               </LoadingButton>
-            </Grid>
-         </Grid>
+         </Box>
       </Box>
    );
 };

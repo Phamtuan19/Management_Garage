@@ -20,46 +20,48 @@ const BaseFormCustomer = ({ form, isLoading, onSubmitForm, isUpdate }: BaseFormP
 
    return (
       <Box component="form" onSubmit={handleSubmit(onSubmitForm)}>
-         <Grid container spacing={2}>
-            <Grid item xs={12}>
-               <Box height="96.5px">
-                  <ControllerLabel title="Tên khách hàng" required />
-                  <ControllerTextField name="name" control={control} placeholder="Tên khách hàng ?" />
-               </Box>
+         <Box>
+            <LoadingButton type="submit" variant="contained" loading={isLoading}>
+               {isUpdate ? 'Cập nhật' : 'Thêm mới'}
+            </LoadingButton>
+         </Box>
+         <Box sx={{ mt: 2, bgcolor: '#FFFF', p: 2, borderRadius: 2 }}>
+            <Grid container spacing={2}>
+               <Grid item xs={12}>
+                  <Box height="96.5px">
+                     <ControllerLabel title="Tên khách hàng" required />
+                     <ControllerTextField name="name" control={control} placeholder="Tên khách hàng ?" />
+                  </Box>
+               </Grid>
+               <Grid item xs={12}>
+                  <Box>
+                     <ControllerLabel title="Số điện thoại" required />
+                     <ControllerTextField name="phone" control={control} placeholder="Số điện thoại ?" />
+                  </Box>
+               </Grid>
+               <Grid item xs={12}>
+                  <ControllerLabel title="Email" required />
+                  <ControllerTextField name="email" control={control} placeholder="Email?" />
+               </Grid>
+               <Grid item md={3}>
+                  <FormControl>
+                     <ControllerLabel title="Giới tính" />
+                     <ControllerRadioGroup
+                        sx={{ display: 'flex', alignItems: 'center' }}
+                        name="gender"
+                        options={[
+                           { id: 'Nam', title: 'Nam' },
+                           { id: 'Nữ', title: 'Nữ' },
+                        ]}
+                        valuePath="id"
+                        titlePath="title"
+                        control={control as unknown as Control<FieldValues>}
+                        defaultValue="male"
+                     />
+                  </FormControl>
+               </Grid>
             </Grid>
-            <Grid item xs={12}>
-               <Box>
-                  <ControllerLabel title="Số điện thoại" required />
-                  <ControllerTextField name="phone" control={control} placeholder="Số điện thoại ?" />
-               </Box>
-            </Grid>
-            <Grid item xs={12}>
-               <ControllerLabel title="Email" required />
-               <ControllerTextField name="email" control={control} placeholder="Email?" />
-            </Grid>
-            <Grid item md={3}>
-               <FormControl>
-                  <ControllerLabel title="Giới tính" />
-                  <ControllerRadioGroup
-                     sx={{ display: 'flex', alignItems: 'center' }}
-                     name="gender"
-                     options={[
-                        { id: 'Nam', title: 'Nam' },
-                        { id: 'Nữ', title: 'Nữ' },
-                     ]}
-                     valuePath="id"
-                     titlePath="title"
-                     control={control as unknown as Control<FieldValues>}
-                     defaultValue="male"
-                  />
-               </FormControl>
-            </Grid>
-            <Grid item xs={12}>
-               <LoadingButton type="submit" variant="contained" loading={isLoading}>
-                  {isUpdate ? 'Cập nhật' : 'Thêm mới'}
-               </LoadingButton>
-            </Grid>
-         </Grid>
+         </Box>
       </Box>
    );
 };
