@@ -1,79 +1,115 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/naming-convention */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+import Switch from '@App/component/customs/Switch';
+import { RepairOrderSupplies } from '@App/services/repairorder.service';
+import TableCore, { columnHelper } from '@Core/Component/Table';
+import handlePrice from '@Core/Helper/hendlePrice';
+import { Box, Chip } from '@mui/material';
+import React from 'react';
 
-import { useParams } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
-import {
-   Box,
-   Stack,
-   TableContainer,
-   Table,
-   TableHead,
-   TableRow,
-   TableCell,
-   Paper,
-   TableBody,
-   Typography,
-} from '@mui/material';
-import repairorderService from '@App/services/repairorder.service';
-import theme from '@Core/Theme';
-
-const RepairOrderDetails = () => {
-   const { id: repairorderId } = useParams();
-
-   // const navigate = useNavigate();
-   const { data: repairorder } = useQuery(['getRepairOrderDetails', repairorderId], async () => {
-      const repairorderRes = await repairorderService.find(repairorderId as string);
-      return repairorderRes.data;
-   });
-   const supplie = [
-      { label: 'Số lượng', value: 'quantity' },
-      { label: 'Giá', value: 'price' },
-      { label: 'Thu thêm', value: 'surcharge' },
-      { label: 'Giảm giá', value: 'discount' },
-      { label: 'Mô tả', value: 'describe' },
-   ];
-   return (
-      <Box>
-         {repairorder && (
-            <Stack>
-               <Box sx={{ mt: 3, bgcolor: '#FFFF', p: '0px 16px 16px 16px', borderRadius: 2, position: 'relative' }}>
-                  <Box sx={{ mb: 2, minHeight: '50px', display: 'flex', gap: 25 }}>
-                     <Typography sx={{ fontWeight: '500', fontSize: '1.5rem', color: theme.palette.grey[800] }}>
-                        Thông tin vật tư
-                     </Typography>
-                  </Box>
-                  <TableContainer component={Paper}>
-                     <Table sx={{ minWidth: 650 }}>
-                        <TableHead sx={{ background: theme.palette.grey[200] }}>
-                           <TableRow>
-                              {supplie.map((detail: { label: string; value: string }, index: number) => (
-                                 <TableCell key={index} align="center" sx={{ p: 1 }}>
-                                    {detail.label}
-                                 </TableCell>
-                              ))}
-                           </TableRow>
-                        </TableHead>
-                        <TableBody>
-                           {repairorder?.supplies.map((detailObject: string, rowIndex: number) => (
-                              <TableRow key={rowIndex} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                                 {supplie.map((detail: { label: string; value: string }, colIndex: number) => (
-                                    <TableCell key={colIndex} align="center" sx={{ p: 1 }}>
-                                       {detailObject[detail.value as any]}
-                                    </TableCell>
-                                 ))}
-                              </TableRow>
-                           ))}
-                        </TableBody>
-                     </Table>
-                  </TableContainer>
+const RepairOrderDetails = ({ supplies }: { supplies: RepairOrderSupplies[] }) => {
+   const columns = [
+      columnHelper.accessor('', {
+         id: 'stt',
+         header: () => <Box sx={{ textAlign: 'center' }}>STT</Box>,
+         cell: ({ row }) => <Box sx={{ textAlign: 'center', p: 1 }}>{row.index + 1}</Box>,
+      }),
+      columnHelper.accessor('supplies_detail_code', {
+         header: () => <Box sx={{ textAlign: 'center' }}>Mã VT</Box>,
+         cell: ({ row }) => {
+            const supplies = row.original as RepairOrderSupplies;
+            return <Box sx={{ textAlign: 'center' }}>#{supplies.supplies_detail.code}</Box>;
+         },
+      }),
+      columnHelper.accessor('supplies_detail_name', {
+         header: () => <Box sx={{ textAlign: 'center' }}>Tên VT</Box>,
+         cell: ({ row }) => {
+            const supplies = row.original as RepairOrderSupplies;
+            return <Box sx={{ textAlign: 'center' }}>{supplies.supplies_detail.name_detail}</Box>;
+         },
+      }),
+      columnHelper.accessor('distributor_name', {
+         header: () => <Box>Nhà phân phối</Box>,
+         cell: (info) => {
+            return <Box>{info.getValue()}</Box>;
+         },
+      }),
+      columnHelper.accessor('supplies_invoices_code', {
+         header: () => <Box sx={{ textAlign: 'center' }}>Mã lô</Box>,
+         cell: ({ row }) => {
+            const supplies = row.original as RepairOrderSupplies;
+            return <Box sx={{ textAlign: 'center' }}>#{supplies.supplies_invoices_code}</Box>;
+         },
+      }),
+      columnHelper.accessor('selling_price', {
+         header: () => <Box sx={{ textAlign: 'center' }}>Giá</Box>,
+         cell: ({ row }) => {
+            const supplies = row.original as RepairOrderSupplies;
+            return <Box sx={{ textAlign: 'center' }}>{handlePrice(supplies.price)}</Box>;
+         },
+      }),
+      // columnHelper.accessor('discount', {
+      //    header: () => <Box sx={{ textAlign: 'center' }}>Giảm giá</Box>,
+      //    cell: (info) => <Box sx={{ textAlign: 'center' }}>{handlePrice(form.watch(`suppliesInvoice.${row.index}`))}</Box>,
+      // }),
+      columnHelper.accessor('quantity', {
+         header: () => <Box sx={{ textAlign: 'center' }}>Số lượng</Box>,
+         cell: ({ row }) => {
+            const supplies = row.original as RepairOrderSupplies;
+            return (
+               <Box sx={{ textAlign: 'center' }}>
+                  <Chip label={supplies.quantity} color="info" />
                </Box>
-            </Stack>
-         )}
-      </Box>
-   );
+            );
+         },
+      }),
+      columnHelper.accessor('total_price', {
+         header: () => <Box sx={{ textAlign: 'center' }}>Tổng</Box>,
+         cell: ({ row }) => {
+            const supplies = row.original as RepairOrderSupplies;
+            const total =
+               Number(supplies.supplies_detail_selling_price) -
+               (Number(supplies.quantity) *
+                  Number(supplies.supplies_detail_selling_price) *
+                  Number(supplies.discount)) /
+                  100;
+            return <Box sx={{ textAlign: 'center' }}>{handlePrice(total)}</Box>;
+         },
+      }),
+      columnHelper.accessor('quantity', {
+         header: () => <Box sx={{ textAlign: 'center' }}>SL kho đã xuất</Box>,
+         cell: ({ row }) => {
+            const supplies = row.original as RepairOrderSupplies;
+            return (
+               <Box sx={{ textAlign: 'center' }}>
+                  <Chip label={supplies.export_quantity} color="success" />
+               </Box>
+            );
+         },
+      }),
+      columnHelper.accessor('quantity', {
+         header: () => <Box sx={{ textAlign: 'center' }}>SL thiếu</Box>,
+         cell: ({ row }) => {
+            const supplies = row.original as RepairOrderSupplies;
+            return (
+               <Box sx={{ textAlign: 'center' }}>
+                  <Chip label={supplies.quantity - supplies.export_quantity} color="error" />
+               </Box>
+            );
+         },
+      }),
+      columnHelper.accessor('total_price', {
+         header: () => <Box sx={{ textAlign: 'center' }}>Xuất kho</Box>,
+         cell: ({ row }) => {
+            const supplies = row.original as RepairOrderSupplies;
+            return (
+               <Box sx={{ textAlign: 'center' }}>
+                  <Switch sx={{ m: 1 }} checked={supplies.quantity - supplies.export_quantity === 0} />
+               </Box>
+            );
+         },
+      }),
+   ];
+
+   return <TableCore height={320} columns={columns} data={supplies} isPagination={false} />;
 };
 
-export default RepairOrderDetails;
+export default React.memo(RepairOrderDetails);

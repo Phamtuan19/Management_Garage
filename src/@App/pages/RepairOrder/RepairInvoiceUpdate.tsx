@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
+
 import ArrowRight from '@App/component/common/ArrowRight';
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import { Box } from '@mui/material';
@@ -13,7 +14,7 @@ import setErrorMessageHookForm from '@App/helpers/setErrorMessageHookForm';
 import { useParams } from 'react-router-dom';
 
 import { RepairInvoiceSchema, repairInvoiceSchema } from './utils/repair-invoice';
-import BaseFormRepairInvoice from './components/BaseFormRepairInvoice';
+import BaseFormRepairInvoice from './component/BaseFormRepairInvoice';
 import { arrowRightOption } from './utils';
 
 const RepairInvoiceUpdate = () => {
@@ -53,32 +54,36 @@ const RepairInvoiceUpdate = () => {
                   car_color: data.car.car_color,
                   kilometer: data.kilometer,
                },
-               suppliesService: data.services.map((item) => ({
-                  _id: item._id,
-                  repair_service_id: item.repair_service_id,
-                  repair_service_code: item.repair_service.code,
-                  repair_service_name: item.repair_service.name,
-                  quantity: item.quantity,
-                  price: item.price,
-                  discount: item.discount,
-                  describe: item.describe,
-               })),
+               suppliesService: data.services.map((item) => {
+                  return {
+                     _id: item._id,
+                     repair_service_id: item.repair_service_id,
+                     repair_service_code: item.repair_service.code,
+                     repair_service_name: item.repair_service.name,
+                     quantity: item.quantity,
+                     price: item.price,
+                     discount: item.discount,
+                     describe: item.describe,
+                  };
+               }),
 
-               suppliesInvoice: data.supplies.map((item) => ({
-                  _id: item._id,
-                  supplies_detail_code: item.supplies_detail.code,
-                  supplies_detail_id: item.supplies_detail_id,
-                  supplies_detail_name: item.supplies_detail.name_detail,
-                  quantity: item.quantity,
-                  selling_price: item.price,
-                  describe: item.describe,
-                  supplies_invoices_code: item.supplies_invoices_code,
-                  supplies_invoices_id: item.supplies_invoice_id,
-                  inventory: item.supplies_detail_quantity_received,
-                  distributor_name: item.distributor_name,
-                  supplies_id: item.supplies_detail.supplies_id,
-                  discount: 0,
-               })),
+               suppliesInvoice: data.supplies.map((item) => {
+                  return {
+                     _id: item._id,
+                     supplies_detail_code: item.supplies_detail.code,
+                     supplies_detail_id: item.supplies_detail_id,
+                     supplies_detail_name: item.supplies_detail.name_detail,
+                     quantity: item.quantity,
+                     selling_price: item.price,
+                     describe: item.describe,
+                     supplies_invoices_code: item.supplies_invoices_code,
+                     supplies_invoices_id: item.supplies_invoice_id,
+                     inventory: item.supplies_detail_quantity_received,
+                     distributor_name: item.distributor_name,
+                     supplies_id: item.supplies_detail.supplies_id,
+                     discount: 0,
+                  };
+               }),
             });
 
             return data;
@@ -152,6 +157,7 @@ const RepairInvoiceUpdate = () => {
             isLoading={isLoading}
             isShipped={repairOrder?.status === 'shipped'}
             onSubmitForm={onSubmitForm}
+            repairOrder={repairOrder}
          />
       </BaseBreadcrumbs>
    );

@@ -68,7 +68,7 @@ const Repairorder = () => {
                return <Box textAlign="center">{repairOrder.car_id.name} </Box>;
             },
          }),
-         columnHelper.accessor('car_id', {
+         columnHelper.accessor('license_plate', {
             header: () => <Box textAlign="center">Biển số xe</Box>,
             cell: ({ row }) => {
                const repairOrder = row.original as RepairOrdersResponse;
@@ -89,7 +89,7 @@ const Repairorder = () => {
                return <Box textAlign="center">{repairOrder.repair_order_detail.totel_detail}</Box>;
             },
          }),
-         columnHelper.accessor('repair_order_detail', {
+         columnHelper.accessor('totle_price', {
             header: () => <Box textAlign="center">Giá</Box>,
             cell: ({ row }) => {
                const repairOrder = row.original as RepairOrdersResponse;
@@ -103,8 +103,8 @@ const Repairorder = () => {
                return (
                   <Box display="flex" justifyContent="center" alignItems="center">
                      <Chip
-                        label={STATUS_REPAIR[repairOrder.status].title}
-                        color={STATUS_REPAIR[repairOrder.status].color}
+                        label={STATUS_REPAIR[repairOrder.status]?.title}
+                        color={STATUS_REPAIR[repairOrder.status]?.color}
                      />
                   </Box>
                );

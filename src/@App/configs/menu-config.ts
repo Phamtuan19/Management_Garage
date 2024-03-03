@@ -68,6 +68,13 @@ const menuConfig: MenuConfigItem[] = [
             action: PAGE_ACTION.VIEW_ALL,
          },
          {
+            id: 2.3,
+            title: 'Phiếu xuất kho',
+            link: ROUTE_PATH.DELIVERY_NOTES,
+            module: MODULE_PAGE.MATERIALS_CATALOGS,
+            action: PAGE_ACTION.VIEW_ALL,
+         },
+         {
             id: 2.4,
             title: 'Nhà phân phối',
             link: ROUTE_PATH.DISTRIBUTORS,
@@ -75,7 +82,7 @@ const menuConfig: MenuConfigItem[] = [
             action: PAGE_ACTION.VIEW_ALL,
          },
          {
-            id: 6.1,
+            id: 2.5,
             title: 'Nhập hàng',
             link: ROUTE_PATH.SUPPLIES_INVOICES,
             module: MODULE_PAGE.SUPPLIES_INVOICES,

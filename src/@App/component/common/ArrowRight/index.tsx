@@ -48,7 +48,7 @@ const ArrowRight = ({ options, check }: ArrowRightType) => {
                      }}
                   />
                )}
-               <Box>{item.title}</Box>
+               <Box px={2}>{item.title}</Box>
                {index + 1 !== options.length && (
                   <Box
                      sx={{

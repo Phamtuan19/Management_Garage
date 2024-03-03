@@ -13,6 +13,7 @@ import React from 'react';
 import ScrollbarBase from '@App/component/customs/ScrollbarBase';
 import useSearchParamsHook from '@App/hooks/useSearchParamsHook';
 import handlePrice from '@Core/Helper/hendlePrice';
+import { FindRepairOrder } from '@App/services/repairorder.service';
 
 import { RepairInvoiceSchema } from '../utils/repair-invoice';
 
@@ -27,9 +28,15 @@ interface BaseFormRepairInvoicePropType {
    isLoading: boolean;
    onSubmitForm: SubmitHandler<RepairInvoiceSchema>;
    isShipped?: boolean;
+   repairOrder?: FindRepairOrder;
 }
 
-const BaseFormRepairInvoice = ({ form, onSubmitForm, isShipped = false }: BaseFormRepairInvoicePropType) => {
+const BaseFormRepairInvoice = ({
+   form,
+   onSubmitForm,
+   isLoading = false,
+   repairOrder,
+}: BaseFormRepairInvoicePropType) => {
    const { setValue, control, handleSubmit } = form;
    const { user } = useAuth();
    const { searchParams, setParams } = useSearchParamsHook();
@@ -86,7 +93,11 @@ const BaseFormRepairInvoice = ({ form, onSubmitForm, isShipped = false }: BaseFo
                         </TabPanel>
                         <TabPanel value="3" sx={{ px: 0 }}>
                            <RepairInvoiceFilterSupplies fieldArray={suppliesInvoiceFieldArray as never} />
-                           <TabRepairInvoiceSupplies form={form} fieldArray={suppliesInvoiceFieldArray as never} />
+                           <TabRepairInvoiceSupplies
+                              repairOrder={repairOrder}
+                              form={form}
+                              fieldArray={suppliesInvoiceFieldArray as never}
+                           />
                         </TabPanel>
                      </ScrollbarBase>
                   </TabContext>
@@ -131,7 +142,7 @@ const BaseFormRepairInvoice = ({ form, onSubmitForm, isShipped = false }: BaseFo
                      </Grid>
 
                      <Grid item xs={12}>
-                        <Button type="submit" disabled={isShipped} fullWidth onClick={handleSubmit(onSubmitForm)}>
+                        <Button type="submit" disabled={isLoading} fullWidth onClick={handleSubmit(onSubmitForm)}>
                            Lưu hóa đơn
                         </Button>
                      </Grid>

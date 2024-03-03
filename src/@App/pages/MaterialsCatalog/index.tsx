@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/naming-convention */
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
+import PageContent from '@App/component/customs/PageContent';
 import ROUTE_PATH from '@App/configs/router-path';
 import useCoreTable from '@App/hooks/useCoreTable';
 import materialsCatalogService, { MaterialsCatalogResponse } from '@App/services/materialsCatalog.service';
@@ -10,7 +11,7 @@ import {
    CoreTableActionEdit,
    CoreTableActionViewDetail,
 } from '@Core/Component/Table/components/CoreTableAction';
-import { Box, TextField } from '@mui/material';
+import { Box } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -68,10 +69,9 @@ const MaterialsCatalog = () => {
 
    return (
       <BaseBreadcrumbs arialabel="Danh sách vật tư">
-         <Box>
-            <TextField size="small" label="Tìm kiếm" />
-         </Box>
-         <TableCore columns={columns} {...data} />
+         <PageContent>
+            <TableCore columns={columns} {...data} />
+         </PageContent>
       </BaseBreadcrumbs>
    );
 };

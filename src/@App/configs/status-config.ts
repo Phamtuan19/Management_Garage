@@ -13,35 +13,10 @@
  */
 
 export const CAR_STATUS = {
-   CHECK: {
-      id: 'CHECK',
-      title: 'Kiểm tra',
-      color: 'default',
-   },
-   ORDER_SPARE_PARTS: {
-      id: 'ORDER_SPARE_PARTS',
-      title: 'Đặt phụ tùng',
-      color: 'error',
-   },
    REPAIR: {
       id: 'REPAIR',
       title: 'Sửa chữa',
       color: 'secondary',
-   },
-   COMPLETE: {
-      id: 'COMPLETE',
-      title: 'Hoàn thành',
-      color: 'success',
-   },
-   CAR_DELIVERY: {
-      id: 'CAR_DELIVERY',
-      title: 'Bàn giao xe',
-      color: 'warning',
-   },
-   WAIT_FOR_PAYMENT: {
-      id: 'WAIT_FOR_PAYMENT',
-      title: 'Trờ thanh toán',
-      color: 'info',
    },
    EMPTY: {
       id: 'EMPTY',
@@ -107,10 +82,10 @@ export type StatusPayment = keyof typeof STATUS_PAYMENT;
  */
 
 export const STATUS_REPAIR = {
-   draft: {
-      title: 'Nháp',
+   create: {
+      title: 'Tạo phiếu',
       color: 'error',
-      key: 'draft',
+      key: 'create',
    },
    check: {
       title: 'Kiểm tra',
@@ -145,3 +120,23 @@ export const STATUS_REPAIR = {
 } as const;
 
 export type StatusRepair = keyof typeof STATUS_REPAIR;
+
+export const STATUS_DELIVERY = {
+   unconfimred: {
+      title: 'Chờ xác nhận',
+      key: 'unconfimred',
+      color: 'info',
+   },
+   confirmed: {
+      title: 'Đã xác nhận',
+      key: 'confirmed',
+      color: 'success',
+   },
+   close: {
+      title: 'Hủy',
+      key: 'close',
+      color: 'error',
+   },
+} as const;
+
+export type StatusDelivery = keyof typeof STATUS_DELIVERY;

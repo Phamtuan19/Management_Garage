@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { StatusRepair } from '@App/configs/status-config';
+import { CarStatusKeys, StatusRepair } from '@App/configs/status-config';
 import BaseService from '@Core/Api/BaseService';
 import { AxiosRequestConfig } from 'axios';
 
 const repairorderPath = {
    base: 'repair-orders',
+   UPDATE_STAUTS: '/status',
 };
 
 export interface RepairOrdersResponse {
@@ -43,14 +44,17 @@ export interface RepairOrdersResponse {
    is_shipped: boolean;
 }
 
-interface RepairOrderSupplies {
+export interface RepairOrderSupplies {
    _id: string;
    quantity: number;
    price: number;
    discount: number;
    describe: string;
+   describe_export: string;
    distributor_id: string;
    distributor_name: string;
+   is_shipped: boolean;
+   export_quantity: number;
    supplies_detail: {
       _id: string;
       code: string;
@@ -81,7 +85,7 @@ interface RepairOrderSupplies {
    supplies_invoices_code: string;
 }
 
-interface RepairOrderServiceFind {
+export interface RepairOrderServiceFind {
    _id: string;
    repair_service_id: string;
    quantity: number;
@@ -99,6 +103,8 @@ interface RepairOrderServiceFind {
 }
 
 export interface FindRepairOrder {
+   _id: string;
+   code: string;
    personnel: {
       _id: string;
       name: string;
@@ -113,14 +119,20 @@ export interface FindRepairOrder {
    };
    car: {
       _id: string;
+      code: string;
       license_plate: string;
       brand_car: string;
       car_type: string;
       car_color: string;
+      production_year: string;
+      status: CarStatusKeys;
+      createdAt: string;
    };
 
    supplies: RepairOrderSupplies[];
    services: RepairOrderServiceFind[];
+
+   createdAt: string;
 }
 
 export interface ResponseFindRepairOrder extends AxiosRequestConfig {
@@ -132,6 +144,10 @@ class RepairOrderService extends BaseService {
    constructor() {
       super();
       this.setRequest();
+   }
+
+   updateStatus(data: { status: string }, id: string): Promise<AxiosRequestConfig> {
+      return this.request.patch(this.BASE_ENDPOINT + repairorderPath.UPDATE_STAUTS + '/' + id, data);
    }
 }
 const repairorderService = new RepairOrderService();

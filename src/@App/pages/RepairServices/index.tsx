@@ -25,6 +25,7 @@ import { AxiosError } from 'axios';
 import repairServiceService from '@App/services/repairService.service';
 import PageContent from '@App/component/customs/PageContent';
 import FilterTable from '@App/component/common/FilterTable';
+import handlePrice from '@Core/Helper/hendlePrice';
 
 const sortList = [
    {
@@ -83,14 +84,20 @@ const RepairServices = () => {
    const columns = useMemo(() => {
       return [
          columnHelper.accessor((_, index) => index + 1, {
-            id: 'STT',
+            id: 'stt',
             header: 'STT',
             cell: ({ getValue }) => {
-               return <Box>{getValue()}</Box>;
+               return <Box textAlign="center">{getValue()}</Box>;
+            },
+         }),
+         columnHelper.accessor('code', {
+            header: () => <Box textAlign="center">Mã</Box>,
+            cell: ({ row }) => {
+               return <Box textAlign="center">#{row.getValue('code')}</Box>;
             },
          }),
          columnHelper.accessor('name', {
-            header: 'Tên dịch vụ sửa chữa',
+            header: 'Tên dịch vụ',
             cell: ({ row }) => {
                return <Box>{row.getValue('name')}</Box>;
             },
@@ -98,13 +105,13 @@ const RepairServices = () => {
          columnHelper.accessor('price', {
             header: 'Giá',
             cell: ({ row }) => {
-               return <Box>{row.getValue('price')}</Box>;
+               return <Box>{handlePrice(row.getValue('price'))}</Box>;
             },
          }),
          columnHelper.accessor('discount', {
             header: 'Giảm giá',
             cell: ({ row }) => {
-               return <Box>{row.getValue('discount')}</Box>;
+               return <Box textAlign="center">{row.getValue('discount')}%</Box>;
             },
          }),
          columnHelper.accessor('describe', {
@@ -119,12 +126,6 @@ const RepairServices = () => {
             header: () => <Box textAlign="center">Ngày tạo</Box>,
             cell: ({ row }) => {
                return <Box textAlign="center">{format(row.getValue('createdAt'), 'yyyy-MM-dd')}</Box>;
-            },
-         }),
-         columnHelper.accessor('updatedAt', {
-            header: () => <Box textAlign="center">Cập nhật lần cuối</Box>,
-            cell: ({ row }) => {
-               return <Box textAlign="center">{format(row.getValue('updatedAt'), 'yyyy-MM-dd')}</Box>;
             },
          }),
          columnHelper.accessor('', {
@@ -154,7 +155,7 @@ const RepairServices = () => {
    }, []);
 
    return (
-      <BaseBreadcrumbs arialabel="Danh sách vai trò">
+      <BaseBreadcrumbs arialabel="Dịch vụ sửa chữa">
          <Box>
             <PermissionAccessRoute module={MODULE_PAGE.REPAIR_SERVICES} action={PAGE_ACTION.CREATE}>
                <Button component={Link} to="create" size="medium">

@@ -19,7 +19,7 @@ import svg from '@App/assets/svg';
 
 interface ConfigType {
    title?: string | null;
-   content?: string | null;
+   content?: ReactNode;
    isIcon?: boolean;
    color?: string | null;
    callbackOK: () => Promise<void> | void;

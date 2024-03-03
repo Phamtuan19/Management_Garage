@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -9,13 +10,16 @@ import { HandleErrorApi } from '@Core/Api/axios-config';
 import ROUTE_PATH from '@App/configs/router-path';
 import repairServiceService from '@App/services/repairService.service';
 import { useNavigate } from 'react-router-dom';
+import PageContent from '@App/component/customs/PageContent';
+import { Box } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 
 import { RepairServiceSchema, validationFormCreate } from './utils/repairService.schema';
 import BaseFormRepairService from './components/BaseFormRepairService';
 
 const breadcrumbs = [
    {
-      title: 'Danh sách dịch vụ',
+      title: 'Dịch vụ sửa chữa',
       link: ROUTE_PATH.REPAIR_SERVICES,
    },
 ];
@@ -46,20 +50,20 @@ const RepairServiceCreate = () => {
    const onSubmitForm: SubmitHandler<RepairServiceSchema> = (data) => handleCreateRepairService(data);
 
    return (
-      <BaseBreadcrumbs
-         arialabel="Thêm mới"
-         breadcrumbs={breadcrumbs}
-         sx={({ base }) => ({
-            marginTop: '12px',
-            padding: '12px',
-            borderRadius: '5px',
-            backgroundColor: base.background.white as string,
-            bgcolor: base.background.default,
-            border: 'none',
-            p: 0,
-         })}
-      >
-         <BaseFormRepairService form={form} onSubmitForm={onSubmitForm} isLoading={isLoading} />
+      <BaseBreadcrumbs arialabel="Thêm mới" breadcrumbs={breadcrumbs}>
+         <Box>
+            <LoadingButton
+               type="submit"
+               variant="contained"
+               loading={isLoading}
+               onClick={form.handleSubmit(onSubmitForm)}
+            >
+               Lưu
+            </LoadingButton>
+         </Box>
+         <PageContent>
+            <BaseFormRepairService form={form} onSubmitForm={onSubmitForm} />
+         </PageContent>
       </BaseBreadcrumbs>
    );
 };

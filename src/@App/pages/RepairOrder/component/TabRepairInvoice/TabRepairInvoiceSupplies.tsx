@@ -6,23 +6,27 @@ import AddIcon from '@mui/icons-material/Add';
 import handlePrice from '@Core/Helper/hendlePrice';
 import RemoveIcon from '@mui/icons-material/Remove';
 import EditIcon from '@mui/icons-material/Edit';
-import { CoreTableActionDelete } from '@Core/Component/Table/components/CoreTableAction';
+import { CoreTableActionDelete, CoreTableActionViewDetail } from '@Core/Component/Table/components/CoreTableAction';
 import { useMutation } from '@tanstack/react-query';
 import repairOrderDetailService from '@App/services/repairOrderDetail.service';
 import { AxiosResponseData, HandleErrorApi } from '@Core/Api/axios-config';
 import { errorMessage, successMessage } from '@Core/Helper/message';
 import { AxiosError } from 'axios';
 import { useParams } from 'react-router-dom';
+import { useState } from 'react';
+import { FindRepairOrder } from '@App/services/repairorder.service';
 
 import { RepairInvoiceSchema } from '../../utils/repair-invoice';
 
 import ColumnSuppliesInvoicesCode from './ColumnSuppliesInvoicesCode';
+import ModalDetailSuppliesItem from './ModalDetailSuppliesItem';
 
 interface TabRepairInvoiceSuppliesPropType {
    form: UseFormReturn<RepairInvoiceSchema>;
    // isLoading: boolean;
    // onSubmitForm: SubmitHandler<RepairInvoiceSchema>;
    fieldArray: UseFieldArrayReturn<RepairInvoiceSchema>;
+   repairOrder?: FindRepairOrder;
 }
 
 export interface SuppliesInvoiceItem {
@@ -38,9 +42,11 @@ export interface SuppliesInvoiceItem {
    supplies_id: string;
 }
 
-const TabRepairInvoiceSupplies = ({ form, fieldArray }: TabRepairInvoiceSuppliesPropType) => {
+const TabRepairInvoiceSupplies = ({ form, fieldArray, repairOrder }: TabRepairInvoiceSuppliesPropType) => {
    const { id: repairOrderId } = useParams();
    const { fields, remove } = fieldArray;
+
+   const [openModal, setOpenModal] = useState<boolean>(false);
 
    // Tăng số lượng vật tư
    const handleIncrease = (index: number) => {
@@ -194,10 +200,14 @@ const TabRepairInvoiceSupplies = ({ form, fieldArray }: TabRepairInvoiceSupplies
 
             return (
                <Box display="flex" justifyContent="right" gap="6px">
-                  {/* {serviceOrder.length === row.index + 1 && ( */}
                   <IconButton color="warning" onClick={() => {}}>
                      <EditIcon />
                   </IconButton>
+                  <CoreTableActionViewDetail
+                     callback={() => {
+                        setOpenModal(true);
+                     }}
+                  />
                   <IconButton color="primary" onClick={() => {}}>
                      <AddIcon />
                   </IconButton>
@@ -211,6 +221,9 @@ const TabRepairInvoiceSupplies = ({ form, fieldArray }: TabRepairInvoiceSupplies
 
    return (
       <>
+         {repairOrderId && repairOrder && (
+            <ModalDetailSuppliesItem open={openModal} onClose={setOpenModal} repairOrder={repairOrder} />
+         )}
          <TableCore height={340} columns={columnsService} data={fields} isPagination={false} />
       </>
    );

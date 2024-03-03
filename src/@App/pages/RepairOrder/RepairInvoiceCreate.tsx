@@ -13,9 +13,9 @@ import ArrowRight from '@App/component/common/ArrowRight';
 import { Box } from '@mui/material';
 import { useEffect } from 'react';
 
-import { RepairInvoiceSchema, repairInvoiceSchema } from './utils/repair-invoice';
-import BaseFormRepairInvoice from './components/BaseFormRepairInvoice';
 import { arrowRightOption } from './utils';
+import { RepairInvoiceSchema, repairInvoiceSchema } from './utils/repair-invoice';
+import BaseFormRepairInvoice from './component/BaseFormRepairInvoice';
 import ROUTE_PATH from '@App/configs/router-path';
 
 const breadcrumbs = [
@@ -93,7 +93,7 @@ const RepairInvoiceCreate = () => {
    return (
       <BaseBreadcrumbs arialabel="Thêm mới" breadcrumbs={breadcrumbs}>
          <Box mb={1}>
-            <ArrowRight options={arrowRightOption} check="draft" />
+            <ArrowRight options={arrowRightOption} check="create" />
          </Box>
          <BaseFormRepairInvoice form={form} isLoading={isLoading} onSubmitForm={onSubmitForm} />
       </BaseBreadcrumbs>

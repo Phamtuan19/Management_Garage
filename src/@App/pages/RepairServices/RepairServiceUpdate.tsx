@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import ROUTER_PATH from '@App/configs/router-path';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -10,13 +11,16 @@ import setErrorMessageHookForm from '@App/helpers/setErrorMessageHookForm';
 import { HandleErrorApi } from '@Core/Api/axios-config';
 import repairServiceService from '@App/services/repairService.service';
 import setValueHookForm from '@App/helpers/setValueHookForm';
+import PageContent from '@App/component/customs/PageContent';
+import { Box } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 
 import { RepairServiceSchema, validationFormCreate } from './utils/repairService.schema';
 import BaseFormRepairService from './components/BaseFormRepairService';
 
 const breadcrumbs = [
    {
-      title: 'Danh sách dịch vụ',
+      title: 'Dịch vụ sửa chữa',
       link: ROUTER_PATH.REPAIR_SERVICES,
    },
 ];
@@ -59,7 +63,19 @@ const RepairServiceUpdate = () => {
    const onSubmitForm: SubmitHandler<RepairServiceSchema> = (data) => handleUpdateRepairService(data);
    return (
       <BaseBreadcrumbs arialabel="Cập nhật" breadcrumbs={breadcrumbs}>
-         <BaseFormRepairService form={form} onSubmitForm={onSubmitForm} isLoading={isLoading} isUpdate />
+         <Box>
+            <LoadingButton
+               type="submit"
+               variant="contained"
+               loading={isLoading}
+               onClick={form.handleSubmit(onSubmitForm)}
+            >
+               Lưu
+            </LoadingButton>
+         </Box>
+         <PageContent>
+            <BaseFormRepairService form={form} onSubmitForm={onSubmitForm} />
+         </PageContent>
       </BaseBreadcrumbs>
    );
 };

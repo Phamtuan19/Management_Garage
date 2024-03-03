@@ -1,7 +1,7 @@
 export const arrowRightOption = [
    {
-      title: 'Nháp',
-      name: 'draft',
+      title: 'Tạo phiếu',
+      name: 'create',
    },
    {
       title: 'Kiểm tra xe',
@@ -24,7 +24,7 @@ export const arrowRightOption = [
       name: 'complete',
    },
    {
-      title: 'Từ chối',
+      title: 'Hủy',
       name: 'close',
    },
 ];
