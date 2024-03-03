@@ -8,7 +8,6 @@ import { HandleErrorApi } from '@Core/Api/axios-config';
 import { AxiosError } from 'axios';
 import HttpStatusCode from '@Core/Configs/HttpStatusCode';
 import setErrorMessageHookForm from '@App/helpers/setErrorMessageHookForm';
-import PageContent from '@App/component/customs/PageContent';
 import { useNavigate } from 'react-router-dom';
 import ROUTE_PATH from '@App/configs/router-path';
 
@@ -17,7 +16,7 @@ import BaseFormCustomer from './components/BaseFormCustomer';
 
 const breadcrumbs = [
    {
-      title: 'Khách hàng',
+      title: 'Danh Sách Khách Hàng',
       link: ROUTE_PATH.CUSTOMERS,
    },
 ];
@@ -50,10 +49,20 @@ const CustomerCreate = () => {
    const onSubmitForm: SubmitHandler<CustomerSchema> = (data) => handleCreateCustomer(data);
 
    return (
-      <BaseBreadcrumbs arialabel="Thêm khách hàng" breadcrumbs={breadcrumbs}>
-         <PageContent>
-            <BaseFormCustomer form={form} onSubmitForm={onSubmitForm} isLoading={isLoading} />
-         </PageContent>
+      <BaseBreadcrumbs
+         arialabel="Thêm mới"
+         breadcrumbs={breadcrumbs}
+         sx={({ base }) => ({
+            marginTop: '12px',
+            padding: '12px',
+            borderRadius: '5px',
+            backgroundColor: base.background.white as string,
+            bgcolor: base.background.default,
+            border: 'none',
+            p: 0,
+         })}
+      >
+         <BaseFormCustomer form={form} onSubmitForm={onSubmitForm} isLoading={isLoading} />
       </BaseBreadcrumbs>
    );
 };

@@ -1,7 +1,6 @@
-/* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable import/order */
-import { LoadingButton } from '@mui/lab';
 import { Box, Grid, Typography } from '@mui/material';
 import { Controller, SubmitHandler, UseFormReturn } from 'react-hook-form';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
@@ -12,12 +11,10 @@ import { RepairServiceSchema } from '../utils/repairService.schema';
 
 interface BaseFormRepairService {
    form: UseFormReturn<RepairServiceSchema>;
-   isLoading: boolean;
    onSubmitForm: SubmitHandler<RepairServiceSchema>;
-   isUpdate?: boolean;
 }
 
-const BaseFormRepairService = ({ form, isLoading, onSubmitForm, isUpdate }: BaseFormRepairService) => {
+const BaseFormRepairService = ({ form, onSubmitForm }: BaseFormRepairService) => {
    const { handleSubmit, control } = form;
 
    return (
@@ -48,10 +45,17 @@ const BaseFormRepairService = ({ form, isLoading, onSubmitForm, isUpdate }: Base
                         <Typography variant="subtitle1" gutterBottom>
                            Mô tả
                         </Typography>
-
                         <CKEditor
                            editor={ClassicEditor}
                            data={field.value}
+                           onReady={(editor) => {
+                              const rootElement = editor.editing.view.document.getRoot();
+                              if (rootElement !== null) {
+                                 editor.editing.view.change((writer) => {
+                                    writer.setStyle('height', '200px', rootElement);
+                                 });
+                              }
+                           }}
                            onChange={(_event, editor) => {
                               const data = editor.getData();
                               field.onChange(data);
@@ -60,11 +64,6 @@ const BaseFormRepairService = ({ form, isLoading, onSubmitForm, isUpdate }: Base
                      </>
                   )}
                />
-            </Grid>
-            <Grid item xs={12}>
-               <LoadingButton type="submit" variant="contained" loading={isLoading}>
-                  {isUpdate ? 'Cập nhật' : 'Thêm mới'}
-               </LoadingButton>
             </Grid>
          </Grid>
       </Box>

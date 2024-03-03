@@ -114,6 +114,14 @@ const RepairServices = () => {
                return <Box textAlign="center">{row.getValue('discount')}%</Box>;
             },
          }),
+         columnHelper.accessor('describe', {
+            header: 'Mô tả',
+            cell: ({ row }) => {
+               const describeHTML: string = String(row.getValue('describe'));
+
+               return <div dangerouslySetInnerHTML={{ __html: describeHTML }} />;
+            },
+         }),
          columnHelper.accessor('createdAt', {
             header: () => <Box textAlign="center">Ngày tạo</Box>,
             cell: ({ row }) => {
@@ -147,7 +155,7 @@ const RepairServices = () => {
    }, []);
 
    return (
-      <BaseBreadcrumbs arialabel="Danh sách vai trò">
+      <BaseBreadcrumbs arialabel="Dịch vụ sửa chữa">
          <Box>
             <PermissionAccessRoute module={MODULE_PAGE.REPAIR_SERVICES} action={PAGE_ACTION.CREATE}>
                <Button component={Link} to="create" size="medium">
@@ -159,10 +167,6 @@ const RepairServices = () => {
          <PageContent>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                <FilterTable sortList={sortOptions} searchType={sortList} />
-
-               {/* <Button component={Link} to="create" endIcon={<AddIcon />}>
-               Thêm mới
-            </Button> */}
             </Box>
             <TableCore columns={columns} {...data} />
          </PageContent>
