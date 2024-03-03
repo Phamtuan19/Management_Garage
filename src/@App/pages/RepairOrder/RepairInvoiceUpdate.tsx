@@ -12,10 +12,18 @@ import { AxiosError } from 'axios';
 import { HandleErrorApi } from '@Core/Api/axios-config';
 import setErrorMessageHookForm from '@App/helpers/setErrorMessageHookForm';
 import { useParams } from 'react-router-dom';
+import ROUTE_PATH from '@App/configs/router-path';
 
 import { RepairInvoiceSchema, repairInvoiceSchema } from './utils/repair-invoice';
 import BaseFormRepairInvoice from './component/BaseFormRepairInvoice';
 import { arrowRightOption } from './utils';
+
+const breadcrumbs = [
+   {
+      title: 'Phiếu sửa chữa',
+      link: ROUTE_PATH.REPAIR_INVOICE,
+   },
+];
 
 const RepairInvoiceUpdate = () => {
    const form = useForm<RepairInvoiceSchema>({
@@ -148,7 +156,7 @@ const RepairInvoiceUpdate = () => {
    const onSubmitForm: SubmitHandler<RepairInvoiceSchema> = (data) => handleUpdateRepairOrder(data);
 
    return (
-      <BaseBreadcrumbs arialabel="Phiếu sửa chữa">
+      <BaseBreadcrumbs arialabel={'#' + repairOrder?.code} breadcrumbs={breadcrumbs}>
          <Box mb={1}>
             <ArrowRight options={arrowRightOption} check={repairOrder?.status ?? 'draft'} />
          </Box>

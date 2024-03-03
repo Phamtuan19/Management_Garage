@@ -11,7 +11,7 @@ import PermissionAccessRoute from '@App/routes/components/PermissionAccessRoute'
 import deliveryNotesService, { DeliveryNoteData } from '@App/services/deliveryNotes.service';
 import TableCore, { columnHelper } from '@Core/Component/Table';
 import { CoreTableActionViewDetail } from '@Core/Component/Table/components/CoreTableAction';
-import hendleDateTime from '@Core/Helper/hendleDateTime';
+import hendleDateTime from '@Core/Helper/formatDateTime';
 import { Box, Chip } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';

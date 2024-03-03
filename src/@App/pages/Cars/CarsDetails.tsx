@@ -13,11 +13,11 @@ import Divider from '@mui/material/Divider';
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import carsService from '@App/services/cars.service';
 import PageContent from '@App/component/customs/PageContent';
-import hendleDateTime from '@Core/Helper/hendleDateTime';
+import hendleDateTime from '@Core/Helper/formatDateTime';
 
 const breadcrumbs = [
    {
-      title: 'Dịch vụ sửa chữa xe',
+      title: 'Thông Tin Xe',
       link: ROUTE_PATH.CARS,
    },
 ];

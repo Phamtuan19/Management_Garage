@@ -35,7 +35,7 @@ const SuppliesUpdate = () => {
       defaultValues: suppliesSchema.getDefault(),
    });
 
-   const { refetch: getMaterialsCatalog } = useQuery(
+   const { data: supplies, refetch: getMaterialsCatalog } = useQuery(
       ['getDistributorDetail', suppliesId],
       async () => {
          const res = await suppliesService.find(suppliesId!);
@@ -84,7 +84,7 @@ const SuppliesUpdate = () => {
 
    return (
       <BaseBreadcrumbs
-         arialabel="Chi tiết"
+         arialabel={supplies?.name ?? ''}
          breadcrumbs={breadcrumbs}
          sx={({ base }) => ({ bgcolor: base.background.default, border: 'none', p: 0 })}
       >

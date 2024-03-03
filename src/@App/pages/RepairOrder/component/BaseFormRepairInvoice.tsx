@@ -12,7 +12,7 @@ import { TabContext, TabList, TabPanel } from '@mui/lab';
 import React from 'react';
 import ScrollbarBase from '@App/component/customs/ScrollbarBase';
 import useSearchParamsHook from '@App/hooks/useSearchParamsHook';
-import handlePrice from '@Core/Helper/hendlePrice';
+import handlePrice from '@Core/Helper/handlePrice';
 import { FindRepairOrder } from '@App/services/repairorder.service';
 
 import { RepairInvoiceSchema } from '../utils/repair-invoice';

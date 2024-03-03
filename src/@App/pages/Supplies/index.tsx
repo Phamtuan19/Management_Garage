@@ -129,7 +129,7 @@ const Supplies = () => {
    }, []);
 
    return (
-      <BaseBreadcrumbs arialabel="Danh sách vật tư">
+      <BaseBreadcrumbs arialabel="Vật tư">
          <Box display="flex" gap={1} alignItems="center">
             <PermissionAccessRoute module={MODULE_PAGE.SUPPLIES} action="CREATE">
                <Button component={Link} to="create" size="medium">

@@ -12,7 +12,7 @@ import { Box, Typography, Stack, Button, Grid } from '@mui/material';
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import PageContent from '@App/component/customs/PageContent';
 import Divider from '@mui/material/Divider';
-import hendleDateTime from '@Core/Helper/hendleDateTime';
+import hendleDateTime from '@Core/Helper/formatDateTime';
 
 const breadcrumbs = [
    {

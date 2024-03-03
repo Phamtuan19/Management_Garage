@@ -12,7 +12,7 @@ import { RepairOrderSupplies } from '@App/services/repairorder.service';
 import { useConfirm } from '@Core/Component/Comfirm/CoreComfirm';
 import TableCore, { columnHelper } from '@Core/Component/Table';
 import { CoreTableActionEdit } from '@Core/Component/Table/components/CoreTableAction';
-import handlePrice from '@Core/Helper/hendlePrice';
+import handlePrice from '@Core/Helper/handlePrice';
 import { errorMessage, successMessage } from '@Core/Helper/message';
 import { LoadingButton } from '@mui/lab';
 import { Box, Button, Chip, Modal, Typography } from '@mui/material';

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import LazyLoadingImage from '@App/component/customs/LazyLoadingImage';
 import { ReadSupplies } from '@App/services/supplies.service';
-import handlePrice from '@Core/Helper/hendlePrice';
+import handlePrice from '@Core/Helper/handlePrice';
 import { Box, ButtonBase, styled } from '@mui/material';
 
 interface SearchSuppliesitemprops {

@@ -15,9 +15,8 @@ interface BaseFormCarsPropType {
    form: UseFormReturn<CarsSchema>;
    isLoading: boolean;
    onSubmitForm: SubmitHandler<CarsSchema>;
-   isUpdate?: boolean;
 }
-const BaseFormCars = ({ form, onSubmitForm, isLoading, isUpdate }: BaseFormCarsPropType) => {
+const BaseFormCars = ({ form, onSubmitForm, isLoading }: BaseFormCarsPropType) => {
    const { handleSubmit, control } = form;
    const { data: customers } = useQuery(['getAllCustomers'], async () => {
       try {
@@ -32,7 +31,7 @@ const BaseFormCars = ({ form, onSubmitForm, isLoading, isUpdate }: BaseFormCarsP
       <Box component="form" onSubmit={handleSubmit(onSubmitForm)}>
          <Box>
             <LoadingButton type="submit" variant="contained" loading={isLoading}>
-               {isUpdate ? 'Cập nhật' : 'Thêm mới'}
+               Lưu
             </LoadingButton>
          </Box>
          <Box sx={{ mt: 2, bgcolor: '#FFFF', p: 2, borderRadius: 2 }}>

@@ -16,7 +16,7 @@ import { TableContainer, Table, TableBody, TableRow, TableCell, Paper } from '@m
 import TableHead from '@mui/material/TableHead';
 import PageContent from '@App/component/customs/PageContent';
 import ScrollbarBase from '@App/component/customs/ScrollbarBase';
-import hendleDateTime from '@Core/Helper/hendleDateTime';
+import hendleDateTime from '@Core/Helper/formatDateTime';
 
 const breadcrumbs = [
    {

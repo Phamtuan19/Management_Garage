@@ -13,7 +13,7 @@ import PermissionAccessRoute from '@App/routes/components/PermissionAccessRoute'
 import repairorderService, { RepairOrdersResponse } from '@App/services/repairorder.service';
 import TableCore, { columnHelper } from '@Core/Component/Table';
 import { CoreTableActionEdit, CoreTableActionViewDetail } from '@Core/Component/Table/components/CoreTableAction';
-import handlePrice from '@Core/Helper/hendlePrice';
+import handlePrice from '@Core/Helper/handlePrice';
 import { Box, Button, Chip } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';

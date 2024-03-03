@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Box, Button, Tab } from '@mui/material';
 import PageContent from '@App/component/customs/PageContent';
-import React, { useState } from 'react';
+import React from 'react';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import ROUTE_PATH from '@App/configs/router-path';
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
@@ -18,6 +18,7 @@ import { AxiosError } from 'axios';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import deliveryNotesService from '@App/services/deliveryNotes.service';
 import { useAuth } from '@App/redux/slices/auth.slice';
+import useSearchParamsHook from '@App/hooks/useSearchParamsHook';
 
 import PepairOderBillDetails from './component/PepairOderBillDetails.tsx/PepairOderBillDetails';
 import PepairOderServiceDetails from './component/PepairOderBillDetails.tsx/PepairOderServiceDetails';
@@ -34,9 +35,10 @@ const breadcrumbs = [
 const RepairOrderDetails = () => {
    const { id: repairorderId } = useParams();
    const { user } = useAuth();
-   const [valueTab, setValueTab] = useState<string>('1');
-   const handleChange = (_event: React.SyntheticEvent, newValue: string) => {
-      setValueTab(newValue);
+   const { searchParams, setParams } = useSearchParamsHook();
+
+   const handleChange = (_e: React.SyntheticEvent, newValue: string) => {
+      setParams('tab', newValue);
    };
 
    const coreConfirm = useConfirm();
@@ -145,7 +147,7 @@ const RepairOrderDetails = () => {
       <Box component="form" sx={{ mt: 1 }}>
          <BaseBreadcrumbs
             breadcrumbs={breadcrumbs}
-            arialabel="Chi tiết phiếu sửa chữa"
+            arialabel={'#' + repairorder?.code}
             sx={({ base }) => ({ bgcolor: base.background.default, border: 'none', p: 0 })}
          >
             <Box mb={1} display="flex" justifyContent="space-between" gap={1}>
@@ -211,7 +213,7 @@ const RepairOrderDetails = () => {
             <ArrowRight options={arrowRightOption} check={(repairorder?.status as string) ?? 'create'} />
             <PageContent>
                <Box sx={{ px: '12px', height: '430px' }}>
-                  <TabContext value={valueTab}>
+                  <TabContext value={searchParams['tab'] ?? '1'}>
                      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                         <TabList onChange={handleChange} aria-label="lab API tabs example">
                            <Tab label="Thông tin" value="1" />

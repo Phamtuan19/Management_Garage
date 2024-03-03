@@ -18,7 +18,7 @@ import {
 } from '@mui/material';
 import { UseFormReturn, useFieldArray } from 'react-hook-form';
 import DeleteOutlineRoundedIcon from '@mui/icons-material/DeleteOutlineRounded';
-import handlePrice from '@Core/Helper/hendlePrice';
+import handlePrice from '@Core/Helper/handlePrice';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import Regexs from '@Core/Configs/Regexs';

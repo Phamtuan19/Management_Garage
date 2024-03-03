@@ -25,7 +25,7 @@ import { AxiosError } from 'axios';
 import repairServiceService from '@App/services/repairService.service';
 import PageContent from '@App/component/customs/PageContent';
 import FilterTable from '@App/component/common/FilterTable';
-import handlePrice from '@Core/Helper/hendlePrice';
+import handlePrice from '@Core/Helper/handlePrice';
 
 const sortList = [
    {
@@ -114,14 +114,14 @@ const RepairServices = () => {
                return <Box textAlign="center">{row.getValue('discount')}%</Box>;
             },
          }),
-         columnHelper.accessor('describe', {
-            header: 'Mô tả',
-            cell: ({ row }) => {
-               const describeHTML: string = String(row.getValue('describe'));
+         // columnHelper.accessor('describe', {
+         //    header: 'Mô tả',
+         //    cell: ({ row }) => {
+         //       const describeHTML: string = String(row.getValue('describe'));
 
-               return <div dangerouslySetInnerHTML={{ __html: describeHTML }} />;
-            },
-         }),
+         //       return <div dangerouslySetInnerHTML={{ __html: describeHTML }} />;
+         //    },
+         // }),
          columnHelper.accessor('createdAt', {
             header: () => <Box textAlign="center">Ngày tạo</Box>,
             cell: ({ row }) => {

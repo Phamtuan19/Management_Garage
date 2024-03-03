@@ -2,7 +2,7 @@
 import { UseFieldArrayReturn, UseFormReturn } from 'react-hook-form';
 import TableCore, { columnHelper } from '@Core/Component/Table';
 import { Box, IconButton } from '@mui/material';
-import handlePrice from '@Core/Helper/hendlePrice';
+import handlePrice from '@Core/Helper/handlePrice';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import { useParams } from 'react-router-dom';
