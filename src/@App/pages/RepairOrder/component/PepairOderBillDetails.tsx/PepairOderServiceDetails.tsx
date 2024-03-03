@@ -1,77 +1,52 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/naming-convention */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+import { Box } from '@mui/material';
+import { RepairOrderServiceFind } from '@App/services/repairorder.service';
+import TableCore, { columnHelper } from '@Core/Component/Table';
+import React from 'react';
 
-import { useParams } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
-import {
-   Box,
-   Stack,
-   TableContainer,
-   TableHead,
-   TableRow,
-   TableCell,
-   TableBody,
-   Table,
-   Paper,
-   Typography,
-} from '@mui/material';
-import repairorderService from '@App/services/repairorder.service';
-import theme from '@Core/Theme';
+const RepairOrderDetails = ({ services }: { services: RepairOrderServiceFind[] }) => {
+   const columnsService = [
+      columnHelper.accessor('', {
+         id: 'stt',
+         header: () => <Box sx={{ textAlign: 'center' }}>STT</Box>,
+         cell: ({ row }) => <Box sx={{ textAlign: 'center' }}>{row.index + 1}</Box>,
+      }),
+      columnHelper.accessor('repair_service_code', {
+         header: () => <Box sx={{ textAlign: 'center' }}>Mã DV</Box>,
+         cell: ({ row }) => {
+            const service = row.original as RepairOrderServiceFind;
+            return <Box sx={{ width: '100%', textAlign: 'center', p: 1 }}>#{service.repair_service.code}</Box>;
+         },
+      }),
+      columnHelper.accessor('repair_service_name', {
+         header: () => <Box sx={{ textAlign: 'center' }}>Tên Dịch vụ</Box>,
+         cell: ({ row }) => {
+            const service = row.original as RepairOrderServiceFind;
 
-const RepairOrderDetails = () => {
-   const { id: repairorderId } = useParams();
-   const { data: repairorder } = useQuery(['getRepairOrderDetails', repairorderId], async () => {
-      const repairorderRes = await repairorderService.find(repairorderId as string);
-      return repairorderRes.data;
-   });
-
-   const service = [
-      { label: 'Số lượng', value: 'quantity' },
-      { label: 'Giá', value: 'price' },
-      { label: 'Thu thêm', value: 'surcharge' },
-      { label: 'Giảm giá', value: 'discount' },
-      { label: 'Mô tả', value: 'describe' },
+            return <Box sx={{ textAlign: 'center', width: '180px' }}>{service.repair_service.name}</Box>;
+         },
+      }),
+      columnHelper.accessor('price', {
+         header: () => <Box sx={{ textAlign: 'center' }}>Giá</Box>,
+         cell: (info) => {
+            return <Box sx={{ textAlign: 'center' }}>{info.getValue()}</Box>;
+         },
+      }),
+      columnHelper.accessor('discount', {
+         header: () => <Box sx={{ textAlign: 'center' }}>Giá Km</Box>,
+         cell: (info) => <Box sx={{ textAlign: 'center' }}>{info.getValue()}%</Box>,
+      }),
+      columnHelper.accessor('quantity', {
+         header: () => <Box sx={{ textAlign: 'center' }}>Số lượng</Box>,
+         cell: (info) => <Box sx={{ textAlign: 'center' }}>{info.getValue()}</Box>,
+      }),
+      columnHelper.accessor('total_price', {
+         header: () => <Box sx={{ textAlign: 'center' }}>Tổng</Box>,
+         cell: (info) => {
+            return <Box sx={{ textAlign: 'center' }}>{info.getValue()}</Box>;
+         },
+      }),
    ];
-   return (
-      <Box>
-         {repairorder && (
-            <Stack>
-               <Box sx={{ mt: 3, bgcolor: '#FFFF', p: '0px 16px 16px 16px', borderRadius: 2, position: 'relative' }}>
-                  <Box sx={{ mb: 2, minHeight: '50px', display: 'flex', gap: 25 }}>
-                     <Typography sx={{ fontWeight: '500', fontSize: '1.5rem', color: theme.palette.grey[800] }}>
-                        Thông tin dịch vụ
-                     </Typography>
-                  </Box>
-                  <TableContainer component={Paper}>
-                     <Table sx={{ minWidth: 650 }}>
-                        <TableHead sx={{ background: theme.palette.grey[200] }}>
-                           <TableRow>
-                              {service.map((detail: { label: string; value: string }, index: number) => (
-                                 <TableCell key={index} align="center" sx={{ p: 1 }}>
-                                    {detail.label}
-                                 </TableCell>
-                              ))}
-                           </TableRow>
-                        </TableHead>
-                        <TableBody>
-                           {repairorder?.services.map((detailObject: string, rowIndex: number) => (
-                              <TableRow key={rowIndex} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                                 {service.map((detail: { label: string; value: string }, colIndex: number) => (
-                                    <TableCell key={colIndex} align="center" sx={{ p: 1 }}>
-                                       {detailObject[detail.value as any]}
-                                    </TableCell>
-                                 ))}
-                              </TableRow>
-                           ))}
-                        </TableBody>
-                     </Table>
-                  </TableContainer>
-               </Box>
-            </Stack>
-         )}
-      </Box>
-   );
+
+   return <TableCore height={320} columns={columnsService} data={services} isPagination={false} />;
 };
-export default RepairOrderDetails;
+export default React.memo(RepairOrderDetails);

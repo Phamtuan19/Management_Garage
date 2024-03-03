@@ -12,9 +12,9 @@ import ArrowRight from '@App/component/common/ArrowRight';
 import { Box } from '@mui/material';
 import { useEffect } from 'react';
 
-import { RepairInvoiceSchema, repairInvoiceSchema } from './utils/repair-invoice';
-import BaseFormRepairInvoice from './components/BaseFormRepairInvoice';
 import { arrowRightOption } from './utils';
+import { RepairInvoiceSchema, repairInvoiceSchema } from './utils/repair-invoice';
+import BaseFormRepairInvoice from './component/BaseFormRepairInvoice';
 
 const RepairInvoiceCreate = () => {
    const form = useForm<RepairInvoiceSchema>({
@@ -84,7 +84,7 @@ const RepairInvoiceCreate = () => {
    return (
       <BaseBreadcrumbs arialabel="Phiếu sửa chữa">
          <Box mb={1}>
-            <ArrowRight options={arrowRightOption} check="draft" />
+            <ArrowRight options={arrowRightOption} check="create" />
          </Box>
          <BaseFormRepairInvoice form={form} isLoading={isLoading} onSubmitForm={onSubmitForm} />
       </BaseBreadcrumbs>

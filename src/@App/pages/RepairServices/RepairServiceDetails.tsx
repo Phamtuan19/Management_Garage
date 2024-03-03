@@ -13,6 +13,7 @@ import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import repairServiceService from '@App/services/repairService.service';
 import PageContent from '@App/component/customs/PageContent';
 import hendleDateTime from '@Core/Helper/hendleDateTime';
+
 const breadcrumbs = [
    {
       title: 'Dịch vụ sửa chữa',
@@ -39,7 +40,7 @@ const RepairServiceDetails = () => {
    return (
       <BaseBreadcrumbs breadcrumbs={breadcrumbs} arialabel="Chi tiết dịch vụ sửa chữa">
          <Box>
-            <PermissionAccessRoute module={MODULE_PAGE.REPAIR_SERVICES} action="VIEW_ALL">
+            <PermissionAccessRoute module={MODULE_PAGE.REPAIR_SERVICES} action="UPDATE">
                <Button
                   variant="contained"
                   onClick={() => navigate(ROUTE_PATH.REPAIR_SERVICES + '/' + repairServiceId + '/update')}

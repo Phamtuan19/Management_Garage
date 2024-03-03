@@ -331,4 +331,34 @@ export const ROLES: RolePropsTypeConfig[] = [
          },
       ],
    },
+   {
+      name: MODULE_PAGE.REPAIR_ORDERS,
+      title: 'Phiếu sửa chữa',
+      action: [
+         {
+            name: PAGE_ACTION.VIEW_ALL,
+            title: 'Xem Danh sách phiếu sửa chữa',
+         },
+         {
+            name: PAGE_ACTION.VIEW_ONE,
+            title: 'Xem Chi tiết thông tin phiếu sửa chữa',
+         },
+         {
+            name: PAGE_ACTION.CREATE,
+            title: 'Thêm mới thông tin phiếu sửa chữa',
+         },
+         {
+            name: PAGE_ACTION.DELETE,
+            title: 'Xóa thông tin phiếu sửa chữa',
+         },
+         {
+            name: PAGE_ACTION.UPDATE,
+            title: 'Cập nhật thông tin phiếu sửa chữa',
+         },
+         {
+            name: PAGE_ACTION.UPDATE_STATUS_REPAIR_ORDER,
+            title: 'Cập nhật trạng thái phiếu sửa chữa',
+         },
+      ],
+   },
 ];

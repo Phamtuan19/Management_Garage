@@ -107,10 +107,10 @@ export type StatusPayment = keyof typeof STATUS_PAYMENT;
  */
 
 export const STATUS_REPAIR = {
-   draft: {
-      title: 'Nháp',
+   create: {
+      title: 'Tạo phiếu',
       color: 'error',
-      key: 'draft',
+      key: 'create',
    },
    check: {
       title: 'Kiểm tra',

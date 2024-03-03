@@ -9,8 +9,8 @@ import Loadable from '../components/loadable';
 const RepairOrder = Loadable('RepairOrder');
 // const RepairOrderDetails = Loadable('RepairOrder/RepairOrderDetails')
 // const RepairOrderCreate = Loadable('RepairOrder/RepairOrderCreate');
-const RepairInvoiceCreate = Loadable('RepairInvoice/RepairInvoiceCreate');
-const RepairInvoiceUpdate = Loadable('RepairInvoice/RepairInvoiceUpdate');
+const RepairInvoiceCreate = Loadable('RepairOrder/RepairInvoiceCreate');
+const RepairInvoiceUpdate = Loadable('RepairOrder/RepairInvoiceUpdate');
 const RepairOrderDetails = Loadable('RepairOrder/RepairOrderDetails');
 
 const repairorderRoute: RouteObject = {

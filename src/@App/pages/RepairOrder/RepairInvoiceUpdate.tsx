@@ -13,7 +13,7 @@ import setErrorMessageHookForm from '@App/helpers/setErrorMessageHookForm';
 import { useParams } from 'react-router-dom';
 
 import { RepairInvoiceSchema, repairInvoiceSchema } from './utils/repair-invoice';
-import BaseFormRepairInvoice from './components/BaseFormRepairInvoice';
+import BaseFormRepairInvoice from './component/BaseFormRepairInvoice';
 import { arrowRightOption } from './utils';
 
 const RepairInvoiceUpdate = () => {

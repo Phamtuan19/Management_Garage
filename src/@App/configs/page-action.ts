@@ -7,6 +7,7 @@ const PAGE_ACTION = {
    UPDATE: 'UPDATE',
    DELETE: 'DELETE',
    IS_LOCK: 'IS_LOCK',
+   UPDATE_STATUS_REPAIR_ORDER: 'UPDATE_STATUS_REPAIR_ORDER',
 } as const;
 
 export const pageActionSchema = yup.string().oneOf(Object.values(PAGE_ACTION)).required();
