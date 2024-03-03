@@ -13,35 +13,10 @@
  */
 
 export const CAR_STATUS = {
-   CHECK: {
-      id: 'CHECK',
-      title: 'Kiểm tra',
-      color: 'default',
-   },
-   ORDER_SPARE_PARTS: {
-      id: 'ORDER_SPARE_PARTS',
-      title: 'Đặt phụ tùng',
-      color: 'error',
-   },
    REPAIR: {
       id: 'REPAIR',
       title: 'Sửa chữa',
       color: 'secondary',
-   },
-   COMPLETE: {
-      id: 'COMPLETE',
-      title: 'Hoàn thành',
-      color: 'success',
-   },
-   CAR_DELIVERY: {
-      id: 'CAR_DELIVERY',
-      title: 'Bàn giao xe',
-      color: 'warning',
-   },
-   WAIT_FOR_PAYMENT: {
-      id: 'WAIT_FOR_PAYMENT',
-      title: 'Trờ thanh toán',
-      color: 'info',
    },
    EMPTY: {
       id: 'EMPTY',

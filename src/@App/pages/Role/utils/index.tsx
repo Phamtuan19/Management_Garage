@@ -196,6 +196,33 @@ export const ROLES: RolePropsTypeConfig[] = [
          },
       ],
    },
+   // SUPPLIES
+   {
+      name: MODULE_PAGE.SUPPLIES,
+      title: 'Vật tư',
+      action: [
+         {
+            name: PAGE_ACTION.VIEW_ALL,
+            title: 'Xem Danh sách vật tư',
+         },
+         {
+            name: PAGE_ACTION.VIEW_ONE,
+            title: 'Xem Chi tiết thông tin vật tư',
+         },
+         {
+            name: PAGE_ACTION.CREATE,
+            title: 'Thêm mới thông tin vật tư',
+         },
+         {
+            name: PAGE_ACTION.DELETE,
+            title: 'Xóa thông tin vật tư',
+         },
+         {
+            name: PAGE_ACTION.UPDATE,
+            title: 'Cập nhật thông tin vật tư',
+         },
+      ],
+   },
    // SUPPLIES_INVOICES
    {
       name: MODULE_PAGE.SUPPLIES_INVOICES,

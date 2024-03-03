@@ -63,8 +63,10 @@ const RepairOrderDetails = () => {
          content:
             arrowRightOption[6].name === repairorder?.status
                ? 'Bạn có chắc chắn muốn hủy bỏ hóa phiếu này?.'
-               : 'Bạn có chắc chắn chuyển trạng thái sang ' +
-                 arrowRightOption[arrowRightOption.findIndex((item) => item.name === repairorder?.status) + 1]?.title,
+               : arrowRightOption[1].name === repairorder?.status
+                 ? 'Xác nhận tạo lệnh lấy vật tư.'
+                 : 'Bạn có chắc chắn chuyển trạng thái sang ' +
+                   arrowRightOption[arrowRightOption.findIndex((item) => item.name === repairorder?.status) + 1]?.title,
          callbackOK: () => {
             switch (repairorder?.status) {
                case arrowRightOption[0].name:
@@ -85,10 +87,19 @@ const RepairOrderDetails = () => {
                case arrowRightOption[5].name:
                   updateRepairOrderStatus(arrowRightOption[6].name);
                   break;
-               case arrowRightOption[6].name:
-                  updateRepairOrderStatus(arrowRightOption[7].name);
-                  break;
             }
+         },
+         isIcon: true,
+      });
+   };
+
+   const handleClose = () => {
+      coreConfirm({
+         title: 'Cảnh báo',
+         confirmOk: 'Xác nhận',
+         content: 'Xác nhận hủy phiếu sửa chữa ',
+         callbackOK: () => {
+            updateRepairOrderStatus(arrowRightOption[6].name);
          },
          isIcon: true,
       });
@@ -122,13 +133,26 @@ const RepairOrderDetails = () => {
                   )}
                </Box>
                <Box display="flex" gap={1}>
-                  {repairorder?.status !== STATUS_REPAIR.shipped.key && (
+                  {repairorder?.status !== STATUS_REPAIR.shipped.key &&
+                     repairorder?.status !== STATUS_REPAIR.close.key && (
+                        <PermissionAccessRoute module={MODULE_PAGE.REPAIR_ORDERS} action="UPDATE_STATUS_REPAIR_ORDER">
+                           <Button size="medium" color="secondary" onClick={handleClickChangeStatus}>
+                              {
+                                 arrowRightOption[
+                                    arrowRightOption.findIndex((item) => item.name === repairorder?.status) + 1
+                                 ]?.title
+                              }
+                           </Button>
+                        </PermissionAccessRoute>
+                     )}
+                  {repairorder?.status !== STATUS_REPAIR.close.key && (
                      <PermissionAccessRoute module={MODULE_PAGE.REPAIR_ORDERS} action="UPDATE_STATUS_REPAIR_ORDER">
-                        <Button size="medium" color="secondary" onClick={handleClickChangeStatus}>
-                           Chuyển Trạng thái
+                        <Button size="medium" color="error" onClick={handleClose}>
+                           Hủy
                         </Button>
                      </PermissionAccessRoute>
                   )}
+
                   {repairorder?.status === STATUS_REPAIR.close.key && (
                      <PermissionAccessRoute module={MODULE_PAGE.REPAIR_ORDERS} action="DELETE">
                         <Button component={Link} to="create" size="medium" color="error">

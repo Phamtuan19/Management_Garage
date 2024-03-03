@@ -2,6 +2,7 @@ import BaseService from '@Core/Api/BaseService';
 
 const repairorderPath = {
    base: 'repair-order-details',
+   readByField: '/read',
 };
 
 class RepairOrderDetailService extends BaseService {

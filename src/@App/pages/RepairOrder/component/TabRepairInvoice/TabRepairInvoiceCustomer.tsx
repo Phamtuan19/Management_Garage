@@ -109,9 +109,6 @@ const TabRepairInvoiceCustomer = ({ form }: TabRepairInvoicePropType) => {
                                  display: 'block',
                               }}
                               {...props}
-                              // onClick={(e: any) => {
-                              //    e.status === 'EMPTY' ? props.onClick(e) : errorMessage(`Không thể chọn xe này.`);
-                              // }}
                            >
                               {e.name}
                               <Chip
