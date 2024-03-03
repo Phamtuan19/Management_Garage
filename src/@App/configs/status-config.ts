@@ -120,3 +120,23 @@ export const STATUS_REPAIR = {
 } as const;
 
 export type StatusRepair = keyof typeof STATUS_REPAIR;
+
+export const STATUS_DELIVERY = {
+   unconfimred: {
+      title: 'Chờ xác nhận',
+      key: 'unconfimred',
+      color: 'info',
+   },
+   confirmed: {
+      title: 'Đã xác nhận',
+      key: 'confirmed',
+      color: 'success',
+   },
+   close: {
+      title: 'Hủy',
+      key: 'close',
+      color: 'error',
+   },
+} as const;
+
+export type StatusDelivery = keyof typeof STATUS_DELIVERY;

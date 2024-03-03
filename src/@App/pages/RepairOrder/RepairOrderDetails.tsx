@@ -16,6 +16,8 @@ import { useConfirm } from '@Core/Component/Comfirm/CoreComfirm';
 import { errorMessage, successMessage } from '@Core/Helper/message';
 import { AxiosError } from 'axios';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import deliveryNotesService from '@App/services/deliveryNotes.service';
+import { useAuth } from '@App/redux/slices/auth.slice';
 
 import PepairOderBillDetails from './component/PepairOderBillDetails.tsx/PepairOderBillDetails';
 import PepairOderServiceDetails from './component/PepairOderBillDetails.tsx/PepairOderServiceDetails';
@@ -28,8 +30,10 @@ const breadcrumbs = [
       link: ROUTE_PATH.REPAIR_INVOICE,
    },
 ];
+
 const RepairOrderDetails = () => {
    const { id: repairorderId } = useParams();
+   const { user } = useAuth();
    const [valueTab, setValueTab] = useState<string>('1');
    const handleChange = (_event: React.SyntheticEvent, newValue: string) => {
       setValueTab(newValue);
@@ -40,6 +44,25 @@ const RepairOrderDetails = () => {
    const { data: repairorder, refetch } = useQuery(['getRepairOrderDetails', repairorderId], async () => {
       const repairorderRes = await repairorderService.find(repairorderId as string);
       return repairorderRes.data as FindRepairOrder;
+   });
+
+   const { mutate: createDeliveryNote } = useMutation({
+      mutationFn: async () => {
+         if (user) {
+            const data = {
+               personnel_id: user?._id,
+               repair_order_id: repairorderId,
+            };
+            return await deliveryNotesService.create(data);
+         }
+      },
+      onSuccess: () => {
+         successMessage('Cập nhật thành công.');
+         return refetch();
+      },
+      onError: (err: AxiosError) => {
+         return errorMessage(err);
+      },
    });
 
    const { mutate: updateRepairOrderStatus } = useMutation({
@@ -105,6 +128,19 @@ const RepairOrderDetails = () => {
       });
    };
 
+   const handleCreateDelivery = () => {
+      coreConfirm({
+         icon: <ErrorOutlineIcon sx={{ fontSize: '56px' }} color="warning" />,
+         title: 'Cảnh báo',
+         confirmOk: 'Xác nhận',
+         content: 'Xác nhận tạo lệnh lấy vật tư.',
+         callbackOK: () => {
+            createDeliveryNote();
+         },
+         isIcon: true,
+      });
+   };
+
    return (
       <Box component="form" sx={{ mt: 1 }}>
          <BaseBreadcrumbs
@@ -131,6 +167,16 @@ const RepairOrderDetails = () => {
                         </Button>
                      </PermissionAccessRoute>
                   )}
+                  {repairorder?.status !== STATUS_REPAIR.create.key &&
+                     repairorder?.status !== STATUS_REPAIR.pay.key &&
+                     repairorder?.status !== STATUS_REPAIR.complete.key &&
+                     repairorder?.status !== STATUS_REPAIR.close.key && (
+                        <PermissionAccessRoute module={MODULE_PAGE.REPAIR_ORDERS} action="UPDATE">
+                           <Button size="medium" color="inherit" onClick={handleCreateDelivery}>
+                              Lấy vật tư
+                           </Button>
+                        </PermissionAccessRoute>
+                     )}
                </Box>
                <Box display="flex" gap={1}>
                   {repairorder?.status !== STATUS_REPAIR.shipped.key &&

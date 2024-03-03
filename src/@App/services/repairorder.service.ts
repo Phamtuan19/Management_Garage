@@ -50,9 +50,11 @@ export interface RepairOrderSupplies {
    price: number;
    discount: number;
    describe: string;
+   describe_export: string;
    distributor_id: string;
    distributor_name: string;
    is_shipped: boolean;
+   export_quantity: number;
    supplies_detail: {
       _id: string;
       code: string;

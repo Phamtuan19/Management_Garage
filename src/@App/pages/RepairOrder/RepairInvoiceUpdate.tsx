@@ -6,7 +6,7 @@ import { Box } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import repairorderService, { FindRepairOrder, RepairOrderSupplies } from '@App/services/repairorder.service';
+import repairorderService, { FindRepairOrder } from '@App/services/repairorder.service';
 import { errorMessage, successMessage } from '@Core/Helper/message';
 import { AxiosError } from 'axios';
 import { HandleErrorApi } from '@Core/Api/axios-config';
@@ -39,23 +39,6 @@ const RepairInvoiceUpdate = () => {
                errorMessage('Bạn không thể sửa với trạng thái lấy vật tư');
             }
 
-            const filteredData = data.supplies.reduce((accumulator: RepairOrderSupplies[], current) => {
-               const existingItemIndex = accumulator.findIndex(
-                  (item: RepairOrderSupplies) =>
-                     item.supplies_detail_id === current.supplies_detail_id &&
-                     item.supplies_invoice_detail_id === current.supplies_invoice_detail_id,
-                  //so sánh với id của vật tư chi tiết và hóa đơn vật tư nhập chi tiết
-               );
-
-               if (existingItemIndex !== -1) {
-                  accumulator[existingItemIndex].quantity++;
-               } else {
-                  accumulator.push(current);
-               }
-
-               return accumulator;
-            }, []);
-
             form.reset({
                personnel_id: data.personnel._id,
                customer: {
@@ -84,7 +67,7 @@ const RepairInvoiceUpdate = () => {
                   };
                }),
 
-               suppliesInvoice: filteredData.map((item) => {
+               suppliesInvoice: data.supplies.map((item) => {
                   return {
                      _id: item._id,
                      supplies_detail_code: item.supplies_detail.code,

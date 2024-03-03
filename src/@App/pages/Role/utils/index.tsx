@@ -388,4 +388,30 @@ export const ROLES: RolePropsTypeConfig[] = [
          },
       ],
    },
+   {
+      name: MODULE_PAGE.DELIVERY_NOTE,
+      title: 'Phiếu xuất kho',
+      action: [
+         {
+            name: PAGE_ACTION.VIEW_ALL,
+            title: 'Xem Danh sách phiếu xuất kho',
+         },
+         {
+            name: PAGE_ACTION.VIEW_ONE,
+            title: 'Xem Chi tiết thông tin phiếu xuất kho',
+         },
+         {
+            name: PAGE_ACTION.CREATE,
+            title: 'Thêm mới thông tin phiếu xuất kho',
+         },
+         {
+            name: PAGE_ACTION.DELETE,
+            title: 'Xóa thông tin phiếu xuất kho',
+         },
+         {
+            name: PAGE_ACTION.UPDATE,
+            title: 'Cập nhật thông tin phiếu xuất kho',
+         },
+      ],
+   },
 ];

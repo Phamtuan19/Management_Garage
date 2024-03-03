@@ -1,7 +1,8 @@
+import Switch from '@App/component/customs/Switch';
 import { RepairOrderSupplies } from '@App/services/repairorder.service';
 import TableCore, { columnHelper } from '@Core/Component/Table';
 import handlePrice from '@Core/Helper/hendlePrice';
-import { Box } from '@mui/material';
+import { Box, Chip } from '@mui/material';
 import React from 'react';
 
 const RepairOrderDetails = ({ supplies }: { supplies: RepairOrderSupplies[] }) => {
@@ -53,8 +54,11 @@ const RepairOrderDetails = ({ supplies }: { supplies: RepairOrderSupplies[] }) =
          header: () => <Box sx={{ textAlign: 'center' }}>Số lượng</Box>,
          cell: ({ row }) => {
             const supplies = row.original as RepairOrderSupplies;
-
-            return <Box sx={{ textAlign: 'center' }}>{supplies.quantity}</Box>;
+            return (
+               <Box sx={{ textAlign: 'center' }}>
+                  <Chip label={supplies.quantity} color="info" />
+               </Box>
+            );
          },
       }),
       columnHelper.accessor('total_price', {
@@ -68,6 +72,39 @@ const RepairOrderDetails = ({ supplies }: { supplies: RepairOrderSupplies[] }) =
                   Number(supplies.discount)) /
                   100;
             return <Box sx={{ textAlign: 'center' }}>{handlePrice(total)}</Box>;
+         },
+      }),
+      columnHelper.accessor('quantity', {
+         header: () => <Box sx={{ textAlign: 'center' }}>SL kho đã xuất</Box>,
+         cell: ({ row }) => {
+            const supplies = row.original as RepairOrderSupplies;
+            return (
+               <Box sx={{ textAlign: 'center' }}>
+                  <Chip label={supplies.export_quantity} color="success" />
+               </Box>
+            );
+         },
+      }),
+      columnHelper.accessor('quantity', {
+         header: () => <Box sx={{ textAlign: 'center' }}>SL thiếu</Box>,
+         cell: ({ row }) => {
+            const supplies = row.original as RepairOrderSupplies;
+            return (
+               <Box sx={{ textAlign: 'center' }}>
+                  <Chip label={supplies.quantity - supplies.export_quantity} color="error" />
+               </Box>
+            );
+         },
+      }),
+      columnHelper.accessor('total_price', {
+         header: () => <Box sx={{ textAlign: 'center' }}>Xuất kho</Box>,
+         cell: ({ row }) => {
+            const supplies = row.original as RepairOrderSupplies;
+            return (
+               <Box sx={{ textAlign: 'center' }}>
+                  <Switch sx={{ m: 1 }} checked={supplies.quantity - supplies.export_quantity === 0} />
+               </Box>
+            );
          },
       }),
    ];

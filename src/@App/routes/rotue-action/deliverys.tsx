@@ -7,6 +7,7 @@ import PermissionAccessRoute from '../components/PermissionAccessRoute';
 import Loadable from '../components/loadable';
 
 const Deliverys = Loadable('Deliverys');
+const DeliveryDetail = Loadable('Deliverys/DeliveryDetail');
 
 const deliverysRoute: RouteObject = {
    path: ROUTE_PATH.DELIVERY_NOTES,
@@ -15,8 +16,16 @@ const deliverysRoute: RouteObject = {
       {
          index: true,
          element: (
-            <PermissionAccessRoute module={MODULE_PAGE.CARS} action={PAGE_ACTION.VIEW_ALL} type="route">
+            <PermissionAccessRoute module={MODULE_PAGE.DELIVERY_NOTE} action={PAGE_ACTION.VIEW_ALL} type="route">
                <Deliverys />
+            </PermissionAccessRoute>
+         ),
+      },
+      {
+         path: ROUTE_PATH.DELIVERY_NOTES + ROUTE_PATH.DETAILS,
+         element: (
+            <PermissionAccessRoute module={MODULE_PAGE.DELIVERY_NOTE} action={PAGE_ACTION.UPDATE} type="route">
+               <DeliveryDetail />
             </PermissionAccessRoute>
          ),
       },
