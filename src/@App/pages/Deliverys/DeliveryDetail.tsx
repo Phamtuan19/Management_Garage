@@ -216,6 +216,7 @@ const DeliveryUpdate = () => {
                            setOpen(true);
                            setValue('id', supplies._id);
                            setValue('describe', supplies.describe_export);
+                           setValue('inventory', supplies.supplies_detail_quantity_received);
                         }}
                      />
                   </PermissionAccessRoute>
@@ -246,6 +247,10 @@ const DeliveryUpdate = () => {
                   Tùy chọn
                </Typography>
                <Box mt={2} display="flex" flexDirection="column" gap={2}>
+                  <Box minHeight="80px">
+                     <ControllerLabel title="Tồn kho" />
+                     <ControllerTextField name="inventory" number control={control} disabled />
+                  </Box>
                   <Box minHeight="80px">
                      <ControllerLabel title="Số lượng xuất" required />
                      <ControllerTextField name="export_quantity" number control={control} />
