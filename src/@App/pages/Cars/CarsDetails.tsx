@@ -36,6 +36,17 @@ const CarsDetails = () => {
       { label: 'Ngày tạo', value: hendleDateTime(cars?.customer_id.createdAt) },
       { label: 'Ngày cập nhật cuối', value: hendleDateTime(cars?.customer_id.updatedAt) },
    ];
+   const carDetails = [
+      { label: 'Tên xe', value: cars?.name },
+      { label: 'Thương hiệu xe', value: cars?.brand_car },
+      { label: 'Biển số xe', value: cars?.license_plate },
+      { label: 'Năm sản xuất', value: cars?.production_year },
+      { label: 'Màu xe', value: cars?.car_color },
+      { label: 'Loại xe', value: cars?.car_type },
+      { label: 'Trạng thái', value: cars?.status },
+      { label: 'Ngày tạo', value: hendleDateTime(cars?.createdAt) },
+      { label: 'Ngày cập nhật cuối', value: hendleDateTime(cars?.updatedAt) },
+   ];
 
    return (
       <BaseBreadcrumbs breadcrumbs={breadcrumbs} arialabel="Chi tiết nhà phân phối">
@@ -73,6 +84,30 @@ const CarsDetails = () => {
                                     {detail.value}
                                  </Typography>
                                  <Divider variant="inset" sx={{ ml: 0 }} />
+                              </Grid>
+                           </>
+                        ))}
+                     </Grid>
+                     <Grid container spacing={2} mt={3}>
+                        <Grid item xs={12}>
+                           <Typography sx={{ fontWeight: '600', fontSize: '1.5rem', color: theme.palette.grey[800] }}>
+                              Thông tin xe
+                           </Typography>
+                        </Grid>
+                        {carDetails?.map((detail, index) => (
+                           <>
+                              <Grid item xs={2} key={index}>
+                                 <Typography
+                                    sx={({ base }) => ({ fontSize: '1rem', color: base.color.text as string })}
+                                 >
+                                    {detail.label}
+                                 </Typography>
+                              </Grid>
+                              <Grid item xs={10}>
+                                 <Typography sx={{ fontSize: '1rem', lineHeight: '32px', fontWeight: '500' }}>
+                                    {detail.value}
+                                 </Typography>
+                                 <Divider variant="inset" sx={{ m: 0 }} />
                               </Grid>
                            </>
                         ))}
