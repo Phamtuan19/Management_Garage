@@ -57,21 +57,7 @@ const MaterialsCatalog = () => {
 
    const columns = useMemo(() => {
       return [
-         columnHelper.accessor((_, index) => index + 1, {
-            id: 'STT',
-            header: () => <Box sx={{ textAlign: 'center' }}>STT</Box>,
-            cell: (info) => <Box sx={{ textAlign: 'center' }}>{info.getValue()}</Box>,
-         }),
-         columnHelper.accessor('code', {
-            header: () => <Box sx={{ textAlign: 'center' }}>Mã</Box>,
-            cell: (info) => <Box sx={{ textAlign: 'center' }}>#{info.getValue()}</Box>,
-         }),
-         columnHelper.accessor('name', {
-            header: 'Tên xe',
-         }),
-         columnHelper.accessor('brand_car', {
-            header: 'Thương hiệu xe',
-         }),
+         
          columnHelper.accessor('license_plate', {
             header: 'Biển số xe',
          }),
