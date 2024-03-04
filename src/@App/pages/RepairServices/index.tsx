@@ -114,14 +114,6 @@ const RepairServices = () => {
                return <Box textAlign="center">{row.getValue('discount')}%</Box>;
             },
          }),
-         // columnHelper.accessor('describe', {
-         //    header: 'Mô tả',
-         //    cell: ({ row }) => {
-         //       const describeHTML: string = String(row.getValue('describe'));
-
-         //       return <div dangerouslySetInnerHTML={{ __html: describeHTML }} />;
-         //    },
-         // }),
          columnHelper.accessor('createdAt', {
             header: () => <Box textAlign="center">Ngày tạo</Box>,
             cell: ({ row }) => {
