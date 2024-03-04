@@ -77,6 +77,33 @@ export interface ResponseReadSuppliesA extends AxiosResponseData {
    data: SuppliesItem[];
 }
 
+export interface SuppliesFindOne {
+   _id: string;
+   name: string;
+   materials_catalog_id: {
+      _id: string;
+      name: string;
+   };
+   unit: string;
+   discount: number;
+   describe: string;
+   createdAt: string;
+   details: Array<{
+      _id: string;
+      code: string;
+      supplies_id: string;
+      distributor_id: string;
+      name_detail: string;
+      imported_price: number;
+      selling_price: number;
+      isInStock: true;
+      describe: string;
+      distributor_name: string;
+      createdAt: string;
+      updatedAt: string;
+   }>;
+}
+
 class SuppliesService extends BaseService {
    BASE_ENDPOINT = suppliesPath.base;
 

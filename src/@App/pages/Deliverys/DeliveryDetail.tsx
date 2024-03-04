@@ -12,7 +12,7 @@ import { RepairOrderSupplies } from '@App/services/repairorder.service';
 import { useConfirm } from '@Core/Component/Comfirm/CoreComfirm';
 import TableCore, { columnHelper } from '@Core/Component/Table';
 import { CoreTableActionEdit } from '@Core/Component/Table/components/CoreTableAction';
-import handlePrice from '@Core/Helper/hendlePrice';
+import handlePrice from '@Core/Helper/handlePrice';
 import { errorMessage, successMessage } from '@Core/Helper/message';
 import { LoadingButton } from '@mui/lab';
 import { Box, Button, Chip, Modal, Typography } from '@mui/material';
@@ -31,7 +31,7 @@ import { DeliveryUpdateExportQuantity, deliveryUpdateExportQuantity } from './ut
 
 const breadcrumbs = [
    {
-      title: 'Chỉnh sửa',
+      title: 'Phiếu xuất kho',
       link: ROUTE_PATH.DELIVERY_NOTES,
    },
 ];
@@ -128,7 +128,7 @@ const DeliveryUpdate = () => {
          header: () => <Box sx={{ textAlign: 'center' }}>Mã lô</Box>,
          cell: ({ row }) => {
             const supplies = row.original as RepairOrderSupplies;
-            return <Box sx={{ textAlign: 'center' }}>#{supplies.supplies_detail.code}</Box>;
+            return <Box sx={{ textAlign: 'center' }}>#{supplies.supplies_invoices_code}</Box>;
          },
       }),
       columnHelper.accessor('supplies_detail_quantity_received', {
@@ -216,6 +216,7 @@ const DeliveryUpdate = () => {
                            setOpen(true);
                            setValue('id', supplies._id);
                            setValue('describe', supplies.describe_export);
+                           setValue('inventory', supplies.supplies_detail_quantity_received);
                         }}
                      />
                   </PermissionAccessRoute>
@@ -230,7 +231,7 @@ const DeliveryUpdate = () => {
    };
 
    return (
-      <BaseBreadcrumbs arialabel="Phiếu xuất kho" breadcrumbs={breadcrumbs}>
+      <BaseBreadcrumbs arialabel={'#' + delivery?.code} breadcrumbs={breadcrumbs}>
          <LoadingButton type="submit" variant="contained" loading={false}>
             Xuất tất cả
          </LoadingButton>
@@ -246,6 +247,10 @@ const DeliveryUpdate = () => {
                   Tùy chọn
                </Typography>
                <Box mt={2} display="flex" flexDirection="column" gap={2}>
+                  <Box minHeight="80px">
+                     <ControllerLabel title="Tồn kho" />
+                     <ControllerTextField name="inventory" number control={control} disabled />
+                  </Box>
                   <Box minHeight="80px">
                      <ControllerLabel title="Số lượng xuất" required />
                      <ControllerTextField name="export_quantity" number control={control} />

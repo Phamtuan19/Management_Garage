@@ -3,7 +3,7 @@ import { UseFieldArrayReturn, UseFormReturn } from 'react-hook-form';
 import TableCore, { columnHelper } from '@Core/Component/Table';
 import { Box, ButtonBase, IconButton, InputBase, styled } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import handlePrice from '@Core/Helper/hendlePrice';
+import handlePrice from '@Core/Helper/handlePrice';
 import RemoveIcon from '@mui/icons-material/Remove';
 import EditIcon from '@mui/icons-material/Edit';
 import { CoreTableActionDelete, CoreTableActionViewDetail } from '@Core/Component/Table/components/CoreTableAction';

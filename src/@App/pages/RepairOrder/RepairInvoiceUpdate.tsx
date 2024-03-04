@@ -12,10 +12,18 @@ import { AxiosError } from 'axios';
 import { HandleErrorApi } from '@Core/Api/axios-config';
 import setErrorMessageHookForm from '@App/helpers/setErrorMessageHookForm';
 import { useParams } from 'react-router-dom';
+import ROUTE_PATH from '@App/configs/router-path';
 
 import { RepairInvoiceSchema, repairInvoiceSchema } from './utils/repair-invoice';
 import BaseFormRepairInvoice from './component/BaseFormRepairInvoice';
 import { arrowRightOption } from './utils';
+
+const breadcrumbs = [
+   {
+      title: 'Phiếu sửa chữa',
+      link: ROUTE_PATH.REPAIR_INVOICE,
+   },
+];
 
 const RepairInvoiceUpdate = () => {
    const form = useForm<RepairInvoiceSchema>({
@@ -27,7 +35,7 @@ const RepairInvoiceUpdate = () => {
 
    const { id: repairOrderId } = useParams();
 
-   const { data: repairOrder } = useQuery(
+   const { data: repairOrder, refetch } = useQuery(
       ['getRepairDetail', repairOrderId],
       async () => {
          const res = await repairorderService.find(repairOrderId as string);
@@ -84,6 +92,13 @@ const RepairInvoiceUpdate = () => {
                      discount: 0,
                   };
                }),
+
+               transaction: {
+                  cash_money: data.transaction.cash_money,
+                  payment_type: data.transaction.payment_type,
+                  total_price: data.transaction.total_price,
+                  transfer_money: data.transaction.transfer_money,
+               },
             });
 
             return data;
@@ -128,13 +143,14 @@ const RepairInvoiceUpdate = () => {
             describe: '',
             // status: repairOrder?.status,
             details: [...supplies, ...service],
+            transaction: data.transaction,
          };
 
          return await repairorderService.update(newData, repairOrderId);
       },
       onSuccess: () => {
-         successMessage('Thêm mới nhân viên thành công');
-         // navigate('/fix/repair-services');
+         successMessage('Cập nhật thành công');
+         return refetch();
       },
       onError: (err: AxiosError) => {
          const dataError = err.response?.data as HandleErrorApi;
@@ -148,7 +164,7 @@ const RepairInvoiceUpdate = () => {
    const onSubmitForm: SubmitHandler<RepairInvoiceSchema> = (data) => handleUpdateRepairOrder(data);
 
    return (
-      <BaseBreadcrumbs arialabel="Phiếu sửa chữa">
+      <BaseBreadcrumbs arialabel={'#' + repairOrder?.code} breadcrumbs={breadcrumbs}>
          <Box mb={1}>
             <ArrowRight options={arrowRightOption} check={repairOrder?.status ?? 'draft'} />
          </Box>

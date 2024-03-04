@@ -1,9 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/naming-convention */
+import FilterTable from '@App/component/common/FilterTable';
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import PageContent from '@App/component/customs/PageContent';
+import MODULE_PAGE from '@App/configs/module-page';
 import ROUTE_PATH from '@App/configs/router-path';
 import useCoreTable from '@App/hooks/useCoreTable';
+import PermissionAccessRoute from '@App/routes/components/PermissionAccessRoute';
 import materialsCatalogService, { MaterialsCatalogResponse } from '@App/services/materialsCatalog.service';
 import TableCore, { columnHelper } from '@Core/Component/Table';
 import {
@@ -11,10 +14,17 @@ import {
    CoreTableActionEdit,
    CoreTableActionViewDetail,
 } from '@Core/Component/Table/components/CoreTableAction';
-import { Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+
+const sortList = [
+   {
+      title: 'Mã',
+      value: 'code',
+   },
+];
 
 const MaterialsCatalog = () => {
    const navigate = useNavigate();
@@ -34,13 +44,16 @@ const MaterialsCatalog = () => {
          }),
          columnHelper.accessor('code', {
             header: () => <Box sx={{ textAlign: 'center' }}>Mã</Box>,
-            cell: (info) => <Box sx={{ textAlign: 'center' }}>{info.getValue()}</Box>,
+            cell: (info) => <Box sx={{ textAlign: 'center' }}>#{info.getValue()}</Box>,
          }),
          columnHelper.accessor('name', {
             header: 'Tên danh mục',
          }),
          columnHelper.accessor('describe', {
             header: 'Mô tả',
+            cell: (info) => (
+               <Box sx={{ maxWidth: '400px', textOverflow: 'ellipsis', overflow: 'hidden' }}>{info.getValue()}</Box>
+            ),
          }),
          columnHelper.accessor('_id', {
             header: 'Thao tác',
@@ -69,7 +82,17 @@ const MaterialsCatalog = () => {
 
    return (
       <BaseBreadcrumbs arialabel="Danh sách vật tư">
+         <Box>
+            <PermissionAccessRoute module={MODULE_PAGE.CARS} action="CREATE">
+               <Button component={Link} to="create" size="medium">
+                  Thêm mới
+               </Button>
+            </PermissionAccessRoute>
+         </Box>
          <PageContent>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+               <FilterTable sortList={sortList} searchType={sortList} />
+            </Box>
             <TableCore columns={columns} {...data} />
          </PageContent>
       </BaseBreadcrumbs>

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import ControllerLabel from '@Core/Component/Input/ControllerLabel';
-import handlePrice from '@Core/Helper/hendlePrice';
+import handlePrice from '@Core/Helper/handlePrice';
 import { Box, Button, Grid, Modal, Typography, styled } from '@mui/material';
 import CreateSharpIcon from '@mui/icons-material/CreateSharp';
 import { Control, FieldValues, UseFormReturn } from 'react-hook-form';

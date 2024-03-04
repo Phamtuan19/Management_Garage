@@ -19,7 +19,7 @@ import BaseFormCars from './Components/BaseFormCars';
 
 const breadcrumbs = [
    {
-      title: 'Dịch vụ sửa chữa',
+      title: 'Thông Tin Xe',
       link: ROUTE_PATH.CARS,
    },
 ];
@@ -31,7 +31,8 @@ const CarsUpdate = () => {
       resolver: yupResolver(carsSchema),
       defaultValues: carsSchema.getDefault(),
    });
-   const { refetch: getCars } = useQuery(
+
+   const { data: car, refetch: getCars } = useQuery(
       ['getCars', carsId],
       async () => {
          const res = await carsService.find(carsId!);
@@ -41,6 +42,7 @@ const CarsUpdate = () => {
          onSuccess: (data) => {
             setValueHookForm(form.setValue, data as never);
             form.setValue('customer_id', data.customer_id._id as string);
+            return data;
          },
       },
    );
@@ -70,8 +72,8 @@ const CarsUpdate = () => {
    };
 
    return (
-      <BaseBreadcrumbs arialabel="Cập nhật thông tin" breadcrumbs={breadcrumbs}>
-         <BaseFormCars onSubmitForm={onSubmitForm} form={form} isLoading={isLoading} isUpdate />
+      <BaseBreadcrumbs arialabel={`${car?.name} - (#${car?.code})`} breadcrumbs={breadcrumbs}>
+         <BaseFormCars onSubmitForm={onSubmitForm} form={form} isLoading={isLoading} />
       </BaseBreadcrumbs>
    );
 };

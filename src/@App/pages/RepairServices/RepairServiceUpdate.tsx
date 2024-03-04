@@ -32,7 +32,7 @@ const RepairServiceUpdate = () => {
       defaultValues: validationFormCreate.getDefault(),
    });
 
-   useQuery(
+   const { data: repairService } = useQuery(
       ['getRepairService', repairServiceId],
       async () => {
          const res = await repairServiceService.find(repairServiceId!);
@@ -41,6 +41,7 @@ const RepairServiceUpdate = () => {
       {
          onSuccess: (data) => {
             setValueHookForm(form.setValue, data as never);
+            return data;
          },
       },
    );
@@ -62,7 +63,7 @@ const RepairServiceUpdate = () => {
    });
    const onSubmitForm: SubmitHandler<RepairServiceSchema> = (data) => handleUpdateRepairService(data);
    return (
-      <BaseBreadcrumbs arialabel="Cập nhật" breadcrumbs={breadcrumbs}>
+      <BaseBreadcrumbs arialabel={repairService?.name as string} breadcrumbs={breadcrumbs}>
          <Box>
             <LoadingButton
                type="submit"

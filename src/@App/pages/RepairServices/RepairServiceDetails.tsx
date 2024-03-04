@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { useParams, useNavigate } from 'react-router-dom';
@@ -7,12 +8,12 @@ import MODULE_PAGE from '@App/configs/module-page';
 import theme from '@Core/Theme';
 import PermissionAccessRoute from '@App/routes/components/PermissionAccessRoute';
 import RateReviewRoundedIcon from '@mui/icons-material/RateReviewRounded';
-import { Box, Typography, Stack, Button, Grid } from '@mui/material';
+import { Box, Typography, Button, Grid } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import repairServiceService from '@App/services/repairService.service';
 import PageContent from '@App/component/customs/PageContent';
-import hendleDateTime from '@Core/Helper/hendleDateTime';
+import hendleDateTime from '@Core/Helper/formatDateTime';
 
 const breadcrumbs = [
    {
@@ -29,16 +30,14 @@ const RepairServiceDetails = () => {
    });
 
    const repairServiceDetails = [
-      { label: 'Tên dịch vụ sửa chữa', value: repairService?.name },
+      { label: 'Tên dịch vụ', value: repairService?.name },
       { label: 'Giá', value: repairService?.price },
       { label: 'Giảm giá', value: repairService?.discount },
-      { label: 'Mô tả', value: repairService?.describe },
       { label: 'Ngày tạo', value: hendleDateTime(repairService?.createdAt) },
-      { label: 'Ngày cập nhật cuối', value: hendleDateTime(repairService?.updatedAt) },
    ];
 
    return (
-      <BaseBreadcrumbs breadcrumbs={breadcrumbs} arialabel="Chi tiết dịch vụ sửa chữa">
+      <BaseBreadcrumbs breadcrumbs={breadcrumbs} arialabel={repairService?.name ?? ''}>
          <Box>
             <PermissionAccessRoute module={MODULE_PAGE.REPAIR_SERVICES} action="UPDATE">
                <Button
@@ -52,35 +51,34 @@ const RepairServiceDetails = () => {
          </Box>
          <PageContent>
             {repairService && (
-               <Stack>
-                  <Box sx={{ ml: '25px', mr: '25px' }}>
-                     <Grid container spacing={2}>
-                        <Grid item xs={12}>
-                           <Typography sx={{ fontWeight: '600', fontSize: '1.5rem', color: theme.palette.grey[800] }}>
-                              Thông tin khách hàng
+               <Grid container spacing={2}>
+                  {repairServiceDetails?.map((detail, index) => (
+                     <>
+                        <Grid item xs={2} key={index}>
+                           <Typography sx={{ fontSize: '1rem', color: theme.palette.grey[800] }}>
+                              {detail.label}
                            </Typography>
                         </Grid>
+                        <Grid item xs={10}>
+                           <Typography sx={{ fontSize: '1rem', lineHeight: '32px', height: '32px', fontWeight: '500' }}>
+                              {detail.value}
+                           </Typography>
+                           <Divider variant="inset" sx={{ ml: 0 }} />
+                        </Grid>
+                     </>
+                  ))}
 
-                        {repairServiceDetails?.map((detail, index) => (
-                           <>
-                              <Grid item xs={2} key={index}>
-                                 <Typography sx={{ fontSize: '1rem', color: theme.palette.grey[800] }}>
-                                    {detail.label}
-                                 </Typography>
-                              </Grid>
-                              <Grid item xs={10}>
-                                 <Typography
-                                    sx={{ fontSize: '1rem', lineHeight: '32px', height: '32px', fontWeight: '500' }}
-                                 >
-                                    {detail.value}
-                                 </Typography>
-                                 <Divider variant="inset" sx={{ ml: 0 }} />
-                              </Grid>
-                           </>
-                        ))}
-                     </Grid>
-                  </Box>
-               </Stack>
+                  <Grid item xs={2}>
+                     <Typography sx={{ fontSize: '1rem', color: theme.palette.grey[800] }}>Mô tả</Typography>
+                  </Grid>
+                  <Grid item xs={10}>
+                     <Typography
+                        sx={{ fontSize: '1rem', lineHeight: '32px', height: '32px', fontWeight: '500' }}
+                        dangerouslySetInnerHTML={{ __html: repairService?.describe }}
+                     />
+                     <Divider variant="inset" sx={{ ml: 0 }} />
+                  </Grid>
+               </Grid>
             )}
          </PageContent>
       </BaseBreadcrumbs>

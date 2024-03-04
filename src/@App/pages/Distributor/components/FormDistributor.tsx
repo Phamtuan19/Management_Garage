@@ -46,7 +46,7 @@ const FormDistributor = ({ form }: BaseFormPersonnelPropType) => {
       <>
          <Grid item xs={12} md={6}>
             <Box height="96.5px">
-               <ControllerLabel title="Tỉnh/Thành phố" required />
+               <ControllerLabel title="Tỉnh/Thành phố" />
                <ControllerAutoComplete
                   onChangeValue={(value) => {
                      setValue('address.province.name', value['name'] as string);
@@ -70,7 +70,7 @@ const FormDistributor = ({ form }: BaseFormPersonnelPropType) => {
          </Grid>
          <Grid item xs={12} md={6}>
             <Box height="96.5px">
-               <ControllerLabel title="Quận/huyện" required />
+               <ControllerLabel title="Quận/huyện" />
                <ControllerAutoComplete
                   onChangeValue={(value) => {
                      setValue('address.district.name', value['name'] as string);
@@ -92,7 +92,7 @@ const FormDistributor = ({ form }: BaseFormPersonnelPropType) => {
          </Grid>
          <Grid item xs={12} md={6}>
             <Box height="96.5px">
-               <ControllerLabel title="Xã/Phường" required />
+               <ControllerLabel title="Xã/Phường" />
                <ControllerAutoComplete
                   name="address.wards.code"
                   onChangeValue={(value) => {

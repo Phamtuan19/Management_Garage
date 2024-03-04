@@ -61,25 +61,25 @@ const BaseFormDistributor = ({ form, onSubmitForm, isLoading, isUpdate }: BaseFo
                   </Grid>
                   <Grid item xs={12} md={6}>
                      <Box height="80px">
-                        <ControllerLabel title="Số tài khoản ngân hàng" required />
+                        <ControllerLabel title="Số tài khoản ngân hàng" />
                         <ControllerTextField name="bank_account_number" control={control} />
                      </Box>
                   </Grid>
                   <Grid item xs={12} md={6}>
                      <Box height="80px">
-                        <ControllerLabel title="Tên ngân hàng" required />
+                        <ControllerLabel title="Tên ngân hàng" />
                         <ControllerTextField name="bank_name" control={control} />
                      </Box>
                   </Grid>
                   <Grid item xs={12} md={6}>
                      <Box height="80px">
-                        <ControllerLabel title="Tên chi nhánh" required />
+                        <ControllerLabel title="Tên chi nhánh" />
                         <ControllerTextField name="bank_branch" control={control} />
                      </Box>
                   </Grid>
                   <Grid item xs={12} md={6}>
                      <Box height="80px">
-                        <ControllerLabel title="Tên chủ tài khoản" required />
+                        <ControllerLabel title="Tên chủ tài khoản" />
                         <ControllerTextField name="account_holder_name" control={control} />
                      </Box>
                   </Grid>
@@ -92,7 +92,7 @@ const BaseFormDistributor = ({ form, onSubmitForm, isLoading, isUpdate }: BaseFo
                   <FormDistributor form={form} />
                   <Grid item xs={12} md={6}>
                      <Box height="80px">
-                        <ControllerLabel title="Địa chỉ cụ thể" required />
+                        <ControllerLabel title="Địa chỉ cụ thể" />
                         <ControllerTextField name="address.specific" control={control} />
                      </Box>
                   </Grid>

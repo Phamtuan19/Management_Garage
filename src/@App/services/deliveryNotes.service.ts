@@ -1,11 +1,13 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { StatusDelivery } from '@App/configs/status-config';
 import BaseService from '@Core/Api/BaseService';
+import { AxiosResponseData } from '@Core/Api/axios-config';
 
 import { RepairOrderSupplies } from './repairorder.service';
 
-const permissionServicePath = {
+const deliveryNoteServicePath = {
    base: 'delivery-notes',
+   CHECK_EMPTY: '/check',
 };
 
 export interface DeliveryNoteData {
@@ -37,11 +39,15 @@ export interface FindOneDeliveryNode {
 }
 
 class DeliveryNotesService extends BaseService {
-   BASE_ENDPOINT = permissionServicePath.base;
+   BASE_ENDPOINT = deliveryNoteServicePath.base;
 
    constructor() {
       super();
       this.setRequest();
+   }
+
+   getCheckEmpty(id: string): Promise<AxiosResponseData> {
+      return this.request(this.BASE_ENDPOINT + '/' + id + deliveryNoteServicePath.CHECK_EMPTY);
    }
 }
 

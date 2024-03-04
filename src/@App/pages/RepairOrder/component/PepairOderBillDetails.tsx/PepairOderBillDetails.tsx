@@ -1,7 +1,7 @@
 import ScrollbarBase from '@App/component/customs/ScrollbarBase';
 import { CAR_STATUS } from '@App/configs/status-config';
 import { FindRepairOrder } from '@App/services/repairorder.service';
-import hendleDateTime from '@Core/Helper/hendleDateTime';
+import hendleDateTime from '@Core/Helper/formatDateTime';
 import theme from '@Core/Theme';
 import { Typography, Grid, Chip, Box } from '@mui/material';
 import { useMemo } from 'react';
@@ -46,8 +46,8 @@ const RepairOrderDetails = ({ repairorder }: { repairorder: FindRepairOrder | un
             {repairorder &&
                repairOrderDetails.map((detail, index: number) => {
                   return (
-                     <Grid item xs={6}>
-                        <Grid container spacing={1} key={index}>
+                     <Grid item xs={6} key={index}>
+                        <Grid container spacing={1}>
                            <Grid item xs={3} sx={{ display: 'flex', alignItems: 'flex-end' }}>
                               <Typography
                                  sx={{ fontSize: '1rem', lineHeight: '2.2rem', color: theme.palette.grey[800] }}

@@ -59,12 +59,7 @@ const BaseFormSupplies = ({ form }: BaseFormSuppliesPropType) => {
                   <ControllerTextField name="unit" control={control} />
                </Box>
             </Grid>
-            <Grid item xs={12} md={6}>
-               <Box height="75px">
-                  <ControllerLabel title="Giá khuyến mại" />
-                  <ControllerTextField number name="discount" control={control} />
-               </Box>
-            </Grid>
+            <Grid item xs={12} md={6}></Grid>
             <Grid item xs={12}>
                <Box minHeight="80px">
                   <ControllerLabel title="Mô tả vật tư" />

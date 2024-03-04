@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable import/order */
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import ROUTE_PATH from '@App/configs/router-path';
@@ -13,6 +14,8 @@ import { useNavigate } from 'react-router-dom';
 import setErrorMessageHookForm from '@App/helpers/setErrorMessageHookForm';
 import { MaterialsCatalogSchema, materialsCatalogSchema } from './utils/materialsCatalogSchema';
 import BaseFormMaterialCatalog from './components/BaseFormMaterialCatalog';
+import PageContent from '@App/component/customs/PageContent';
+import { LoadingButton } from '@mui/lab';
 const breadcrumbs = [
    {
       title: 'Danh mục vật tư',
@@ -33,7 +36,7 @@ const MaterialsCatalogCreate = () => {
       onSuccess: () => {
          successMessage('Tạo mới danh mục thành công.');
          form.reset();
-         navigate('/materials-catalogs');
+         return navigate(ROUTE_PATH.MATERIALS_CATALOGS);
       },
       onError: (err: AxiosError) => {
          const dataError = err.response?.data as HandleErrorApi;
@@ -50,7 +53,13 @@ const MaterialsCatalogCreate = () => {
 
    return (
       <BaseBreadcrumbs arialabel="Thêm mới" breadcrumbs={breadcrumbs}>
-         <BaseFormMaterialCatalog onSubmitForm={onSubmitForm} form={form} isLoading={isLoading} />
+         <LoadingButton type="submit" variant="contained" loading={isLoading} onClick={form.handleSubmit(onSubmitForm)}>
+            Lưu
+         </LoadingButton>
+
+         <PageContent>
+            <BaseFormMaterialCatalog form={form} />
+         </PageContent>
       </BaseBreadcrumbs>
    );
 };

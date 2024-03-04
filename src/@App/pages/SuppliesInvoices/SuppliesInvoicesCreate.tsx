@@ -6,6 +6,7 @@ import { useMutation } from '@tanstack/react-query';
 import suppliesInvoiceService from '@App/services/supplies-invoice';
 import { errorMessage, successMessage } from '@Core/Helper/message';
 import { useConfirm } from '@Core/Component/Comfirm/CoreComfirm';
+import { useNavigate } from 'react-router-dom';
 
 import { SuppliesInvoicesSchema, suppliesInvoicesSchema } from './utils/suppliesInvoices.schema';
 import BaseFormSuppliesInvoices from './component/BaseFormSuppliesInvoices';
@@ -18,6 +19,8 @@ const breadcrumbs = [
 ];
 
 const SuppliesInvoicesCreate = () => {
+   const navigate = useNavigate();
+
    const form = useForm<SuppliesInvoicesSchema>({
       resolver: yupResolver(suppliesInvoicesSchema),
       defaultValues: suppliesInvoicesSchema.getDefault(),
@@ -31,6 +34,7 @@ const SuppliesInvoicesCreate = () => {
       },
       onSuccess: () => {
          successMessage('Tạo mới thành công.');
+         return navigate(ROUTE_PATH.SUPPLIES_INVOICES);
       },
       onError: () => {
          return errorMessage('Đã có lỗi xảy ra');

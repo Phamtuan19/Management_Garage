@@ -52,7 +52,7 @@ const BaseFormRepairService = ({ form, onSubmitForm }: BaseFormRepairService) =>
                               const rootElement = editor.editing.view.document.getRoot();
                               if (rootElement !== null) {
                                  editor.editing.view.change((writer) => {
-                                    writer.setStyle('height', '200px', rootElement);
+                                    writer.setStyle('height', '500px', rootElement);
                                  });
                               }
                            }}

@@ -10,7 +10,7 @@ import { errorMessage, successMessage } from '@Core/Helper/message';
 import { AxiosError } from 'axios';
 import HttpStatusCode from '@Core/Configs/HttpStatusCode';
 import setErrorMessageHookForm from '@App/helpers/setErrorMessageHookForm';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import setValueHookForm from '@App/helpers/setValueHookForm';
 import { HandleErrorApi } from '@Core/Api/axios-config';
 import suppliesService, { Supplies } from '@App/services/supplies.service';
@@ -29,13 +29,14 @@ const breadcrumbs = [
 
 const SuppliesUpdate = () => {
    const { id: suppliesId } = useParams();
+   const navigate = useNavigate();
 
    const form = useForm<SuppliesSchema>({
       resolver: yupResolver(suppliesSchema),
       defaultValues: suppliesSchema.getDefault(),
    });
 
-   const { refetch: getMaterialsCatalog } = useQuery(
+   const { data: supplies, refetch: getMaterialsCatalog } = useQuery(
       ['getDistributorDetail', suppliesId],
       async () => {
          const res = await suppliesService.find(suppliesId!);
@@ -68,6 +69,7 @@ const SuppliesUpdate = () => {
       onSuccess: async () => {
          successMessage('Cập nhật thành công.');
          await getMaterialsCatalog();
+         return navigate(ROUTE_PATH.SUPPLIES);
       },
       onError: (err: AxiosError) => {
          const dataError = err.response?.data as HandleErrorApi;
@@ -84,7 +86,7 @@ const SuppliesUpdate = () => {
 
    return (
       <BaseBreadcrumbs
-         arialabel="Chi tiết"
+         arialabel={supplies?.name ?? ''}
          breadcrumbs={breadcrumbs}
          sx={({ base }) => ({ bgcolor: base.background.default, border: 'none', p: 0 })}
       >
