@@ -10,14 +10,14 @@ import {
    CoreTableActionEdit,
    CoreTableActionViewDetail,
 } from '@Core/Component/Table/components/CoreTableAction';
-import { Box, Button, Chip } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import PermissionAccessRoute from '@App/routes/components/PermissionAccessRoute';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import useCoreTable from '@App/hooks/useCoreTable';
 import carsService from '@App/services/cars.service';
-import { CAR_STATUS } from '@App/configs/status-config';
+// import { CAR_STATUS } from '@App/configs/status-config';
 import FilterTable from '@App/component/common/FilterTable';
 import PAGE_ACTION from '@App/configs/page-action';
 import PageContent from '@App/component/customs/PageContent';
@@ -83,13 +83,6 @@ const MaterialsCatalog = () => {
          }),
          columnHelper.accessor('car_type', {
             header: 'Loại xe',
-         }),
-         columnHelper.accessor('status', {
-            header: 'Trạng thái',
-            cell: ({ row }) => {
-               const car = row.original as IMaterialsCatalog;
-               return <Chip label={CAR_STATUS[car.status].title} color={CAR_STATUS[car.status].color} />;
-            },
          }),
          columnHelper.accessor('_id', {
             header: 'Thao tác',
