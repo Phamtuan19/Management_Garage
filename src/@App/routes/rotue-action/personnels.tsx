@@ -9,7 +9,7 @@ import Loadable from '../components/loadable';
 
 const PersonnelCreate = Loadable('Personnels/PersonnelCreate');
 const Personnel = Loadable('Personnels');
-
+const PersonelUpdate = Loadable('Personnels/PersonelUpdate');
 const personnelRoute: RouteObject = {
    path: ROUTE_PATH.PERSONNELS,
    element: <Outlet />,
@@ -27,6 +27,14 @@ const personnelRoute: RouteObject = {
          element: (
             <PermissionAccessRoute module={MODULE_PAGE.PERSONNELS} action={PAGE_ACTION.CREATE} type="route">
                <PersonnelCreate />
+            </PermissionAccessRoute>
+         ),
+      },
+      {
+         path: ROUTE_PATH.PERSONNELS + ROUTE_PATH.UPDATE,
+         element: (
+            <PermissionAccessRoute module={MODULE_PAGE.PERSONNELS} action={PAGE_ACTION.UPDATE} type="route">
+               <PersonelUpdate />
             </PermissionAccessRoute>
          ),
       },

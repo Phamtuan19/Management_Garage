@@ -122,7 +122,7 @@ const Profile = () => {
             <Grid>
                <Button
                   variant="contained"
-                  onClick={() => navigate(ROUTE_PATH.USER_PROFILE + '/' + userId + '/update')}
+                  onClick={() => navigate(ROUTE_PATH.PERSONNELS + '/' + userId + '/update')}
                   color="primary"
                   sx={{
                      display: 'flex',

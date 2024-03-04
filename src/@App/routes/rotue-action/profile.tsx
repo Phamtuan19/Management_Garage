@@ -4,6 +4,7 @@ import { Outlet, RouteObject } from 'react-router-dom';
 import Loadable from '../components/loadable';
 
 const Profile = Loadable('Profile');
+// const PersonelUpdate = Loadable('PersonelUpdate');
 
 const profileRoute: RouteObject = {
    path: ROUTE_PATH.USER_PROFILE,
@@ -13,6 +14,10 @@ const profileRoute: RouteObject = {
          index: true,
          element: <Profile />,
       },
+      // {
+      //    path: ROUTE_PATH.USER_PROFILE + ROUTE_PATH.UPDATE,
+      //    element: <PersonelUpdate />,
+      // },
    ],
 };
 
