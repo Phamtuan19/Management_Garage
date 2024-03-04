@@ -20,16 +20,22 @@ const RepairOrderDetails = ({ supplies }: { supplies: RepairOrderSupplies[] }) =
          },
       }),
       columnHelper.accessor('supplies_detail_name', {
-         header: () => <Box sx={{ textAlign: 'center' }}>Tên VT</Box>,
+         header: () => <Box>Tên VT</Box>,
          cell: ({ row }) => {
             const supplies = row.original as RepairOrderSupplies;
-            return <Box sx={{ textAlign: 'center' }}>{supplies.supplies_detail.name_detail}</Box>;
+            return (
+               <Box sx={{ textOverflow: 'ellipsis', overflow: 'hidden', maxWidth: '250px' }}>
+                  {supplies.supplies_detail.name_detail}
+               </Box>
+            );
          },
       }),
       columnHelper.accessor('distributor_name', {
          header: () => <Box>Nhà phân phối</Box>,
          cell: (info) => {
-            return <Box>{info.getValue()}</Box>;
+            return (
+               <Box sx={{ textOverflow: 'ellipsis', overflow: 'hidden', maxWidth: '250px' }}>{info.getValue()}</Box>
+            );
          },
       }),
       columnHelper.accessor('supplies_invoices_code', {

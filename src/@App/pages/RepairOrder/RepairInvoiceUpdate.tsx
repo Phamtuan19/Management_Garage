@@ -35,7 +35,7 @@ const RepairInvoiceUpdate = () => {
 
    const { id: repairOrderId } = useParams();
 
-   const { data: repairOrder } = useQuery(
+   const { data: repairOrder, refetch } = useQuery(
       ['getRepairDetail', repairOrderId],
       async () => {
          const res = await repairorderService.find(repairOrderId as string);
@@ -92,6 +92,13 @@ const RepairInvoiceUpdate = () => {
                      discount: 0,
                   };
                }),
+
+               transaction: {
+                  cash_money: data.transaction.cash_money,
+                  payment_type: data.transaction.payment_type,
+                  total_price: data.transaction.total_price,
+                  transfer_money: data.transaction.transfer_money,
+               },
             });
 
             return data;
@@ -136,13 +143,14 @@ const RepairInvoiceUpdate = () => {
             describe: '',
             // status: repairOrder?.status,
             details: [...supplies, ...service],
+            transaction: data.transaction,
          };
 
          return await repairorderService.update(newData, repairOrderId);
       },
       onSuccess: () => {
-         successMessage('Thêm mới nhân viên thành công');
-         // navigate('/fix/repair-services');
+         successMessage('Cập nhật thành công');
+         return refetch();
       },
       onError: (err: AxiosError) => {
          const dataError = err.response?.data as HandleErrorApi;

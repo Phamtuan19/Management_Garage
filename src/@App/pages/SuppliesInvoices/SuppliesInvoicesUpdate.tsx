@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import ROUTE_PATH from '@App/configs/router-path';
@@ -21,6 +21,7 @@ const breadcrumbs = [
 
 const SuppliesInvoicesUpdate = () => {
    const { id: suppliesInvoiceId } = useParams();
+   const navigate = useNavigate();
 
    const coreConfirm = useConfirm();
 
@@ -77,6 +78,7 @@ const SuppliesInvoicesUpdate = () => {
       onSuccess: async () => {
          await getSuppliesInvoice();
          successMessage('Chỉnh sửa thành công.');
+         return navigate(ROUTE_PATH.SUPPLIES_INVOICES);
       },
       onError: () => {
          return errorMessage('Đã có lỗi xảy ra');

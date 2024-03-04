@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
+import { PAYMENT_TYPE } from '@App/configs/status-config';
 import messageValidate from '@App/helpers/messageValidate';
 import * as yup from 'yup';
 
@@ -62,6 +63,13 @@ export const repairInvoiceSchema = yup.object({
    suppliesInvoice: suppliesInvoice,
 
    suppliesService: suppliesService,
+
+   transaction: yup.object({
+      total_price: yup.number().min(0).default(0),
+      transfer_money: yup.number().min(0).default(0),
+      cash_money: yup.number().min(0).default(0),
+      payment_type: yup.string().default(PAYMENT_TYPE.EMPTY),
+   }),
 });
 
 export type RepairInvoiceSchema = yup.InferType<typeof repairInvoiceSchema>;

@@ -33,7 +33,7 @@ const CarsCreate = () => {
       onSuccess: () => {
          successMessage('Tạo mới thông tin xe thành công.');
          form.reset();
-         navigate('/cars');
+         navigate(ROUTE_PATH.CARS);
       },
       onError: (err: AxiosError) => {
          const dataError = err.response?.data as HandleErrorApi;

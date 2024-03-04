@@ -17,6 +17,7 @@ import { arrowRightOption } from './utils';
 import { RepairInvoiceSchema, repairInvoiceSchema } from './utils/repair-invoice';
 import BaseFormRepairInvoice from './component/BaseFormRepairInvoice';
 import ROUTE_PATH from '@App/configs/router-path';
+import { useNavigate } from 'react-router-dom';
 
 const breadcrumbs = [
    {
@@ -26,6 +27,8 @@ const breadcrumbs = [
 ];
 
 const RepairInvoiceCreate = () => {
+   const navigate = useNavigate();
+
    const form = useForm<RepairInvoiceSchema>({
       mode: 'onSubmit',
       reValidateMode: 'onSubmit',
@@ -71,13 +74,14 @@ const RepairInvoiceCreate = () => {
             kilometer: Number(data.car.kilometer),
             describe: '',
             details: [...supplies, ...service],
+            transaction: data.transaction,
          };
 
          return await repairorderService.create(newData);
       },
       onSuccess: () => {
-         successMessage('Thêm mới nhân viên thành công');
-         // navigate('/fix/repair-services');
+         successMessage('Thêm mới thành công');
+         return navigate(ROUTE_PATH.REPAIR_INVOICE);
       },
       onError: (err: AxiosError) => {
          const dataError = err.response?.data as HandleErrorApi;

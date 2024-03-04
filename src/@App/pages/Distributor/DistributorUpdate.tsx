@@ -1,19 +1,17 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/naming-convention */
 
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import ROUTE_PATH from '@App/configs/router-path';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import distributorService from '@App/services/distributor.service';
+import distributorService, { IDistributor } from '@App/services/distributor.service';
 import { errorMessage, successMessage } from '@Core/Helper/message';
 import { AxiosError } from 'axios';
 import { HandleErrorApi } from '@Core/Api/axios-config';
 import HttpStatusCode from '@Core/Configs/HttpStatusCode';
 import setErrorMessageHookForm from '@App/helpers/setErrorMessageHookForm';
 import { useNavigate, useParams } from 'react-router-dom';
-import setValueHookForm from '@App/helpers/setValueHookForm';
 import PageContent from '@App/component/customs/PageContent';
 
 import { DistributorSchema, distributorSchema } from './utils/distributor.schema';
@@ -33,33 +31,44 @@ const DistributorUpdate = () => {
       defaultValues: distributorSchema.getDefault(),
    });
 
-   const { refetch: getDistributor } = useQuery(
+   const { isLoading, refetch: getDistributor } = useQuery(
       ['getDistributor', distributorId],
       async () => {
          const res = await distributorService.find(distributorId!);
-         return res.data;
+         return res.data as IDistributor;
       },
       {
          onSuccess: (data) => {
-            setValueHookForm(form.setValue, data);
-            setValueHookForm(form.setValue, data.bank_account_id);
-            setValueHookForm(form.setValue, data.address.district);
-            // province
-            form.setValue('address.province.code', data.address.province.code);
-            form.setValue('address.province.name', data.address.province.name);
-            // district
-            form.setValue('address.district.name', data.address.district.name);
-            form.setValue('address.district.code', data.address.district.code);
-            // ward
-            form.setValue('address.wards.code', data.address.wards.code);
-            form.setValue('address.wards.name', data.address.wards.name);
-
-            // form.setValue('bank_account_number', .bank_account_number as string);
+            form.reset({
+               name: data.name,
+               email: data.email,
+               phone: data.phone,
+               bank_name: data.bank_account_id.bank_name ?? '',
+               bank_branch: data.bank_account_id.bank_branch ?? '',
+               bank_account_number: data.bank_account_id.bank_account_number ?? '',
+               account_holder_name: data.bank_account_id.account_holder_name ?? '',
+               address: {
+                  district: {
+                     code: data.address.district.code,
+                     name: data.address.district.name,
+                  },
+                  province: {
+                     code: data.address.province.code,
+                     name: data.address.province.name,
+                  },
+                  wards: {
+                     code: data.address.wards.code,
+                     name: data.address.wards.name,
+                  },
+                  specific: data.address.specific,
+               },
+            });
+            return data;
          },
       },
    );
 
-   const { mutate: handleUpdateDistributor, isLoading } = useMutation({
+   const { mutate: handleUpdateDistributor } = useMutation({
       mutationFn: async (data: DistributorSchema) => {
          return await distributorService.update(data, distributorId);
       },

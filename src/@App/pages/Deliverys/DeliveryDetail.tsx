@@ -31,7 +31,7 @@ import { DeliveryUpdateExportQuantity, deliveryUpdateExportQuantity } from './ut
 
 const breadcrumbs = [
    {
-      title: 'Chỉnh sửa',
+      title: 'Phiếu xuất kho',
       link: ROUTE_PATH.DELIVERY_NOTES,
    },
 ];
@@ -128,7 +128,7 @@ const DeliveryUpdate = () => {
          header: () => <Box sx={{ textAlign: 'center' }}>Mã lô</Box>,
          cell: ({ row }) => {
             const supplies = row.original as RepairOrderSupplies;
-            return <Box sx={{ textAlign: 'center' }}>#{supplies.supplies_detail.code}</Box>;
+            return <Box sx={{ textAlign: 'center' }}>#{supplies.supplies_invoices_code}</Box>;
          },
       }),
       columnHelper.accessor('supplies_detail_quantity_received', {
@@ -231,7 +231,7 @@ const DeliveryUpdate = () => {
    };
 
    return (
-      <BaseBreadcrumbs arialabel="Phiếu xuất kho" breadcrumbs={breadcrumbs}>
+      <BaseBreadcrumbs arialabel={'#' + delivery?.code} breadcrumbs={breadcrumbs}>
          <LoadingButton type="submit" variant="contained" loading={false}>
             Xuất tất cả
          </LoadingButton>

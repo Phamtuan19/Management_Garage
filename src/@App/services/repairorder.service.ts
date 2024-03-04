@@ -117,6 +117,15 @@ export interface FindRepairOrder {
       phone: string;
       email: string;
    };
+   transaction: {
+      _id: string;
+      total_price: number;
+      transfer_money: number;
+      cash_money: number;
+      payment_type: string;
+      status: string;
+      transactions_type: string;
+   };
    car: {
       _id: string;
       code: string;

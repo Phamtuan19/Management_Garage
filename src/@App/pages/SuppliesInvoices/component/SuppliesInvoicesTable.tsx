@@ -148,7 +148,7 @@ const SuppliesInvoicesTable = ({ form }: { form: UseFormReturn<SuppliesInvoicesS
                            <Typography>{watch(`details.${index}.unit`)}</Typography>
                         </TableCell>
                         {/* Số lượng */}
-                        <TableCell align="right" sx={{ width: '130px' }}>
+                        <TableCell align="right" sx={{ width: '150px' }}>
                            <Box display="flex" justifyContent="space-between" gap="6px">
                               <ButtonAddQuantity onClick={() => handleIncrease(index)}>
                                  <AddIcon sx={{ fontSize: '16px' }} />
@@ -182,7 +182,7 @@ const SuppliesInvoicesTable = ({ form }: { form: UseFormReturn<SuppliesInvoicesS
                            </Box>
                         </TableCell>
                         {/* Giá bán */}
-                        <TableCell align="right" sx={{ width: '130px' }}>
+                        <TableCell align="right" sx={{ width: '200px' }}>
                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
                               <ExtendInputBase
                                  fullWidth

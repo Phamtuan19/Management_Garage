@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Box, Button, Tab } from '@mui/material';
 import PageContent from '@App/component/customs/PageContent';
@@ -47,6 +48,13 @@ const RepairOrderDetails = () => {
       const repairorderRes = await repairorderService.find(repairorderId as string);
       return repairorderRes.data as FindRepairOrder;
    });
+   const { data: deliveryCheck, refetch: refetchDeliveryCheck } = useQuery(
+      ['getDeliveryCheck', repairorderId],
+      async () => {
+         const res = await deliveryNotesService.getCheckEmpty(repairorderId as string);
+         return res.data as { isCheck: boolean };
+      },
+   );
 
    const { mutate: createDeliveryNote } = useMutation({
       mutationFn: async () => {
@@ -60,6 +68,7 @@ const RepairOrderDetails = () => {
       },
       onSuccess: () => {
          successMessage('Cập nhật thành công.');
+         refetchDeliveryCheck();
          return refetch();
       },
       onError: (err: AxiosError) => {
@@ -73,6 +82,7 @@ const RepairOrderDetails = () => {
       },
       onSuccess: () => {
          successMessage('Cập nhật thành công.');
+         refetchDeliveryCheck();
          return refetch();
       },
       onError: (err: AxiosError) => {
@@ -135,9 +145,22 @@ const RepairOrderDetails = () => {
          icon: <ErrorOutlineIcon sx={{ fontSize: '56px' }} color="warning" />,
          title: 'Cảnh báo',
          confirmOk: 'Xác nhận',
-         content: 'Xác nhận tạo lệnh lấy vật tư.',
+         content: 'Xác nhận yêu cầu lấy vật tư.',
          callbackOK: () => {
             createDeliveryNote();
+         },
+         isIcon: true,
+      });
+   };
+
+   const handleRefetchRepairOrder = () => {
+      coreConfirm({
+         icon: <ErrorOutlineIcon sx={{ fontSize: '56px' }} color="warning" />,
+         title: 'Cảnh báo',
+         confirmOk: 'Xác nhận',
+         content: 'Xác nhận yêu đặt lại phiếu sửa chữa.',
+         callbackOK: () => {
+            updateRepairOrderStatus(arrowRightOption[1].name);
          },
          isIcon: true,
       });
@@ -169,27 +192,24 @@ const RepairOrderDetails = () => {
                         </Button>
                      </PermissionAccessRoute>
                   )}
-                  {repairorder?.status !== STATUS_REPAIR.create.key &&
-                     repairorder?.status !== STATUS_REPAIR.pay.key &&
+               </Box>
+               <Box display="flex" gap={1}>
+                  {repairorder?.status !== STATUS_REPAIR.pay.key &&
                      repairorder?.status !== STATUS_REPAIR.complete.key &&
-                     repairorder?.status !== STATUS_REPAIR.close.key && (
+                     repairorder?.status !== STATUS_REPAIR.close.key &&
+                     deliveryCheck?.isCheck && (
                         <PermissionAccessRoute module={MODULE_PAGE.REPAIR_ORDERS} action="UPDATE">
                            <Button size="medium" color="inherit" onClick={handleCreateDelivery}>
                               Lấy vật tư
                            </Button>
                         </PermissionAccessRoute>
                      )}
-               </Box>
-               <Box display="flex" gap={1}>
-                  {repairorder?.status !== STATUS_REPAIR.shipped.key &&
-                     repairorder?.status !== STATUS_REPAIR.close.key && (
+
+                  {repairorder?.status !== STATUS_REPAIR.close.key &&
+                     repairorder?.status !== STATUS_REPAIR.check.key && (
                         <PermissionAccessRoute module={MODULE_PAGE.REPAIR_ORDERS} action="UPDATE_STATUS_REPAIR_ORDER">
                            <Button size="medium" color="secondary" onClick={handleClickChangeStatus}>
-                              {
-                                 arrowRightOption[
-                                    arrowRightOption.findIndex((item) => item.name === repairorder?.status) + 1
-                                 ]?.title
-                              }
+                              Chuyển trạng thái
                            </Button>
                         </PermissionAccessRoute>
                      )}
@@ -202,11 +222,18 @@ const RepairOrderDetails = () => {
                   )}
 
                   {repairorder?.status === STATUS_REPAIR.close.key && (
-                     <PermissionAccessRoute module={MODULE_PAGE.REPAIR_ORDERS} action="DELETE">
-                        <Button component={Link} to="create" size="medium" color="error">
-                           Xóa Phiếu
-                        </Button>
-                     </PermissionAccessRoute>
+                     <>
+                        <PermissionAccessRoute module={MODULE_PAGE.REPAIR_ORDERS} action="UPDATE_STATUS_REPAIR_ORDER">
+                           <Button size="medium" color="secondary" onClick={handleRefetchRepairOrder}>
+                              Đặt lại
+                           </Button>
+                        </PermissionAccessRoute>
+                        <PermissionAccessRoute module={MODULE_PAGE.REPAIR_ORDERS} action="DELETE">
+                           <Button component={Link} to="create" size="medium" color="error">
+                              Xóa Phiếu
+                           </Button>
+                        </PermissionAccessRoute>
+                     </>
                   )}
                </Box>
             </Box>

@@ -10,7 +10,7 @@ import {
    CoreTableActionEdit,
    CoreTableActionViewDetail,
 } from '@Core/Component/Table/components/CoreTableAction';
-import { Box, Button, Chip, Typography } from '@mui/material';
+import { Box, Button, Chip } from '@mui/material';
 import PermissionAccessRoute from '@App/routes/components/PermissionAccessRoute';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
@@ -73,18 +73,24 @@ const Supplies = () => {
          }),
          columnHelper.accessor('name_detail', {
             header: 'Tên vật tư',
+            cell: (info) => (
+               <Box sx={{ textOverflow: 'ellipsis', overflow: 'hidden', maxWidth: '250px' }}>{info.getValue()}</Box>
+            ),
          }),
          columnHelper.accessor('name_distributor', {
             header: 'Nhà cung cấp',
+            cell: (info) => (
+               <Box sx={{ textOverflow: 'ellipsis', overflow: 'hidden', maxWidth: '250px' }}>{info.getValue()}</Box>
+            ),
          }),
          columnHelper.accessor('unit', {
-            header: 'DVT',
-         }),
-         columnHelper.accessor('discount', {
-            header: () => <Box textAlign="center">Giảm giá</Box>,
-            cell: ({ row }) => {
-               const supplies = row.original as ReadSupplies;
-               return <Typography textAlign="center">{supplies.discount}%</Typography>;
+            header: () => <Box textAlign="center">Dvt</Box>,
+            cell: (info) => {
+               return (
+                  <Box display="flex" justifyContent="center">
+                     <Chip label={info.getValue()} color="default" sx={{ width: '80px' }} />
+                  </Box>
+               );
             },
          }),
          columnHelper.accessor('isInStock', {
@@ -152,7 +158,7 @@ const Supplies = () => {
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                <FilterTable sortList={sortList} searchType={sortList} />
             </Box>
-            <TableCore columns={columns} {...data} />
+            <TableCore height={380} columns={columns} {...data} />
          </PageContent>
       </BaseBreadcrumbs>
    );
