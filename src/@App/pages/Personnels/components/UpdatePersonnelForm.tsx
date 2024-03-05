@@ -13,7 +13,6 @@ interface UpdatePersonnelForm {
 
 const UpdatePersonnelForm = ({ form }: UpdatePersonnelForm) => {
    const { control } = form;
-
    const { data: roles } = useQuery(['getAllRole'], async () => {
       const res = await roleService.fieldAll();
       return res.data;
