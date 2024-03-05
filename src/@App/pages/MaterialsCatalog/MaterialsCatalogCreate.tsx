@@ -14,7 +14,6 @@ import { useNavigate } from 'react-router-dom';
 import setErrorMessageHookForm from '@App/helpers/setErrorMessageHookForm';
 import { MaterialsCatalogSchema, materialsCatalogSchema } from './utils/materialsCatalogSchema';
 import BaseFormMaterialCatalog from './components/BaseFormMaterialCatalog';
-import PageContent from '@App/component/customs/PageContent';
 import { LoadingButton } from '@mui/lab';
 const breadcrumbs = [
    {
@@ -57,9 +56,7 @@ const MaterialsCatalogCreate = () => {
             Lưu
          </LoadingButton>
 
-         <PageContent>
             <BaseFormMaterialCatalog form={form} />
-         </PageContent>
       </BaseBreadcrumbs>
    );
 };
