@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/naming-convention */
+import FilterTable from '@App/component/common/FilterTable';
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import PageContent from '@App/component/customs/PageContent';
 import MODULE_PAGE from '@App/configs/module-page';
@@ -18,6 +19,12 @@ import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
+const sortList = [
+   {
+      title: 'Mã',
+      value: 'code',
+   },
+];
 
 const MaterialsCatalog = () => {
    const navigate = useNavigate();
@@ -83,7 +90,9 @@ const MaterialsCatalog = () => {
             </PermissionAccessRoute>
          </Box>
          <PageContent>
-            
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+               <FilterTable sortList={sortList} searchType={sortList} />
+            </Box>
             <TableCore columns={columns} {...data} />
          </PageContent>
       </BaseBreadcrumbs>
