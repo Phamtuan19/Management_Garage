@@ -1,4 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable import/order */
 /* eslint-disable @typescript-eslint/no-misused-promises */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 import ROUTE_PATH from '@App/configs/router-path';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -13,11 +17,11 @@ import { HandleErrorApi } from '@Core/Api/axios-config';
 import { useNavigate } from 'react-router-dom';
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import personnelService from '@App/services/personnel.service';
-import { LoadingButton } from '@mui/lab';
-import PageContent from '@App/component/customs/PageContent';
 
 import { ValidationFormCreate, validationFormCreate } from './utils/personnel.schema';
 import UpdatePersonnelForm from './components/UpdatePersonnelForm';
+import { LoadingButton } from '@mui/lab';
+import PageContent from '@App/component/customs/PageContent';
 
 const breadcrumbs = [
    {
@@ -33,15 +37,17 @@ const PersonelUpdate = () => {
       defaultValues: validationFormCreate.getDefault(),
    });
 
-   const { refetch: getPersonnels } = useQuery(
+   const { data: personnel, refetch: getPersonnels } = useQuery(
       ['getPersonnels', personnelId],
       async () => {
          const res = await personnelService.find(personnelId!);
-         return res.data;
+         return res.data[0];
       },
       {
          onSuccess: (data) => {
             setValueHookForm(form.setValue, data as never);
+            form.setValue('role_id', data.role_id._id as string);
+            return data;
          },
       },
    );
@@ -68,7 +74,7 @@ const PersonelUpdate = () => {
    const onSubmitForm: SubmitHandler<ValidationFormCreate> = (data) => Personnel(data);
 
    return (
-      <BaseBreadcrumbs arialabel="Cập nhật thông tin" breadcrumbs={breadcrumbs}>
+      <BaseBreadcrumbs arialabel={`${personnel?.account_name}`} breadcrumbs={breadcrumbs}>
          <LoadingButton type="submit" variant="contained" loading={isLoading} onClick={form.handleSubmit(onSubmitForm)}>
             Lưu
          </LoadingButton>
@@ -80,3 +86,9 @@ const PersonelUpdate = () => {
 };
 
 export default PersonelUpdate;
+
+// const PersonelUpdate = () => {
+//    return <div>PersonelUpdate</div>;
+// };
+
+// export default PersonelUpdate;
