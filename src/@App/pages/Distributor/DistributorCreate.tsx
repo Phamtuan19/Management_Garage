@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable import/order */
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -13,6 +14,9 @@ import { useNavigate } from 'react-router-dom';
 import { DistributorSchema, distributorSchema } from './utils/distributor.schema';
 import BaseFormDistributor from './components/BaseFormDistributor';
 import ROUTE_PATH from '@App/configs/router-path';
+import PageContent from '@App/component/customs/PageContent';
+import { Box } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 
 const breadcrumbs = [
    {
@@ -53,20 +57,20 @@ const DistributorCreate = () => {
    const onSubmitForm: SubmitHandler<DistributorSchema> = (data) => handleCreateDistributor(data);
 
    return (
-      <BaseBreadcrumbs
-         arialabel="Thêm mới"
-         breadcrumbs={breadcrumbs}
-         sx={({ base }) => ({
-            marginTop: '12px',
-            padding: '12px',
-            borderRadius: '5px',
-            backgroundColor: base.background.white as string,
-            bgcolor: base.background.default,
-            border: 'none',
-            p: 0,
-         })}
-      >
-         <BaseFormDistributor form={form} onSubmitForm={onSubmitForm} isLoading={isLoading} />
+      <BaseBreadcrumbs arialabel="Thêm mới" breadcrumbs={breadcrumbs}>
+         <Box>
+            <LoadingButton
+               type="submit"
+               variant="contained"
+               loading={isLoading}
+               onClick={form.handleSubmit(onSubmitForm)}
+            >
+               Lưu
+            </LoadingButton>
+         </Box>
+         <PageContent>
+            <BaseFormDistributor form={form} />
+         </PageContent>
       </BaseBreadcrumbs>
    );
 };
