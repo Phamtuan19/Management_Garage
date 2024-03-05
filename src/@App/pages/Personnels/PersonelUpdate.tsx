@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import ROUTE_PATH from '@App/configs/router-path';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -12,9 +13,11 @@ import { HandleErrorApi } from '@Core/Api/axios-config';
 import { useNavigate } from 'react-router-dom';
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import personnelService from '@App/services/personnel.service';
+import { LoadingButton } from '@mui/lab';
+import PageContent from '@App/component/customs/PageContent';
 
 import { ValidationFormCreate, validationFormCreate } from './utils/personnel.schema';
-import BaseFormPersonnel from './components/BaseFormPersonnel';
+import UpdatePersonnelForm from './components/UpdatePersonnelForm';
 
 const breadcrumbs = [
    {
@@ -66,15 +69,14 @@ const PersonelUpdate = () => {
 
    return (
       <BaseBreadcrumbs arialabel="Cập nhật thông tin" breadcrumbs={breadcrumbs}>
-         <BaseFormPersonnel onSubmitForm={onSubmitForm} form={form} isLoading={isLoading} isUpdate />
+         <LoadingButton type="submit" variant="contained" loading={isLoading} onClick={form.handleSubmit(onSubmitForm)}>
+            Lưu
+         </LoadingButton>
+         <PageContent>
+            <UpdatePersonnelForm form={form} />
+         </PageContent>
       </BaseBreadcrumbs>
    );
 };
 
 export default PersonelUpdate;
-
-// const PersonelUpdate = () => {
-//    return <div>PersonelUpdate</div>;
-// };
-
-// export default PersonelUpdate;
