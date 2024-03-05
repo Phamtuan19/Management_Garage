@@ -36,7 +36,7 @@ const SearchSupplies = ({ form }: SearchSupplies) => {
    const valueDebounce = useDebounce(valueSearch, 500);
 
    const { data: distributors } = useQuery(['getAllFieldDistributors'], async () => {
-      const res = await distributorService.getAllField();
+      const res = await distributorService.getAllField({});
       return res.data;
    });
 

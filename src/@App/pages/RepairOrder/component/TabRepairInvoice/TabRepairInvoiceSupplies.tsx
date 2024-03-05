@@ -116,7 +116,7 @@ const TabRepairInvoiceSupplies = ({ form, fieldArray, repairOrder }: TabRepairIn
       columnHelper.accessor('distributor_name', {
          header: () => <Box>Nhà phân phối</Box>,
          cell: (info) => {
-            return <Box sx={{ width: '180px' }}>{info.getValue()}</Box>;
+            return <Box sx={{ width: '200px', overflow: 'hidden', textOverflow: 'ellipsis' }}>{info.getValue()}</Box>;
          },
       }),
       columnHelper.accessor('supplies_invoices_code', {

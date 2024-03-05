@@ -2,6 +2,8 @@
 import BaseService from '@Core/Api/BaseService';
 import { AxiosResponseData } from '@Core/Api/axios-config';
 
+import { IMaterialsCatalog } from './materialsCatalog.service';
+
 const distributorPath = {
    BASE: 'distributors',
    allField: '/all-field',
@@ -18,6 +20,7 @@ export interface IDistributor {
    name: string;
    phone: string;
    email: string;
+   materials_catalog_id: Array<string>;
    address: {
       province: IAddressOption;
       district: IAddressOption;
@@ -32,6 +35,7 @@ export interface IDistributor {
    };
    createdAt: string;
    updatedAt: string;
+   materials_catalogs: Array<IMaterialsCatalog>;
 }
 
 interface ResponseDataGetAllField extends AxiosResponseData {
@@ -58,8 +62,8 @@ class DistributorService extends BaseService {
       this.setRequest();
    }
 
-   getAllField(): Promise<ResponseDataGetAllField> {
-      return this.request.get(this.BASE_ENDPOINT + distributorPath.allField);
+   getAllField(params: { materials_catalog_id?: string }): Promise<ResponseDataGetAllField> {
+      return this.request.get(this.BASE_ENDPOINT + distributorPath.allField, { params });
    }
 
    getDistrictsRepairInvoice(params: { supplies_id: string }): Promise<ResponseDataSuppliesInvoice> {
