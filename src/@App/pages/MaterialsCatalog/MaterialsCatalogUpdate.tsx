@@ -18,6 +18,8 @@ import { MaterialsCatalogSchema, materialsCatalogSchema } from './utils/material
 import BaseFormMaterialCatalog from './components/BaseFormMaterialCatalog';
 import { LoadingButton } from '@mui/lab';
 import PageContent from '@App/component/customs/PageContent';
+
+
 const breadcrumbs = [
    {
       title: 'Danh mục vật tư',
@@ -66,7 +68,7 @@ const MaterialsCatalogUpdate = () => {
          return errorMessage(err);
       },
    });
-
+   
    const onSubmitForm: SubmitHandler<MaterialsCatalogSchema> = (data) => MaterialsCatalog(data);
 
    return (
