@@ -1,11 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import ROUTE_PATH from '@App/configs/router-path';
 import { useQuery } from '@tanstack/react-query';
+import MODULE_PAGE from '@App/configs/module-page';
 import theme from '@Core/Theme';
+import PermissionAccessRoute from '@App/routes/components/PermissionAccessRoute';
+import RateReviewRoundedIcon from '@mui/icons-material/RateReviewRounded';
 import materialsCatalogService from '@App/services/materialsCatalog.service';
-import { Box, Typography, Stack, Grid } from '@mui/material';
+import { Box, Typography, Stack, Button, Grid } from '@mui/material';
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import PageContent from '@App/component/customs/PageContent';
 import Divider from '@mui/material/Divider';
@@ -19,7 +22,7 @@ const breadcrumbs = [
 ];
 const MaterialsCatalogDetails = () => {
    const { id: materialId } = useParams();
-   // const navigate = useNavigate();
+   const navigate = useNavigate();
 
    const { data: material } = useQuery(['getMaterialsCatalogDetails'], async () => {
       const res = await materialsCatalogService.find(materialId as string);
@@ -39,6 +42,17 @@ const MaterialsCatalogDetails = () => {
          arialabel="Chi tiết danh mục vật tư"
          sx={({ base }) => ({ bgcolor: base.background.default, border: 'none', p: 0 })}
       >
+         <Box>
+            <PermissionAccessRoute module={MODULE_PAGE.MATERIALS_CATALOGS} action="VIEW_ALL">
+               <Button
+                  variant="contained"
+                  onClick={() => navigate(ROUTE_PATH.MATERIALS_CATALOGS + '/' + materialId + '/update')}
+                  endIcon={<RateReviewRoundedIcon />}
+               >
+                  Chỉnh sửa
+               </Button>
+            </PermissionAccessRoute>
+         </Box>
          <PageContent>
             {material && (
                <Stack>
