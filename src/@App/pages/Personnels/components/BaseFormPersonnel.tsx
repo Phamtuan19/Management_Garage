@@ -11,6 +11,7 @@ import { ValidationFormCreate } from '../utils/personnel.schema';
 interface BaseFormPersonnelPropType {
    form: UseFormReturn<ValidationFormCreate>;
 }
+
 const BaseFormPersonnel = ({ form }: BaseFormPersonnelPropType) => {
    const { control } = form;
    const { data: roles } = useQuery(['getAllRole'], async () => {
