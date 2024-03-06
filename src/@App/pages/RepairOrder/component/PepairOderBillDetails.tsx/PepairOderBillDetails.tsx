@@ -15,9 +15,7 @@ const RepairOrderDetails = ({ repairorder }: { repairorder: FindRepairOrder | un
             { label: 'Khách hàng', value: repairorder?.customer.name, border: true },
             { label: 'Sđt', value: repairorder?.customer.phone, border: true },
             { label: 'Email', value: repairorder?.customer.email, border: true },
-
             { label: 'Kilometer', value: repairorder?.kilometer, border: true },
-
             { label: 'Mã xe', value: repairorder?.car?.code, border: true },
             { label: 'Thương hiệu xe', value: repairorder?.car?.brand_car, border: true },
             { label: 'Biển số xe', value: repairorder?.car?.license_plate, border: true },
@@ -39,7 +37,6 @@ const RepairOrderDetails = ({ repairorder }: { repairorder: FindRepairOrder | un
          []
       );
    }, [repairorder]);
-
    return (
       <ScrollbarBase>
          <Grid container spacing={1} columnSpacing={4}>
