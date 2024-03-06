@@ -10,6 +10,12 @@ import AddIcon from '@mui/icons-material/Add';
 import Regexs from '@Core/Configs/Regexs';
 import formatPrice from '@Core/Helper/formatPrice';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { useMutation } from '@tanstack/react-query';
+import suppliesInvoiceDetailService from '@App/services/supplies-invoice-detail';
+import { errorMessage, successMessage } from '@Core/Helper/message';
+import { AxiosError } from 'axios';
+import { useConfirm } from '@Core/Component/Comfirm/CoreComfirm';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 
 import { SuppliesInvoicesSchema } from '../utils/suppliesInvoices.schema';
 
@@ -17,6 +23,20 @@ import SearchSupplies from './SearchSupplies';
 
 const SuppliesInvoicesTable = ({ form }: { form: UseFormReturn<SuppliesInvoicesSchema> }) => {
    const { control, watch, setValue } = form;
+
+   const comfirm = useConfirm();
+
+   const { mutate: handleDeleteSuppliesItem } = useMutation({
+      mutationFn: async (id: string) => {
+         return await suppliesInvoiceDetailService.delete(id);
+      },
+      onSuccess: () => {
+         successMessage('Xóa thành công.');
+      },
+      onError: (error: AxiosError) => {
+         return errorMessage(error);
+      },
+   });
 
    const { fields, remove } = useFieldArray({
       control,
@@ -32,6 +52,23 @@ const SuppliesInvoicesTable = ({ form }: { form: UseFormReturn<SuppliesInvoicesS
          `details.${index}.quantity_received`,
          watch(`details.${index}.quantity_received`) <= 1 ? 1 : watch(`details.${index}.quantity_received`) - 1,
       );
+   };
+
+   const handleDeleteItem = (index: number, suppliesItem: Record<string, string | number>) => {
+      if (suppliesItem.supplies_invoice_detail_id !== '') {
+         comfirm({
+            icon: <ErrorOutlineIcon sx={{ fontSize: '56px' }} color="warning" />,
+            title: 'Cảnh báo',
+            content: 'Xác nhận xóa vật tư nhập?.',
+            confirmOk: 'Xác nhận',
+            callbackOK: () => {
+               handleDeleteSuppliesItem(suppliesItem.supplies_invoice_detail_id as string);
+            },
+            isIcon: true,
+         });
+      }
+
+      return remove(index);
    };
 
    const columns = useMemo(() => {
@@ -181,7 +218,11 @@ const SuppliesInvoicesTable = ({ form }: { form: UseFormReturn<SuppliesInvoicesS
                      gap: 0.5,
                   }}
                >
-                  <Button sx={{ minWidth: 'auto', px: '6px' }} color="error" onClick={() => remove(row.index)}>
+                  <Button
+                     sx={{ minWidth: 'auto', px: '6px' }}
+                     color="error"
+                     onClick={() => handleDeleteItem(row.index, row.original as Record<string, string | number>)}
+                  >
                      <DeleteIcon sx={{ fontSize: '16px' }} />
                   </Button>
                </Box>

@@ -87,6 +87,7 @@ const SearchSupplies = ({ form }: SearchSupplies) => {
       setValue('details', [
          ...details,
          {
+            supplies_invoice_detail_id: '',
             code: supplie.code,
             name_detail: supplie.name_detail,
             unit: supplie.unit,

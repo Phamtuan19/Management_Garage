@@ -14,7 +14,7 @@ import { SuppliesInvoicesSchema, suppliesInvoicesSchema } from './utils/supplies
 
 const breadcrumbs = [
    {
-      title: 'Nhập vật tư',
+      title: 'Hóa Đơn Nhập',
       link: ROUTE_PATH.SUPPLIES_INVOICES,
    },
 ];
@@ -54,6 +54,7 @@ const SuppliesInvoicesUpdate = () => {
 
             const details = data.details.map((item) => {
                return {
+                  supplies_invoice_detail_id: item._id,
                   describe: item.describe,
                   code: item.supplies_detail.code,
                   name_detail: item.supplies_detail.name,
@@ -113,7 +114,7 @@ const SuppliesInvoicesUpdate = () => {
       });
    };
    return (
-      <BaseBreadcrumbs arialabel="Chỉnh sửa" breadcrumbs={breadcrumbs}>
+      <BaseBreadcrumbs arialabel={'#' + suppliesInvoice?.code} breadcrumbs={breadcrumbs}>
          {/* <LoadingButton type="submit" variant="contained">
       Lưu
    </LoadingButton> */}
