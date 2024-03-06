@@ -81,7 +81,7 @@ const UpdatePersonnelForm = ({ form, isLoading, onSubmitForm }: UpdatePersonnelF
                         valuePath="id"
                         titlePath="title"
                         control={control as unknown as Control<FieldValues>}
-                        defaultValue="male"
+                        defaultValue="gender"
                      />
                   </FormControl>
                </Grid>
