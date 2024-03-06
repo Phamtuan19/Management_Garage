@@ -18,10 +18,10 @@ import {
    CoreTableActionEdit,
    CoreTableActionViewDetail,
 } from '@Core/Component/Table/components/CoreTableAction';
-import handlePrice from '@Core/Helper/handlePrice';
+import formatDateTime from '@Core/Helper/formatDateTime';
+import handlePrice from '@Core/Helper/formatPrice';
 import { Box, Button, Chip } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
-import { format } from 'date-fns';
 import { useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -40,9 +40,9 @@ const SuppliesInvoices = () => {
       return [
          columnHelper.accessor((_, index) => index + 1, {
             id: 'STT',
-            header: 'STT',
+            header: () => <Box textAlign="center">STT</Box>,
             cell: ({ getValue }) => {
-               return <Box>{getValue()}</Box>;
+               return <Box textAlign="center">{getValue()}</Box>;
             },
          }),
          columnHelper.accessor('code', {
@@ -96,14 +96,8 @@ const SuppliesInvoices = () => {
          }),
          columnHelper.accessor('createdAt', {
             header: () => <Box textAlign="center">Ngày tạo</Box>,
-            cell: ({ row }) => {
-               return <Box textAlign="center">{format(row.getValue('updatedAt'), 'yyyy-MM-dd')}</Box>;
-            },
-         }),
-         columnHelper.accessor('updatedAt', {
-            header: () => <Box textAlign="center">Cập nhật</Box>,
-            cell: ({ row }) => {
-               return <Box textAlign="center">{format(row.getValue('updatedAt'), 'yyyy-MM-dd')}</Box>;
+            cell: (info) => {
+               return <Box textAlign="center">{formatDateTime(info.getValue())}</Box>;
             },
          }),
          columnHelper.accessor('_id', {

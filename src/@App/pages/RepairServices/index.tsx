@@ -24,7 +24,7 @@ import { AxiosError } from 'axios';
 import repairServiceService from '@App/services/repairService.service';
 import PageContent from '@App/component/customs/PageContent';
 import FilterTable from '@App/component/common/FilterTable';
-import handlePrice from '@Core/Helper/handlePrice';
+import handlePrice from '@Core/Helper/formatPrice';
 import formatDateTime from '@Core/Helper/formatDateTime';
 
 const sortList = [
