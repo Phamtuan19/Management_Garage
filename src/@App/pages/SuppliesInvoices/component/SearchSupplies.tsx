@@ -43,14 +43,10 @@ const SearchSupplies = ({ form }: SearchSupplies) => {
    const { data: supplies } = useQuery(['getAllFieldSuppliesDetails', valueDebounce, distributor_id], async () => {
       const res = await suppliesService.getAllSupplies({
          q: valueDebounce ?? '',
-         distributor_id,
+         ...(distributor_id ? { distributor_id } : {}),
       });
       return res.data;
    });
-
-   const handleClickList = () => {
-      setOpen(true);
-   };
 
    const handleClickAdd = () => {
       setOpen(false);
@@ -88,7 +84,6 @@ const SearchSupplies = ({ form }: SearchSupplies) => {
          setOpen(false);
          return setValueSearch('');
       }
-
       setValue('details', [
          ...details,
          {
@@ -101,17 +96,13 @@ const SearchSupplies = ({ form }: SearchSupplies) => {
             selling_price: supplie.imported_price ?? 0,
             describe: '',
             discount: 0,
+            distributor_name: supplie.name_distributor,
          },
       ]);
 
       setOpen(false);
       return setValueSearch('');
    };
-
-   // const autoCompleteDistributor = React.useMemo(
-   //    () => (distributors ? distributors.filter((v) => v._id === watch('distributor')) : null),
-   //    [distributors],
-   // );
 
    return (
       <Grid container spacing={2} mt={0.5} ml={0.5}>
@@ -126,27 +117,6 @@ const SearchSupplies = ({ form }: SearchSupplies) => {
                // disabled={Boolean(suppliesInvoiceId)}
             />
          </Grid>
-         {/* <Grid item xs={4}> */}
-         {/* <Autocomplete
-               fullWidth
-               // value={autoCompleteDistributor as { _id: string; label: string } | null}
-               options={distributors ?? []}
-               renderInput={(params) => <TextField {...params} />}
-               // getOptionLabel={(option: { _id: string; label: string }) => option.label || ''}
-               onChange={(_, value) => {
-                  const selectedId = value ? (value as { _id: string; label: string })._id : '';
-                  return setValue('distributor_id', selectedId);
-               }}
-               // isOptionEqualToValue={(option, value) => {
-               //    // if (value instanceof Object) {
-               //    //    return option._id === value._id;
-               //    // }
-
-               //    // return option._id === value;
-               //    return false;
-               // }}
-            /> */}
-         {/* </Grid> */}
          <Grid item xs={8}>
             <Box
                sx={{
@@ -168,13 +138,12 @@ const SearchSupplies = ({ form }: SearchSupplies) => {
                   onClick={() => {
                      return setOpen(true);
                   }}
-                  disabled={Boolean(!distributor_id)}
                   size="small"
                   sx={{ p: '6px 12px', '.css-7dqvty-MuiInputBase-input': { p: 0 } }}
                   placeholder="Tìm kiếm vật tư"
                />
                <Box sx={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <ButtonBase onClick={handleClickList} sx={{ borderRadius: '6px' }}>
+                  <ButtonBase sx={{ borderRadius: '6px' }}>
                      <FormatListBulletedOutlinedIcon
                         sx={{ fontSize: '22px', color: distributor_id ? 'black' : '#00000061' }}
                      />

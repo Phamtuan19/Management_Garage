@@ -1,88 +1,19 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/naming-convention */
 
-import {
-   Box,
-   Button,
-   ButtonBase,
-   Grid,
-   InputBase,
-   Table,
-   TableBody,
-   TableCell,
-   TableContainer,
-   TableHead,
-   TableRow,
-   Typography,
-   styled,
-   tableCellClasses,
-} from '@mui/material';
+import { Box, Button, ButtonBase, Chip, Grid, InputBase, styled } from '@mui/material';
 import { UseFormReturn, useFieldArray } from 'react-hook-form';
-import DeleteOutlineRoundedIcon from '@mui/icons-material/DeleteOutlineRounded';
-import handlePrice from '@Core/Helper/formatPrice';
-import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
+import TableCore, { columnHelper } from '@Core/Component/Table';
+import { useMemo } from 'react';
+import AddIcon from '@mui/icons-material/Add';
 import Regexs from '@Core/Configs/Regexs';
+import formatPrice from '@Core/Helper/formatPrice';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 import { SuppliesInvoicesSchema } from '../utils/suppliesInvoices.schema';
 
 import SearchSupplies from './SearchSupplies';
-
-const headerConfig = [
-   {
-      width: '50px',
-      id: 1,
-      title: 'STT',
-      align: 'center',
-   },
-   {
-      id: 2,
-      title: 'Mã VT',
-      align: 'center',
-   },
-   {
-      id: 3,
-      title: 'Tên vật tư',
-      align: 'left',
-   },
-   {
-      id: 4,
-      title: 'ĐVT',
-      align: 'center',
-      width: '50px',
-   },
-   {
-      id: 5,
-      title: 'SL',
-      align: 'center',
-   },
-   {
-      id: 6,
-      title: 'Đơn giá',
-      align: 'center',
-   },
-   {
-      id: 9,
-      title: 'Giá bán',
-      align: 'center',
-   },
-   {
-      id: 10,
-      title: 'Giảm giá',
-      align: 'center',
-   },
-
-   {
-      id: 7,
-      title: 'Thành tiền',
-      align: 'center',
-   },
-   {
-      id: 8,
-      title: '',
-      align: 'center',
-      width: '70px',
-   },
-];
 
 const SuppliesInvoicesTable = ({ form }: { form: UseFormReturn<SuppliesInvoicesSchema> }) => {
    const { control, watch, setValue } = form;
@@ -103,145 +34,168 @@ const SuppliesInvoicesTable = ({ form }: { form: UseFormReturn<SuppliesInvoicesS
       );
    };
 
+   const columns = useMemo(() => {
+      return [
+         columnHelper.accessor((_, index) => index + 1, {
+            id: 'STT',
+            header: () => <Box sx={{ textAlign: 'center' }}>STT</Box>,
+            cell: (info) => <Box sx={{ textAlign: 'center' }}>{info.getValue()}</Box>,
+         }),
+         columnHelper.accessor('code', {
+            header: () => <Box sx={{ textAlign: 'center' }}>Mã</Box>,
+            cell: (info) => <Box sx={{ textAlign: 'center' }}>#{info.getValue()}</Box>,
+         }),
+         columnHelper.accessor('name_detail', {
+            header: () => <Box>Tên vật tư</Box>,
+            cell: (info) => (
+               <Box sx={{ maxWidth: '250px', textOverflow: 'ellipsis', overflow: 'hidden' }}>{info.getValue()}</Box>
+            ),
+         }),
+         columnHelper.accessor('distributor_name', {
+            header: () => <Box>Nhà phân phối</Box>,
+            cell: (info) => (
+               <Box sx={{ maxWidth: '250px', textOverflow: 'ellipsis', overflow: 'hidden' }}>{info.getValue()}</Box>
+            ),
+         }),
+         columnHelper.accessor('unit', {
+            header: () => <Box sx={{ textAlign: 'center' }}>Dv tính</Box>,
+            cell: (info) => (
+               <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                  <Chip label={info.getValue()} color="default" />
+               </Box>
+            ),
+         }),
+         columnHelper.accessor('quantity_received', {
+            header: () => <Box sx={{ textAlign: 'center' }}>Số lượng</Box>,
+            cell: ({ row }) => {
+               return (
+                  <Box width={120} display="flex" justifyContent="space-between" gap="6px">
+                     <ButtonAddQuantity onClick={() => handleIncrease(row.index)}>
+                        <AddIcon sx={{ fontSize: '16px' }} />
+                     </ButtonAddQuantity>
+                     <Box display="flex" flex={1} justifyContent="center">
+                        <ExtendInputBase
+                           sx={{
+                              '.css-yz9k0d-MuiInputBase-input': {
+                                 textAlign: 'center !important',
+                              },
+                           }}
+                           value={watch(`details.${row.index}.quantity_received`)}
+                        />
+                     </Box>
+                     <ButtonAddQuantity
+                        sx={({ palette }) => ({
+                           bgcolor: palette.error.main,
+                        })}
+                        onClick={() => {
+                           handleReduced(row.index);
+                        }}
+                     >
+                        <RemoveIcon sx={{ fontSize: '16px' }} />
+                     </ButtonAddQuantity>
+                  </Box>
+               );
+            },
+         }),
+         columnHelper.accessor('cost_price', {
+            header: () => <Box>Giá nhập</Box>,
+            cell: ({ row }) => (
+               <Box sx={{ maxWidth: '130px', display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                  <Box>đ</Box>
+                  <ExtendInputBase
+                     fullWidth
+                     value={watch(`details.${row.index}.cost_price`)}
+                     onChange={(e) => {
+                        setValue(`details.${row.index}.cost_price`, Number(e.target.value));
+                     }}
+                  />
+               </Box>
+            ),
+         }),
+         columnHelper.accessor('selling_price', {
+            header: () => <Box>Giá bán</Box>,
+            cell: ({ row }) => (
+               <Box sx={{ maxWidth: '130px', display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                  <Box>đ</Box>
+                  <ExtendInputBase
+                     fullWidth
+                     value={watch(`details.${row.index}.selling_price`)}
+                     onChange={(e) => {
+                        setValue(`details.${row.index}.selling_price`, Number(e.target.value));
+                     }}
+                  />
+               </Box>
+            ),
+         }),
+         columnHelper.accessor('discount', {
+            header: () => <Box>Giảm giá</Box>,
+            cell: ({ row }) => (
+               <Box sx={{ width: '50px', display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                  <ExtendInputBase
+                     fullWidth
+                     sx={{
+                        '.css-yz9k0d-MuiInputBase-input': {
+                           textAlign: 'center !important',
+                        },
+                     }}
+                     value={watch(`details.${row.index}.discount`)}
+                     onChange={(e) => {
+                        if (Number(e.target.value) < 0) {
+                           return setValue(`details.${row.index}.discount`, 0);
+                        }
+
+                        if (Number(e.target.value) > 100) {
+                           return setValue(`details.${row.index}.discount`, 100);
+                        }
+
+                        return setValue(`details.${row.index}.discount`, Number(e.target.value));
+                     }}
+                     onInput={(event: React.ChangeEvent<HTMLInputElement>) => {
+                        return (event.target.value = String(Number(event.target.value.replace(Regexs.integer, ''))));
+                     }}
+                  />
+                  %
+               </Box>
+            ),
+         }),
+         columnHelper.accessor('total_price', {
+            header: () => <Box>Tổng tiền</Box>,
+            cell: ({ row }) => (
+               <Box sx={{ maxWidth: '200px', display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                  {formatPrice(
+                     Number(watch(`details.${row.index}.cost_price`)) *
+                        Number(watch(`details.${row.index}.quantity_received`)),
+                  )}
+               </Box>
+            ),
+         }),
+         columnHelper.accessor('action', {
+            header: () => <Box>Thao tác</Box>,
+            cell: ({ row }) => (
+               <Box
+                  sx={{
+                     maxWidth: '200px',
+                     display: 'flex',
+                     alignItems: 'center',
+                     justifyContent: 'center',
+                     gap: 0.5,
+                  }}
+               >
+                  <Button sx={{ minWidth: 'auto', px: '6px' }} color="error" onClick={() => remove(row.index)}>
+                     <DeleteIcon sx={{ fontSize: '16px' }} />
+                  </Button>
+               </Box>
+            ),
+         }),
+      ];
+   }, []);
+
    return (
       <>
          <Grid container spacing={2}>
             <SearchSupplies form={form} />
          </Grid>
-
-         <TableContainer sx={{ mt: 2 }}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-               <TableHead>
-                  <StyledTableRow>
-                     {headerConfig.map((item) => {
-                        return (
-                           <StyledTableCell
-                              width={item.width}
-                              align={item.align as 'center' | 'left' | 'right' | 'inherit' | 'justify'}
-                              key={item.id}
-                           >
-                              {item.title}
-                           </StyledTableCell>
-                        );
-                     })}
-                  </StyledTableRow>
-               </TableHead>
-               <TableBody>
-                  {fields.map((field, index) => (
-                     <TableRow key={field.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                        <TableCell component="th" scope="row" align="center">
-                           {index + 1}
-                        </TableCell>
-
-                        {/* Mã vật tư */}
-                        <TableCell width="100px" align="center">
-                           <Typography sx={{ fontSize: '16px' }}>{watch(`details.${index}.code`)}</Typography>
-                        </TableCell>
-
-                        {/* Tên vật tư */}
-                        <TableCell width="250px">
-                           {/* <ControllerTextField name={`details.${index}.supplies_detail_id`} control={control} /> */}
-                           <Typography sx={{ fontSize: '16px' }}>{watch(`details.${index}.name_detail`)}</Typography>
-                        </TableCell>
-                        {/* Đơn vị tính */}
-                        <TableCell align="center" sx={{ width: '100px' }}>
-                           <Typography>{watch(`details.${index}.unit`)}</Typography>
-                        </TableCell>
-                        {/* Số lượng */}
-                        <TableCell align="right" sx={{ width: '150px' }}>
-                           <Box display="flex" justifyContent="space-between" gap="6px">
-                              <ButtonAddQuantity onClick={() => handleIncrease(index)}>
-                                 <AddIcon sx={{ fontSize: '16px' }} />
-                              </ButtonAddQuantity>
-                              <Box display="flex" justifyContent="center">
-                                 <ExtendInputBase value={watch(`details.${index}.quantity_received`)} />
-                              </Box>
-                              <ButtonAddQuantity
-                                 sx={({ palette }) => ({
-                                    bgcolor: palette.error.main,
-                                 })}
-                                 onClick={() => {
-                                    handleReduced(index);
-                                 }}
-                              >
-                                 <RemoveIcon sx={{ fontSize: '16px' }} />
-                              </ButtonAddQuantity>
-                           </Box>
-                        </TableCell>
-                        {/* Đơn nhâp */}
-                        <TableCell align="right" sx={{ width: '250px' }}>
-                           <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                              <ExtendInputBase
-                                 fullWidth
-                                 value={watch(`details.${index}.cost_price`)}
-                                 onChange={(e) => {
-                                    setValue(`details.${index}.cost_price`, Number(e.target.value));
-                                 }}
-                              />
-                              <Box>đ</Box>
-                           </Box>
-                        </TableCell>
-                        {/* Giá bán */}
-                        <TableCell align="right" sx={{ width: '200px' }}>
-                           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                              <ExtendInputBase
-                                 fullWidth
-                                 value={watch(`details.${index}.selling_price`)}
-                                 onChange={(e) => {
-                                    setValue(`details.${index}.selling_price`, Number(e.target.value));
-                                 }}
-                              />
-                              đ
-                           </Box>
-                        </TableCell>
-                        {/* Giảm giá */}
-                        <TableCell align="right" sx={{ width: '200px' }}>
-                           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                              <ExtendInputBase
-                                 fullWidth
-                                 value={watch(`details.${index}.discount`)}
-                                 onChange={(e) => {
-                                    if (Number(e.target.value) < 0) {
-                                       return setValue(`details.${index}.discount`, 0);
-                                    }
-
-                                    if (Number(e.target.value) > 100) {
-                                       return setValue(`details.${index}.discount`, 100);
-                                    }
-
-                                    return setValue(`details.${index}.discount`, Number(e.target.value));
-                                 }}
-                                 onInput={(event: React.ChangeEvent<HTMLInputElement>) => {
-                                    return (event.target.value = String(
-                                       Number(event.target.value.replace(Regexs.integer, '')),
-                                    ));
-                                 }}
-                              />
-                              %
-                           </Box>
-                        </TableCell>
-
-                        {/* Tổng tiền */}
-                        <TableCell align="center" sx={{ width: '250px' }}>
-                           <Typography>
-                              {handlePrice(
-                                 Number(watch(`details.${index}.cost_price`)) *
-                                    Number(watch(`details.${index}.quantity_received`)),
-                              )}
-                           </Typography>
-                        </TableCell>
-                        <TableCell align="right">
-                           <Box display="flex" gap="12px">
-                              <Button sx={{ minWidth: 'auto', px: '6px' }} color="error" onClick={() => remove(index)}>
-                                 <DeleteOutlineRoundedIcon sx={{ fontSize: '16px' }} />
-                              </Button>
-                           </Box>
-                        </TableCell>
-                     </TableRow>
-                  ))}
-               </TableBody>
-            </Table>
-         </TableContainer>
+         <TableCore columns={columns} data={fields ?? []} isPagination={false} />
       </>
    );
 };
@@ -251,7 +205,6 @@ export default SuppliesInvoicesTable;
 const ExtendInputBase = styled(InputBase)({
    '.css-yz9k0d-MuiInputBase-input': {
       padding: '0px',
-      textAlign: 'center',
    },
 });
 
@@ -263,24 +216,4 @@ const ButtonAddQuantity = styled(ButtonBase)(({ theme }) => ({
    alignItems: 'center',
    justifyContent: 'center',
    padding: '4px',
-}));
-
-const StyledTableRow = styled(TableRow)(() => ({
-   '&:nth-of-type(odd)': {
-      backgroundColor: '#fffbfb80',
-   },
-   '& .MuiTableCell-root': {
-      padding: '6px 14px',
-   },
-}));
-
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-   [`&.${tableCellClasses.head}`]: {
-      // backgroundColor: 'rgb(240, 240, 240)',
-      color: theme.base.text.main,
-      fontSize: '14px',
-      padding: '8px 12px',
-      position: 'relative',
-      zIndex: 1,
-   },
 }));
