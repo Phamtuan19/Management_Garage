@@ -78,9 +78,3 @@ const PersonelUpdate = () => {
 };
 
 export default PersonelUpdate;
-
-// const PersonelUpdate = () => {
-//    return <div>PersonelUpdate</div>;
-// };
-
-// export default PersonelUpdate;

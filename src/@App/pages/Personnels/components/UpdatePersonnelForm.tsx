@@ -11,20 +11,17 @@ import ControllerRadioGroup from '@Core/Component/Input/ControllerRadioGroup';
 import { LoadingButton } from '@mui/lab';
 
 import { ValidationFormCreate } from '../utils/personnel.schema';
-
 interface UpdatePersonnelForm {
    form: UseFormReturn<ValidationFormCreate>;
    isLoading: boolean;
    onSubmitForm: SubmitHandler<ValidationFormCreate>;
 }
-
 const UpdatePersonnelForm = ({ form, isLoading, onSubmitForm }: UpdatePersonnelForm) => {
    const { handleSubmit, control } = form;
    const { data: roles } = useQuery(['getAllRole'], async () => {
       const res = await roleService.fieldAll();
       return res.data;
    });
-
    return (
       <Box component="form" sx={{ pb: 3, pt: 1 }} onSubmit={handleSubmit(onSubmitForm)}>
          <LoadingButton type="submit" variant="contained" loading={isLoading}>
