@@ -52,10 +52,12 @@ const CarsCreate = () => {
       <BaseBreadcrumbs
          arialabel="Thêm mới"
          breadcrumbs={breadcrumbs}
-         sx={() => ({
+         sx={({ base }) => ({
             marginTop: '12px',
             padding: '12px',
             borderRadius: '5px',
+            backgroundColor: base.background.white as string,
+            bgcolor: base.background.default,
             border: 'none',
             p: 0,
          })}
