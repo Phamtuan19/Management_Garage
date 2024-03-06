@@ -20,7 +20,6 @@ import personnelService from '@App/services/personnel.service';
 
 import { ValidationFormCreate, validationFormCreate } from './utils/personnel.schema';
 import UpdatePersonnelForm from './components/UpdatePersonnelForm';
-
 const breadcrumbs = [
    {
       title: 'Nhân viên',
@@ -34,7 +33,6 @@ const PersonelUpdate = () => {
       resolver: yupResolver(validationFormCreate),
       defaultValues: validationFormCreate.getDefault(),
    });
-
    const { refetch: getPersonnels } = useQuery(
       ['getPersonnels', personnelId],
       async () => {
@@ -67,9 +65,7 @@ const PersonelUpdate = () => {
          return errorMessage(err);
       },
    });
-
    const onSubmitForm: SubmitHandler<ValidationFormCreate> = (data) => Personnel(data);
-
    return (
       <BaseBreadcrumbs arialabel="Cập nhật thông tin" breadcrumbs={breadcrumbs}>
          <UpdatePersonnelForm onSubmitForm={onSubmitForm} form={form} isLoading={isLoading} />

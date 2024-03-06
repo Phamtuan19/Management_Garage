@@ -11,15 +11,12 @@ import { ValidationFormCreate } from '../utils/personnel.schema';
 interface BaseFormPersonnelPropType {
    form: UseFormReturn<ValidationFormCreate>;
 }
-
 const BaseFormPersonnel = ({ form }: BaseFormPersonnelPropType) => {
    const { control } = form;
-
    const { data: roles } = useQuery(['getAllRole'], async () => {
       const res = await roleService.fieldAll();
       return res.data;
    });
-
    return (
       <Box component="form" sx={{ pb: 3, pt: 1 }}>
          <Grid container spacing={4}>
