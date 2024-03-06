@@ -21,7 +21,6 @@ const RepairOrderDetails = ({ services }: { services: RepairOrderServiceFind[] }
          header: () => <Box sx={{ textAlign: 'center' }}>Tên Dịch vụ</Box>,
          cell: ({ row }) => {
             const service = row.original as RepairOrderServiceFind;
-
             return <Box sx={{ textAlign: 'center', width: '180px' }}>{service.repair_service.name}</Box>;
          },
       }),
@@ -46,7 +45,6 @@ const RepairOrderDetails = ({ services }: { services: RepairOrderServiceFind[] }
          },
       }),
    ];
-
    return <TableCore height={320} columns={columnsService} data={services} isPagination={false} />;
 };
 export default React.memo(RepairOrderDetails);
