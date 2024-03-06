@@ -41,13 +41,10 @@ const CustomerCreate = () => {
          if (Number(dataError.statusCode) === Number(HttpStatusCode.BAD_REQUEST)) {
             return setErrorMessageHookForm<CustomerSchema>(form.setError, dataError.message);
          }
-
          return errorMessage(err);
       },
    });
-
    const onSubmitForm: SubmitHandler<CustomerSchema> = (data) => handleCreateCustomer(data);
-
    return (
       <BaseBreadcrumbs
          arialabel="Thêm mới"

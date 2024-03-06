@@ -14,10 +14,8 @@ interface BaseFormPersonnelPropType {
    onSubmitForm: SubmitHandler<CustomerSchema>;
    isUpdate?: boolean;
 }
-
 const BaseFormCustomer = ({ form, isLoading, onSubmitForm, isUpdate }: BaseFormPersonnelPropType) => {
    const { handleSubmit, control } = form;
-
    return (
       <Box component="form" onSubmit={handleSubmit(onSubmitForm)}>
          <Box>
