@@ -20,8 +20,6 @@ import personnelService from '@App/services/personnel.service';
 
 import { ValidationFormCreate, validationFormCreate } from './utils/personnel.schema';
 import UpdatePersonnelForm from './components/UpdatePersonnelForm';
-import { LoadingButton } from '@mui/lab';
-import PageContent from '@App/component/customs/PageContent';
 
 const breadcrumbs = [
    {
@@ -37,7 +35,7 @@ const PersonelUpdate = () => {
       defaultValues: validationFormCreate.getDefault(),
    });
 
-   const { data: personnel, refetch: getPersonnels } = useQuery(
+   const { refetch: getPersonnels } = useQuery(
       ['getPersonnels', personnelId],
       async () => {
          const res = await personnelService.find(personnelId!);
@@ -51,7 +49,6 @@ const PersonelUpdate = () => {
          },
       },
    );
-
    const { mutate: Personnel, isLoading } = useMutation({
       mutationFn: async (data: ValidationFormCreate) => {
          return await personnelService.update(data, personnelId, 'patch');
@@ -74,13 +71,8 @@ const PersonelUpdate = () => {
    const onSubmitForm: SubmitHandler<ValidationFormCreate> = (data) => Personnel(data);
 
    return (
-      <BaseBreadcrumbs arialabel={`${personnel?.account_name}`} breadcrumbs={breadcrumbs}>
-         <LoadingButton type="submit" variant="contained" loading={isLoading} onClick={form.handleSubmit(onSubmitForm)}>
-            Lưu
-         </LoadingButton>
-         <PageContent>
-            <UpdatePersonnelForm form={form} />
-         </PageContent>
+      <BaseBreadcrumbs arialabel="Cập nhật thông tin" breadcrumbs={breadcrumbs}>
+         <UpdatePersonnelForm onSubmitForm={onSubmitForm} form={form} isLoading={isLoading} />
       </BaseBreadcrumbs>
    );
 };
