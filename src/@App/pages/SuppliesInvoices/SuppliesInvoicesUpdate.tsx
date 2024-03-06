@@ -63,6 +63,7 @@ const SuppliesInvoicesUpdate = () => {
                   cost_price: item.cost_price,
                   selling_price: item.selling_price,
                   discount: item.discount,
+                  distributor_name: item.distributor.name,
                };
             });
 
