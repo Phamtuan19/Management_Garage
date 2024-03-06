@@ -52,10 +52,6 @@ const RepairOrderDetails = ({ supplies }: { supplies: RepairOrderSupplies[] }) =
             return <Box sx={{ textAlign: 'center' }}>{handlePrice(supplies.price)}</Box>;
          },
       }),
-      // columnHelper.accessor('discount', {
-      //    header: () => <Box sx={{ textAlign: 'center' }}>Giảm giá</Box>,
-      //    cell: (info) => <Box sx={{ textAlign: 'center' }}>{handlePrice(form.watch(`suppliesInvoice.${row.index}`))}</Box>,
-      // }),
       columnHelper.accessor('quantity', {
          header: () => <Box sx={{ textAlign: 'center' }}>Số lượng</Box>,
          cell: ({ row }) => {
@@ -114,7 +110,6 @@ const RepairOrderDetails = ({ supplies }: { supplies: RepairOrderSupplies[] }) =
          },
       }),
    ];
-
    return <TableCore height={320} columns={columns} data={supplies} isPagination={false} />;
 };
 
