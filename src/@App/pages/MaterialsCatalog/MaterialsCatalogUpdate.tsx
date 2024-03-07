@@ -24,7 +24,6 @@ const breadcrumbs = [
       link: ROUTE_PATH.MATERIALS_CATALOGS,
    },
 ];
-
 const MaterialsCatalogUpdate = () => {
    const { id: materialsCatalogId } = useParams();
    const navigate = useNavigate();
@@ -32,7 +31,6 @@ const MaterialsCatalogUpdate = () => {
       resolver: yupResolver(materialsCatalogSchema),
       defaultValues: materialsCatalogSchema.getDefault(),
    });
-
    const { refetch: getMaterialsCatalog } = useQuery(
       ['getMaterialCatalog', materialsCatalogId],
       async () => {
@@ -46,7 +44,6 @@ const MaterialsCatalogUpdate = () => {
          },
       },
    );
-
    const { mutate: MaterialsCatalog, isLoading } = useMutation({
       mutationFn: async (data: MaterialsCatalogSchema) => {
          return await materialsCatalogService.update(data, materialsCatalogId, 'patch');
@@ -66,7 +63,6 @@ const MaterialsCatalogUpdate = () => {
          return errorMessage(err);
       },
    });
-
    const onSubmitForm: SubmitHandler<MaterialsCatalogSchema> = (data) => MaterialsCatalog(data);
 
    return (
