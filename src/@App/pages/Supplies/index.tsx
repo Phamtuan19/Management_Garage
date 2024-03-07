@@ -112,7 +112,6 @@ const Supplies = () => {
             header: 'Thao tác',
             cell: ({ row }) => {
                const supplies = row.original as ReadSupplies;
-
                return (
                   <Box>
                      <PermissionAccessRoute module={MODULE_PAGE.SUPPLIES} action="VIEW_ONE">
@@ -123,7 +122,6 @@ const Supplies = () => {
                      <PermissionAccessRoute module={MODULE_PAGE.SUPPLIES} action="DELETE">
                         <CoreTableActionDelete />
                      </PermissionAccessRoute>
-
                      <CoreTableActionEdit
                         callback={() => navigate(ROUTE_PATH.SUPPLIES + '/' + supplies.supplies_id + '/update')}
                      />
@@ -142,7 +140,6 @@ const Supplies = () => {
                   Thêm mới
                </Button>
             </PermissionAccessRoute>
-
             <PermissionAccessRoute module={MODULE_PAGE.SUPPLIES} action="CREATE">
                <Button
                   component={Link}
