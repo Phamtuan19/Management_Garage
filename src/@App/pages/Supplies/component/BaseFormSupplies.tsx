@@ -18,10 +18,8 @@ import FormSuppliesDetails from './FormSuppliesDetails';
 interface BaseFormSuppliesPropType {
    form: UseFormReturn<SuppliesSchema>;
 }
-
 const BaseFormSupplies = ({ form }: BaseFormSuppliesPropType) => {
    const { control } = form;
-
    const { data: materialsCatalogs } = useQuery(['getMaterialsCatalogs'], async () => {
       try {
          const res = await materialsCatalogService.getAll();
@@ -31,7 +29,6 @@ const BaseFormSupplies = ({ form }: BaseFormSuppliesPropType) => {
          return errorMessage(dataError?.message as unknown as string);
       }
    });
-
    return (
       <Box component="form">
          <Grid container spacing={2}>
@@ -66,7 +63,6 @@ const BaseFormSupplies = ({ form }: BaseFormSuppliesPropType) => {
                   <ControllerTextarea name="describe" control={control as unknown as Control<FieldValues>} />
                </Box>
             </Grid>
-
             <FormSuppliesDetails form={form} />
          </Grid>
       </Box>
