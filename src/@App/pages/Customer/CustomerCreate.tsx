@@ -9,17 +9,10 @@ import { AxiosError } from 'axios';
 import HttpStatusCode from '@Core/Configs/HttpStatusCode';
 import setErrorMessageHookForm from '@App/helpers/setErrorMessageHookForm';
 import { useNavigate } from 'react-router-dom';
-import ROUTE_PATH from '@App/configs/router-path';
 
 import { CustomerSchema, customerSchema } from './utils/customer.schema';
 import BaseFormCustomer from './components/BaseFormCustomer';
 
-const breadcrumbs = [
-   {
-      title: 'Danh Sách Khách Hàng',
-      link: ROUTE_PATH.CUSTOMERS,
-   },
-];
 const CustomerCreate = () => {
    const form = useForm<CustomerSchema>({
       resolver: yupResolver(customerSchema),
@@ -48,7 +41,6 @@ const CustomerCreate = () => {
    return (
       <BaseBreadcrumbs
          arialabel="Thêm mới"
-         breadcrumbs={breadcrumbs}
          sx={({ base }) => ({
             marginTop: '12px',
             padding: '12px',
