@@ -91,7 +91,6 @@ const Customer = () => {
          }),
       ];
    }, []);
-
    return (
       <BaseBreadcrumbs
          arialabel="Danh sách khách hàng"
@@ -100,7 +99,6 @@ const Customer = () => {
          <Button size="medium" component={Link} to="create" sx={{ py: '5px', px: '12px' }} endIcon={<AddIcon />}>
             Thêm mới
          </Button>
-
          <Box
             sx={({ base }) => ({
                marginTop: '12px',
@@ -118,5 +116,4 @@ const Customer = () => {
       </BaseBreadcrumbs>
    );
 };
-
 export default Customer;
