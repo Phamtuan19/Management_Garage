@@ -56,7 +56,6 @@ const SuppliesDetails = () => {
               { label: 'Giảm giá', value: supplies.discount, border: true },
               { label: 'Mô tả', value: supplies.describe, border: true },
               // { label: 'Trạng thái hàng', value: supplies?.details?.isInStock ? 'Còn hàng' : 'Hết hàng' },
-              { label: 'Ngày tạo', value: formatDateTime(supplies.createdAt), border: true },
            ]
          : [];
       return { suppliesDetails };
@@ -73,12 +72,6 @@ const SuppliesDetails = () => {
             header: () => <Box sx={{ textAlign: 'center' }}>Mã</Box>,
             cell: (info) => <Box sx={{ textAlign: 'center' }}>#{info.getValue()}</Box>,
          }),
-         columnHelper.accessor('name_detail', {
-            header: () => <Box sx={{ textAlign: 'center' }}>Tên biến thể</Box>,
-            cell: (info) => (
-               <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>{info.getValue()}</Box>
-            ),
-         }),
 
          columnHelper.accessor('distributor_name', {
             header: 'Nhà cung cấp',
@@ -86,19 +79,6 @@ const SuppliesDetails = () => {
          columnHelper.accessor('imported_price', {
             header: () => <Box>Giá nhập dự kiến</Box>,
             cell: (info) => <Box sx={{ display: 'flex', alignItems: 'center' }}>{formatPrice(info.getValue())}</Box>,
-         }),
-         columnHelper.accessor('isInStock', {
-            header: () => <Box textAlign="center">Trạng thái</Box>,
-            cell: (info) => {
-               return (
-                  <Box display="flex" justifyContent="center">
-                     <Chip
-                        label={info.getValue() ? 'Còn hàng' : 'Hết hàng'}
-                        color={!info.getValue() ? 'error' : 'success'}
-                     />
-                  </Box>
-               );
-            },
          }),
          columnHelper.accessor('createdAt', {
             header: () => <Box textAlign="center">Mô tả</Box>,
