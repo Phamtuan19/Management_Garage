@@ -50,7 +50,7 @@ export interface SuppliesInvoiceDetails {
    };
    supplies_detail: {
       _id: string;
-      name: string;
+      name_detail: string;
       code: string;
       unit: string;
       name_supplies: string;

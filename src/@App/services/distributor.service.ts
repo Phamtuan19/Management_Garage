@@ -8,6 +8,7 @@ const distributorPath = {
    BASE: 'distributors',
    allField: '/all-field',
    DistrictsRepairInvoice: '/repair-invoice',
+   GET_SUPPLIES_INVOICE: '/supplies-invoice/',
 };
 
 export interface IAddressOption {
@@ -54,6 +55,35 @@ interface ResponseDataSuppliesInvoice extends AxiosResponseData {
    }[];
 }
 
+export interface DistributorSuppliesInvoice {
+   _id: string;
+   code: string;
+   supplies_id: string;
+   distributor_id: string;
+   name_detail: string;
+   imported_price: number;
+   selling_price: number;
+   isInStock: true;
+   describe: string;
+   createdAt: string;
+   updatedAt: string;
+   supplies: {
+      _id: string;
+      code: string;
+      name: string;
+      materials_catalog_id: string;
+      unit: string;
+      discount: number;
+      describe: string;
+      createdAt: string;
+      updatedAt: string;
+   };
+}
+
+interface ResponseDistributorSuppliesInvoice extends AxiosResponseData {
+   data: DistributorSuppliesInvoice;
+}
+
 class DistributorService extends BaseService {
    BASE_ENDPOINT = distributorPath.BASE;
 
@@ -68,6 +98,10 @@ class DistributorService extends BaseService {
 
    getDistrictsRepairInvoice(params: { supplies_id: string }): Promise<ResponseDataSuppliesInvoice> {
       return this.request.get(this.BASE_ENDPOINT + distributorPath.DistrictsRepairInvoice, { params });
+   }
+
+   getDistributorsSuppliesInvoice(id: string): Promise<ResponseDistributorSuppliesInvoice> {
+      return this.request(this.BASE_ENDPOINT + distributorPath.GET_SUPPLIES_INVOICE + id);
    }
 }
 

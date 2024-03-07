@@ -57,7 +57,7 @@ const SuppliesInvoicesUpdate = () => {
                   supplies_invoice_detail_id: item._id,
                   describe: item.describe,
                   code: item.supplies_detail.code,
-                  name_detail: item.supplies_detail.name,
+                  name_detail: item.supplies_detail.name_detail,
                   unit: item.supplies_detail.unit,
                   supplies_detail_id: item.supplies_detail._id,
                   quantity_received: item.quantity_received,
