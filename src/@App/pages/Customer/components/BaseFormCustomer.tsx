@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { LoadingButton } from '@mui/lab';
-import { Box, Grid } from '@mui/material';
-import { SubmitHandler, UseFormReturn } from 'react-hook-form';
+import { Box, FormControl, Grid } from '@mui/material';
+import { Control, FieldValues, SubmitHandler, UseFormReturn } from 'react-hook-form';
 import ControllerLabel from '@Core/Component/Input/ControllerLabel';
+import ControllerRadioGroup from '@Core/Component/Input/ControllerRadioGroup';
 import ControllerTextField from '@Core/Component/Input/ControllerTextField';
 
 import { CustomerSchema } from '../utils/customer.schema';
@@ -39,6 +40,23 @@ const BaseFormCustomer = ({ form, isLoading, onSubmitForm, isUpdate }: BaseFormP
                <Grid item xs={12}>
                   <ControllerLabel title="Email" required />
                   <ControllerTextField name="email" control={control} placeholder="Email?" />
+               </Grid>
+               <Grid item md={3}>
+                  <FormControl>
+                     <ControllerLabel title="Giới tính" />
+                     <ControllerRadioGroup
+                        sx={{ display: 'flex', alignItems: 'center' }}
+                        name="gender"
+                        options={[
+                           { id: 'Nam', title: 'Nam' },
+                           { id: 'Nữ', title: 'Nữ' },
+                        ]}
+                        valuePath="id"
+                        titlePath="title"
+                        control={control as unknown as Control<FieldValues>}
+                        defaultValue="male"
+                     />
+                  </FormControl>
                </Grid>
             </Grid>
          </Box>
