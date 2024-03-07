@@ -41,9 +41,7 @@ const RepairOrderDetails = () => {
    const handleChange = (_e: React.SyntheticEvent, newValue: string) => {
       setParams('tab', newValue);
    };
-
    const coreConfirm = useConfirm();
-
    const { data: repairorder, refetch } = useQuery(['getRepairOrderDetails', repairorderId], async () => {
       const repairorderRes = await repairorderService.find(repairorderId as string);
       return repairorderRes.data as FindRepairOrder;
@@ -55,7 +53,6 @@ const RepairOrderDetails = () => {
          return res.data as { isCheck: boolean };
       },
    );
-
    const { mutate: createDeliveryNote } = useMutation({
       mutationFn: async () => {
          if (user) {
@@ -127,7 +124,6 @@ const RepairOrderDetails = () => {
          isIcon: true,
       });
    };
-
    const handleClose = () => {
       coreConfirm({
          title: 'Cảnh báo',
@@ -139,7 +135,6 @@ const RepairOrderDetails = () => {
          isIcon: true,
       });
    };
-
    const handleCreateDelivery = () => {
       coreConfirm({
          icon: <ErrorOutlineIcon sx={{ fontSize: '56px' }} color="warning" />,
@@ -152,7 +147,6 @@ const RepairOrderDetails = () => {
          isIcon: true,
       });
    };
-
    const handleRefetchRepairOrder = () => {
       coreConfirm({
          icon: <ErrorOutlineIcon sx={{ fontSize: '56px' }} color="warning" />,
@@ -165,7 +159,6 @@ const RepairOrderDetails = () => {
          isIcon: true,
       });
    };
-
    return (
       <Box component="form" sx={{ mt: 1 }}>
          <BaseBreadcrumbs
@@ -204,7 +197,6 @@ const RepairOrderDetails = () => {
                            </Button>
                         </PermissionAccessRoute>
                      )}
-
                   {repairorder?.status !== STATUS_REPAIR.close.key &&
                      repairorder?.status !== STATUS_REPAIR.check.key && (
                         <PermissionAccessRoute module={MODULE_PAGE.REPAIR_ORDERS} action="UPDATE_STATUS_REPAIR_ORDER">
@@ -220,7 +212,6 @@ const RepairOrderDetails = () => {
                         </Button>
                      </PermissionAccessRoute>
                   )}
-
                   {repairorder?.status === STATUS_REPAIR.close.key && (
                      <>
                         <PermissionAccessRoute module={MODULE_PAGE.REPAIR_ORDERS} action="UPDATE_STATUS_REPAIR_ORDER">

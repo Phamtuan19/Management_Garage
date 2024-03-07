@@ -13,10 +13,8 @@ interface BaseFormPersonnelPropType {
    isLoading: boolean;
    onSubmitForm: SubmitHandler<MaterialsCatalogSchema>;
 }
-
 const BaseFormSupplies = ({ form, isLoading, onSubmitForm }: BaseFormPersonnelPropType) => {
    const { handleSubmit, control } = form;
-
    return (
       <Box component="form" onSubmit={handleSubmit(onSubmitForm)}>
          <Grid container spacing={2}>
