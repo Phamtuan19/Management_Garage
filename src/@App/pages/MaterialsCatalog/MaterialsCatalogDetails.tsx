@@ -23,7 +23,6 @@ const breadcrumbs = [
 const MaterialsCatalogDetails = () => {
    const { id: materialId } = useParams();
    const navigate = useNavigate();
-
    const { data: material } = useQuery(['getMaterialsCatalogDetails'], async () => {
       const res = await materialsCatalogService.find(materialId as string);
       return res.data;
@@ -35,7 +34,6 @@ const MaterialsCatalogDetails = () => {
       { label: 'Ngày tạo', value: hendleDateTime(material?.createdAt) },
       { label: 'Ngày cập nhật cuối', value: hendleDateTime(material?.updatedAt) },
    ];
-
    return (
       <BaseBreadcrumbs
          breadcrumbs={breadcrumbs}
