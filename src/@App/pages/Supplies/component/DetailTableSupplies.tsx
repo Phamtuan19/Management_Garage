@@ -1,33 +1,28 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/naming-convention */
-import distributorService, { DistributorSuppliesInvoice } from '@App/services/distributor.service';
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import TableCore, { columnHelper } from '@Core/Component/Table';
-import { CoreTableActionViewDetail } from '@Core/Component/Table/components/CoreTableAction';
 import formatDateTime from '@Core/Helper/formatDateTime';
 import formatPrice from '@Core/Helper/formatPrice';
 import { Box, ButtonBase, Chip, Modal, Typography } from '@mui/material';
-import { useMutation, useQuery } from '@tanstack/react-query';
 import React, { useMemo, useState } from 'react';
-import { useParams } from 'react-router-dom';
 import CloseIcon from '@mui/icons-material/Close';
+import { SuppliesFindOne } from '@App/services/supplies.service';
+import PermissionAccessRoute from '@App/routes/components/PermissionAccessRoute';
+import MODULE_PAGE from '@App/configs/module-page';
+import { CoreTableActionViewDetail } from '@Core/Component/Table/components/CoreTableAction';
+import { useMutation } from '@tanstack/react-query';
 import suppliesInvoiceDetailService from '@App/services/supplies-invoice-detail';
 
-const DetailTableSupplies = () => {
-   const { id: distributorId } = useParams();
+interface DetailTableSuppliesProps {
+   supplies: SuppliesFindOne | undefined;
+}
 
+const DetailTableSupplies = ({ supplies }: DetailTableSuppliesProps) => {
    const [open, setOpen] = useState<boolean>(false);
-
-   const { data: suppliesDetail, isLoading: isSuppliesDetailLoading } = useQuery(
-      ['getDistributorsSuppliesInvoice', distributorId],
-      async () => {
-         const res = await distributorService.getDistributorsSuppliesInvoice(distributorId as string);
-         return res.data;
-      },
-   );
 
    const {
       data: suppliesInvoiceDetails,
@@ -51,90 +46,60 @@ const DetailTableSupplies = () => {
             header: () => <Box sx={{ textAlign: 'center' }}>Mã</Box>,
             cell: (info) => <Box sx={{ textAlign: 'center' }}>#{info.getValue()}</Box>,
          }),
-         columnHelper.accessor('supplies.name', {
-            header: 'Tên vật tư chính',
-            cell: (info) => <Box>{info.getValue()}</Box>,
-         }),
          columnHelper.accessor('name_detail', {
-            header: 'Tên vật tư theo NPP',
+            header: () => <Box>Tên biến thể</Box>,
             cell: (info) => <Box>{info.getValue()}</Box>,
          }),
-         columnHelper.accessor('supplies.unit', {
-            header: () => <Box sx={{ textAlign: 'center' }}>Dvt</Box>,
-            cell: (info) => (
-               <Box sx={{ textAlign: 'center' }}>
-                  <Chip label={info.getValue()} color="info" />
-               </Box>
-            ),
+
+         columnHelper.accessor('distributor_name', {
+            header: 'Nhà cung cấp',
          }),
          columnHelper.accessor('imported_price', {
-            header: 'Giá nhập DK',
-            cell: (info) => <Box textAlign="center">{formatPrice(info.getValue())}</Box>,
-         }),
-         columnHelper.accessor('selling_price', {
-            header: 'Giá bán DK',
-            cell: (info) => <Box textAlign="center">{formatPrice(info.getValue())}</Box>,
-         }),
-         columnHelper.accessor('quantity_received', {
-            header: 'SL đã nhập',
-            cell: (info) => (
-               <Box textAlign="center">
-                  <Chip label={info.getValue()} color="default" />
-               </Box>
-            ),
-         }),
-         columnHelper.accessor('quantity_sold', {
-            header: 'SL đã bán',
-            cell: (info) => (
-               <Box textAlign="center">
-                  <Chip label={info.getValue()} color="success" />
-               </Box>
-            ),
-         }),
-         columnHelper.accessor('stock', {
-            header: 'SL đã bán',
-            cell: ({ row }) => {
-               const data = row.original as any;
-
-               return (
-                  <Box textAlign="center">
-                     <Chip label={data.quantity_received - data.quantity_sold} color="default" />
-                  </Box>
-               );
-            },
+            header: () => <Box>Giá nhập dự kiến</Box>,
+            cell: (info) => <Box sx={{ display: 'flex', alignItems: 'center' }}>{formatPrice(info.getValue())}</Box>,
          }),
          columnHelper.accessor('isInStock', {
-            header: 'Trạng thái',
-            cell: (info) => (
-               <Box>
-                  <Chip label={info.getValue() ? 'Còn hàng' : 'Hết hàng'} color={info.getValue() ? 'info' : 'error'} />
-               </Box>
-            ),
-         }),
-         columnHelper.accessor('createdAt', {
-            header: 'Ngày tạo',
-            cell: (info) => <Box>{formatDateTime(info.getValue())}</Box>,
-         }),
-         columnHelper.accessor('action', {
-            header: 'Thao tác',
-            cell: ({ row }) => {
-               const data = row.original as DistributorSuppliesInvoice;
-
+            header: () => <Box textAlign="center">Trạng thái</Box>,
+            cell: (info) => {
                return (
                   <Box display="flex" justifyContent="center">
-                     <CoreTableActionViewDetail
-                        callback={() => {
-                           setOpen(true);
-                           getSuppliesInvoiceDetail(data._id);
-                        }}
+                     <Chip
+                        label={info.getValue() ? 'Còn hàng' : 'Hết hàng'}
+                        color={!info.getValue() ? 'error' : 'success'}
                      />
                   </Box>
                );
             },
          }),
+         columnHelper.accessor('createdAt', {
+            header: () => <Box textAlign="center">Mô tả</Box>,
+            cell: (info) => {
+               return (
+                  <Box display="flex" justifyContent="center">
+                     {formatDateTime(info.getValue())}
+                  </Box>
+               );
+            },
+         }),
+         columnHelper.accessor('Thao tác', {
+            header: () => <Box textAlign="center">Mô tả</Box>,
+            cell: ({ row }) => {
+               const data = row.original as any;
+
+               return (
+                  <PermissionAccessRoute module={MODULE_PAGE.SUPPLIES} action="VIEW_ONE">
+                     <CoreTableActionViewDetail
+                        callback={() => {
+                           setOpen(true);
+                           return getSuppliesInvoiceDetail(data._id as string);
+                        }}
+                     />
+                  </PermissionAccessRoute>
+               );
+            },
+         }),
       ];
    }, []);
-
    const columnsSuppliesInvoice = useMemo(() => {
       return [
          columnHelper.accessor((_, index) => index + 1, {
@@ -151,7 +116,7 @@ const DetailTableSupplies = () => {
             cell: (info) => <Box>{info.getValue()}</Box>,
          }),
          columnHelper.accessor('supplies_detail_id.isInStock', {
-            header: () => <Box sx={{ textAlign: 'center' }}>Trạng thái</Box>,
+            header: () => <Box sx={{ textAlign: 'center' }}>SL nhập</Box>,
             cell: (info) => (
                <Box sx={{ textAlign: 'center' }}>
                   <Chip
@@ -190,12 +155,7 @@ const DetailTableSupplies = () => {
 
    return (
       <>
-         <TableCore
-            columns={columns}
-            data={suppliesDetail ?? []}
-            isLoading={isSuppliesDetailLoading}
-            isPagination={false}
-         />
+         <TableCore height={370} columns={columns} data={supplies?.details ?? []} isPagination={false} />
          <Modal open={open} aria-labelledby="parent-modal-title" aria-describedby="parent-modal-description">
             <Box sx={style}>
                <Box display="flex" justifyContent="space-between" alignItems="center">
@@ -222,7 +182,6 @@ const DetailTableSupplies = () => {
       </>
    );
 };
-
 const style = {
    position: 'absolute',
    top: '50%',
@@ -234,5 +193,4 @@ const style = {
    boxShadow: 24,
    p: '12px',
 };
-
 export default React.memo(DetailTableSupplies);
