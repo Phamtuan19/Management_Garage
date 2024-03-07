@@ -18,14 +18,6 @@ interface BaseFormCarsPropType {
 }
 const BaseFormCars = ({ form, onSubmitForm, isLoading }: BaseFormCarsPropType) => {
    const { handleSubmit, control } = form;
-   const { data: customers } = useQuery(['getAllCustomers'], async () => {
-      try {
-         const res = await customerService.get();
-         return res.data?.data as Array<Record<string, string | number>>;
-      } catch (error) {
-         return [];
-      }
-   });
 
    return (
       <Box component="form" onSubmit={handleSubmit(onSubmitForm)}>
@@ -36,18 +28,6 @@ const BaseFormCars = ({ form, onSubmitForm, isLoading }: BaseFormCarsPropType) =
          </Box>
          <Box sx={{ mt: 2, bgcolor: '#FFFF', p: 2, borderRadius: 2 }}>
             <Grid container spacing={2}>
-               <Grid item md={6}>
-                  <ControllerLabel title="Chủ xe" required />
-                  <ControllerSelect
-                     options={customers || []}
-                     valuePath="_id"
-                     titlePath="name"
-                     defaultValue=""
-                     name="customer_id"
-                     control={control as unknown as Control<FieldValues>}
-                  />
-               </Grid>
-
                <Grid item xs={12} md={6}>
                   <Box height="96.5px">
                      <ControllerLabel title="Tên xe" required />
