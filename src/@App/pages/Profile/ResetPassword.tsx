@@ -44,9 +44,10 @@ const ResetPassword = ({ open, handleClose }: ResetPasswordPropsType) => {
       },
    });
    const handlePasswordChange: SubmitHandler<ResetPasswordType> = (data) => handleUpdate(data);
+
    return (
       <Modal open={open}>
-         <Box>
+         <Box sx={style}>
             <Grid container spacing={2}>
                <Grid item xs={12}>
                   <Typography variant="h5">Thay đổi mật khẩu</Typography>
@@ -100,6 +101,18 @@ const ResetPassword = ({ open, handleClose }: ResetPasswordPropsType) => {
          </Box>
       </Modal>
    );
+};
+
+const style = {
+   position: 'absolute',
+   top: '50%',
+   left: '50%',
+   transform: 'translate(-50%, -50%)',
+   width: 500,
+   bgcolor: 'background.paper',
+   boxShadow: 24,
+   borderRadius: '6px',
+   p: 4,
 };
 
 export default ResetPassword;
