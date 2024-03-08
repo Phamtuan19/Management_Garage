@@ -44,7 +44,6 @@ const ResetPassword = ({ open, handleClose }: ResetPasswordPropsType) => {
       },
    });
    const handlePasswordChange: SubmitHandler<ResetPasswordType> = (data) => handleUpdate(data);
-
    return (
       <Modal open={open}>
          <Box sx={style}>
