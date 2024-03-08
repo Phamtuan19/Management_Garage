@@ -16,19 +16,16 @@ import { HandleErrorApi } from '@Core/Api/axios-config';
 import { AxiosError } from 'axios';
 
 import { ResetPasswordType, resetPasswordSchema } from './utils/reset-password';
-
 interface ResetPasswordPropsType {
    open: boolean;
    handleClose: () => void;
 }
-
 const ResetPassword = ({ open, handleClose }: ResetPasswordPropsType) => {
    const { user } = useAuth();
    const { handleSubmit, control, setError } = useForm<ResetPasswordType>({
       resolver: yupResolver(resetPasswordSchema),
       defaultValues: resetPasswordSchema.getDefault(),
    });
-
    const { mutate: handleUpdate, isLoading } = useMutation({
       mutationFn: async (data: ResetPasswordType) => {
          return await personnelService.changePassword(user?._id as string, {
@@ -42,18 +39,14 @@ const ResetPassword = ({ open, handleClose }: ResetPasswordPropsType) => {
       },
       onError: (err: AxiosError) => {
          const dataError = err.response?.data as HandleErrorApi;
-
          setErrorMessageHookForm(setError, dataError.data);
-
          return errorMessage(err);
       },
    });
-
    const handlePasswordChange: SubmitHandler<ResetPasswordType> = (data) => handleUpdate(data);
-
    return (
       <Modal open={open}>
-         <Box sx={style}>
+         <Box>
             <Grid container spacing={2}>
                <Grid item xs={12}>
                   <Typography variant="h5">Thay đổi mật khẩu</Typography>
@@ -107,18 +100,6 @@ const ResetPassword = ({ open, handleClose }: ResetPasswordPropsType) => {
          </Box>
       </Modal>
    );
-};
-
-const style = {
-   position: 'absolute',
-   top: '50%',
-   left: '50%',
-   transform: 'translate(-50%, -50%)',
-   width: 500,
-   bgcolor: 'background.paper',
-   boxShadow: 24,
-   borderRadius: '6px',
-   p: 4,
 };
 
 export default ResetPassword;
