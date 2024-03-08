@@ -36,7 +36,6 @@ const CarsDetails = () => {
       { label: 'Ngày tạo', value: hendleDateTime(cars?.customer_id.createdAt) },
       { label: 'Ngày cập nhật cuối', value: hendleDateTime(cars?.customer_id.updatedAt) },
    ];
-
    const carDetails = [
       { label: 'Tên xe', value: cars?.name },
       { label: 'Thương hiệu xe', value: cars?.brand_car },

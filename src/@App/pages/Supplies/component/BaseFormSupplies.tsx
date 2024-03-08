@@ -31,7 +31,6 @@ const BaseFormSupplies = ({ form }: BaseFormSuppliesPropType) => {
          return errorMessage(dataError?.message as unknown as string);
       }
    });
-
    return (
       <Box component="form">
          <Grid container spacing={2}>

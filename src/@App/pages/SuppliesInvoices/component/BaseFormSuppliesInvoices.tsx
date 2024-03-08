@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useAuth } from '@App/redux/slices/auth.slice';
 import personnelService from '@App/services/personnel.service';
 import ControllerLabel from '@Core/Component/Input/ControllerLabel';
@@ -94,4 +94,4 @@ const BaseFormSuppliesInvoices = ({ form, handleSubmitSuppliesInvoice }: BaseFor
    );
 };
 
-export default BaseFormSuppliesInvoices;
+export default React.memo(BaseFormSuppliesInvoices);

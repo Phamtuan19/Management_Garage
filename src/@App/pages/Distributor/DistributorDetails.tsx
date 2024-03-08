@@ -4,10 +4,9 @@ import MODULE_PAGE from '@App/configs/module-page';
 import theme from '@Core/Theme';
 import PermissionAccessRoute from '@App/routes/components/PermissionAccessRoute';
 import RateReviewRoundedIcon from '@mui/icons-material/RateReviewRounded';
-import { Box, Typography, Stack, Button, Grid } from '@mui/material';
+import { Box, Typography, Stack, Button, Grid, Chip } from '@mui/material';
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import distributorService, { IDistributor } from '@App/services/distributor.service';
-import Divider from '@mui/material/Divider';
 import PageContent from '@App/component/customs/PageContent';
 import { format } from 'date-fns';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -29,30 +28,44 @@ const DistributorDetails = () => {
       return dateString ? format(new Date(dateString), 'MM-dd-yyyy') : '';
    };
    const ditributordetails = [
-      { label: 'Mã nhà phân phối', value: distributor?.code },
-      { label: 'Tên nhà phân phối', value: distributor?.name },
-      { label: 'Email nhà phân phối', value: distributor?.email },
-      { label: 'Số điện thoại', value: distributor?.phone },
+      { label: 'Mã nhà phân phối', value: distributor?.code, border: true },
+      { label: 'Tên nhà phân phối', value: distributor?.name, border: true },
+      { label: 'Email nhà phân phối', value: distributor?.email, border: true },
+      { label: 'Số điện thoại', value: distributor?.phone, border: true },
+
       {
          label: 'Địa chỉ',
-         value: `${distributor?.address?.province?.name || ''}, ${distributor?.address?.district?.name || ''}, ${distributor?.address?.wards?.name || ''}, ${distributor?.address?.specific || ''}`,
+         value:
+            distributor?.address?.province?.name &&
+            distributor?.address?.district?.name &&
+            distributor?.address?.wards?.name &&
+            distributor?.address?.specific &&
+            `${distributor?.address?.province?.name}, ${distributor?.address?.district?.name}, ${distributor?.address?.wards?.name}, ${distributor?.address?.specific || ''}`,
+         border: true,
       },
-      { label: 'Ngày tạo', value: formDate(distributor?.createdAt) },
-      { label: 'Ngày cập nhật cuối', value: formDate(distributor?.updatedAt) },
+      { label: 'Ngày tạo', value: formDate(distributor?.createdAt), border: true },
+      { label: 'Ngày cập nhật cuối', value: formDate(distributor?.updatedAt), border: true },
+      {
+         label: 'Danh mục',
+         value: (
+            <Box display="flex" alignItems="center" gap="12px">
+               {distributor?.materials_catalogs.map((item) => {
+                  return <Chip label={item.name} color="info" />;
+               })}
+            </Box>
+         ),
+         border: false,
+      },
    ];
    const bankAccountdetails = [
-      { label: 'Số tài khoản', value: distributor?.bank_account_id.bank_account_number },
-      { label: 'Người thụ hưởng', value: distributor?.bank_account_id.account_holder_name },
-      { label: 'Tên ngân hàng', value: distributor?.bank_account_id.bank_name },
-      { label: 'Chi nhánh', value: distributor?.bank_account_id.bank_branch },
+      { label: 'Số tài khoản', value: distributor?.bank_account_id.bank_account_number, border: true },
+      { label: 'Người thụ hưởng', value: distributor?.bank_account_id.account_holder_name, border: true },
+      { label: 'Tên ngân hàng', value: distributor?.bank_account_id.bank_name, border: true },
+      { label: 'Chi nhánh', value: distributor?.bank_account_id.bank_branch, border: true },
    ];
 
    return (
-      <BaseBreadcrumbs
-         breadcrumbs={breadcrumbs}
-         arialabel="Chi tiết nhà phân phối"
-         sx={({ base }) => ({ bgcolor: base.background.default, border: 'none', p: 0 })}
-      >
+      <BaseBreadcrumbs breadcrumbs={breadcrumbs} arialabel="Chi tiết nhà phân phối">
          <Box>
             <PermissionAccessRoute module={MODULE_PAGE.DISTRIBUTORS} action="VIEW_ALL">
                <Button
@@ -75,8 +88,32 @@ const DistributorDetails = () => {
                            </Typography>
                         </Box>
                         {ditributordetails.map((detail, index) => (
-                           <Grid key={index}>
-                              <DetailsItem label={detail.label} value={detail.value} />
+                           <Grid item xs={12} key={index}>
+                              <Grid container spacing={1}>
+                                 <Grid item xs={3} sx={{ display: 'flex', alignItems: 'flex-end' }}>
+                                    <Typography
+                                       sx={{ fontSize: '1rem', lineHeight: '2.4rem', color: theme.palette.grey[800] }}
+                                    >
+                                       {detail.label}
+                                    </Typography>
+                                 </Grid>
+                                 <Grid item xs={9}>
+                                    <Typography
+                                       sx={{
+                                          p: 1,
+                                          pb: 0,
+                                          fontWeight: '500',
+                                          flexGrow: 1,
+                                          fontSize: '1rem',
+                                          lineHeight: '2rem',
+                                          minHeight: '40px',
+                                       }}
+                                    >
+                                       {detail.value}
+                                    </Typography>
+                                    {detail.border && <Box sx={{ borderBottom: '1px solid #DADADA' }}></Box>}
+                                 </Grid>
+                              </Grid>
                            </Grid>
                         ))}
                      </Box>
@@ -87,8 +124,32 @@ const DistributorDetails = () => {
                            </Typography>
                         </Box>
                         {bankAccountdetails.map((detail, index) => (
-                           <Grid key={index}>
-                              <DetailsItem label={detail.label} value={detail.value} />
+                           <Grid item xs={12} key={index}>
+                              <Grid container spacing={1}>
+                                 <Grid item xs={3} sx={{ display: 'flex', alignItems: 'flex-end' }}>
+                                    <Typography
+                                       sx={{ fontSize: '1rem', lineHeight: '2.2rem', color: theme.palette.grey[800] }}
+                                    >
+                                       {detail.label}
+                                    </Typography>
+                                 </Grid>
+                                 <Grid item xs={9}>
+                                    <Typography
+                                       sx={{
+                                          p: 1,
+                                          pb: 0,
+                                          fontWeight: '500',
+                                          flexGrow: 1,
+                                          fontSize: '1rem',
+                                          lineHeight: '2rem',
+                                          minHeight: '40px',
+                                       }}
+                                    >
+                                       {detail.value}
+                                    </Typography>
+                                    {detail.border && <Box sx={{ borderBottom: '1px solid #DADADA' }}></Box>}
+                                 </Grid>
+                              </Grid>
                            </Grid>
                         ))}
                      </Box>
@@ -99,17 +160,5 @@ const DistributorDetails = () => {
       </BaseBreadcrumbs>
    );
 };
-const DetailsItem = ({ label, value }: { label: string; value: string | undefined }) => (
-   <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-      <Grid item xs={3}>
-         <Typography sx={{ p: 1, fontSize: '1rem', color: theme.palette.grey[800] }}>{label}</Typography>
-      </Grid>
-      <Grid item xs={9}>
-         <Typography sx={{ p: 1, fontWeight: '500', flexGrow: 1, fontSize: '1rem', lineHeight: '32px' }}>
-            {value}
-         </Typography>
-         <Divider variant="inset" sx={{ m: 0 }} />
-      </Grid>
-   </Grid>
-);
+
 export default DistributorDetails;

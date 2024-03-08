@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import LazyLoadingImage from '@App/component/customs/LazyLoadingImage';
 import { ReadSupplies } from '@App/services/supplies.service';
-import handlePrice from '@Core/Helper/handlePrice';
+import handlePrice from '@Core/Helper/formatPrice';
 import { Box, ButtonBase, styled } from '@mui/material';
 
 interface SearchSuppliesitemprops {
@@ -28,7 +28,9 @@ const SearchSuppliesItem = ({ supplie, handleClickSupplieItem }: SearchSuppliesi
       >
          <LazyLoadingImage src="" w="36" h="36" />
          <Flex sx={{ flexDirection: 'column', flex: 1, gap: '6px' }}>
-            <Box sx={{ width: '100%', textAlign: 'left' }}>{supplie.name_detail}</Box>
+            <Box sx={{ width: '100%', textOverflow: 'ellipsis', overflow: 'hidden', textAlign: 'left' }}>
+               {supplie.name_detail} - {supplie.name_distributor}
+            </Box>
             <Flex sx={{ width: '100%', gap: '12px' }}>
                <Box>
                   <span>#1122</span>
