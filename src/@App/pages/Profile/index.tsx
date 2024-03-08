@@ -26,12 +26,15 @@ const breadcrumbs = [
 const Profile = () => {
    const navigate = useNavigate();
    const [open, setOpen] = useState<boolean>(false);
+
    const { user } = useAuth();
    const userId = user?._id;
+
    const { data: roleDetail } = useQuery<RoleResponseData, Error>(['getDetailRole'], async () => {
       const res = await roleService.find(user?.role_id as string);
       return res.data as RoleResponseData;
    });
+
    return (
       <BaseBreadcrumbs breadcrumbs={breadcrumbs} arialabel="Thông tin tài khoản">
          <Grid
@@ -61,6 +64,7 @@ const Profile = () => {
                      Họ tên: {user?.full_name}
                   </Typography>
                   <Typography variant="body1" paragraph></Typography>
+
                   <Button
                      onClick={() => {
                         setOpen(true);
@@ -107,6 +111,9 @@ const Profile = () => {
                   </Typography> */}
                   <Typography variant="body1" gutterBottom>
                      CCCD: {user?.cccd_number}
+                  </Typography>
+                  <Typography variant="body1" gutterBottom>
+                     Ngày nhận việc: {user?.hire_date}
                   </Typography>
                   <Typography variant="body1" paragraph></Typography>
                </Box>
