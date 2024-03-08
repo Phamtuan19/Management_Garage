@@ -24,7 +24,7 @@ const DetailTable = ({ suppliesinvoices }: { suppliesinvoices: ResponseGetSuppli
                <Box sx={{ maxWidth: '250px', textOverflow: 'ellipsis', overflow: 'hidden' }}>{info.getValue()}</Box>
             ),
          }),
-         columnHelper.accessor('supplies_detail.name', {
+         columnHelper.accessor('name_detail', {
             header: () => <Box>Tên vật tư theo NPP</Box>,
             cell: (info) => (
                <Box sx={{ maxWidth: '250px', textOverflow: 'ellipsis', overflow: 'hidden' }}>{info.getValue()}</Box>
@@ -36,7 +36,7 @@ const DetailTable = ({ suppliesinvoices }: { suppliesinvoices: ResponseGetSuppli
                <Box sx={{ maxWidth: '250px', textOverflow: 'ellipsis', overflow: 'hidden' }}>{info.getValue()}</Box>
             ),
          }),
-         columnHelper.accessor('quantity_sold', {
+         columnHelper.accessor('status_quantity_sold', {
             header: () => <Box sx={{ textAlign: 'center' }}>Trạng thái</Box>,
             cell: ({ row }) => {
                const suppliesInvoiceDetails = row.original as SuppliesInvoiceDetails;
@@ -95,7 +95,6 @@ const DetailTable = ({ suppliesinvoices }: { suppliesinvoices: ResponseGetSuppli
    }, []);
 
    return <TableCore height={450} columns={columns} data={suppliesinvoices?.details ?? []} isPagination={false} />;
-   return <></>;
 };
 
 export default React.memo(DetailTable);

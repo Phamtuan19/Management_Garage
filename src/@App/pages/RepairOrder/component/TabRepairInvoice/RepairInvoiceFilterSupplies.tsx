@@ -12,6 +12,7 @@ import { useOnClickOutside } from '@App/hooks/useOnClickOutside';
 import LazyLoadingImage from '@App/component/customs/LazyLoadingImage';
 import { UseFieldArrayReturn } from 'react-hook-form';
 import { errorMessage } from '@Core/Helper/message';
+import { STATUS_REPAIR_DETAIL } from '@App/configs/status-config';
 
 import { RepairInvoiceSchema } from '../../utils/repair-invoice';
 
@@ -55,6 +56,13 @@ const RepairInvoiceFilterSupplies = ({ fieldArray }: { fieldArray: UseFieldArray
             supplies_id: suppliesItem.supplies_id,
             describe: '',
             discount: 0,
+            details: {
+               name: '',
+               describe: '',
+               status: STATUS_REPAIR_DETAIL.empty.key,
+               personnel_id: '',
+               note: '',
+            },
          });
       }
 

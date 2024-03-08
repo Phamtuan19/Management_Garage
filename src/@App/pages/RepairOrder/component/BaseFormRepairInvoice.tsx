@@ -117,12 +117,13 @@ const BaseFormRepairInvoice = ({
                            <TabRepairInvoiceCustomer form={form} />
                         </TabPanel>
                         <TabPanel value="2" sx={{ px: 0 }}>
-                           <TabRepairServiceFilter fieldArray={suppliesServiceFieldArray as never} />
+                           <TabRepairServiceFilter form={form} fieldArray={suppliesServiceFieldArray as never} />
                            <TabRepairService fieldArray={suppliesServiceFieldArray as never} form={form} />
                         </TabPanel>
                         <TabPanel value="3" sx={{ px: 0 }}>
                            <RepairInvoiceFilterSupplies fieldArray={suppliesInvoiceFieldArray as never} />
                            <TabRepairInvoiceSupplies
+                              personnels={personnels}
                               repairOrder={repairOrder}
                               form={form}
                               fieldArray={suppliesInvoiceFieldArray as never}

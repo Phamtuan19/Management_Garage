@@ -2,20 +2,43 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Box, ButtonBase, Grid, InputBase, Stack, Typography, styled } from '@mui/material';
-import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
-import { useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useOnClickOutside } from '@App/hooks/useOnClickOutside';
 import { useQuery } from '@tanstack/react-query';
-import ScrollbarBase from '@App/component/customs/ScrollbarBase';
 import repairServiceService from '@App/services/repairService.service';
 import useDebounce from '@App/hooks/useDebounce';
 import LazyLoadingImage from '@App/component/customs/LazyLoadingImage';
-import { UseFieldArrayReturn } from 'react-hook-form';
+import { UseFieldArrayReturn, UseFormReturn } from 'react-hook-form';
 import { errorMessage } from '@Core/Helper/message';
+import { STATUS_REPAIR_DETAIL } from '@App/configs/status-config';
+import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
+import ScrollbarBase from '@App/component/customs/ScrollbarBase';
 
 import { RepairInvoiceSchema } from '../../utils/repair-invoice';
 
-const TabRepairServiceFilter = ({ fieldArray }: { fieldArray: UseFieldArrayReturn<RepairInvoiceSchema> }) => {
+interface RepairServiceItem {
+   code: string;
+   createdAt: string;
+   describe: string;
+   discount: number;
+   name: string;
+   price: number;
+   updatedAt: string;
+   _id: string;
+   details:
+      | Array<{
+           name: string;
+           describe: string;
+        }>
+      | [];
+}
+
+const TabRepairServiceFilter = ({
+   fieldArray,
+}: {
+   form: UseFormReturn<RepairInvoiceSchema>;
+   fieldArray: UseFieldArrayReturn<RepairInvoiceSchema>;
+}) => {
    const { fields, append } = fieldArray;
 
    const [open, setOpen] = useState<boolean>(false);
@@ -31,11 +54,12 @@ const TabRepairServiceFilter = ({ fieldArray }: { fieldArray: UseFieldArrayRetur
       return res.data;
    });
 
-   const handleClickSuppliesItem = (service: RepairService) => {
+   const handleClickSuppliesItem = (service: RepairServiceItem) => {
       const isCheck = fields.some((item: any) => item.repair_service_id === service._id);
 
       if (!isCheck) {
          return append({
+            _id: '',
             describe: '',
             discount: service.discount,
             price: service.price,
@@ -43,7 +67,12 @@ const TabRepairServiceFilter = ({ fieldArray }: { fieldArray: UseFieldArrayRetur
             repair_service_name: service.name,
             quantity: 1,
             repair_service_code: service.code,
-            _id: '',
+            details: service.details.map((detail) => ({
+               ...detail,
+               note: '',
+               personnel_id: '',
+               status: STATUS_REPAIR_DETAIL.empty.key,
+            })),
          });
       }
 
@@ -137,20 +166,9 @@ const TabRepairServiceFilter = ({ fieldArray }: { fieldArray: UseFieldArrayRetur
    );
 };
 
-interface RepairService {
-   code: string;
-   createdAt: string;
-   describe: string;
-   discount: number;
-   name: string;
-   price: number;
-   updatedAt: string;
-   _id: string;
-}
-
 interface SearchSuppliesItemPropsType {
-   supplie: RepairService;
-   handleClickSupplieItem: (supplie: RepairService) => void;
+   supplie: RepairServiceItem;
+   handleClickSupplieItem: (supplie: RepairServiceItem) => void;
 }
 
 const SearchSuppliesItem = ({ supplie, handleClickSupplieItem }: SearchSuppliesItemPropsType) => {
@@ -191,4 +209,4 @@ const Flex = styled('div')({
    justifyContent: 'flex-start',
 });
 
-export default TabRepairServiceFilter;
+export default React.memo(TabRepairServiceFilter);

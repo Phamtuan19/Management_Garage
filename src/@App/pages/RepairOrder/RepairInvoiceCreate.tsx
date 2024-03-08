@@ -30,8 +30,8 @@ const RepairInvoiceCreate = () => {
    const navigate = useNavigate();
 
    const form = useForm<RepairInvoiceSchema>({
-      mode: 'onSubmit',
-      reValidateMode: 'onSubmit',
+      // mode: 'onSubmit',
+      // reValidateMode: 'onSubmit',
       resolver: yupResolver(repairInvoiceSchema),
       defaultValues: repairInvoiceSchema.getDefault(),
    });
@@ -66,6 +66,7 @@ const RepairInvoiceCreate = () => {
             discount: item.discount,
             repair_service_code: item.repair_service_code,
             describe: '',
+            details: item.details,
          }));
 
          const newData = {

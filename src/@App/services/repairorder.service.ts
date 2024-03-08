@@ -83,6 +83,16 @@ export interface RepairOrderSupplies {
    supplies_detail_quantity_sold: number;
    supplies_detail_describe: string;
    supplies_invoices_code: string;
+   details:
+      | Array<{
+           name: string;
+           describe: string;
+           note: string;
+           personnel_id: string;
+           status: string;
+           _id: string;
+        }>
+      | [];
 }
 
 export interface RepairOrderServiceFind {
@@ -100,6 +110,16 @@ export interface RepairOrderServiceFind {
       discount: number;
       describe: string;
    };
+   details:
+      | Array<{
+           name: string;
+           describe: string;
+           note: string;
+           personnel_id: string;
+           status: string;
+           _id: string;
+        }>
+      | [];
 }
 
 export interface FindRepairOrder {

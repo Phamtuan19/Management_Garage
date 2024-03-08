@@ -13,6 +13,7 @@ import { HandleErrorApi } from '@Core/Api/axios-config';
 import setErrorMessageHookForm from '@App/helpers/setErrorMessageHookForm';
 import { useParams } from 'react-router-dom';
 import ROUTE_PATH from '@App/configs/router-path';
+import { STATUS_REPAIR_DETAIL } from '@App/configs/status-config';
 
 import { RepairInvoiceSchema, repairInvoiceSchema } from './utils/repair-invoice';
 import BaseFormRepairInvoice from './component/BaseFormRepairInvoice';
@@ -72,6 +73,7 @@ const RepairInvoiceUpdate = () => {
                      price: item.price,
                      discount: item.discount,
                      describe: item.describe,
+                     details: item.details,
                   };
                }),
 
@@ -90,6 +92,16 @@ const RepairInvoiceUpdate = () => {
                      distributor_name: item.distributor_name,
                      supplies_id: item.supplies_detail.supplies_id,
                      discount: 0,
+                     details:
+                        item.details.length > 0
+                           ? item.details[0]
+                           : {
+                                describe: '',
+                                name: '',
+                                note: '',
+                                personnel_id: '',
+                                status: STATUS_REPAIR_DETAIL.empty.key,
+                             },
                   };
                }),
 
@@ -121,6 +133,7 @@ const RepairInvoiceUpdate = () => {
                supplies_invoices_id: item.supplies_invoices_id,
                supplies_detail_code: item.supplies_detail_code,
                describe: '',
+               details: [item.details],
             };
          });
 
@@ -134,6 +147,7 @@ const RepairInvoiceUpdate = () => {
             discount: item.discount,
             repair_service_code: item.repair_service_code,
             describe: '',
+            details: item.details,
          }));
 
          const newData = {
@@ -145,7 +159,6 @@ const RepairInvoiceUpdate = () => {
             details: [...supplies, ...service],
             transaction: data.transaction,
          };
-
          return await repairorderService.update(newData, repairOrderId);
       },
       onSuccess: () => {

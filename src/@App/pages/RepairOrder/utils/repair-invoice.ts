@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { PAYMENT_TYPE } from '@App/configs/status-config';
+import { PAYMENT_TYPE, STATUS_REPAIR_DETAIL } from '@App/configs/status-config';
 import messageValidate from '@App/helpers/messageValidate';
 import * as yup from 'yup';
 
@@ -15,6 +15,29 @@ const suppliesService = yup
          price: yup.number().default(0), // giá dịch vụ sửa chữa
          discount: yup.number().default(0), // giá khuyến mại dịch vụ sửa chữa
          describe: yup.string().default(''),
+         details: yup.array().of(
+            yup.object({
+               name: yup.string().default(''),
+               describe: yup.string().default(''),
+               status: yup.string().default(STATUS_REPAIR_DETAIL.empty.key),
+               // status: yup
+               //    .string()
+               //    .default(STATUS_REPAIR_DETAIL.empty.key)
+               //    .test(
+               //       'is-personnel-required',
+               //       'Personnel ID is required if status is not "close"',
+               //       function (_value) {
+               //          const { personnel_id, status } = this.parent;
+               //          if (status !== STATUS_REPAIR_DETAIL.close.key) {
+               //             return !!personnel_id;
+               //          }
+               //          return true;
+               //       },
+               //    ),
+               personnel_id: yup.string().default(''),
+               note: yup.string().default(''),
+            }),
+         ),
       }),
    )
    .default([]);
@@ -36,6 +59,13 @@ const suppliesInvoice = yup
          distributor_name: yup.string().default(''),
          supplies_id: yup.string().default(''), // id của vật tư chính
          discount: yup.number().default(0),
+         details: yup.object({
+            name: yup.string().default(''),
+            describe: yup.string().default(''),
+            status: yup.string().default(STATUS_REPAIR_DETAIL.empty.key),
+            personnel_id: yup.string().default(''),
+            note: yup.string().default(''),
+         }),
       }),
    )
    .default([]);

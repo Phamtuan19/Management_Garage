@@ -140,3 +140,28 @@ export const STATUS_DELIVERY = {
 } as const;
 
 export type StatusDelivery = keyof typeof STATUS_DELIVERY;
+
+export const STATUS_REPAIR_DETAIL = {
+   complete: {
+      key: 'complete',
+      title: 'Hoàn thành',
+      color: 'success',
+   },
+   check: {
+      key: 'check',
+      title: 'Kiểm tra',
+      color: 'warning',
+   },
+   empty: {
+      key: 'empty',
+      title: 'Trống',
+      color: 'info',
+   },
+   close: {
+      key: 'close',
+      title: 'Hủy',
+      color: 'error',
+   },
+} as const;
+
+export type StatusRepairDetail = keyof typeof STATUS_REPAIR_DETAIL;

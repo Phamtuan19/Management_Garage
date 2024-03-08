@@ -1,25 +1,24 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { UseFieldArrayReturn, UseFormReturn } from 'react-hook-form';
 import TableCore, { columnHelper } from '@Core/Component/Table';
-import { Box, ButtonBase, IconButton, InputBase, styled } from '@mui/material';
+import { Box, ButtonBase, InputBase, styled } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import handlePrice from '@Core/Helper/formatPrice';
 import RemoveIcon from '@mui/icons-material/Remove';
-import EditIcon from '@mui/icons-material/Edit';
-import { CoreTableActionDelete, CoreTableActionViewDetail } from '@Core/Component/Table/components/CoreTableAction';
+import { CoreTableActionDelete } from '@Core/Component/Table/components/CoreTableAction';
 import { useMutation } from '@tanstack/react-query';
 import repairOrderDetailService from '@App/services/repairOrderDetail.service';
 import { AxiosResponseData, HandleErrorApi } from '@Core/Api/axios-config';
 import { errorMessage, successMessage } from '@Core/Helper/message';
 import { AxiosError } from 'axios';
 import { useParams } from 'react-router-dom';
-import { useState } from 'react';
 import { FindRepairOrder } from '@App/services/repairorder.service';
+import { STATUS_REPAIR_DETAIL, StatusRepairDetail } from '@App/configs/status-config';
+import ControllerAutoComplate from '@Core/Component/Input/ControllerAutoComplate';
 
 import { RepairInvoiceSchema } from '../../utils/repair-invoice';
 
 import ColumnSuppliesInvoicesCode from './ColumnSuppliesInvoicesCode';
-import ModalDetailSuppliesItem from './ModalDetailSuppliesItem';
 
 interface TabRepairInvoiceSuppliesPropType {
    form: UseFormReturn<RepairInvoiceSchema>;
@@ -27,6 +26,12 @@ interface TabRepairInvoiceSuppliesPropType {
    // onSubmitForm: SubmitHandler<RepairInvoiceSchema>;
    fieldArray: UseFieldArrayReturn<RepairInvoiceSchema>;
    repairOrder?: FindRepairOrder;
+   personnels:
+      | {
+           _id: string;
+           full_name: string;
+        }[]
+      | undefined;
 }
 
 export interface SuppliesInvoiceItem {
@@ -40,14 +45,22 @@ export interface SuppliesInvoiceItem {
    inventory: number;
    distributor_id: string;
    supplies_id: string;
+   details:
+      | Array<{
+           name: string;
+           describe: string;
+           status: StatusRepairDetail;
+           personnel_id: string;
+           note: string;
+        }>
+      | [];
 }
 
-const TabRepairInvoiceSupplies = ({ form, fieldArray, repairOrder }: TabRepairInvoiceSuppliesPropType) => {
+const TabRepairInvoiceSupplies = ({ form, fieldArray, personnels }: TabRepairInvoiceSuppliesPropType) => {
+   const { control, watch } = form;
    const { id: repairOrderId } = useParams();
-   const { fields, remove } = fieldArray;
-
-   const [openModal, setOpenModal] = useState<boolean>(false);
-
+   const { remove } = fieldArray;
+   const suppliesInvoices = watch('suppliesInvoice');
    // Tăng số lượng vật tư
    const handleIncrease = (index: number) => {
       const quantity = form.watch(`suppliesInvoice.${index}.quantity`) + 1;
@@ -99,6 +112,8 @@ const TabRepairInvoiceSupplies = ({ form, fieldArray, repairOrder }: TabRepairIn
       return remove(index);
    };
 
+   const dataStatus = [STATUS_REPAIR_DETAIL.complete, STATUS_REPAIR_DETAIL.empty, STATUS_REPAIR_DETAIL.check];
+
    const columnsService = [
       columnHelper.accessor('', {
          id: 'stt',
@@ -145,10 +160,7 @@ const TabRepairInvoiceSupplies = ({ form, fieldArray, repairOrder }: TabRepairIn
             </Box>
          ),
       }),
-      // columnHelper.accessor('discount', {
-      //    header: () => <Box sx={{ textAlign: 'center' }}>Giảm giá</Box>,
-      //    cell: (info) => <Box sx={{ textAlign: 'center' }}>{handlePrice(form.watch(`suppliesInvoice.${row.index}`))}</Box>,
-      // }),
+
       columnHelper.accessor('quantity', {
          header: () => <Box sx={{ textAlign: 'center' }}>Số lượng</Box>,
          cell: ({ row }) => {
@@ -193,6 +205,42 @@ const TabRepairInvoiceSupplies = ({ form, fieldArray, repairOrder }: TabRepairIn
             return <Box sx={{ textAlign: 'center' }}>{handlePrice(quantity * selling_price)}</Box>;
          },
       }),
+      repairOrderId &&
+         columnHelper.accessor('personnel_sc', {
+            header: () => <Box>Nhân viên SC</Box>,
+            cell: ({ row }) => {
+               // const supplies = row.original as SuppliesInvoiceItem;
+               return (
+                  <Box sx={{ width: '240px' }}>
+                     <ControllerAutoComplate
+                        options={personnels ?? []}
+                        valuePath="_id"
+                        titlePath="full_name"
+                        name={`suppliesInvoice.${row.index}.details.personnel_id`}
+                        control={control}
+                     />
+                  </Box>
+               );
+            },
+         }),
+      repairOrderId &&
+         columnHelper.accessor('status_supplies_invoice', {
+            header: () => <Box>Trạng thái SC</Box>,
+            cell: ({ row }) => {
+               // const supplies = row.original as SuppliesInvoiceItem;
+               return (
+                  <Box sx={{ width: '170px' }}>
+                     <ControllerAutoComplate
+                        options={dataStatus ?? []}
+                        valuePath="key"
+                        titlePath="title"
+                        name={`suppliesInvoice.${row.index}.details.status`}
+                        control={control}
+                     />
+                  </Box>
+               );
+            },
+         }),
       columnHelper.accessor('action', {
          header: () => <Box sx={{ textAlign: 'center' }}>Thao tác</Box>,
          cell: ({ row }) => {
@@ -200,31 +248,22 @@ const TabRepairInvoiceSupplies = ({ form, fieldArray, repairOrder }: TabRepairIn
 
             return (
                <Box display="flex" justifyContent="right" gap="6px">
-                  <IconButton color="warning" onClick={() => {}}>
-                     <EditIcon />
-                  </IconButton>
-                  <CoreTableActionViewDetail
-                     callback={() => {
-                        setOpenModal(true);
-                     }}
-                  />
-                  <IconButton color="primary" onClick={() => {}}>
-                     <AddIcon />
-                  </IconButton>
-
                   <CoreTableActionDelete callback={() => handleDeleteItem(supplies, row.index)} />
                </Box>
             );
          },
       }),
-   ];
+   ].filter(Boolean);
 
    return (
       <>
-         {repairOrderId && repairOrder && (
-            <ModalDetailSuppliesItem open={openModal} onClose={setOpenModal} repairOrder={repairOrder} />
-         )}
-         <TableCore height={340} columns={columnsService} data={fields} isPagination={false} />
+         <TableCore
+            height={340}
+            columns={columnsService as never}
+            data={suppliesInvoices}
+            isPagination={false}
+            noData="Chưa có vật tư sửa chữa."
+         />
       </>
    );
 };

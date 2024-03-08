@@ -28,6 +28,12 @@ interface ResponseGetAllField extends AxiosResponseData {
       price: number;
       updatedAt: string;
       _id: string;
+      details:
+         | Array<{
+              name: string;
+              describe: string;
+           }>
+         | [];
    }>;
 }
 
