@@ -13,7 +13,7 @@ import { TabContext, TabList, TabPanel } from '@mui/lab';
 import React, { useEffect, useMemo, useState } from 'react';
 import ScrollbarBase from '@App/component/customs/ScrollbarBase';
 import useSearchParamsHook from '@App/hooks/useSearchParamsHook';
-import handlePrice from '@Core/Helper/handlePrice';
+import handlePrice from '@Core/Helper/formatPrice';
 import { FindRepairOrder } from '@App/services/repairorder.service';
 import ControllerTextField from '@Core/Component/Input/ControllerTextField';
 import CreateSharpIcon from '@mui/icons-material/CreateSharp';

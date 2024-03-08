@@ -16,7 +16,7 @@ import useSearchParamsHook from '@App/hooks/useSearchParamsHook';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import ScrollbarBase from '@App/component/customs/ScrollbarBase';
 import TableCore, { columnHelper } from '@Core/Component/Table';
-import formatPrice from '@Core/Helper/handlePrice';
+import formatPrice from '@Core/Helper/formatPrice';
 
 const breadcrumbs = [
    {

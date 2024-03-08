@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
@@ -67,6 +70,7 @@ function ControllerAutoComplate<TFieldValues extends FieldValues = FieldValues>(
                }
                return v;
             }).filter(Boolean);
+
             return values;
          }
 
@@ -129,8 +133,15 @@ function ControllerAutoComplate<TFieldValues extends FieldValues = FieldValues>(
                   renderOption={renderOption}
                   onBlur={onBlur}
                   onChange={(_, value: any) => {
-                     const newValue = value ? get(value, valuePath) : '';
-                     onChange(newValue);
+                     if (!multiple) {
+                        const newValue = value ? get(value, valuePath) : '';
+                        onChange(newValue);
+                        return onChangeInput(value);
+                     }
+
+                     // return onChange(multiple ? value.map((v) => get(v, valuePath)));
+                     const newValueMultiple = value ? value.map((v: any) => get(v, valuePath)) : [];
+                     onChange(newValueMultiple);
                      return onChangeInput(value);
                   }}
                   clearIcon={<ClearIcon sx={{ fontSize: '16px' }} />}

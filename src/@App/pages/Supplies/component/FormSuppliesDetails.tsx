@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Box, Button, Grid, Typography } from '@mui/material';
 import { UseFormReturn, useFieldArray } from 'react-hook-form';
@@ -11,6 +12,7 @@ import { errorMessage } from '@Core/Helper/message';
 import { HandleErrorApi } from '@Core/Api/axios-config';
 import { AxiosError } from 'axios';
 import ControllerAutoComplate from '@Core/Component/Input/ControllerAutoComplate';
+import { useCallback } from 'react';
 
 import { SuppliesSchema } from '../utils/supplies.schema';
 
@@ -22,10 +24,12 @@ const FormSuppliesDetails = ({ form }: { form: UseFormReturn<SuppliesSchema> }) 
       name: 'details',
    });
 
+   const materials_catalog_id = watch('materials_catalog_id');
+
    const { data: distributors } = useQuery(
       ['getDistributors'],
       async () => {
-         const res = await distributorService.getAllField();
+         const res = await distributorService.getAllField({ materials_catalog_id });
          return res.data as { _id: string; name: string }[];
       },
       {
@@ -34,6 +38,31 @@ const FormSuppliesDetails = ({ form }: { form: UseFormReturn<SuppliesSchema> }) 
             return errorMessage(dataError?.message as unknown as string);
          },
       },
+   );
+
+   const details = watch('details') ?? [];
+
+   const newData = useCallback(
+      (index: number) => {
+         if (distributors) {
+            if (details.length > 0) {
+               return distributors.filter(
+                  (item1) =>
+                     !details
+                        .filter((item2) => {
+                           return watch(`details.${index}.distributor_id`) !== item2.distributor_id;
+                        })
+                        .some((item2) => {
+                           return item1._id === item2.distributor_id;
+                        }),
+               );
+            }
+
+            return distributors;
+         }
+         return [];
+      },
+      [distributors, details],
    );
 
    return (
@@ -85,7 +114,7 @@ const FormSuppliesDetails = ({ form }: { form: UseFormReturn<SuppliesSchema> }) 
                         <ControllerLabel title="Nhà phân phối" required />
 
                         <ControllerAutoComplate
-                           options={distributors || []}
+                           options={(newData(index) as never) || []}
                            valuePath="_id"
                            titlePath="name"
                            name={`details.${index}.distributor_id`}

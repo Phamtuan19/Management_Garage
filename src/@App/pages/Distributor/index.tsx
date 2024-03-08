@@ -10,7 +10,7 @@ import {
    CoreTableActionEdit,
    CoreTableActionViewDetail,
 } from '@Core/Component/Table/components/CoreTableAction';
-import { Box, Button } from '@mui/material';
+import { Box, Button, Chip } from '@mui/material';
 import PermissionAccessRoute from '@App/routes/components/PermissionAccessRoute';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
@@ -90,19 +90,15 @@ const Distributors = () => {
          columnHelper.accessor('email', {
             header: 'Địa chỉ email',
          }),
-         columnHelper.accessor('address', {
-            header: 'Địa chỉ',
+         columnHelper.accessor('materials_catalogs', {
+            header: 'Danh mục',
             cell: ({ row }) => {
                const distributor = row.original as IDistributor;
                return (
-                  <Box display="flex" alignItems="center" gap={1}>
-                     <Box component="span">
-                        {distributor?.address?.province?.name ? distributor?.address?.province?.name + ' -' : ''}
-                     </Box>
-                     <Box component="span">
-                        {distributor?.address?.district?.name ? distributor?.address?.district?.name + ' -' : ''}
-                     </Box>
-                     <Box component="span">{distributor?.address?.wards?.name}</Box>
+                  <Box display="flex" alignItems="center" flexWrap="wrap" maxWidth="250px" gap={1}>
+                     {distributor.materials_catalogs.map((item) => {
+                        return <Chip label={item.name} color="info" />;
+                     })}
                   </Box>
                );
             },
