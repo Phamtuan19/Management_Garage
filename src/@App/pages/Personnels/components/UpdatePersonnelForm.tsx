@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Control, FieldValues, SubmitHandler, UseFormReturn } from 'react-hook-form';
 import { Box, FormControl, Grid } from '@mui/material';
 import ControllerLabel from '@Core/Component/Input/ControllerLabel';

@@ -79,7 +79,7 @@ const RepairServiceDetails = () => {
                            fontWeight: '500',
                            height: 'auto',
                            whiteSpace: 'pre-wrap',
-                           wordWrap: 'break-word'
+                           wordWrap: 'break-word',
                         }}
                         dangerouslySetInnerHTML={{ __html: repairService?.describe }}
                      />
