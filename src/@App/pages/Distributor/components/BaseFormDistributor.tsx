@@ -59,24 +59,14 @@ const BaseFormDistributor = ({ form, onSubmitForm, isLoading, isUpdate }: BaseFo
                         Thông tin thanh toán:
                      </Typography>
                   </Grid>
-                  <Grid item xs={12} md={6}>
-                     <Box height="80px">
-                        <ControllerLabel title="Số tài khoản ngân hàng" />
-                        <ControllerTextField name="bank_account_number" control={control} />
-                     </Box>
-                  </Grid>
+
                   <Grid item xs={12} md={6}>
                      <Box height="80px">
                         <ControllerLabel title="Tên ngân hàng" />
                         <ControllerTextField name="bank_name" control={control} />
                      </Box>
                   </Grid>
-                  <Grid item xs={12} md={6}>
-                     <Box height="80px">
-                        <ControllerLabel title="Tên chi nhánh" />
-                        <ControllerTextField name="bank_branch" control={control} />
-                     </Box>
-                  </Grid>
+
                   <Grid item xs={12} md={6}>
                      <Box height="80px">
                         <ControllerLabel title="Tên chủ tài khoản" />
