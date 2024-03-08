@@ -6,6 +6,7 @@ export const validationFormCreate = yup.object({
    price: yup.number().required(messageValidate.required('Giá')).typeError('Giá phải là một số').nullable(),
    discount: yup
       .number()
+      .typeError('Giá phải là một số')
       .min(0, messageValidate.minNumber('Giảm giá', 0))
       .max(100, messageValidate.maxNumber('Giảm giá', 100))
       .typeError('Giá phải là một số')

@@ -16,6 +16,7 @@ export const validationFormCreate = yup.object({
       .matches(Regexs.email, messageValidate.format('Email'))
       .max(100, messageValidate.maxText('Email', 100))
       .default(''),
+   gender: yup.string().required('Giới tính không được để trống').default('Nam'),
    phone: yup
       .string()
       .required(messageValidate.required('SĐT'))
