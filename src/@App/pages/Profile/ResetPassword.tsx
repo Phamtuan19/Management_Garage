@@ -102,7 +102,6 @@ const ResetPassword = ({ open, handleClose }: ResetPasswordPropsType) => {
       </Modal>
    );
 };
-
 const style = {
    position: 'absolute',
    top: '50%',
@@ -114,5 +113,4 @@ const style = {
    borderRadius: '6px',
    p: 4,
 };
-
 export default ResetPassword;
