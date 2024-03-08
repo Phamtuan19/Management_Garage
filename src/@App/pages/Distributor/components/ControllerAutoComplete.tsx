@@ -5,6 +5,7 @@
 import { Autocomplete, CircularProgress, Box, TextField } from '@mui/material';
 import React from 'react';
 import { type Control, Controller, type FieldValues, type Path } from 'react-hook-form';
+import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
 interface OptionProps {
    [key: string]: string;
 }
@@ -37,6 +38,8 @@ function ControllerAutoComplete<TFieldValues extends FieldValues = FieldValues>(
       noOptionsText,
       placeholder,
       disabled = false,
+      onChangeValue,
+      onChangeClose,
       ...restProps
    } = props;
 
@@ -68,7 +71,17 @@ function ControllerAutoComplete<TFieldValues extends FieldValues = FieldValues>(
                         }}
                         onChange={(_, value: any) => {
                            onChange(value[valuePath]);
+                           return onChangeValue && onChangeValue(value);
                         }}
+                        clearIcon={
+                           <ClearOutlinedIcon
+                              sx={{ fontSize: '16px' }}
+                              onClick={() => {
+                                 onChange('');
+                                 onChangeClose && onChangeClose();
+                              }}
+                           />
+                        }
                         renderInput={(params) => {
                            return (
                               <TextField
