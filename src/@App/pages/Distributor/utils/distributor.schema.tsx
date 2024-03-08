@@ -32,6 +32,8 @@ export const distributorSchema = yup.object({
 
    account_holder_name: yup.string().trim().strict(true).default(''),
 
+   materials_catalog_id: yup.array().of(yup.string()).default([]),
+
    bank_account_number: yup
       .string()
       .trim()

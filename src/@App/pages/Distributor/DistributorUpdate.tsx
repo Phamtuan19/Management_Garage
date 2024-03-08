@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/naming-convention */
 
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
@@ -13,6 +14,8 @@ import HttpStatusCode from '@Core/Configs/HttpStatusCode';
 import setErrorMessageHookForm from '@App/helpers/setErrorMessageHookForm';
 import { useNavigate, useParams } from 'react-router-dom';
 import PageContent from '@App/component/customs/PageContent';
+import { Box } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 
 import { DistributorSchema, distributorSchema } from './utils/distributor.schema';
 import BaseFormDistributor from './components/BaseFormDistributor';
@@ -62,6 +65,7 @@ const DistributorUpdate = () => {
                   },
                   specific: data.address.specific,
                },
+               materials_catalog_id: data.materials_catalog_id,
             });
             return data;
          },
@@ -92,8 +96,18 @@ const DistributorUpdate = () => {
 
    return (
       <BaseBreadcrumbs arialabel="Cập nhật thông tin" breadcrumbs={breadcrumbs}>
+         <Box>
+            <LoadingButton
+               type="submit"
+               variant="contained"
+               loading={isLoading}
+               onClick={form.handleSubmit(onSubmitForm)}
+            >
+               Lưu
+            </LoadingButton>
+         </Box>
          <PageContent>
-            <BaseFormDistributor form={form} onSubmitForm={onSubmitForm} isLoading={isLoading} />
+            <BaseFormDistributor form={form} />
          </PageContent>
       </BaseBreadcrumbs>
    );

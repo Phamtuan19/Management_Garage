@@ -73,7 +73,14 @@ const RepairServiceDetails = () => {
                   </Grid>
                   <Grid item xs={10}>
                      <Typography
-                        sx={{ fontSize: '1rem', lineHeight: '32px', height: '32px', fontWeight: '500' }}
+                        sx={{
+                           fontSize: '1rem',
+                           lineHeight: '32px',
+                           fontWeight: '500',
+                           height: 'auto',
+                           whiteSpace: 'pre-wrap',
+                           wordWrap: 'break-word'
+                        }}
                         dangerouslySetInnerHTML={{ __html: repairService?.describe }}
                      />
                      <Divider variant="inset" sx={{ ml: 0 }} />

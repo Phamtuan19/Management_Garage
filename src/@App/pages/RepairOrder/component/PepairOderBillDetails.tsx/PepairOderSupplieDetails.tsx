@@ -1,7 +1,7 @@
 import Switch from '@App/component/customs/Switch';
 import { RepairOrderSupplies } from '@App/services/repairorder.service';
 import TableCore, { columnHelper } from '@Core/Component/Table';
-import handlePrice from '@Core/Helper/handlePrice';
+import handlePrice from '@Core/Helper/formatPrice';
 import { Box, Chip } from '@mui/material';
 import React from 'react';
 

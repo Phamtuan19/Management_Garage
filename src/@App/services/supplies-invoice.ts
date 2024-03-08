@@ -35,16 +35,26 @@ export interface SuppliesInvoicesResponse {
 
 export interface SuppliesInvoiceDetails {
    _id: string;
-   code: string;
-   supplies_invoice_id: string;
-   supplies_detail_id: string;
    quantity_received: number;
    cost_price: number;
    selling_price: number;
    describe: string;
-   name_detail: string;
-   unit: string;
    discount: number;
+   quantity_sold: number;
+   distributor: {
+      _id: string;
+      name: string;
+      code: string;
+      phone: string;
+      email: string;
+   };
+   supplies_detail: {
+      _id: string;
+      name: string;
+      code: string;
+      unit: string;
+      name_supplies: string;
+   };
 }
 
 interface Transactions {
@@ -61,7 +71,7 @@ export interface ResponseGetSuppliesInvoice {
    details: Array<SuppliesInvoiceDetails>;
    transactions: Transactions;
    personnel: { _id: string; full_name: string };
-   distributor_id: string;
+   createdAt: string;
 }
 
 export interface DataSuppliesDetails {
@@ -88,7 +98,6 @@ export interface ResponseSuppliesDetailsSort extends AxiosResponseData {
       inventory: number;
    }[];
 }
-
 class SuppliesInvoiceService extends BaseService {
    BASE_ENDPOINT = suppliesInvoicederPath.base;
    constructor() {

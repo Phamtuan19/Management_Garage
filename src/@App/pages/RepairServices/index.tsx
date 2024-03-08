@@ -18,14 +18,14 @@ import useSearchParamsHook from '@App/hooks/useSearchParamsHook';
 import PermissionAccessRoute from '@App/routes/components/PermissionAccessRoute';
 import MODULE_PAGE from '@App/configs/module-page';
 import PAGE_ACTION from '@App/configs/page-action';
-import { format } from 'date-fns';
 import { errorMessage, successMessage } from '@Core/Helper/message';
 import { AxiosResponseData, HandleErrorApi } from '@Core/Api/axios-config';
 import { AxiosError } from 'axios';
 import repairServiceService from '@App/services/repairService.service';
 import PageContent from '@App/component/customs/PageContent';
 import FilterTable from '@App/component/common/FilterTable';
-import handlePrice from '@Core/Helper/handlePrice';
+import handlePrice from '@Core/Helper/formatPrice';
+import formatDateTime from '@Core/Helper/formatDateTime';
 
 const sortList = [
    {
@@ -85,7 +85,7 @@ const RepairServices = () => {
       return [
          columnHelper.accessor((_, index) => index + 1, {
             id: 'stt',
-            header: 'STT',
+            header: () => <Box textAlign="center">STT</Box>,
             cell: ({ getValue }) => {
                return <Box textAlign="center">{getValue()}</Box>;
             },
@@ -109,15 +109,15 @@ const RepairServices = () => {
             },
          }),
          columnHelper.accessor('discount', {
-            header: 'Giảm giá',
+            header: () => <Box textAlign="center">Giảm giá</Box>,
             cell: ({ row }) => {
                return <Box textAlign="center">{row.getValue('discount')}%</Box>;
             },
          }),
          columnHelper.accessor('createdAt', {
             header: () => <Box textAlign="center">Ngày tạo</Box>,
-            cell: ({ row }) => {
-               return <Box textAlign="center">{format(row.getValue('createdAt'), 'yyyy-MM-dd')}</Box>;
+            cell: (info) => {
+               return <Box textAlign="center">{formatDateTime(info.getValue())}</Box>;
             },
          }),
          columnHelper.accessor('', {

@@ -72,7 +72,7 @@ const CarsUpdate = () => {
    };
 
    return (
-      <BaseBreadcrumbs arialabel={`${car?.name} - (#${car?.code})`} breadcrumbs={breadcrumbs}>
+      <BaseBreadcrumbs breadcrumbs={breadcrumbs} arialabel={`${car?.name} - (#${car?.code})`}>
          <BaseFormCars onSubmitForm={onSubmitForm} form={form} isLoading={isLoading} />
       </BaseBreadcrumbs>
    );

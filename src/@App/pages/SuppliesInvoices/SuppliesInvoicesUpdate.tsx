@@ -52,13 +52,24 @@ const SuppliesInvoicesUpdate = () => {
             form.setValue('describe', data.describe);
             form.setValue('image', '');
 
-            form.setValue(
-               'details',
-               data.details.map((item) => ({
-                  ...item,
-                  discount: item.discount ?? 0,
-               })),
-            );
+            const details = data.details.map((item) => {
+               return {
+                  describe: item.describe,
+                  code: item.supplies_detail.code,
+                  name_detail: item.supplies_detail.name,
+                  unit: item.supplies_detail.unit,
+                  supplies_detail_id: item.supplies_detail._id,
+                  quantity_received: item.quantity_received,
+                  cost_price: item.cost_price,
+                  selling_price: item.selling_price,
+                  discount: item.discount,
+                  distributor_name: item.distributor.name,
+               };
+            });
+
+            form.setValue('details', details);
+
+            return data;
          },
       },
    );

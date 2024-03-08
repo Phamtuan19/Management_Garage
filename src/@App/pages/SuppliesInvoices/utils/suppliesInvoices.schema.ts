@@ -38,6 +38,7 @@ export const suppliesInvoicesSchema = yup.object({
                     selling_price: yup.number().default(0),
                     discount: yup.number().default(0),
                     describe: yup.string().strict(true).trim(messageValidate.trim()).default(''),
+                    distributor_name: yup.string().default(''),
                  }),
               )
               .default([])
@@ -54,6 +55,7 @@ export const suppliesInvoicesSchema = yup.object({
                     selling_price: yup.number().default(0),
                     discount: yup.number().default(0),
                     describe: yup.string().strict(true).trim(messageValidate.trim()).default(''),
+                    distributor_name: yup.string().default(''),
                  }),
               )
               .default([]),

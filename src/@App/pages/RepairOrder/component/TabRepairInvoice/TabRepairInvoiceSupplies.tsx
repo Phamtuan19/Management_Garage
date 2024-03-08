@@ -3,7 +3,7 @@ import { UseFieldArrayReturn, UseFormReturn } from 'react-hook-form';
 import TableCore, { columnHelper } from '@Core/Component/Table';
 import { Box, ButtonBase, IconButton, InputBase, styled } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import handlePrice from '@Core/Helper/handlePrice';
+import handlePrice from '@Core/Helper/formatPrice';
 import RemoveIcon from '@mui/icons-material/Remove';
 import EditIcon from '@mui/icons-material/Edit';
 import { CoreTableActionDelete, CoreTableActionViewDetail } from '@Core/Component/Table/components/CoreTableAction';
@@ -116,7 +116,7 @@ const TabRepairInvoiceSupplies = ({ form, fieldArray, repairOrder }: TabRepairIn
       columnHelper.accessor('distributor_name', {
          header: () => <Box>Nhà phân phối</Box>,
          cell: (info) => {
-            return <Box sx={{ width: '180px' }}>{info.getValue()}</Box>;
+            return <Box sx={{ width: '200px', overflow: 'hidden', textOverflow: 'ellipsis' }}>{info.getValue()}</Box>;
          },
       }),
       columnHelper.accessor('supplies_invoices_code', {
