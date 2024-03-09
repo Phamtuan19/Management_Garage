@@ -168,7 +168,6 @@ function ControllerAutoComplate<TFieldValues extends FieldValues = FieldValues>(
                            }}
                            inputProps={{
                               ...params.inputProps,
-                              autoComplete: 'new-password',
                            }}
                            InputProps={{
                               ...params.InputProps,

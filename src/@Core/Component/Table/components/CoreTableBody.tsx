@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/naming-convention */
 /*
  * Created Date: 28-11-2023, 21:00 pm
@@ -21,10 +22,11 @@ interface TabelHeaderProps<T> {
    table: TypeReactTable<T>;
    isLoading: boolean;
    noData: React.ReactNode;
+   onClickRow?: (e: any) => void;
 }
 
 function CoreTableBody<T>(props: TabelHeaderProps<T>) {
-   const { table, isLoading, noData } = props;
+   const { table, isLoading, noData, onClickRow } = props;
 
    const renderTableBody = () => {
       const { rows } = table && table.getRowModel();
@@ -60,15 +62,23 @@ function CoreTableBody<T>(props: TabelHeaderProps<T>) {
          );
       }
 
-      return rows.map((row, index) => (
-         <StyledTableRow key={index}>
-            {row.getVisibleCells().map((cell, index) => (
-               <StyledTableCell key={index} {...{}}>
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-               </StyledTableCell>
-            ))}
-         </StyledTableRow>
-      ));
+      return rows.map((row, index) => {
+         return (
+            <StyledTableRow
+               key={index}
+               onClick={() => {
+                  const data = row.original;
+                  return onClickRow && onClickRow(data);
+               }}
+            >
+               {row.getVisibleCells().map((cell, index) => (
+                  <StyledTableCell key={index} {...{}}>
+                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </StyledTableCell>
+               ))}
+            </StyledTableRow>
+         );
+      });
    };
 
    return <TableBody sx={{ height: '100%' }}>{renderTableBody()}</TableBody>;

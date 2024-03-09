@@ -38,6 +38,7 @@ function ControllerTextField<TFieldValues extends FieldValues = FieldValues>(
             return (
                <React.Fragment>
                   <TextField
+                     autoComplete="off"
                      fullWidth
                      id={name}
                      variant={variant}

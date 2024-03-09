@@ -3,14 +3,12 @@ import * as yup from 'yup';
 
 export const validationFormCreate = yup.object({
    name: yup.string().required(messageValidate.required('Tên')).default(''),
-   price: yup.number().required(messageValidate.required('Giá')).typeError('Giá phải là một số').nullable(),
+   price: yup.number().required(messageValidate.required('Giá')).default(0),
    discount: yup
       .number()
       .typeError('Giá phải là một số')
       .min(0, messageValidate.minNumber('Giảm giá', 0))
       .max(100, messageValidate.maxNumber('Giảm giá', 100))
-      .typeError('Giá phải là một số')
-      .nullable()
       .default(0),
    describe: yup.string().default(''),
 

@@ -11,7 +11,6 @@ import setErrorMessageHookForm from '@App/helpers/setErrorMessageHookForm';
 import { HandleErrorApi } from '@Core/Api/axios-config';
 import repairServiceService from '@App/services/repairService.service';
 import setValueHookForm from '@App/helpers/setValueHookForm';
-import PageContent from '@App/component/customs/PageContent';
 import { Box } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 
@@ -74,9 +73,7 @@ const RepairServiceUpdate = () => {
                Lưu
             </LoadingButton>
          </Box>
-         <PageContent>
-            <BaseFormRepairService form={form} onSubmitForm={onSubmitForm} />
-         </PageContent>
+         <BaseFormRepairService form={form} onSubmitForm={onSubmitForm} />
       </BaseBreadcrumbs>
    );
 };

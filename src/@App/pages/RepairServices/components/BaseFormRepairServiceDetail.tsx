@@ -66,7 +66,7 @@ const BaseFormRepairServiceDetail = ({ form }: BaseFormRepairServiceDetailProps)
          {fields.map((_field, index) => {
             return (
                <Box mt={2}>
-                  <Accordion sx={{ boxShadow: 'none', borderBottom: '1px solid #E8EAEB' }} key={index}>
+                  <Accordion sx={{ boxShadow: 'none', border: 'none', borderBottom: '1px solid #E8EAEB' }} key={index}>
                      <AccordionSummary
                         remove={() => {
                            remove(index);
