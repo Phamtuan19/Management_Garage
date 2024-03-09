@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import ROUTE_PATH from '@App/configs/router-path';
@@ -13,9 +14,10 @@ import setErrorMessageHookForm from '@App/helpers/setErrorMessageHookForm';
 import { useParams } from 'react-router-dom';
 import setValueHookForm from '@App/helpers/setValueHookForm';
 import { HandleErrorApi } from '@Core/Api/axios-config';
+import { format } from 'date-fns';
 
 import { CarsSchema, carsSchema } from './utils/cars.schema';
-import BaseFormCars from './Components/BaseFormCars';
+import BaseFormCars from './components/BaseFormCars';
 
 const breadcrumbs = [
    {
@@ -42,6 +44,8 @@ const CarsUpdate = () => {
          onSuccess: (data) => {
             setValueHookForm(form.setValue, data as never);
             form.setValue('customer_id', data.customer_id._id as string);
+            form.setValue('production_year', '');
+
             return data;
          },
       },
@@ -49,12 +53,19 @@ const CarsUpdate = () => {
 
    const { mutate: Cars, isLoading } = useMutation({
       mutationFn: async (data: CarsSchema) => {
-         return await carsService.update(data, carsId, 'patch');
+         return await carsService.update(
+            {
+               ...data,
+               production_year: String(format(new Date(data.production_year), 'yyyy')),
+            },
+            carsId,
+            'patch',
+         );
       },
       onSuccess: async () => {
          successMessage('Cập nhật thành công !');
          await getCars();
-         navigate('/cars');
+         navigate(ROUTE_PATH.CARS);
       },
       onError: (err: AxiosError) => {
          const dataError = err.response?.data as HandleErrorApi;

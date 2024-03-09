@@ -33,6 +33,7 @@ class Regexs {
    cmnd = /^[1-9]{11}\b/g;
    bankNumber = /^(?:\d{10}|\d{19})$/;
    password = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/;
+   licensePlate = /^[0-9]{2}[A-Z]{1}-[0-9]{4,5}\.[0-9]{1,2}$/;
 }
 
 export default new Regexs();

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import ROUTE_PATH from '@App/configs/router-path';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -10,8 +11,9 @@ import setErrorMessageHookForm from '@App/helpers/setErrorMessageHookForm';
 import { HandleErrorApi } from '@Core/Api/axios-config';
 import { useNavigate } from 'react-router-dom';
 import carsService from '@App/services/cars.service';
+import { format } from 'date-fns';
 
-import BaseFormCars from './Components/BaseFormCars';
+import BaseFormCars from './components/BaseFormCars';
 import { CarsSchema, carsSchema } from './utils/cars.schema';
 
 const breadcrumbs = [
@@ -28,7 +30,10 @@ const CarsCreate = () => {
    const navigate = useNavigate();
    const { mutate: CarsCreate, isLoading } = useMutation({
       mutationFn: async (data: CarsSchema) => {
-         return await carsService.create(data);
+         return await carsService.create({
+            ...data,
+            production_year: String(format(new Date(data.production_year), 'yyyy')),
+         });
       },
       onSuccess: () => {
          successMessage('Tạo mới thông tin xe thành công.');
