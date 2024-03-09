@@ -1,19 +1,15 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import { useParams, useNavigate } from 'react-router-dom';
 import ROUTE_PATH from '@App/configs/router-path';
 import { useQuery } from '@tanstack/react-query';
 import MODULE_PAGE from '@App/configs/module-page';
 import theme from '@Core/Theme';
 import PermissionAccessRoute from '@App/routes/components/PermissionAccessRoute';
-import { Box, Typography, Button, Grid, Tab } from '@mui/material';
+import { Box, Typography, Button, Grid } from '@mui/material';
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import PageContent from '@App/component/customs/PageContent';
 import suppliesService, { SuppliesFindOne } from '@App/services/supplies.service';
 import { useMemo } from 'react';
 import formatDateTime from '@Core/Helper/formatDateTime';
-import useSearchParamsHook from '@App/hooks/useSearchParamsHook';
-import { TabContext, TabList, TabPanel } from '@mui/lab';
-import ScrollbarBase from '@App/component/customs/ScrollbarBase';
 
 import DetailTableSupplies from './component/DetailTableSupplies';
 
@@ -32,12 +28,6 @@ interface RenderSuppliesDetails {
 
 const SuppliesDetails = () => {
    const { id: suppliesId } = useParams();
-
-   const { searchParams, setParams } = useSearchParamsHook();
-
-   const handleChange = (_e: React.SyntheticEvent, newValue: string) => {
-      setParams('tab', newValue);
-   };
 
    const navigate = useNavigate();
    const { data: supplies } = useQuery(['getSuppliesDetails', suppliesId], async () => {
@@ -81,52 +71,48 @@ const SuppliesDetails = () => {
                </PermissionAccessRoute>
             </Box>
             <PageContent>
-               <TabContext value={searchParams['tab'] ?? '1'}>
-                  <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                     <TabList onChange={handleChange} aria-label="lab API tabs example">
-                        <Tab label="Vật tư" value="1" />
-                        <Tab label="Biến thể" value="2" />
-                     </TabList>
-                  </Box>
-                  <ScrollbarBase sx={{ px: '12px', maxHeight: 'calc(100vh - 200px)' }}>
-                     <TabPanel value="1" sx={{ px: 0 }}>
-                        {suppliesDetails.map((detail, index) => (
-                           <Grid container spacing={1} key={index}>
-                              <Grid item xs={2} paddingBottom={2}>
-                                 <Typography
-                                    sx={{
-                                       fontSize: '1rem',
-                                       lineHeight: '2.2rem',
-                                       color: theme.palette.grey[800],
-                                    }}
-                                 >
-                                    {detail.label}
-                                 </Typography>
-                              </Grid>
-                              <Grid item xs={10}>
-                                 <Typography
-                                    sx={{
-                                       p: 1,
-                                       pb: 0,
-                                       fontWeight: '500',
-                                       flexGrow: 1,
-                                       fontSize: '1rem',
-                                       lineHeight: '2rem',
-                                       height: '40px',
-                                    }}
-                                 >
-                                    {detail.value}
-                                 </Typography>
-                                 {detail.border && <Box sx={{ borderBottom: '1px solid #DADADA' }}></Box>}
-                              </Grid>
+               <Grid container spacing={1} columnSpacing={8}>
+                  {suppliesDetails.map((detail, index) => (
+                     <Grid item xs={6}>
+                        <Grid container spacing={2}>
+                           <Grid item xs={2} paddingBottom={2} key={index}>
+                              <Typography
+                                 sx={{
+                                    fontSize: '1rem',
+                                    lineHeight: '2.2rem',
+                                    color: theme.palette.grey[800],
+                                 }}
+                              >
+                                 {detail.label}
+                              </Typography>
                            </Grid>
-                        ))}
-                     </TabPanel>
-                     <TabPanel value="2" sx={{ px: 0 }}>
-                        <DetailTableSupplies supplies={supplies} />
-                     </TabPanel>
-                  </ScrollbarBase>
-               </TabContext>
+                           <Grid item xs={10}>
+                              <Typography
+                                 sx={{
+                                    p: 1,
+                                    pb: 0,
+                                    fontWeight: '500',
+                                    flexGrow: 1,
+                                    fontSize: '1rem',
+                                    lineHeight: '2rem',
+                                    height: '40px',
+                                 }}
+                              >
+                                 {detail.value}
+                              </Typography>
+                              {detail.border && <Box sx={{ borderBottom: '1px solid #DADADA' }}></Box>}
+                           </Grid>
+                        </Grid>
+                     </Grid>
+                  ))}
+               </Grid>
+
+               <Box mt={4}>
+                  {/* <Typography variant="h6" fontWeight={400} fontSize={16}>
+                     Danh sách sản phẩm theo nhà phân phối:
+                  </Typography> */}
+                  <DetailTableSupplies supplies={supplies} />
+               </Box>
             </PageContent>
          </BaseBreadcrumbs>
       </Box>

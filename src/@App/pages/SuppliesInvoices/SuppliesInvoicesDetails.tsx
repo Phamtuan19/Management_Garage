@@ -1,17 +1,14 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import { useNavigate, useParams } from 'react-router-dom';
 import ROUTE_PATH from '@App/configs/router-path';
 import { useQuery } from '@tanstack/react-query';
-import { Box, Button, Tab } from '@mui/material';
+import { Box, Button, Chip, Grid, Typography } from '@mui/material';
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import suppliesInvoiceService, { ResponseGetSuppliesInvoice } from '@App/services/supplies-invoice';
 import PageContent from '@App/component/customs/PageContent';
-import { TabContext, TabList, TabPanel } from '@mui/lab';
-import useSearchParamsHook from '@App/hooks/useSearchParamsHook';
 import MODULE_PAGE from '@App/configs/module-page';
 import PermissionAccessRoute from '@App/routes/components/PermissionAccessRoute';
+import formatPrice from '@Core/Helper/formatPrice';
 
-import DetailInformation from './component/detail/DetailInformation';
 import DetailTable from './component/detail/DetailTable';
 
 const breadcrumbs = [
@@ -22,13 +19,25 @@ const breadcrumbs = [
 ];
 const SuppliesInvoicesDetails = () => {
    const { id: suppliesinvoicesId } = useParams();
-   const { searchParams, setParams } = useSearchParamsHook();
    const navigate = useNavigate();
 
    const { data: suppliesinvoices } = useQuery(['getSuppliesInvoices', suppliesinvoicesId], async () => {
       const suppliesInvoicesRes = await suppliesInvoiceService.find(suppliesinvoicesId as string);
       return suppliesInvoicesRes.data as ResponseGetSuppliesInvoice;
    });
+
+   const suppliesInvoicesDetails = [
+      { label: 'Người tạo phiếu:', value: suppliesinvoices?.personnel.full_name, border: true },
+      { label: 'Tổng tiền:', value: formatPrice(suppliesinvoices?.transactions.total_price ?? 0), border: true },
+      {
+         label: 'Hình thứ thanh toán:',
+         value: <Chip label={suppliesinvoices?.transactions.payment_type} color="info" />,
+         border: false,
+      },
+      { label: 'Chuyển khoản:', value: formatPrice(suppliesinvoices?.transactions.cash_money ?? 0), border: true },
+      { label: 'Mô tả', value: suppliesinvoices?.describe, border: true },
+      { label: 'Tiền mặt:', value: formatPrice(suppliesinvoices?.transactions.transfer_money ?? 0), border: true },
+   ];
 
    return (
       <BaseBreadcrumbs breadcrumbs={breadcrumbs} arialabel={'#' + suppliesinvoices?.code}>
@@ -50,25 +59,42 @@ const SuppliesInvoicesDetails = () => {
          </Box>
 
          <PageContent>
-            <TabContext value={searchParams['tab'] ?? '1'}>
-               <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                  <TabList
-                     onChange={(_e, v) => {
-                        setParams('tab', v as string);
-                     }}
-                     aria-label="lab API tabs example"
-                  >
-                     <Tab label="Thông tin" value="1" />
-                     <Tab label="Sản phẩm" value="2" />
-                  </TabList>
-               </Box>
-               <TabPanel value="1">
-                  <DetailInformation suppliesinvoices={suppliesinvoices} />
-               </TabPanel>
-               <TabPanel value="2" sx={{ px: 0, py: 1 }}>
-                  <DetailTable suppliesinvoices={suppliesinvoices} />
-               </TabPanel>
-            </TabContext>
+            <Grid container columnSpacing={8}>
+               {suppliesInvoicesDetails?.map((detail, index) => (
+                  <Grid item xs={6}>
+                     <Grid container key={index}>
+                        <Grid item xs={4} paddingBottom={2}>
+                           <Typography
+                              sx={({ palette }) => ({
+                                 fontSize: '1rem',
+                                 lineHeight: '2.2rem',
+                                 color: palette.grey[800],
+                              })}
+                           >
+                              {detail.label}
+                           </Typography>
+                        </Grid>
+                        <Grid item xs={8}>
+                           <Typography
+                              sx={{
+                                 p: 1,
+                                 pb: 0,
+                                 fontWeight: '500',
+                                 flexGrow: 1,
+                                 fontSize: '1rem',
+                                 lineHeight: '2rem',
+                                 height: '40px',
+                              }}
+                           >
+                              {detail.value}
+                           </Typography>
+                           {detail.border && <Box sx={{ borderBottom: '1px solid #DADADA' }}></Box>}
+                        </Grid>
+                     </Grid>
+                  </Grid>
+               ))}
+            </Grid>
+            <DetailTable suppliesinvoices={suppliesinvoices} />
          </PageContent>
       </BaseBreadcrumbs>
    );

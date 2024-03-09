@@ -70,6 +70,7 @@ function CoreTableBody<T>(props: TabelHeaderProps<T>) {
                   const data = row.original;
                   return onClickRow && onClickRow(data);
                }}
+               sx={{ cursor: onClickRow ? 'pointer' : 'default' }}
             >
                {row.getVisibleCells().map((cell, index) => (
                   <StyledTableCell key={index} {...{}}>

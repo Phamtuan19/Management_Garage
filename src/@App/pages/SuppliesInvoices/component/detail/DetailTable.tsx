@@ -1,12 +1,92 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { ResponseGetSuppliesInvoice, SuppliesInvoiceDetails } from '@App/services/supplies-invoice';
 import TableCore, { columnHelper } from '@Core/Component/Table';
-import formatDateTime from '@Core/Helper/formatDateTime';
 import formatPrice from '@Core/Helper/formatPrice';
-import { Box, Chip } from '@mui/material';
-import React, { useMemo } from 'react';
+import { Box, ButtonBase, Chip, Drawer, Grid, Typography } from '@mui/material';
+import React, { useMemo, useState } from 'react';
+import CloseIcon from '@mui/icons-material/Close';
 
 const DetailTable = ({ suppliesinvoices }: { suppliesinvoices: ResponseGetSuppliesInvoice | undefined }) => {
+   const [open, setOpen] = useState<boolean>(false);
+   const [suppliesInvoiceItem, setSuppliesInvoiceItem] = useState<SuppliesInvoiceDetails | null>(null);
+
+   const drawerItem = useMemo(() => {
+      return suppliesInvoiceItem
+         ? [
+              {
+                 title: 'Mã vật tư',
+                 value: `#${suppliesInvoiceItem.supplies_detail.code}`,
+                 border: true,
+              },
+              {
+                 title: 'Tên vật chính',
+                 value: suppliesInvoiceItem.supplies_detail.name_supplies,
+                 border: true,
+              },
+              {
+                 title: 'Tên vật tư theo NPP',
+                 value: suppliesInvoiceItem.supplies_detail.name_detail,
+                 border: true,
+              },
+              {
+                 title: 'Tên Nhà phân phối',
+                 value: suppliesInvoiceItem.distributor.name,
+                 border: true,
+              },
+              {
+                 title: 'Trạng thái đơn hàng',
+                 value: (
+                    <Box>
+                       <Chip
+                          label={
+                             suppliesInvoiceItem.quantity_received - suppliesInvoiceItem.quantity_sold === 0
+                                ? 'hết hàng'
+                                : 'Còn hàng'
+                          }
+                          color={
+                             suppliesInvoiceItem.quantity_received - suppliesInvoiceItem.quantity_sold === 0
+                                ? 'error'
+                                : 'info'
+                          }
+                       />
+                    </Box>
+                 ),
+                 border: false,
+              },
+              {
+                 title: 'Đơn vị tính',
+                 value: suppliesInvoiceItem.supplies_detail.unit,
+                 border: true,
+              },
+              {
+                 title: 'Số lượng nhập',
+                 value: suppliesInvoiceItem.quantity_received + ' ' + suppliesInvoiceItem.supplies_detail.unit,
+                 border: true,
+              },
+              {
+                 title: 'Giá nhập',
+                 value: formatPrice(suppliesInvoiceItem.cost_price),
+                 border: true,
+              },
+              {
+                 title: 'Giá bán',
+                 value: formatPrice(suppliesInvoiceItem.selling_price),
+                 border: true,
+              },
+              {
+                 title: 'Giảm giá',
+                 value: suppliesInvoiceItem.discount + '%',
+                 border: true,
+              },
+              {
+                 title: 'Số lượng đã bán',
+                 value: suppliesInvoiceItem.discount,
+                 border: true,
+              },
+           ]
+         : [];
+   }, [suppliesInvoiceItem]);
+
    const columns = useMemo(() => {
       return [
          columnHelper.accessor((_, index) => index + 1, {
@@ -21,19 +101,19 @@ const DetailTable = ({ suppliesinvoices }: { suppliesinvoices: ResponseGetSuppli
          columnHelper.accessor('supplies_detail.name_supplies', {
             header: () => <Box>Tên vật tư chính</Box>,
             cell: (info) => (
-               <Box sx={{ maxWidth: '250px', textOverflow: 'ellipsis', overflow: 'hidden' }}>{info.getValue()}</Box>
+               <Box sx={{ maxWidth: '350px', textOverflow: 'ellipsis', overflow: 'hidden' }}>{info.getValue()}</Box>
             ),
          }),
          columnHelper.accessor('name_detail', {
             header: () => <Box>Tên vật tư theo NPP</Box>,
             cell: (info) => (
-               <Box sx={{ maxWidth: '250px', textOverflow: 'ellipsis', overflow: 'hidden' }}>{info.getValue()}</Box>
+               <Box sx={{ maxWidth: '350px', textOverflow: 'ellipsis', overflow: 'hidden' }}>{info.getValue()}</Box>
             ),
          }),
          columnHelper.accessor('distributor.name', {
             header: () => <Box>Nhà phân phối</Box>,
             cell: (info) => (
-               <Box sx={{ maxWidth: '250px', textOverflow: 'ellipsis', overflow: 'hidden' }}>{info.getValue()}</Box>
+               <Box sx={{ maxWidth: '350px', textOverflow: 'ellipsis', overflow: 'hidden' }}>{info.getValue()}</Box>
             ),
          }),
          columnHelper.accessor('status_quantity_sold', {
@@ -55,46 +135,84 @@ const DetailTable = ({ suppliesinvoices }: { suppliesinvoices: ResponseGetSuppli
                );
             },
          }),
-         columnHelper.accessor('supplies_detail.unit', {
-            header: () => <Box sx={{ textAlign: 'center' }}>DV Tính</Box>,
-            cell: (info) => (
-               <Box sx={{ textAlign: 'center' }}>
-                  <Chip label={info.getValue()} color="default" />
-               </Box>
-            ),
-         }),
-         columnHelper.accessor('quantity_received', {
-            header: () => <Box sx={{ textAlign: 'center' }}>SL nhập</Box>,
-            cell: (info) => <Box sx={{ textAlign: 'center' }}>{info.getValue()}</Box>,
-         }),
-         columnHelper.accessor('cost_price', {
-            header: () => <Box sx={{ textAlign: 'center' }}>Giá nhập</Box>,
-            cell: (info) => <Box sx={{}}>{formatPrice(info.getValue())}</Box>,
-         }),
-         columnHelper.accessor('selling_price', {
-            header: () => <Box sx={{ textAlign: 'center' }}>Giá bán</Box>,
-            cell: (info) => <Box sx={{ textAlign: 'center' }}>{formatPrice(info.getValue())}</Box>,
-         }),
-         columnHelper.accessor('discount', {
-            header: () => <Box sx={{ textAlign: 'center' }}>Giảm giá</Box>,
-            cell: (info) => <Box sx={{ textAlign: 'center' }}>{info.getValue()}%</Box>,
-         }),
-         columnHelper.accessor('quantity_sold', {
-            header: () => <Box sx={{ textAlign: 'center' }}>SL bán</Box>,
-            cell: (info) => (
-               <Box sx={{ textAlign: 'center' }}>
-                  <Chip label={info.getValue()} color="info" />
-               </Box>
-            ),
-         }),
-         columnHelper.accessor('createdAt', {
-            header: () => <Box sx={{ textAlign: 'center' }}>Ngày tạo</Box>,
-            cell: (info) => <Box sx={{}}>{formatDateTime(info.getValue())}</Box>,
-         }),
       ];
    }, []);
 
-   return <TableCore height={450} columns={columns} data={suppliesinvoices?.details ?? []} isPagination={false} />;
+   return (
+      <>
+         <TableCore
+            onClickRow={(e: SuppliesInvoiceDetails) => {
+               setOpen(true);
+               setSuppliesInvoiceItem(e);
+            }}
+            height={450}
+            columns={columns}
+            data={suppliesinvoices?.details ?? []}
+            isPagination={false}
+         />
+         <Drawer open={open} anchor="right">
+            {suppliesInvoiceItem && (
+               <Box sx={{ minWidth: 600 }}>
+                  <Box
+                     sx={({ palette, base }) => ({
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        borderBottom: '1px solid #DADADA',
+                        p: '12px 24px 6px 24px',
+                        color: base.text.white,
+                        backgroundColor: palette.primary.main,
+                     })}
+                  >
+                     <Typography>
+                        Thông tin - {suppliesInvoiceItem.supplies_detail.name_detail} (#{suppliesinvoices?.code})
+                     </Typography>
+                     <Box>
+                        <ButtonBase onClick={() => setOpen(false)}>
+                           <CloseIcon />
+                        </ButtonBase>
+                     </Box>
+                  </Box>
+                  <Box sx={{ px: '12px', py: '24px' }}>
+                     {drawerItem.map((item, index) => {
+                        return (
+                           <Grid container key={index}>
+                              <Grid item xs={4} paddingBottom={2}>
+                                 <Typography
+                                    sx={({ palette }) => ({
+                                       fontSize: '1rem',
+                                       lineHeight: '2.2rem',
+                                       color: palette.grey[800],
+                                    })}
+                                 >
+                                    {item.title}
+                                 </Typography>
+                              </Grid>
+                              <Grid item xs={8}>
+                                 <Typography
+                                    sx={{
+                                       p: 1,
+                                       pb: 0,
+                                       fontWeight: '500',
+                                       flexGrow: 1,
+                                       fontSize: '1rem',
+                                       lineHeight: '2rem',
+                                       minHeight: '40px',
+                                    }}
+                                 >
+                                    {item.value}
+                                 </Typography>
+                                 {item.border && <Box sx={{ borderBottom: '1px solid #DADADA' }}></Box>}
+                              </Grid>
+                           </Grid>
+                        );
+                     })}
+                  </Box>
+               </Box>
+            )}
+         </Drawer>
+      </>
+   );
 };
 
 export default React.memo(DetailTable);
