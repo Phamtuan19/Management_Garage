@@ -9,14 +9,25 @@ import { useQuery } from '@tanstack/react-query';
 import MODULE_PAGE from '@App/configs/module-page';
 import theme from '@Core/Theme';
 import PermissionAccessRoute from '@App/routes/components/PermissionAccessRoute';
-import { Box, Typography, Button, Grid, styled, Accordion, AccordionDetails, TextareaAutosize } from '@mui/material';
+import {
+   Box,
+   Typography,
+   Button,
+   Grid,
+   styled,
+   Accordion,
+   AccordionDetails,
+   TextareaAutosize,
+   Chip,
+} from '@mui/material';
 import Divider from '@mui/material/Divider';
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import repairServiceService from '@App/services/repairService.service';
 import PageContent from '@App/component/customs/PageContent';
-import hendleDateTime from '@Core/Helper/formatDateTime';
 import MuiAccordionSummary, { AccordionSummaryProps } from '@mui/material/AccordionSummary';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import formatPrice from '@Core/Helper/formatPrice';
+import formatDateTime from '@Core/Helper/formatDateTime';
 
 const breadcrumbs = [
    {
@@ -34,9 +45,18 @@ const RepairServiceDetails = () => {
 
    const repairServiceDetails = [
       { label: 'Tên dịch vụ', value: repairService?.name },
-      { label: 'Giá', value: repairService?.price },
+      { label: 'Giá', value: formatPrice(repairService?.price) },
       { label: 'Giảm giá', value: repairService?.discount },
-      { label: 'Ngày tạo', value: hendleDateTime(repairService?.createdAt) },
+      {
+         label: 'Loại xe sử dụng dịch vụ',
+         value: (
+            <Box display="flex" alignItems="center" gap="12px" mb={1}>
+               {repairService?.cars.map((item: string) => <Chip label={item} color="default" />)}
+            </Box>
+         ),
+         border: false,
+      },
+      { label: 'Ngày tạo', value: formatDateTime(repairService?.createdAt) },
    ];
 
    return (
@@ -68,7 +88,9 @@ const RepairServiceDetails = () => {
                            </Typography>
                         </Grid>
                         <Grid item xs={10}>
-                           <Typography sx={{ fontSize: '1rem', lineHeight: '32px', height: '32px', fontWeight: '500' }}>
+                           <Typography
+                              sx={{ fontSize: '1rem', lineHeight: '32px', minHeight: '32px', fontWeight: '500' }}
+                           >
                               {detail.value}
                            </Typography>
                            <Divider variant="inset" sx={{ ml: 0 }} />

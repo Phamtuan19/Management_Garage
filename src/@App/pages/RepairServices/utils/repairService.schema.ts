@@ -11,7 +11,7 @@ export const validationFormCreate = yup.object({
       .max(100, messageValidate.maxNumber('Giảm giá', 100))
       .default(0),
    describe: yup.string().default(''),
-
+   cars: yup.array().of(yup.string()).default([]),
    // details: yup
    //    .array()
    //    .of(

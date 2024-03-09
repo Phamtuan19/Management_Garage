@@ -64,28 +64,13 @@ const BaseFormRepairService = ({ form, onSubmitForm }: BaseFormRepairService) =>
                      <ControllerTextField name="name" control={control} placeholder="Tên dịch vụ " />
                   </Box>
                </Grid>
-               <Grid item xs={6}>
-                  <Box minHeight="85px">
-                     <ControllerLabel title="Thương hiệu xe sử dụng dịch vụ" />
-                     <ControllerAutoComplate
-                        loading={isLoadingBrandCar}
-                        multiple
-                        name="name"
-                        options={models.brands ?? []}
-                        valuePath="key"
-                        titlePath="name"
-                        control={control}
-                        placeholder="Chọn thương hiệu xe sử dụng dịch vụ"
-                     />
-                  </Box>
-               </Grid>
-               <Grid item xs={6}>
+               <Grid item xs={12}>
                   <Box minHeight="85px">
                      <ControllerLabel title="Loại xe sử dụng dịch vụ" />
                      <ControllerAutoComplate
                         loading={isLoadingBrandCar}
                         multiple
-                        name="name"
+                        name="cars"
                         options={models.models ?? []}
                         valuePath="key"
                         titlePath="name"
