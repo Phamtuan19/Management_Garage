@@ -101,13 +101,14 @@ const SidebarItem = () => {
                                     color: base.color.text as string,
                                     borderRadius: '5px',
                                     '&:hover': {
-                                       // '& .MuiSvgIcon-root': {
-                                       //    color: '#0072E5',
-                                       // },
+                                       backgroundColor: '#f3f5f7',
                                     },
                                     '&.active': {
                                        backgroundColor: '#f3f5f7',
                                     },
+                                    backgroundColor: location.pathname.split('/').includes(children.link.split('/')[2])
+                                       ? '#f3f5f7'
+                                       : 'transparent',
                                  })}
                                  end
                               >
