@@ -1,16 +1,47 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import Breadcrumbs from '@mui/material/Breadcrumbs';
-import { Box, SxProps, Theme, Typography, styled } from '@mui/material';
+import { Box, CircularProgress, SxProps, Theme, Typography, styled } from '@mui/material';
 import { NavLink } from 'react-router-dom';
+import PageNullData from '@App/pages/error/PageNullData';
 
-interface BaseBreadcrumbsPropsType {
+interface BaseBreadcrumbsPropsType<TData> {
    arialabel: string;
    breadcrumbs?: { title: string; link: string }[];
    children?: React.ReactNode;
    sx?: SxProps<Theme>;
+   data?: TData;
+   isCheck?: boolean;
+   isLoading?: boolean;
 }
 
-const BaseBreadcrumbs = ({ arialabel, breadcrumbs, sx, children }: BaseBreadcrumbsPropsType) => {
+function BaseBreadcrumbs<TData>({
+   arialabel,
+   breadcrumbs,
+   sx,
+   children,
+   data,
+   isCheck = false,
+   isLoading = false,
+}: BaseBreadcrumbsPropsType<TData>) {
+   if (isLoading) {
+      return (
+         <Box
+            sx={({ base }) => ({
+               height: `calc(100vh - ${base.header.height}px - 70px)`,
+               display: 'flex',
+               justifyContent: 'center',
+               alignItems: 'center',
+            })}
+         >
+            <CircularProgress />
+         </Box>
+      );
+   }
+
+   if (isCheck && !data) {
+      return <PageNullData />;
+   }
+
    return (
       <WarrperContainer>
          <Breadcrumbs>
@@ -44,7 +75,7 @@ const BaseBreadcrumbs = ({ arialabel, breadcrumbs, sx, children }: BaseBreadcrum
          <Content sx={sx}>{children}</Content>
       </WarrperContainer>
    );
-};
+}
 
 const WarrperContainer = styled('div')({
    width: '100%',

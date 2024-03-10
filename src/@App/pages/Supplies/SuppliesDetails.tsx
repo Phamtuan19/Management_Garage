@@ -30,9 +30,8 @@ const SuppliesDetails = () => {
    const { id: suppliesId } = useParams();
 
    const navigate = useNavigate();
-   const { data: supplies } = useQuery(['getSuppliesDetails', suppliesId], async () => {
+   const { data: supplies, isLoading } = useQuery(['getSuppliesDetails', suppliesId], async () => {
       const res = await suppliesService.find(suppliesId as string);
-
       return res.data as SuppliesFindOne;
    });
 
@@ -52,70 +51,74 @@ const SuppliesDetails = () => {
    }, [supplies]);
 
    return (
-      <Box>
-         <BaseBreadcrumbs breadcrumbs={breadcrumbs} arialabel="Chi tiết vật tư">
-            <Box display="flex" gap="12px">
-               <PermissionAccessRoute module={MODULE_PAGE.SUPPLIES} action="UPDATE">
-                  <Button variant="contained" onClick={() => navigate(ROUTE_PATH.SUPPLIES + ROUTE_PATH.CREATE)}>
-                     Chỉnh sửa
-                  </Button>
-               </PermissionAccessRoute>
-               <PermissionAccessRoute module={MODULE_PAGE.SUPPLIES} action="UPDATE">
-                  <Button
-                     variant="contained"
-                     color="secondary"
-                     onClick={() => navigate(ROUTE_PATH.SUPPLIES + '/' + suppliesId + '/update')}
-                  >
-                     Chỉnh sửa
-                  </Button>
-               </PermissionAccessRoute>
-            </Box>
-            <PageContent>
-               <Grid container spacing={1} columnSpacing={8}>
-                  {suppliesDetails.map((detail, index) => (
-                     <Grid item xs={6}>
-                        <Grid container spacing={2}>
-                           <Grid item xs={2} paddingBottom={2} key={index}>
-                              <Typography
-                                 sx={{
-                                    fontSize: '1rem',
-                                    lineHeight: '2.2rem',
-                                    color: theme.palette.grey[800],
-                                 }}
-                              >
-                                 {detail.label}
-                              </Typography>
-                           </Grid>
-                           <Grid item xs={10}>
-                              <Typography
-                                 sx={{
-                                    p: 1,
-                                    pb: 0,
-                                    fontWeight: '500',
-                                    flexGrow: 1,
-                                    fontSize: '1rem',
-                                    lineHeight: '2rem',
-                                    height: '40px',
-                                 }}
-                              >
-                                 {detail.value}
-                              </Typography>
-                              {detail.border && <Box sx={{ borderBottom: '1px solid #DADADA' }}></Box>}
-                           </Grid>
+      <BaseBreadcrumbs
+         breadcrumbs={breadcrumbs}
+         arialabel="Chi tiết vật tư"
+         data={supplies}
+         isCheck
+         isLoading={isLoading}
+      >
+         <Box display="flex" gap="12px">
+            <PermissionAccessRoute module={MODULE_PAGE.SUPPLIES} action="UPDATE">
+               <Button variant="contained" onClick={() => navigate(ROUTE_PATH.SUPPLIES + ROUTE_PATH.CREATE)}>
+                  Chỉnh sửa
+               </Button>
+            </PermissionAccessRoute>
+            <PermissionAccessRoute module={MODULE_PAGE.SUPPLIES} action="UPDATE">
+               <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={() => navigate(ROUTE_PATH.SUPPLIES + '/' + suppliesId + '/update')}
+               >
+                  Chỉnh sửa
+               </Button>
+            </PermissionAccessRoute>
+         </Box>
+         <PageContent>
+            <Grid container spacing={1} columnSpacing={8}>
+               {suppliesDetails.map((detail, index) => (
+                  <Grid item xs={6}>
+                     <Grid container spacing={2}>
+                        <Grid item xs={2} paddingBottom={2} key={index}>
+                           <Typography
+                              sx={{
+                                 fontSize: '1rem',
+                                 lineHeight: '2.2rem',
+                                 color: theme.palette.grey[800],
+                              }}
+                           >
+                              {detail.label}
+                           </Typography>
+                        </Grid>
+                        <Grid item xs={10}>
+                           <Typography
+                              sx={{
+                                 p: 1,
+                                 pb: 0,
+                                 fontWeight: '500',
+                                 flexGrow: 1,
+                                 fontSize: '1rem',
+                                 lineHeight: '2rem',
+                                 height: '40px',
+                              }}
+                           >
+                              {detail.value}
+                           </Typography>
+                           {detail.border && <Box sx={{ borderBottom: '1px solid #DADADA' }}></Box>}
                         </Grid>
                      </Grid>
-                  ))}
-               </Grid>
+                  </Grid>
+               ))}
+            </Grid>
 
-               <Box mt={4}>
-                  {/* <Typography variant="h6" fontWeight={400} fontSize={16}>
+            <Box mt={4}>
+               {/* <Typography variant="h6" fontWeight={400} fontSize={16}>
                      Danh sách sản phẩm theo nhà phân phối:
                   </Typography> */}
-                  <DetailTableSupplies supplies={supplies} />
-               </Box>
-            </PageContent>
-         </BaseBreadcrumbs>
-      </Box>
+               <DetailTableSupplies supplies={supplies} />
+            </Box>
+         </PageContent>
+      </BaseBreadcrumbs>
    );
 };
 

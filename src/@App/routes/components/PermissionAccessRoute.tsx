@@ -2,6 +2,7 @@
 
 import { useAuth } from '@App/redux/slices/auth.slice';
 import React, { useMemo } from 'react';
+import Unauthorized from '@App/pages/error/Unauthorized';
 
 import { PermissionAccessType } from '../route';
 
@@ -17,7 +18,7 @@ const PermissionAccessRoute = ({
    module,
    action,
    type = 'component',
-   fallback = <h1>Bạn không có quyền truy cập</h1>,
+   fallback = <Unauthorized />,
 }: PermissionAccessType): React.ReactNode => {
    const { userPermission } = useAuth();
 
