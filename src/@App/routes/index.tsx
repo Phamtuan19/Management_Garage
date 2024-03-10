@@ -3,6 +3,7 @@ import ROUTE_PATH from '@App/configs/router-path';
 import PAGE_ACTION from '@App/configs/page-action';
 import MODULE_PAGE from '@App/configs/module-page';
 import { RouteObject, useRoutes } from 'react-router-dom';
+import PageNotFound from '@App/pages/error/PageNotFound';
 
 import PublicRouter from './components/PublicRoute';
 import PrivateRouter from './components/PrivateRouter';
@@ -82,12 +83,7 @@ const routes = (): RouteObject[] => {
 
       {
          path: '*',
-         element: (
-            <h1>
-               404 <br />
-               Trang web không tồn tại
-            </h1>
-         ),
+         element: <PageNotFound />,
       },
    ];
 };

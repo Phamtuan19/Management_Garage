@@ -25,10 +25,6 @@ const SuppliesInvoicesUpdate = () => {
 
    const coreConfirm = useConfirm();
 
-   if (!suppliesInvoiceId) {
-      return <h1>Sản phẩm không tồn tại</h1>;
-   }
-
    const form = useForm<SuppliesInvoicesSchema>({
       resolver: yupResolver(suppliesInvoicesSchema),
       defaultValues: suppliesInvoicesSchema.getDefault(),
@@ -37,8 +33,10 @@ const SuppliesInvoicesUpdate = () => {
    const { data: suppliesInvoice, refetch: getSuppliesInvoice } = useQuery(
       ['getSuppliesInvoice', suppliesInvoiceId],
       async () => {
-         const res = await suppliesInvoiceService.find(suppliesInvoiceId);
-         return res.data;
+         if (suppliesInvoiceId) {
+            const res = await suppliesInvoiceService.find(suppliesInvoiceId);
+            return res.data;
+         }
       },
       {
          onSuccess: (data: ResponseGetSuppliesInvoice) => {
@@ -83,6 +81,21 @@ const SuppliesInvoicesUpdate = () => {
                ...data.transaction,
                _id: suppliesInvoice?.transactions._id,
             },
+            details: data.details.map((item) => {
+               return {
+                  _id: item.supplies_invoice_detail_id,
+                  describe: item.describe,
+                  code: item.code,
+                  name_detail: item.name_detail,
+                  unit: item.unit,
+                  supplies_detail_id: item.supplies_detail_id,
+                  quantity_received: item.quantity_received,
+                  cost_price: item.cost_price,
+                  selling_price: item.selling_price,
+                  discount: item.discount,
+                  distributor_name: item.distributor_name,
+               };
+            }),
          };
 
          return await suppliesInvoiceService.update(newData, suppliesInvoiceId);
@@ -113,13 +126,18 @@ const SuppliesInvoicesUpdate = () => {
          },
       });
    };
+
+   if (!suppliesInvoiceId || !suppliesInvoice) {
+      return <h1>Hóa đơn nhập hàng không tồn tại</h1>;
+   }
+
    return (
       <BaseBreadcrumbs arialabel={'#' + suppliesInvoice?.code} breadcrumbs={breadcrumbs}>
-         {/* <LoadingButton type="submit" variant="contained">
-      Lưu
-   </LoadingButton> */}
-
-         <BaseFormSuppliesInvoices form={form} handleSubmitSuppliesInvoice={handleSubmitSuppliesInvoice} />
+         <BaseFormSuppliesInvoices
+            suppliesInvoice={suppliesInvoice}
+            form={form}
+            handleSubmitSuppliesInvoice={handleSubmitSuppliesInvoice}
+         />
       </BaseBreadcrumbs>
    );
 };

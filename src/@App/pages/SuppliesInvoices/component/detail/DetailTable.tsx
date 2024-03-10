@@ -34,6 +34,11 @@ const DetailTable = ({ suppliesinvoices }: { suppliesinvoices: ResponseGetSuppli
                  border: true,
               },
               {
+                 title: 'Đơn vị tính',
+                 value: suppliesInvoiceItem.supplies_detail.unit,
+                 border: true,
+              },
+              {
                  title: 'Trạng thái đơn hàng',
                  value: (
                     <Box>
@@ -54,8 +59,11 @@ const DetailTable = ({ suppliesinvoices }: { suppliesinvoices: ResponseGetSuppli
                  border: false,
               },
               {
-                 title: 'Đơn vị tính',
-                 value: suppliesInvoiceItem.supplies_detail.unit,
+                 title: 'Tồn kho',
+                 value:
+                    suppliesInvoiceItem.quantity_received -
+                    suppliesInvoiceItem.quantity_sold +
+                    ` ${suppliesInvoiceItem.supplies_detail.unit}`,
                  border: true,
               },
               {
@@ -80,7 +88,7 @@ const DetailTable = ({ suppliesinvoices }: { suppliesinvoices: ResponseGetSuppli
               },
               {
                  title: 'Số lượng đã bán',
-                 value: suppliesInvoiceItem.discount,
+                 value: suppliesInvoiceItem.quantity_sold,
                  border: true,
               },
            ]
@@ -173,7 +181,7 @@ const DetailTable = ({ suppliesinvoices }: { suppliesinvoices: ResponseGetSuppli
                         </ButtonBase>
                      </Box>
                   </Box>
-                  <Box sx={{ px: '12px', py: '24px' }}>
+                  <Box sx={{ px: '12px', py: '12px' }}>
                      {drawerItem.map((item, index) => {
                         return (
                            <Grid container key={index}>

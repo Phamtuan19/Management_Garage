@@ -8,6 +8,7 @@ import PageContent from '@App/component/customs/PageContent';
 import MODULE_PAGE from '@App/configs/module-page';
 import PermissionAccessRoute from '@App/routes/components/PermissionAccessRoute';
 import formatPrice from '@Core/Helper/formatPrice';
+import { STATUS_PAYMENT } from '@App/configs/status-config';
 
 import DetailTable from './component/detail/DetailTable';
 
@@ -31,7 +32,12 @@ const SuppliesInvoicesDetails = () => {
       { label: 'Tổng tiền:', value: formatPrice(suppliesinvoices?.transactions.total_price ?? 0), border: true },
       {
          label: 'Hình thứ thanh toán:',
-         value: <Chip label={suppliesinvoices?.transactions.payment_type} color="info" />,
+         value: (
+            <Chip
+               label={STATUS_PAYMENT[suppliesinvoices?.transactions.status ?? 'UNPAID'].title}
+               color={STATUS_PAYMENT[suppliesinvoices?.transactions.status ?? 'UNPAID'].color}
+            />
+         ),
          border: false,
       },
       { label: 'Chuyển khoản:', value: formatPrice(suppliesinvoices?.transactions.cash_money ?? 0), border: true },
@@ -47,15 +53,17 @@ const SuppliesInvoicesDetails = () => {
                   Tạo mới
                </Button>
             </PermissionAccessRoute>
-            <PermissionAccessRoute module={MODULE_PAGE.SUPPLIES_INVOICES} action="UPDATE">
-               <Button
-                  variant="contained"
-                  onClick={() => navigate(ROUTE_PATH.SUPPLIES_INVOICES + '/' + suppliesinvoicesId + '/update')}
-                  color="secondary"
-               >
-                  Chỉnh sửa
-               </Button>
-            </PermissionAccessRoute>
+            {suppliesinvoices?.transactions.status !== STATUS_PAYMENT.PAID.key && (
+               <PermissionAccessRoute module={MODULE_PAGE.SUPPLIES_INVOICES} action="UPDATE">
+                  <Button
+                     variant="contained"
+                     onClick={() => navigate(ROUTE_PATH.SUPPLIES_INVOICES + '/' + suppliesinvoicesId + '/update')}
+                     color="secondary"
+                  >
+                     Chỉnh sửa
+                  </Button>
+               </PermissionAccessRoute>
+            )}
          </Box>
 
          <PageContent>

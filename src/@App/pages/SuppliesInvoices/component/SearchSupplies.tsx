@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { Box, ButtonBase, Grid, InputBase, Stack, Typography } from '@mui/material';
+import { Box, Button, ButtonBase, Checkbox, Grid, InputBase, Stack, Typography } from '@mui/material';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import FormatListBulletedOutlinedIcon from '@mui/icons-material/FormatListBulletedOutlined';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
@@ -12,7 +14,8 @@ import useDebounce from '@App/hooks/useDebounce';
 import { UseFormReturn } from 'react-hook-form';
 import distributorService from '@App/services/distributor.service';
 import ControllerAutoComplate from '@Core/Component/Input/ControllerAutoComplate';
-// import { useParams } from 'react-router-dom';
+import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
+import ControllerLabel from '@Core/Component/Input/ControllerLabel';
 
 import { SuppliesInvoicesSchema } from '../utils/suppliesInvoices.schema';
 
@@ -20,11 +23,16 @@ import SearchSuppliesItem from './SearchSuppliesItem';
 
 interface SearchSupplies {
    form: UseFormReturn<SuppliesInvoicesSchema>;
+   columnVisibility: {
+      [key: string]: boolean;
+   };
+   setColumnVisibility: React.Dispatch<any>;
 }
 
-const SearchSupplies = ({ form }: SearchSupplies) => {
+const SearchSupplies = ({ form, columnVisibility, setColumnVisibility }: SearchSupplies) => {
    // const { id: suppliesInvoiceId } = useParams();
    const { watch, setValue } = form;
+   const [openVisibility, setOpenVisibility] = useState<boolean>(false);
    const [open, setOpen] = useState<boolean>(false);
    const [valueSearch, setValueSearch] = useState<string>('');
 
@@ -118,7 +126,7 @@ const SearchSupplies = ({ form }: SearchSupplies) => {
                // disabled={Boolean(suppliesInvoiceId)}
             />
          </Grid>
-         <Grid item xs={8}>
+         <Grid item xs={7.3}>
             <Box
                sx={{
                   position: 'relative',
@@ -200,6 +208,56 @@ const SearchSupplies = ({ form }: SearchSupplies) => {
                            <Typography sx={{ fontSize: '14px' }}>Không tìm thấy vật tư phù hợp</Typography>
                         </Box>
                      )}
+                  </Box>
+               )}
+            </Box>
+         </Grid>
+         <Grid item xs={0.7} display="flex" justifyContent="flex-end">
+            <Box position="relative">
+               <Button
+                  variant="outlined"
+                  color="inherit"
+                  sx={{
+                     bgcolor: 'transparent',
+                     minWidth: 'auto !important',
+                     px: '8px !important',
+                     borderColor: '#ccc !important',
+                     ':hover': { bgcolor: 'transparent' },
+                  }}
+                  onClick={() => setOpenVisibility(!openVisibility)}
+               >
+                  <FilterAltOutlinedIcon sx={{ width: '24px', height: '24px' }} />
+               </Button>
+               {openVisibility && (
+                  <Box
+                     sx={{
+                        position: 'absolute',
+                        top: '110%',
+                        right: 0,
+                        zIndex: 10,
+                        width: 'max-content',
+                        // py: '6px',
+                        bgcolor: '#FFF',
+                        border: '1px solid #DADADA',
+                        borderRadius: '6px',
+                        boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
+                        py: 1,
+                     }}
+                  >
+                     {Object.keys(columnVisibility).map((item) => {
+                        return (
+                           <Box px={1} display="flex" justifyContent="flex-start" alignItems="center" key={item}>
+                              <Checkbox
+                                 checked={columnVisibility[item]}
+                                 onChange={(e) => {
+                                    setColumnVisibility((prev: any) => ({ ...prev, [item]: e.target.checked }));
+                                 }}
+                                 size="small"
+                              />
+                              <ControllerLabel title={item} />
+                           </Box>
+                        );
+                     })}
                   </Box>
                )}
             </Box>

@@ -33,7 +33,7 @@ function CoreTableHeader<TData>(props: TabelHeaderProps<TData>): React.ReactElem
                <StyledTableRow key={headerGroup.id}>
                   {headerGroup.headers.map((header) => {
                      return (
-                        <StyledTableCell key={header.id}>
+                        <StyledTableCell key={header.id} colSpan={header.colSpan}>
                            {header.isPlaceholder
                               ? null
                               : flexRender(header.column.columnDef.header, header.getContext())}
@@ -67,4 +67,4 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
    },
 }));
 
-export default React.memo(CoreTableHeader);
+export default CoreTableHeader;

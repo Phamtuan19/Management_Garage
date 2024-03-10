@@ -18,7 +18,13 @@
  */
 
 import { Box, MenuItem, Pagination, Select, Table, TableContainer, styled } from '@mui/material';
-import { type ColumnDef, createColumnHelper, getCoreRowModel, useReactTable } from '@tanstack/react-table';
+import {
+   type ColumnDef,
+   createColumnHelper,
+   getCoreRowModel,
+   useReactTable,
+   VisibilityState,
+} from '@tanstack/react-table';
 import ScrollbarBase from '@App/component/customs/ScrollbarBase';
 import useSearchParamsHook from '@App/hooks/useSearchParamsHook';
 import { useEffect, useState } from 'react';
@@ -40,12 +46,25 @@ interface TableCoreProps<TData = unknown[], TValue = never> {
    total_record?: number;
    noData?: React.ReactNode;
    onClickRow?: (e: any) => void;
+   columnVisibility?: VisibilityState;
+   onColumnVisibilityChange?: any;
 }
 
 export const columnHelper = createColumnHelper();
 
 function TableCore<TData = unknown[], TValue = never>(props: TableCoreProps<TData, TValue>) {
-   const { data, columns, isLoading, isPagination = true, height = 410, noData, onClickRow, ...dataPagination } = props;
+   const {
+      data,
+      columns,
+      isLoading,
+      isPagination = true,
+      height = 380,
+      noData,
+      onClickRow,
+      columnVisibility,
+      onColumnVisibilityChange,
+      ...dataPagination
+   } = props;
 
    const [totalPage, setTotalPage] = useState(1);
 
@@ -60,7 +79,10 @@ function TableCore<TData = unknown[], TValue = never>(props: TableCoreProps<TDat
    const table = useReactTable({
       data: data as TData[],
       columns: columns,
-      state: {},
+      state: {
+         columnVisibility: columnVisibility,
+      },
+      onColumnVisibilityChange: onColumnVisibilityChange,
       getCoreRowModel: getCoreRowModel(), //truy cập dữ liệu cơ bản của một hàng (row) trong bảng.
    });
 

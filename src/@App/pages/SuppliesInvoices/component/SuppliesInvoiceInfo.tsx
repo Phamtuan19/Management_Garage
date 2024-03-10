@@ -1,21 +1,29 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import ControllerLabel from '@Core/Component/Input/ControllerLabel';
 import handlePrice from '@Core/Helper/formatPrice';
-import { Box, Button, Grid, Modal, Typography, styled } from '@mui/material';
+import { Box, Button, Chip, Grid, Modal, Typography, styled } from '@mui/material';
 import CreateSharpIcon from '@mui/icons-material/CreateSharp';
 import { Control, FieldValues, UseFormReturn } from 'react-hook-form';
 import { format } from 'date-fns';
 import { useMemo, useState } from 'react';
 import ControllerTextField from '@Core/Component/Input/ControllerTextField';
+import { useParams } from 'react-router-dom';
+import { ResponseGetSuppliesInvoice } from '@App/services/supplies-invoice';
+import formatDateTime from '@Core/Helper/formatDateTime';
+import { useAuth } from '@App/redux/slices/auth.slice';
 
 import { SuppliesInvoicesSchema } from '../utils/suppliesInvoices.schema';
 
 interface SuppliesInvoiceInfoProps {
    form: UseFormReturn<SuppliesInvoicesSchema>;
+   isCheckStatusPayment: boolean;
+   suppliesInvoice?: ResponseGetSuppliesInvoice;
 }
 
-const SuppliesInvoiceInfo = ({ form }: SuppliesInvoiceInfoProps) => {
+const SuppliesInvoiceInfo = ({ form, isCheckStatusPayment = false, suppliesInvoice }: SuppliesInvoiceInfoProps) => {
    const [isOpen, setIsOpen] = useState<boolean>(false);
+   const { id: suppliesInvoiceId } = useParams();
+   const { user } = useAuth();
 
    const handleOpen = () => {
       setIsOpen(true);
@@ -38,24 +46,42 @@ const SuppliesInvoiceInfo = ({ form }: SuppliesInvoiceInfoProps) => {
    return (
       <>
          <Box display="flex" justifyContent="space-between">
+            <ControllerLabel title="Người tạo phiếu: " />
+            <ExtendTypography sx={{ fontWeight: 600 }}>{user?.full_name + `(#${user?.code})`}</ExtendTypography>
+         </Box>
+         <Box display="flex" justifyContent="space-between">
             <ControllerLabel title="Ngày tạo" />
-            <ExtendTypography sx={{ fontWeight: 600 }}>{format(Date(), 'dd/MM/yyyy')}</ExtendTypography>
+            <ExtendTypography sx={{ fontWeight: 600 }}>
+               {suppliesInvoice?.createdAt ? formatDateTime(suppliesInvoice?.createdAt) : format(Date(), 'dd-MM-yyyy')}
+            </ExtendTypography>
          </Box>
          <Box display="flex" justifyContent="space-between">
             <ControllerLabel title="Trạng thái:" />
-            <ExtendTypography>Nháp</ExtendTypography>
+            <ExtendTypography>
+               {suppliesInvoiceId ? (
+                  <Chip
+                     label={isCheckStatusPayment ? 'Đã thanh toán' : 'Chưa thanh toán'}
+                     color={isCheckStatusPayment ? 'success' : 'warning'}
+                  />
+               ) : (
+                  'Nháp'
+               )}
+            </ExtendTypography>
          </Box>
          <Box display="flex" justifyContent="space-between">
             <ControllerLabel title="Tổng tiền:" />
             <ExtendTypography sx={{ fontWeight: 600 }}>{handlePrice(total_price)}</ExtendTypography>
          </Box>
          <br />
-         <Box display="flex" justifyContent="space-between">
-            <ControllerLabel title="Thanh toán:" />
-            <Button sx={{ minWidth: 'auto', px: '6px' }} variant="text" onClick={handleOpen}>
-               <CreateSharpIcon sx={{ fontSize: '16px' }} />
-            </Button>
-         </Box>
+
+         {!isCheckStatusPayment && (
+            <Box display="flex" justifyContent="space-between">
+               <ControllerLabel title="Thanh toán:" />
+               <Button sx={{ minWidth: 'auto', px: '6px' }} variant="text" onClick={handleOpen}>
+                  <CreateSharpIcon sx={{ fontSize: '16px' }} />
+               </Button>
+            </Box>
+         )}
          <Box display="flex" justifyContent="space-between">
             <ControllerLabel title="Chuyển khoản:" />
             <ExtendTypography sx={{ fontWeight: 600 }}>{handlePrice(transfer_money)}</ExtendTypography>
@@ -65,12 +91,14 @@ const SuppliesInvoiceInfo = ({ form }: SuppliesInvoiceInfoProps) => {
             <ExtendTypography sx={{ fontWeight: 600 }}>{handlePrice(cash_money)}</ExtendTypography>
          </Box>
          <br />
-         <Box display="flex" justifyContent="space-between">
-            <ControllerLabel title="Cần thanh toán:" />
-            <ExtendTypography sx={{ fontWeight: 600, color: Number(total_price) >= 0 ? 'red' : '#555555' }}>
-               {handlePrice(debt)}
-            </ExtendTypography>
-         </Box>
+         {!isCheckStatusPayment && (
+            <Box display="flex" justifyContent="space-between">
+               <ControllerLabel title="Cần thanh toán:" />
+               <ExtendTypography sx={{ fontWeight: 600, color: Number(total_price) >= 0 ? 'red' : '#555555' }}>
+                  {handlePrice(debt)}
+               </ExtendTypography>
+            </Box>
+         )}
 
          {/* Modal thanh toán */}
          <Modal open={isOpen} aria-labelledby="child-modal-title" aria-describedby="child-modal-description">

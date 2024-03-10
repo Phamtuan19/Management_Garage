@@ -63,6 +63,7 @@ interface Transactions {
    transfer_money: number;
    cash_money: number;
    payment_type: string;
+   status: StatusPayment;
 }
 export interface ResponseGetSuppliesInvoice {
    _id: string;

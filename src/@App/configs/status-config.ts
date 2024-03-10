@@ -56,14 +56,17 @@ export type PaymentType = keyof typeof PAYMENT_TYPE;
  */
 export const STATUS_PAYMENT = {
    PAID: {
+      key: 'PAID',
       title: 'Đã thanh toán',
       color: 'success',
    },
    UNPAID: {
+      key: 'UNPAID',
       title: 'Chưa thanh toán',
       color: 'error',
    },
    DEBT: {
+      key: 'DEBT',
       title: 'Công nợ',
       color: 'warning',
    },
