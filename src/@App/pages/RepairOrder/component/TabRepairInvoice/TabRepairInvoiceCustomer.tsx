@@ -98,7 +98,7 @@ const TabRepairInvoiceCustomer = ({ form }: TabRepairInvoicePropType) => {
                      name="car.car_id"
                      placeholder="Chọn xe cần sữa chữa"
                      control={control}
-                     disabled={!customer_id || Boolean(repairOrderId)}
+                     // disabled={!customer_id || Boolean(repairOrderId)}
                      renderOptionChildren={(props, e: DataGetAllFieldCart) => {
                         return (
                            <Box
@@ -124,6 +124,7 @@ const TabRepairInvoiceCustomer = ({ form }: TabRepairInvoicePropType) => {
                         setValue('car.car_type', e.car_type);
                         setValue('car.brand_car', e.brand_car);
                         setValue('car.license_plate', e.license_plate);
+                        setValue('car.car_name', e.name);
                      }}
                   />
                </Box>
@@ -134,7 +135,13 @@ const TabRepairInvoiceCustomer = ({ form }: TabRepairInvoicePropType) => {
          </Grid>
          <Grid item md={3} xs={12} sx={{ minHeight: '100px' }}>
             <ControllerLabel title="Số Km" required />
-            <ControllerTextField placeholder="Số ki-lo-met của xe" number name="car.kilometer" control={control} />
+            <ControllerTextField
+               placeholder="Số ki-lo-met của xe"
+               number
+               name="car.kilometer"
+               control={control}
+               maxLength={6}
+            />
          </Grid>
          <Grid item md={4} xs={12} sx={{ minHeight: '100px' }}>
             <ControllerLabel title="Biển số xe" />

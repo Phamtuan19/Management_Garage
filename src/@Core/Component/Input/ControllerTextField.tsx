@@ -13,7 +13,7 @@ interface ControllerTextFieldProps<TFieldValues extends FieldValues = FieldValue
    string?: boolean;
    variant?: TextFieldVariants;
    sx?: SxProps<Theme> | undefined;
-
+   maxLength?: number;
    control: Control<TFieldValues>;
 }
 
@@ -30,8 +30,10 @@ function ControllerTextField<TFieldValues extends FieldValues = FieldValues>(
       string = false,
       disabled = false,
       variant = 'outlined',
+      maxLength,
       ...rest
    } = props;
+
    return (
       <Controller
          render={({ field, fieldState: { error } }) => {
@@ -49,15 +51,24 @@ function ControllerTextField<TFieldValues extends FieldValues = FieldValues>(
                      {...rest}
                      disabled={disabled}
                      onInput={(event: React.ChangeEvent<HTMLInputElement>) => {
+                        let newValue = event.target.value;
+
+                        // Kiểm tra maxLength
+                        if (maxLength && newValue.length > maxLength) {
+                           newValue = newValue.substring(0, maxLength); // Cắt chuỗi nếu vượt quá maxLength
+                        }
+
+                        // Kiểm tra number và string
                         if (number) {
-                           return (event.target.value = String(Number(event.target.value.replace(Regexs.integer, ''))));
+                           newValue = newValue.replace(Regexs.integer, ''); // Chỉ giữ lại các ký tự số
                         }
 
                         if (string) {
-                           return (event.target.value = event.target.value.replace(Regexs.string, ''));
+                           newValue = newValue.replace(Regexs.string, ''); // Chỉ giữ lại các ký tự chữ
                         }
 
-                        return event.target.value;
+                        // Cập nhật giá trị trong input
+                        event.target.value = newValue;
                      }}
                   />
                   {error && (

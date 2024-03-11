@@ -129,7 +129,7 @@ export interface FindRepairOrder {
       _id: string;
       name: string;
    };
-   kilometer: string;
+   kilometer: number;
    status: StatusRepair;
    customer: {
       _id: string;
@@ -150,6 +150,7 @@ export interface FindRepairOrder {
       _id: string;
       code: string;
       license_plate: string;
+      name: string;
       brand_car: string;
       car_type: string;
       car_color: string;

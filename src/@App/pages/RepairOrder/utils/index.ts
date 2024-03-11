@@ -1,3 +1,5 @@
+import { STATUS_REPAIR_DETAIL } from '@App/configs/status-config';
+
 export const arrowRightOption = [
    {
       title: 'Tạo phiếu',
@@ -28,3 +30,5 @@ export const arrowRightOption = [
       name: 'close',
    },
 ];
+
+export const dataStatus = [STATUS_REPAIR_DETAIL.complete, STATUS_REPAIR_DETAIL.empty, STATUS_REPAIR_DETAIL.check];

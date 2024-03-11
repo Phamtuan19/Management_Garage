@@ -1,7 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { Box, ButtonBase, Grid, InputBase, Stack, Typography, styled } from '@mui/material';
+import { Box, Button, ButtonBase, Checkbox, Grid, InputBase, Stack, Typography, styled } from '@mui/material';
 import React, { useRef, useState } from 'react';
 import { useOnClickOutside } from '@App/hooks/useOnClickOutside';
 import { useQuery } from '@tanstack/react-query';
@@ -13,8 +16,22 @@ import { errorMessage } from '@Core/Helper/message';
 import { STATUS_REPAIR_DETAIL } from '@App/configs/status-config';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import ScrollbarBase from '@App/component/customs/ScrollbarBase';
+import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
+import ControllerLabel from '@Core/Component/Input/ControllerLabel';
 
 import { RepairInvoiceSchema } from '../../utils/repair-invoice';
+
+const columnVisibilityData: Record<string, string> = {
+   stt: 'Số thứ tự',
+   repair_service_code: 'Mã dịch vụ',
+   repair_service_name: 'Tên dịch vụ',
+   price: 'Giá dịch vụ',
+   discount: 'Giá khuyến mãi',
+   quantity: 'Số lượng',
+   total_price: 'Tổng giá dịch vụ',
+   status_order: 'Trạng thái sửa chữa',
+   action: 'Thao tác',
+};
 
 interface RepairServiceItem {
    code: string;
@@ -35,22 +52,32 @@ interface RepairServiceItem {
 
 const TabRepairServiceFilter = ({
    fieldArray,
+   form,
+   columnVisibility,
+   setColumnVisibility,
 }: {
    form: UseFormReturn<RepairInvoiceSchema>;
    fieldArray: UseFieldArrayReturn<RepairInvoiceSchema>;
+   columnVisibility: any;
+   setColumnVisibility: React.Dispatch<any>;
 }) => {
    const { fields, append } = fieldArray;
+   const [openVisibility, setOpenVisibility] = useState<boolean>(false);
 
    const [open, setOpen] = useState<boolean>(false);
    const [valueSearch, setValueSearch] = useState<string>('');
    const ref = useRef<HTMLElement>(null);
+   const refVisibility = useRef<HTMLElement>(null);
+
+   const carName = form.watch('car.car_name');
 
    useOnClickOutside(ref, () => setOpen(false));
+   useOnClickOutside(refVisibility, () => setOpenVisibility(false));
 
    const valueDebounce = useDebounce(valueSearch, 500);
 
    const { data: repairService } = useQuery(['getAllFieldRepairServices', valueDebounce], async () => {
-      const res = await repairServiceService.fieldAll({ q: valueDebounce ?? '' });
+      const res = await repairServiceService.fieldAll({ q: valueDebounce ?? '', car_name: carName });
       return res.data;
    });
 
@@ -58,7 +85,7 @@ const TabRepairServiceFilter = ({
       const isCheck = fields.some((item: any) => item.repair_service_id === service._id);
 
       if (!isCheck) {
-         return append({
+         append({
             _id: '',
             describe: '',
             discount: service.discount,
@@ -74,6 +101,8 @@ const TabRepairServiceFilter = ({
                status: STATUS_REPAIR_DETAIL.empty.key,
             })),
          });
+
+         return setOpen(false);
       }
 
       return errorMessage('Dịch vụ đã tồn tại.');
@@ -81,7 +110,7 @@ const TabRepairServiceFilter = ({
 
    return (
       <Grid container spacing={2}>
-         <Grid item xs={6}>
+         <Grid item xs={9}>
             <Box
                sx={{
                   position: 'relative',
@@ -158,6 +187,62 @@ const TabRepairServiceFilter = ({
                            <Typography sx={{ fontSize: '14px' }}>Không tìm thấy vật tư phù hợp</Typography>
                         </Box>
                      )}
+                  </Box>
+               )}
+            </Box>
+         </Grid>
+         <Grid item xs={3} display="flex" justifyContent="flex-end">
+            <Box position="relative" display="flex" justifyContent="flex-end" ref={refVisibility}>
+               <Button
+                  variant="outlined"
+                  color="inherit"
+                  sx={{
+                     bgcolor: 'transparent',
+                     minWidth: 'auto !important',
+                     px: '8px !important',
+                     borderColor: '#ccc !important',
+                     ':hover': { bgcolor: 'transparent' },
+                  }}
+                  onClick={() => setOpenVisibility(!openVisibility)}
+               >
+                  <FilterAltOutlinedIcon sx={{ width: '24px', height: '24px' }} />
+               </Button>
+               {openVisibility && (
+                  <Box
+                     sx={{
+                        position: 'absolute',
+                        top: '110%',
+                        right: 0,
+                        zIndex: 10,
+                        width: 'max-content',
+                        bgcolor: '#FFF',
+                        border: '1px solid #DADADA',
+                        borderRadius: '6px',
+                        boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
+                        py: 1,
+                     }}
+                  >
+                     <ScrollbarBase sx={{ height: '300px', width: 'max-content', minWidth: '230px' }}>
+                        {Object.keys(columnVisibility).map((item) => {
+                           const title = columnVisibilityData[item];
+                           if (!title) {
+                              return;
+                           }
+
+                           return (
+                              <Box px={1} display="flex" justifyContent="flex-start" alignItems="center" key={item}>
+                                 <Checkbox
+                                    checked={columnVisibility[item]}
+                                    onChange={(e) => {
+                                       setColumnVisibility((prev: any) => ({ ...prev, [item]: e.target.checked }));
+                                    }}
+                                    size="small"
+                                 />
+                                 <ControllerLabel title={title} />
+                              </Box>
+                           );
+                        })}
+                     </ScrollbarBase>
                   </Box>
                )}
             </Box>

@@ -43,6 +43,32 @@ const BaseFormRepairInvoice = ({
    repairOrder,
 }: BaseFormRepairInvoicePropType) => {
    const { id: repairOrderId } = useParams();
+   const [columnVisibilitySupplies, setColumnVisibilitySupplies] = useState({
+      stt: true,
+      supplies_detail_code: true,
+      supplies_detail_name: true,
+      distributor_name: true,
+      supplies_invoices_code: true,
+      inventory: true,
+      selling_price: true,
+      quantity: true,
+      total_price: true,
+      ...(repairOrderId ? { personnel_sc: true } : {}),
+      ...(repairOrderId ? { status_order: true } : {}),
+      action: true,
+   });
+   const [columnVisibilityService, setColumnVisibilityService] = useState({
+      stt: true,
+      repair_service_code: true,
+      repair_service_name: true,
+      discount: true,
+      quantity: true,
+      price: true,
+      total_price: true,
+      ...(repairOrderId ? { status_order: true } : {}),
+      action: true,
+   });
+
    const { setValue, control, handleSubmit, watch } = form;
    const { user } = useAuth();
    const { searchParams, setParams } = useSearchParamsHook();
@@ -91,8 +117,6 @@ const BaseFormRepairInvoice = ({
 
    const handleClose = () => {
       setIsOpen(false);
-      // form.setValue('transaction.transfer_money', 0);
-      // form.setValue('transaction.cash_money', 0);
    };
 
    useEffect(() => {
@@ -117,12 +141,29 @@ const BaseFormRepairInvoice = ({
                            <TabRepairInvoiceCustomer form={form} />
                         </TabPanel>
                         <TabPanel value="2" sx={{ px: 0 }}>
-                           <TabRepairServiceFilter form={form} fieldArray={suppliesServiceFieldArray as never} />
-                           <TabRepairService fieldArray={suppliesServiceFieldArray as never} form={form} />
+                           <TabRepairServiceFilter
+                              columnVisibility={columnVisibilityService}
+                              setColumnVisibility={setColumnVisibilityService}
+                              form={form}
+                              fieldArray={suppliesServiceFieldArray as never}
+                           />
+                           <TabRepairService
+                              columnVisibility={columnVisibilityService}
+                              setColumnVisibility={setColumnVisibilityService}
+                              fieldArray={suppliesServiceFieldArray as never}
+                              form={form}
+                           />
                         </TabPanel>
                         <TabPanel value="3" sx={{ px: 0 }}>
-                           <RepairInvoiceFilterSupplies fieldArray={suppliesInvoiceFieldArray as never} />
+                           <RepairInvoiceFilterSupplies
+                              columnVisibility={columnVisibilitySupplies}
+                              setColumnVisibility={setColumnVisibilitySupplies}
+                              form={form}
+                              fieldArray={suppliesInvoiceFieldArray as never}
+                           />
                            <TabRepairInvoiceSupplies
+                              columnVisibility={columnVisibilitySupplies}
+                              setColumnVisibility={setColumnVisibilitySupplies}
                               personnels={personnels}
                               repairOrder={repairOrder}
                               form={form}

@@ -58,6 +58,7 @@ const RepairInvoiceUpdate = () => {
                car: {
                   car_id: data.car._id,
                   license_plate: data.car.license_plate,
+                  car_name: data.car.name,
                   brand_car: data.car.brand_car,
                   car_type: data.car.car_type,
                   car_color: data.car.car_color,

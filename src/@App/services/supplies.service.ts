@@ -117,7 +117,12 @@ class SuppliesService extends BaseService {
       return this.request.get(this.BASE_ENDPOINT + suppliesPath.getAll, { params });
    }
 
-   getSupplies(params: { q?: string; distributor_id?: string; field: string }): Promise<ResponseReadSuppliesA> {
+   getSupplies(params: {
+      q?: string;
+      distributor_id?: string;
+      field: string;
+      car_name?: string;
+   }): Promise<ResponseReadSuppliesA> {
       return this.request.get(this.BASE_ENDPOINT + suppliesPath.GET_SUPPLIES_INVOICE, { params });
    }
 }

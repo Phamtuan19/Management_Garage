@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { UseFieldArrayReturn, UseFormReturn } from 'react-hook-form';
 import TableCore, { columnHelper } from '@Core/Component/Table';
@@ -21,9 +23,9 @@ import AccordionDetailItem from './AccordionDetailItem';
 
 interface TabSuppliesServicePropType {
    form: UseFormReturn<RepairInvoiceSchema>;
-   // isLoading: boolean;
-   // onSubmitForm: SubmitHandler<RepairInvoiceSchema>;
    fieldArray: UseFieldArrayReturn<RepairInvoiceSchema>;
+   columnVisibility: any;
+   setColumnVisibility: React.Dispatch<any>;
 }
 interface ReapirService {
    _id: string;
@@ -45,7 +47,7 @@ interface ReapirService {
       | [];
 }
 
-const TabRepairService = ({ form, fieldArray }: TabSuppliesServicePropType) => {
+const TabRepairService = ({ form, fieldArray, columnVisibility, setColumnVisibility }: TabSuppliesServicePropType) => {
    const { id: repairOrderId } = useParams();
    const [open, setOpen] = useState<boolean>(false);
    const [dataDetails, setDataDetails] = useState<
@@ -185,6 +187,8 @@ const TabRepairService = ({ form, fieldArray }: TabSuppliesServicePropType) => {
             data={dataServices}
             isPagination={false}
             noData="Chưa có dịch vụ sửa chữa."
+            columnVisibility={columnVisibility}
+            onColumnVisibilityChange={setColumnVisibility}
          />
          <Modal open={open} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
             <Box sx={style}>

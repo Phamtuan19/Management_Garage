@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { UseFieldArrayReturn, UseFormReturn } from 'react-hook-form';
 import TableCore, { columnHelper } from '@Core/Component/Table';
@@ -13,10 +15,11 @@ import { errorMessage, successMessage } from '@Core/Helper/message';
 import { AxiosError } from 'axios';
 import { useParams } from 'react-router-dom';
 import { FindRepairOrder } from '@App/services/repairorder.service';
-import { STATUS_REPAIR_DETAIL, StatusRepairDetail } from '@App/configs/status-config';
+import { StatusRepairDetail } from '@App/configs/status-config';
 import ControllerAutoComplate from '@Core/Component/Input/ControllerAutoComplate';
 
 import { RepairInvoiceSchema } from '../../utils/repair-invoice';
+import { dataStatus } from '../../utils';
 
 import ColumnSuppliesInvoicesCode from './ColumnSuppliesInvoicesCode';
 
@@ -32,6 +35,8 @@ interface TabRepairInvoiceSuppliesPropType {
            full_name: string;
         }[]
       | undefined;
+   columnVisibility: any;
+   setColumnVisibility: React.Dispatch<any>;
 }
 
 export interface SuppliesInvoiceItem {
@@ -56,11 +61,19 @@ export interface SuppliesInvoiceItem {
       | [];
 }
 
-const TabRepairInvoiceSupplies = ({ form, fieldArray, personnels }: TabRepairInvoiceSuppliesPropType) => {
-   const { control, watch } = form;
+const TabRepairInvoiceSupplies = ({
+   form,
+   fieldArray,
+   personnels,
+   columnVisibility,
+   setColumnVisibility,
+}: TabRepairInvoiceSuppliesPropType) => {
    const { id: repairOrderId } = useParams();
+
+   const { control, watch } = form;
    const { remove } = fieldArray;
    const suppliesInvoices = watch('suppliesInvoice');
+
    // Tăng số lượng vật tư
    const handleIncrease = (index: number) => {
       const quantity = form.watch(`suppliesInvoice.${index}.quantity`) + 1;
@@ -111,8 +124,6 @@ const TabRepairInvoiceSupplies = ({ form, fieldArray, personnels }: TabRepairInv
 
       return remove(index);
    };
-
-   const dataStatus = [STATUS_REPAIR_DETAIL.complete, STATUS_REPAIR_DETAIL.empty, STATUS_REPAIR_DETAIL.check];
 
    const columnsService = [
       columnHelper.accessor('', {
@@ -227,7 +238,6 @@ const TabRepairInvoiceSupplies = ({ form, fieldArray, personnels }: TabRepairInv
          columnHelper.accessor('status_supplies_invoice', {
             header: () => <Box>Trạng thái SC</Box>,
             cell: ({ row }) => {
-               // const supplies = row.original as SuppliesInvoiceItem;
                return (
                   <Box sx={{ width: '170px' }}>
                      <ControllerAutoComplate
@@ -248,7 +258,10 @@ const TabRepairInvoiceSupplies = ({ form, fieldArray, personnels }: TabRepairInv
 
             return (
                <Box display="flex" justifyContent="right" gap="6px">
-                  <CoreTableActionDelete callback={() => handleDeleteItem(supplies, row.index)} />
+                  <CoreTableActionDelete
+                     content="Xác nhận xóa vật tư."
+                     callback={() => handleDeleteItem(supplies, row.index)}
+                  />
                </Box>
             );
          },
@@ -259,6 +272,8 @@ const TabRepairInvoiceSupplies = ({ form, fieldArray, personnels }: TabRepairInv
       <>
          <TableCore
             height={340}
+            columnVisibility={columnVisibility}
+            onColumnVisibilityChange={setColumnVisibility}
             columns={columnsService as never}
             data={suppliesInvoices}
             isPagination={false}

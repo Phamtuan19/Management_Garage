@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import BaseService from '@Core/Api/BaseService';
 import { AxiosResponseData } from '@Core/Api/axios-config';
 
@@ -45,7 +46,7 @@ class RepairServiceService extends BaseService {
       this.setRequest();
    }
 
-   fieldAll(params: { q?: string }): Promise<ResponseGetAllField> {
+   fieldAll(params: { q?: string; car_name: string }): Promise<ResponseGetAllField> {
       return this.request(this.BASE_ENDPOINT + repairServicePath.ALL_FIELD, { params });
    }
 }

@@ -36,7 +36,8 @@ const ColumnSuppliesInvoicesCode = ({ form, index, supplies }: ColumnSuppliesInv
                   !suppliesInvoice
                      .filter((item2) => {
                         return (
-                           watch(`suppliesInvoice.${index}.supplies_invoices_code`) !== item2.supplies_invoices_code
+                           watch(`suppliesInvoice.${index}.supplies_invoices_code`) !== item2.supplies_invoices_code &&
+                           watch(`suppliesInvoice.${index}.supplies_detail_id`) === item2.supplies_detail_id
                         );
                      })
                      .some((item2) => {
