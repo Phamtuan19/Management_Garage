@@ -41,7 +41,6 @@ const SuppliesDetails = () => {
               { label: 'Tên vật tư', value: supplies.name, border: true },
               { label: 'Danh mục', value: supplies.materials_catalog_id.name, border: true },
               { label: 'Đơn vị', value: supplies.unit, border: true },
-              { label: 'Giảm giá', value: supplies.discount, border: true },
               { label: 'Mô tả', value: supplies.describe, border: true },
               // { label: 'Trạng thái hàng', value: supplies?.details?.isInStock ? 'Còn hàng' : 'Hết hàng' },
               { label: 'Ngày tạo', value: formatDateTime(supplies.createdAt), border: true },
@@ -84,6 +83,7 @@ const SuppliesDetails = () => {
                               sx={{
                                  fontSize: '1rem',
                                  lineHeight: '2.2rem',
+                                 mt: 1,
                                  color: theme.palette.grey[800],
                               }}
                            >

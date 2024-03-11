@@ -22,7 +22,7 @@ const SuppliesInvoicesDetails = () => {
    const { id: suppliesinvoicesId } = useParams();
    const navigate = useNavigate();
 
-   const { data: suppliesinvoices } = useQuery(['getSuppliesInvoices', suppliesinvoicesId], async () => {
+   const { data: suppliesinvoices, isLoading } = useQuery(['getSuppliesInvoices', suppliesinvoicesId], async () => {
       const suppliesInvoicesRes = await suppliesInvoiceService.find(suppliesinvoicesId as string);
       return suppliesInvoicesRes.data as ResponseGetSuppliesInvoice;
    });
@@ -46,7 +46,13 @@ const SuppliesInvoicesDetails = () => {
    ];
 
    return (
-      <BaseBreadcrumbs breadcrumbs={breadcrumbs} arialabel={'#' + suppliesinvoices?.code}>
+      <BaseBreadcrumbs
+         breadcrumbs={breadcrumbs}
+         arialabel={'#' + suppliesinvoices?.code}
+         isCheck
+         data={suppliesinvoices}
+         isLoading={isLoading}
+      >
          <Box display="flex" gap="12px">
             <PermissionAccessRoute module={MODULE_PAGE.SUPPLIES_INVOICES} action="CREATE">
                <Button variant="contained" onClick={() => navigate(ROUTE_PATH.SUPPLIES_INVOICES + ROUTE_PATH.CREATE)}>

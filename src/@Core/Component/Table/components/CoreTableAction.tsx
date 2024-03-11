@@ -5,6 +5,7 @@ import { useConfirm } from '@Core/Component/Comfirm/CoreComfirm';
 import PreviewIcon from '@mui/icons-material/Preview';
 import LockIcon from '@mui/icons-material/Lock';
 import LockOpenSharpIcon from '@mui/icons-material/LockOpenSharp';
+import HistoryIcon from '@mui/icons-material/History';
 
 export const CoreTableActionDelete = ({
    callback = () => {},
@@ -43,11 +44,27 @@ export const CoreTableActionEdit = ({ callback = () => {} }) => {
    );
 };
 
-export const CoreTableActionViewDetail = ({ callback = () => {} }) => {
+export const CoreTableActionViewDetail = ({
+   title,
+   callback = () => {},
+}: {
+   title?: string;
+   callback?: () => void;
+}) => {
    return (
-      <Tooltip title="Chi tiết">
+      <Tooltip title={title ?? 'Chi tiết'}>
          <IconButton color="success" onClick={callback}>
             <PreviewIcon />
+         </IconButton>
+      </Tooltip>
+   );
+};
+
+export const CoreTableActionHistory = ({ title, callback = () => {} }: { title?: string; callback?: () => void }) => {
+   return (
+      <Tooltip title={title ?? 'Lịch sử'}>
+         <IconButton color="success" onClick={callback}>
+            <HistoryIcon />
          </IconButton>
       </Tooltip>
    );

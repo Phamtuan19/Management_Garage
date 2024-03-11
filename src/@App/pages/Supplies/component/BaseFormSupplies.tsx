@@ -40,7 +40,7 @@ const BaseFormSupplies = ({ form }: BaseFormSuppliesPropType) => {
                   <ControllerTextField name="name" control={control} />
                </Box>
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={4}>
                <Box height="75px">
                   <ControllerLabel title="Danh mục vật tư" required />
                   <ControllerAutoComplate
@@ -52,13 +52,12 @@ const BaseFormSupplies = ({ form }: BaseFormSuppliesPropType) => {
                   />
                </Box>
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={2}>
                <Box height="75px">
                   <ControllerLabel title="Đơn vị tính" required />
                   <ControllerTextField name="unit" control={control} />
                </Box>
             </Grid>
-            <Grid item xs={12} md={6}></Grid>
             <Grid item xs={12}>
                <Box minHeight="80px">
                   <ControllerLabel title="Mô tả vật tư" />

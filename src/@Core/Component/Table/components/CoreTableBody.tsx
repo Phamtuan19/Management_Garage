@@ -64,16 +64,17 @@ function CoreTableBody<T>(props: TabelHeaderProps<T>) {
 
       return rows.map((row, index) => {
          return (
-            <StyledTableRow
-               key={index}
-               onClick={() => {
-                  const data = row.original;
-                  return onClickRow && onClickRow(data);
-               }}
-               sx={{ cursor: onClickRow ? 'pointer' : 'default' }}
-            >
+            <StyledTableRow key={index} sx={{ cursor: onClickRow ? 'pointer' : 'default' }}>
                {row.getVisibleCells().map((cell, index) => (
-                  <StyledTableCell key={index} {...{}}>
+                  <StyledTableCell
+                     key={index}
+                     onClick={() => {
+                        const data = row.original;
+                        if (cell.column.id !== 'action') {
+                           return onClickRow && onClickRow(data);
+                        }
+                     }}
+                  >
                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </StyledTableCell>
                ))}

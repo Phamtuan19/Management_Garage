@@ -149,6 +149,11 @@ const SuppliesInvoicesTable = ({ form, isCheckStatusPayment }: SuppliesInvoicesT
                                  onChange={(e) =>
                                     setValue(`details.${row.index}.quantity_received`, Number(e.target.value))
                                  }
+                                 onInput={(event: React.ChangeEvent<HTMLInputElement>) => {
+                                    return (event.target.value = String(
+                                       Number(event.target.value.replace(Regexs.integer, '')),
+                                    ));
+                                 }}
                               />
                            </Box>
 

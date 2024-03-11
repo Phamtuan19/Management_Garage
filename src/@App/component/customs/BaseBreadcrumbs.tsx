@@ -49,7 +49,7 @@ function BaseBreadcrumbs<TData>({
                breadcrumbs.map((path, index) => {
                   return (
                      <Box
-                        key={index}
+                        key={index + 'Breadcrumbs'}
                         component={NavLink}
                         to={path.link}
                         sx={{

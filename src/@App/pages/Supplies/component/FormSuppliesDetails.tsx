@@ -1,3 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Box, Button, Grid, Typography } from '@mui/material';
@@ -12,7 +17,8 @@ import { errorMessage } from '@Core/Helper/message';
 import { HandleErrorApi } from '@Core/Api/axios-config';
 import { AxiosError } from 'axios';
 import ControllerAutoComplate from '@Core/Component/Input/ControllerAutoComplate';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
+import brandCarService from '@App/services/brand-car.service';
 
 import { SuppliesSchema } from '../utils/supplies.schema';
 
@@ -39,6 +45,31 @@ const FormSuppliesDetails = ({ form }: { form: UseFormReturn<SuppliesSchema> }) 
          },
       },
    );
+
+   const { data: brandCar } = useQuery(['getBrandCarAll'], async () => {
+      const res = await brandCarService.get();
+      return res.data;
+   });
+
+   const brandCars = useMemo(() => {
+      const brands =
+         brandCar?.map((item: any) => ({
+            key: item.name,
+            name: item.name,
+         })) ?? [];
+
+      const models =
+         brandCar?.flatMap((item: any) => {
+            return item.models.map((model: any) => {
+               return { key: model, name: model };
+            });
+         }) ?? [];
+
+      return {
+         brands,
+         models,
+      };
+   }, [brandCar]);
 
    const details = watch('details') ?? [];
 
@@ -90,6 +121,7 @@ const FormSuppliesDetails = ({ form }: { form: UseFormReturn<SuppliesSchema> }) 
                         name_detail: watch('name'),
                         describe: '',
                         imported_price: '0',
+                        car: [],
                      })
                   }
                >
@@ -125,15 +157,26 @@ const FormSuppliesDetails = ({ form }: { form: UseFormReturn<SuppliesSchema> }) 
                         <ControllerLabel title="Tên riêng" />
                         <ControllerTextField name={`details.${index}.name_detail`} control={control} />
                      </Grid>
-                     <Grid item xs={12} md={1}>
-                        <ControllerLabel title="Giá nhập" />
+                     <Grid item xs={12} md={2}>
+                        <ControllerLabel title="Giá nhập dự kiến" />
                         <ControllerTextField number name={`details.${index}.imported_price`} control={control} />
                      </Grid>
-                     <Grid item xs={12} md={2.8}>
+                     <Grid item xs={12} md={3}>
                         <ControllerLabel title="Mô tả ngắn" />
                         <ControllerTextField name={`details.${index}.describe`} control={control} />
                      </Grid>
-                     <Grid item xs={12} md={1.2}>
+                     <Grid item xs={12} md={11}>
+                        <ControllerLabel title="Loại xe sử dụng" />
+                        <ControllerAutoComplate
+                           name={`details.${index}.car`}
+                           options={brandCars.models ?? []}
+                           valuePath="key"
+                           titlePath="name"
+                           control={control}
+                           multiple
+                        />
+                     </Grid>
+                     <Grid item xs={12} md={1}>
                         <Box mt="25px" display="flex" gap="3px" justifyContent="flex-end" alignItems="center">
                            {watch(`details.${index}.distributor_id`).length > 0 && fields.length === index + 1 && (
                               <Button
@@ -145,6 +188,7 @@ const FormSuppliesDetails = ({ form }: { form: UseFormReturn<SuppliesSchema> }) 
                                        name_detail: watch('name'),
                                        describe: '',
                                        imported_price: '0',
+                                       car: [],
                                     })
                                  }
                               >

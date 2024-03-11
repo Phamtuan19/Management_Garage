@@ -132,7 +132,7 @@ const DistributorDetails = () => {
                         </Grid>
                         <Grid item xs={6}>
                            {bankAccountdetails.map((detail, index) => (
-                              <Grid container spacing={2} key={index}>
+                              <Grid container spacing={2} key={index + 'a'}>
                                  <Grid item xs={4} sx={{ display: 'flex', alignItems: 'flex-end' }}>
                                     <Typography
                                        sx={{ fontSize: '1rem', lineHeight: '2.2rem', color: theme.palette.grey[800] }}
@@ -165,7 +165,6 @@ const DistributorDetails = () => {
                <TabPanel value="2" sx={{ p: 0 }}>
                   <DetailTableSupplies />
                </TabPanel>
-               <TabPanel value="3">Item Three</TabPanel>
             </TabContext>
          </PageContent>
       </BaseBreadcrumbs>

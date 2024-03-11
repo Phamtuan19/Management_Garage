@@ -17,6 +17,7 @@ export interface Supplies {
       distributor_id: string;
       name_detail: string;
       imported_price: string;
+      car: string[];
    }[];
    name: string;
    materials_catalog_id: {

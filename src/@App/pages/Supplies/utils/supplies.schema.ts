@@ -39,10 +39,7 @@ export const suppliesSchema = yup.object({
       .trim()
       .default('0'),
    describe: yup.string().strict(true).trim().default(''),
-   // details: yup
-   //    .array()
-   //    .of(yupSuppliesDetail)
-   //    .default([{ distributor_id: '', name_detail: '', describe: '' }]),
+
    details: yup.lazy((value: any) =>
       Array.isArray(value) && value.length > 0
          ? yup.array().of(
@@ -60,6 +57,7 @@ export const suppliesSchema = yup.object({
                     })
                     .default('0'),
                  describe: yup.string().default(''),
+                 car: yup.array().of(yup.string()).default([]),
               }),
            )
          : yup.array().of(
@@ -69,6 +67,7 @@ export const suppliesSchema = yup.object({
                  name_detail: yup.string().default(''),
                  imported_price: yup.string().default('0'),
                  describe: yup.string().default(''),
+                 car: yup.array().of(yup.string()).default([]),
               }),
            ),
    ),

@@ -143,7 +143,7 @@ const SuppliesInvoices = () => {
    }, []);
 
    return (
-      <BaseBreadcrumbs arialabel="Danh sách hóa đơn nhập">
+      <BaseBreadcrumbs arialabel="Hóa đơn nhập">
          <PermissionAccessRoute module={MODULE_PAGE.SUPPLIES_INVOICES} action={PAGE_ACTION.CREATE}>
             <Button component={Link} to="create" size="medium">
                Thêm mới
