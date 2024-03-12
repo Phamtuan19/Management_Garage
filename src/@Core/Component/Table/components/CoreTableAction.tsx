@@ -10,19 +10,23 @@ import HistoryIcon from '@mui/icons-material/History';
 export const CoreTableActionDelete = ({
    callback = () => {},
    content = 'Bạn có chắc chắn muốn xóa bản ghi này?',
+   isConfirm = true,
 }: {
    callback?: () => void;
    content?: string;
+   isConfirm?: boolean;
 }) => {
    const coreConfirm = useConfirm();
 
    const handleDelete = () => {
-      coreConfirm({
-         content: content,
-         isIcon: true,
-         color: 'error',
-         callbackOK: callback,
-      });
+      isConfirm
+         ? coreConfirm({
+              content: content,
+              isIcon: true,
+              color: 'error',
+              callbackOK: callback,
+           })
+         : callback();
    };
 
    return (

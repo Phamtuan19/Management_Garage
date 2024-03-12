@@ -155,6 +155,11 @@ export const STATUS_REPAIR_DETAIL = {
       title: 'Kiểm tra',
       color: 'warning',
    },
+   repair: {
+      key: 'repair',
+      title: 'Sửa chữa',
+      color: 'warning',
+   },
    empty: {
       key: 'empty',
       title: 'Trống',

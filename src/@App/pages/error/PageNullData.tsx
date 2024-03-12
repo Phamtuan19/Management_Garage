@@ -20,7 +20,7 @@ const PageNullData = () => {
       >
          <Box width="50%" height="100%" display="flex" justifyContent="center" flexDirection="column">
             <Typography variant="h1" fontSize={63} fontWeight={600} textAlign="center">
-               The data doesn't exist
+               Dữ liệu không tồn tại.
             </Typography>
             <Box mt={5} display="flex" justifyContent="center" gap={5}>
                <Box

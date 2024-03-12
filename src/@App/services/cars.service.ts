@@ -31,7 +31,7 @@ class CarsService extends BaseService {
       this.setRequest();
    }
 
-   fieldAll(params: { customer_id?: string }): Promise<ResponseGetAllField> {
+   fieldAll(params: { customer_id?: string; status?: CarStatusKeys }): Promise<ResponseGetAllField> {
       return this.request(this.BASE_ENDPOINT + carsPath.ALL_FIELD, { params });
    }
 }

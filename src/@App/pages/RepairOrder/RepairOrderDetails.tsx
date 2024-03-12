@@ -1,8 +1,7 @@
-/* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Box, Button, Tab } from '@mui/material';
 import PageContent from '@App/component/customs/PageContent';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import ROUTE_PATH from '@App/configs/router-path';
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
@@ -12,7 +11,7 @@ import { Link, useParams } from 'react-router-dom';
 import repairorderService, { FindRepairOrder } from '@App/services/repairorder.service';
 import MODULE_PAGE from '@App/configs/module-page';
 import PermissionAccessRoute from '@App/routes/components/PermissionAccessRoute';
-import { STATUS_REPAIR } from '@App/configs/status-config';
+import { STATUS_REPAIR, STATUS_REPAIR_DETAIL } from '@App/configs/status-config';
 import { useConfirm } from '@Core/Component/Comfirm/CoreComfirm';
 import { errorMessage, successMessage } from '@Core/Helper/message';
 import { AxiosError } from 'axios';
@@ -48,13 +47,29 @@ const RepairOrderDetails = () => {
       const repairorderRes = await repairorderService.find(repairorderId as string);
       return repairorderRes.data as FindRepairOrder;
    });
-   const { data: deliveryCheck, refetch: refetchDeliveryCheck } = useQuery(
-      ['getDeliveryCheck', repairorderId],
-      async () => {
-         const res = await deliveryNotesService.getCheckEmpty(repairorderId as string);
-         return res.data as { isCheck: boolean };
-      },
-   );
+   // const { data: deliveryCheck, refetch: refetchDeliveryCheck } = useQuery(
+   //    ['getDeliveryCheck', repairorderId],
+   //    async () => {
+   //       const res = await deliveryNotesService.getCheckEmpty(repairorderId as string);
+   //       return res.data as { isCheck: boolean };
+   //    },
+   // );
+
+   const isCheckStatusRepairOrder = useMemo(() => {
+      if (repairorder) {
+         const isCheckSupplies = repairorder.supplies.every((item) =>
+            item.details.every((detail) => detail.status === STATUS_REPAIR_DETAIL.complete.key),
+         );
+
+         const isCheckService = repairorder.services.every((item) =>
+            item.details.every((detail) => detail.status === STATUS_REPAIR_DETAIL.complete.key),
+         );
+
+         return isCheckSupplies && isCheckService;
+      }
+
+      return false;
+   }, [repairorder]);
 
    const { mutate: createDeliveryNote } = useMutation({
       mutationFn: async () => {
@@ -67,8 +82,7 @@ const RepairOrderDetails = () => {
          }
       },
       onSuccess: () => {
-         successMessage('Cập nhật thành công.');
-         refetchDeliveryCheck();
+         updateRepairOrderStatus(arrowRightOption[2].name);
          return refetch();
       },
       onError: (err: AxiosError) => {
@@ -82,7 +96,6 @@ const RepairOrderDetails = () => {
       },
       onSuccess: () => {
          successMessage('Cập nhật thành công.');
-         refetchDeliveryCheck();
          return refetch();
       },
       onError: (err: AxiosError) => {
@@ -90,39 +103,14 @@ const RepairOrderDetails = () => {
       },
    });
 
-   const handleClickChangeStatus = () => {
+   const handleClickChangeStatus = (status: string) => {
       coreConfirm({
          icon: <ErrorOutlineIcon sx={{ fontSize: '56px' }} color="warning" />,
          title: 'Cảnh báo',
          confirmOk: 'Xác nhận',
-         content:
-            arrowRightOption[6].name === repairorder?.status
-               ? 'Bạn có chắc chắn muốn hủy bỏ hóa phiếu này?.'
-               : arrowRightOption[1].name === repairorder?.status
-                 ? 'Xác nhận tạo lệnh lấy vật tư.'
-                 : 'Bạn có chắc chắn chuyển trạng thái sang ' +
-                   arrowRightOption[arrowRightOption.findIndex((item) => item.name === repairorder?.status) + 1]?.title,
+         content: 'Xác nhận chuyển trạng thái hóa đơn sửa chữa.',
          callbackOK: () => {
-            switch (repairorder?.status) {
-               case arrowRightOption[0].name:
-                  updateRepairOrderStatus(arrowRightOption[1].name);
-                  break;
-               case arrowRightOption[1].name:
-                  updateRepairOrderStatus(arrowRightOption[2].name);
-                  break;
-               case arrowRightOption[2].name:
-                  updateRepairOrderStatus(arrowRightOption[3].name);
-                  break;
-               case arrowRightOption[3].name:
-                  updateRepairOrderStatus(arrowRightOption[4].name);
-                  break;
-               case arrowRightOption[4].name:
-                  updateRepairOrderStatus(arrowRightOption[5].name);
-                  break;
-               case arrowRightOption[5].name:
-                  updateRepairOrderStatus(arrowRightOption[6].name);
-                  break;
-            }
+            updateRepairOrderStatus(status);
          },
          isIcon: true,
       });
@@ -180,40 +168,83 @@ const RepairOrderDetails = () => {
                         Thêm mới
                      </Button>
                   </PermissionAccessRoute>
-                  {repairorderId && (
-                     <PermissionAccessRoute module={MODULE_PAGE.REPAIR_ORDERS} action="UPDATE">
+
+                  <PermissionAccessRoute module={MODULE_PAGE.REPAIR_ORDERS} action="UPDATE">
+                     <Button
+                        component={Link}
+                        to={ROUTE_PATH.REPAIR_INVOICE + '/' + repairorderId + '/update'}
+                        size="medium"
+                        color="warning"
+                     >
+                        Chỉnh sửa
+                     </Button>
+                  </PermissionAccessRoute>
+               </Box>
+               <Box display="flex" gap={1}>
+                  {repairorder?.status === STATUS_REPAIR.create.key && (
+                     <PermissionAccessRoute module={MODULE_PAGE.REPAIR_ORDERS} action="UPDATE_STATUS_REPAIR_ORDER">
                         <Button
-                           component={Link}
-                           to={ROUTE_PATH.REPAIR_INVOICE + '/' + repairorderId + '/update'}
                            size="medium"
-                           color="warning"
+                           color="secondary"
+                           onClick={() => {
+                              handleClickChangeStatus(arrowRightOption[1].name);
+                           }}
                         >
-                           Chỉnh sửa
+                           Kiểm tra xe
                         </Button>
                      </PermissionAccessRoute>
                   )}
-               </Box>
-               <Box display="flex" gap={1}>
-                  {repairorder?.status !== STATUS_REPAIR.pay.key &&
-                     repairorder?.status !== STATUS_REPAIR.complete.key &&
-                     repairorder?.status !== STATUS_REPAIR.close.key &&
-                     deliveryCheck?.isCheck && (
-                        <PermissionAccessRoute module={MODULE_PAGE.REPAIR_ORDERS} action="UPDATE">
-                           <Button size="medium" color="inherit" onClick={handleCreateDelivery}>
-                              Lấy vật tư
-                           </Button>
-                        </PermissionAccessRoute>
-                     )}
 
-                  {repairorder?.status !== STATUS_REPAIR.close.key &&
-                     repairorder?.status !== STATUS_REPAIR.check.key && (
-                        <PermissionAccessRoute module={MODULE_PAGE.REPAIR_ORDERS} action="UPDATE_STATUS_REPAIR_ORDER">
-                           <Button size="medium" color="secondary" onClick={handleClickChangeStatus}>
-                              Chuyển trạng thái
-                           </Button>
-                        </PermissionAccessRoute>
-                     )}
-                  {repairorder?.status !== STATUS_REPAIR.close.key && (
+                  {repairorder?.status === STATUS_REPAIR.check.key && (
+                     <PermissionAccessRoute module={MODULE_PAGE.REPAIR_ORDERS} action="UPDATE_STATUS_REPAIR_ORDER">
+                        <Button size="medium" color="inherit" onClick={handleCreateDelivery}>
+                           Lấy vật tư
+                        </Button>
+                     </PermissionAccessRoute>
+                  )}
+
+                  {repairorder?.status === STATUS_REPAIR.shipped.key && (
+                     <PermissionAccessRoute module={MODULE_PAGE.REPAIR_ORDERS} action="UPDATE_STATUS_REPAIR_ORDER">
+                        <Button
+                           size="medium"
+                           color="secondary"
+                           onClick={() => {
+                              handleClickChangeStatus(arrowRightOption[3].name);
+                           }}
+                        >
+                           Sửa chữa
+                        </Button>
+                     </PermissionAccessRoute>
+                  )}
+                  {repairorder?.status === STATUS_REPAIR.repair.key && isCheckStatusRepairOrder && (
+                     <PermissionAccessRoute module={MODULE_PAGE.REPAIR_ORDERS} action="UPDATE_STATUS_REPAIR_ORDER">
+                        <Button
+                           size="medium"
+                           color="secondary"
+                           onClick={() => {
+                              handleClickChangeStatus(arrowRightOption[4].name);
+                           }}
+                        >
+                           Thanh toán
+                        </Button>
+                     </PermissionAccessRoute>
+                  )}
+                  {repairorder?.status === STATUS_REPAIR.pay.key && (
+                     <PermissionAccessRoute module={MODULE_PAGE.REPAIR_ORDERS} action="UPDATE_STATUS_REPAIR_ORDER">
+                        <Button
+                           size="medium"
+                           color="secondary"
+                           onClick={() => {
+                              handleClickChangeStatus(arrowRightOption[5].name);
+                           }}
+                        >
+                           Hoàn thành
+                        </Button>
+                     </PermissionAccessRoute>
+                  )}
+
+                  {(repairorder?.status === STATUS_REPAIR.create.key ||
+                     repairorder?.status === STATUS_REPAIR.check.key) && (
                      <PermissionAccessRoute module={MODULE_PAGE.REPAIR_ORDERS} action="UPDATE_STATUS_REPAIR_ORDER">
                         <Button size="medium" color="error" onClick={handleClose}>
                            Hủy

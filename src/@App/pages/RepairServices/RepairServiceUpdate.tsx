@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import ROUTER_PATH from '@App/configs/router-path';
@@ -40,6 +41,7 @@ const RepairServiceUpdate = () => {
       {
          onSuccess: (data) => {
             setValueHookForm(form.setValue, data as never);
+            form.setValue('repair_service_category_id', data.repair_service_category_id._id as string);
             return data;
          },
       },
@@ -49,7 +51,7 @@ const RepairServiceUpdate = () => {
          return await repairServiceService.update(data, repairServiceId, 'patch');
       },
       onSuccess: () => {
-         successMessage('Cập nhật nhân viên thành công!');
+         successMessage('Cập nhật thành công');
          navigate('/fix/repair-services');
       },
       onError: (err: AxiosError) => {

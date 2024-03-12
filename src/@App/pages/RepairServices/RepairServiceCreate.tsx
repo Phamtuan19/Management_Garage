@@ -34,7 +34,7 @@ const RepairServiceCreate = () => {
          return await repairServiceService.create(data);
       },
       onSuccess: () => {
-         successMessage('Thêm mới nhân viên thành công');
+         successMessage('Thêm mới thành công');
          navigate('/fix/repair-services');
       },
       onError: (err: AxiosError) => {

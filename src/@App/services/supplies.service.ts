@@ -61,20 +61,16 @@ export interface SuppliesItem {
    _id: string;
    code: string;
    name_detail: string;
-   isInStock: string;
-   supplies_id: string;
+   isInStock: boolean;
    unit: string;
-   distributor: {
-      _id: string;
-      name: string;
-   };
-   supplies_invoices_code: string;
-   supplies_invoices_id: string;
-   supplies_invoices_quantity_received: number;
-   supplies_invoices_selling_price: number;
+   distributor_id: string;
+   distributor_name: string;
+   total_quantity_received: number;
+   min_price: number;
+   max_price: number;
 }
 
-export interface ResponseReadSuppliesA extends AxiosResponseData {
+export interface ResponseGetSuppliesRepiarInvoice extends AxiosResponseData {
    data: SuppliesItem[];
 }
 
@@ -122,7 +118,7 @@ class SuppliesService extends BaseService {
       distributor_id?: string;
       field: string;
       car_name?: string;
-   }): Promise<ResponseReadSuppliesA> {
+   }): Promise<ResponseGetSuppliesRepiarInvoice> {
       return this.request.get(this.BASE_ENDPOINT + suppliesPath.GET_SUPPLIES_INVOICE, { params });
    }
 }

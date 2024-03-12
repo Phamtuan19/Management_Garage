@@ -20,6 +20,7 @@ import { useQuery } from '@tanstack/react-query';
 import brandCarService from '@App/services/brand-car.service';
 import { useMemo } from 'react';
 import formatPrice from '@Core/Helper/formatPrice';
+import repairServiceCategoriesService from '@App/services/repairServiceCategories.service';
 
 interface BaseFormRepairService {
    form: UseFormReturn<RepairServiceSchema>;
@@ -33,6 +34,14 @@ const BaseFormRepairService = ({ form, onSubmitForm }: BaseFormRepairService) =>
       const res = await brandCarService.get();
       return res.data;
    });
+
+   const { data: repairServiceCategories, isLoading: isLoadingCategories } = useQuery(
+      ['getRepairServiceCategories'],
+      async () => {
+         const res = await repairServiceCategoriesService.get();
+         return res.data;
+      },
+   );
 
    const models = useMemo(() => {
       const brands =
@@ -58,10 +67,24 @@ const BaseFormRepairService = ({ form, onSubmitForm }: BaseFormRepairService) =>
       <Box component="form" onSubmit={handleSubmit(onSubmitForm)}>
          <PageContent>
             <Grid container spacing={2}>
-               <Grid item xs={12}>
+               <Grid item xs={8}>
                   <Box minHeight="85px">
                      <ControllerLabel title="Tên dịch vụ" required />
                      <ControllerTextField name="name" control={control} placeholder="Tên dịch vụ " />
+                  </Box>
+               </Grid>
+               <Grid item xs={4}>
+                  <Box minHeight="85px">
+                     <ControllerLabel title="Danh mục" required />
+                     <ControllerAutoComplate
+                        loading={isLoadingCategories}
+                        name="repair_service_category_id"
+                        options={(repairServiceCategories as never) ?? []}
+                        valuePath="_id"
+                        titlePath="name"
+                        control={control}
+                        placeholder="Chọn danh mục"
+                     />
                   </Box>
                </Grid>
                <Grid item xs={12}>

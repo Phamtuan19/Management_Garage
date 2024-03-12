@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import messageValidate from '@App/helpers/messageValidate';
 import * as yup from 'yup';
 
@@ -12,6 +13,7 @@ export const validationFormCreate = yup.object({
       .default(0),
    describe: yup.string().default(''),
    cars: yup.array().of(yup.string()).default([]),
+   repair_service_category_id: yup.string().default(''),
    // details: yup
    //    .array()
    //    .of(

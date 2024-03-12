@@ -102,6 +102,14 @@ const RepairServices = () => {
                return <Box>{row.getValue('name')}</Box>;
             },
          }),
+         columnHelper.accessor('repair_service_category_id.name', {
+            header: 'Tên dịch vụ',
+            cell: (info) => {
+               return (
+                  <Box sx={{ maxWidth: '340px', textOverflow: 'ellipsis', overflow: 'hidden' }}>{info.getValue()}</Box>
+               );
+            },
+         }),
          columnHelper.accessor('price', {
             header: 'Giá',
             cell: ({ row }) => {

@@ -45,6 +45,7 @@ const RepairServiceDetails = () => {
 
    const repairServiceDetails = [
       { label: 'Tên dịch vụ', value: repairService?.name },
+      { label: 'Danh mục', value: repairService?.repair_service_category_id.name },
       { label: 'Giá', value: formatPrice(repairService?.price) },
       { label: 'Giảm giá', value: repairService?.discount },
       {
