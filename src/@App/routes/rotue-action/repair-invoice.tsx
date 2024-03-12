@@ -8,6 +8,7 @@ import Loadable from '../components/loadable';
 
 const RepairInvoice = Loadable('RepairInvoice');
 const RepairInvoiceCreate = Loadable('RepairInvoice/RepairInvoiceCreate');
+const RepairInvoiceDetail = Loadable('RepairInvoice/RepairInvoiceDetail');
 
 const repairInvoiceRoute: RouteObject = {
    path: ROUTE_PATH.REPAIR_INVOICE,
@@ -26,6 +27,14 @@ const repairInvoiceRoute: RouteObject = {
          element: (
             <PermissionAccessRoute module={MODULE_PAGE.REPAIR_ORDERS} action={PAGE_ACTION.CREATE} type="route">
                <RepairInvoiceCreate />
+            </PermissionAccessRoute>
+         ),
+      },
+      {
+         path: ROUTE_PATH.REPAIR_INVOICE + ROUTE_PATH.DETAILS,
+         element: (
+            <PermissionAccessRoute module={MODULE_PAGE.REPAIR_ORDERS} action={PAGE_ACTION.CREATE} type="route">
+               <RepairInvoiceDetail />
             </PermissionAccessRoute>
          ),
       },

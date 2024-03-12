@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Box, Button, Stack, Typography } from '@mui/material';
 import React, { useRef, useState } from 'react';
-import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 import { useOnClickOutside } from '@App/hooks/useOnClickOutside';
 import useSearchParamsHook from '@App/hooks/useSearchParamsHook';
+import FilterListOutlinedIcon from '@mui/icons-material/FilterListOutlined';
 
 interface SortTableProps {
    sortList: SortList[];
@@ -41,7 +41,7 @@ const SortTable = ({ sortList }: SortTableProps) => {
                }}
                onClick={() => setOpen(!open)}
             >
-               <FilterAltOutlinedIcon sx={{ width: '24px', height: '24px' }} />
+               <FilterListOutlinedIcon sx={{ width: '24px', height: '24px' }} />
             </Button>
             {open && sortList.length > 0 && (
                <Box

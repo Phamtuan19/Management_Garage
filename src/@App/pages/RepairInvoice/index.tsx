@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable @typescript-eslint/naming-convention */
 import FilterTable from '@App/component/common/FilterTable';
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import PageContent from '@App/component/customs/PageContent';
@@ -10,10 +9,10 @@ import { STATUS_REPAIR } from '@App/configs/status-config';
 import useCoreTable from '@App/hooks/useCoreTable';
 import useSearchParamsHook from '@App/hooks/useSearchParamsHook';
 import PermissionAccessRoute from '@App/routes/components/PermissionAccessRoute';
-import repairorderService, { RepairOrdersResponse } from '@App/services/repairorder.service';
+import repairInvoiceService from '@App/services/repair-invoice';
+import { RepairOrdersResponse } from '@App/services/repairorder.service';
 import TableCore, { columnHelper } from '@Core/Component/Table';
 import { CoreTableActionEdit, CoreTableActionViewDetail } from '@Core/Component/Table/components/CoreTableAction';
-import handlePrice from '@Core/Helper/formatPrice';
 import { Box, Button, Chip } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
@@ -25,75 +24,76 @@ const sortList = [
       title: 'Mã phiếu',
       value: 'code',
    },
+   {
+      title: 'Tên khách hàng',
+      value: 'customer.name',
+   },
+   {
+      title: 'SĐT khách hàng',
+      value: 'customer.phone',
+   },
+   {
+      title: 'Tên xe',
+      value: 'car.name',
+   },
+   {
+      title: 'Biển số xe',
+      value: 'car.license_plate',
+   },
 ];
 
 const RepairInvoice = () => {
    const navigate = useNavigate();
    const { searchParams } = useSearchParamsHook();
 
-   const queryTable = useQuery(['getRepairorderList', searchParams], async () => {
-      const res = await repairorderService.get(searchParams);
+   const queryTable = useQuery(['readRepairInvoice', searchParams], async () => {
+      const res = await repairInvoiceService.get(searchParams);
       return res.data;
    });
-
    const data = useCoreTable(queryTable);
 
    const columns = useMemo(() => {
       return [
-         columnHelper.accessor((_, index) => index + 1, {
-            id: 'STT',
+         columnHelper.accessor('STT', {
             header: 'STT',
-            cell: ({ getValue }) => {
-               return <Box>{getValue()}</Box>;
+            cell: ({ row }) => {
+               return <Box>{row.index + 1}</Box>;
             },
          }),
          columnHelper.accessor('code', {
-            header: () => <Box textAlign="center">Mã</Box>,
-            cell: ({ row }) => {
-               return <Box textAlign="center">{row.getValue('code')} </Box>;
+            header: () => <Box textAlign="center">Mã Phiếu</Box>,
+            cell: (info) => {
+               return <Box textAlign="center">#{info.getValue()} </Box>;
             },
          }),
-         columnHelper.accessor('customer', {
-            header: () => <Box textAlign="center">Khách hàng</Box>,
-            cell: ({ row }) => {
-               const repairOrder = row.original as RepairOrdersResponse;
-
-               return <Box textAlign="center">{repairOrder.customer[0].name} </Box>;
+         columnHelper.accessor('customer_id.name', {
+            header: () => <Box>Khách hàng</Box>,
+            cell: (info) => {
+               return <Box>{info.getValue()} </Box>;
             },
          }),
-         columnHelper.accessor('car_id', {
-            header: () => <Box textAlign="center">Tên xe</Box>,
-            cell: ({ row }) => {
-               const repairOrder = row.original as RepairOrdersResponse;
-               return <Box textAlign="center">{repairOrder.car_id.name} </Box>;
+         columnHelper.accessor('customer_id.phone', {
+            header: () => <Box>Số điện thoại</Box>,
+            cell: (info) => {
+               return <Box>{info.getValue()} </Box>;
             },
          }),
-         columnHelper.accessor('license_plate', {
+         columnHelper.accessor('car_id.name', {
+            header: () => <Box textAlign="center">Xe</Box>,
+            cell: (info) => {
+               return <Box textAlign="center">{info.getValue()} </Box>;
+            },
+         }),
+         columnHelper.accessor('car_id.license_plate', {
             header: () => <Box textAlign="center">Biển số xe</Box>,
-            cell: ({ row }) => {
-               const repairOrder = row.original as RepairOrdersResponse;
-               return <Box textAlign="center">{repairOrder.car_id.license_plate} </Box>;
+            cell: (info) => {
+               return <Box textAlign="center">{info.getValue()} </Box>;
             },
          }),
-         columnHelper.accessor('personnel_id', {
+         columnHelper.accessor('personnel_id.full_name', {
             header: () => <Box textAlign="center">NV Tạo</Box>,
-            cell: ({ row }) => {
-               const repairOrder = row.original as RepairOrdersResponse;
-               return <Box textAlign="center">{repairOrder.personnel_id.full_name} </Box>;
-            },
-         }),
-         columnHelper.accessor('repair_order_detail', {
-            header: () => <Box textAlign="center">Số lượng</Box>,
-            cell: ({ row }) => {
-               const repairOrder = row.original as RepairOrdersResponse;
-               return <Box textAlign="center">{repairOrder.repair_order_detail.totel_detail}</Box>;
-            },
-         }),
-         columnHelper.accessor('totle_price', {
-            header: () => <Box textAlign="center">Giá</Box>,
-            cell: ({ row }) => {
-               const repairOrder = row.original as RepairOrdersResponse;
-               return <Box textAlign="center">{handlePrice(repairOrder.repair_order_detail.totle_price)}</Box>;
+            cell: (info) => {
+               return <Box textAlign="center">{info.getValue()} </Box>;
             },
          }),
          columnHelper.accessor('status', {
@@ -110,7 +110,6 @@ const RepairInvoice = () => {
                );
             },
          }),
-
          columnHelper.accessor('createdAt', {
             header: () => <Box textAlign="center">Ngày tạo</Box>,
             cell: ({ row }) => {
