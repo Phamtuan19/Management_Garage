@@ -1,115 +1,15 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { AccordionDetails, Box, Button, Chip, Grid, Typography, styled } from '@mui/material';
+import { AccordionDetails, Box, Button, Grid, Typography, styled } from '@mui/material';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import MuiAccordionSummary, { AccordionSummaryProps } from '@mui/material/AccordionSummary';
-import { ResponseFindOneRepairInvoiceService } from '@App/types/repair-invoice';
-import { useMemo } from 'react';
-import TableCore, { columnHelper } from '@Core/Component/Table';
-import formatPrice from '@Core/Helper/formatPrice';
-import { STATUS_REPAIR_DETAIL } from '@App/configs/status-config';
 import { Row } from '@tanstack/react-table';
 import ControllerLabel from '@Core/Component/Input/ControllerLabel';
 import MuiAccordion, { AccordionProps } from '@mui/material/Accordion';
 import RemoveIcon from '@mui/icons-material/Remove';
+import { ResponseFindOneRepairInvoiceService } from '@App/types/repair-invoice';
+import { STATUS_REPAIR_DETAIL, StatusRepairDetail } from '@App/configs/status-config';
 
-interface DetailRepairInvoiceServiceProps {
-   data: ResponseFindOneRepairInvoiceService[];
-}
-
-const DetailRepairInvoiceService = ({ data }: DetailRepairInvoiceServiceProps) => {
-   const columns = useMemo(() => {
-      return [
-         columnHelper.accessor('expander', {
-            header: '',
-            cell: ({ row }) => {
-               return (
-                  <Box textAlign="center" width="25px" py={1}>
-                     {row.getCanExpand() ? (
-                        <Button
-                           variant="text"
-                           sx={{ p: '1px 2px', minWidth: 'auto' }}
-                           {...{
-                              onClick: row.getToggleExpandedHandler(),
-                              style: { cursor: 'pointer' },
-                           }}
-                        >
-                           {row.getIsExpanded() ? '👇' : '👉'}
-                        </Button>
-                     ) : (
-                        '🔵'
-                     )}{' '}
-                  </Box>
-               );
-            },
-         }),
-         columnHelper.accessor('service_code', {
-            header: 'Mã Dv',
-            cell: (info) => {
-               return <Box>#{info.getValue()}</Box>;
-            },
-         }),
-         columnHelper.accessor('service_name', {
-            header: 'Tên dịch vụ',
-            cell: (info) => {
-               return <Box>{info.getValue()}</Box>;
-            },
-            size: 500,
-         }),
-         columnHelper.accessor('category_name', {
-            header: 'Danh mục',
-            cell: (info) => {
-               return <Box>{info.getValue()}</Box>;
-            },
-         }),
-         columnHelper.accessor('price', {
-            header: 'Đơn giá',
-            cell: (info) => {
-               return <Box>{info.getValue()}</Box>;
-            },
-         }),
-         columnHelper.accessor('discount', {
-            header: 'giảm giá',
-            cell: ({ row }) => {
-               const data = row.original as ResponseFindOneRepairInvoiceService;
-               const discountPrice = data.price - (data.price * data.discount) / 100;
-               return <Box>{formatPrice(discountPrice)}</Box>;
-            },
-         }),
-         columnHelper.accessor('status', {
-            header: 'Số lượng',
-            cell: ({ row }) => {
-               const data = row.original as ResponseFindOneRepairInvoiceService;
-               const isCheck = data.details.some(
-                  (item) =>
-                     item.status !== STATUS_REPAIR_DETAIL.empty.key && item.status !== STATUS_REPAIR_DETAIL.check.key,
-               );
-               return (
-                  <Box>
-                     <Chip label={isCheck ? 'Hoàn thành' : 'Chưa hoàn thành'} color={isCheck ? 'success' : 'error'} />
-                  </Box>
-               );
-            },
-         }),
-      ];
-   }, []);
-
-   return (
-      <>
-         <TableCore
-            data={data}
-            columns={columns}
-            isPagination={false}
-            getRowCanExpand={() => true}
-            renderSubComponent={renderSubComponent as never}
-            onClickRow={(row) => {
-               row.getToggleExpandedHandler();
-            }}
-         />
-      </>
-   );
-};
-
-const renderSubComponent = (row: Row<ResponseFindOneRepairInvoiceService>) => {
+const RenderSubComponent = (row: Row<ResponseFindOneRepairInvoiceService>) => {
    return row.original.details.map((item) => {
       return renderDetails(item);
    });
@@ -130,12 +30,12 @@ const renderDetails = (data: {
       },
       {
          title: 'Trạng thái:',
-         value: data.repair_staff_id,
+         value: STATUS_REPAIR_DETAIL[data.status as StatusRepairDetail].title,
          border: true,
       },
       {
          title: 'Nhân viên sc:',
-         value: data.status,
+         value: data.repair_staff_id,
          border: true,
       },
       {
@@ -241,4 +141,4 @@ const AccordionSummary = styled((props: AccordionSummaryProps) => (
    },
 });
 
-export default DetailRepairInvoiceService;
+export default RenderSubComponent;

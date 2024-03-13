@@ -163,7 +163,7 @@ export const STATUS_REPAIR_DETAIL = {
    empty: {
       key: 'empty',
       title: 'Trống',
-      color: 'info',
+      color: 'default',
    },
    close: {
       key: 'close',

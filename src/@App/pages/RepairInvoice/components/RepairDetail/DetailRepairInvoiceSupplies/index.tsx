@@ -45,7 +45,6 @@ const DetailRepairInvoiceSupplies = ({ data }: DetailRepairInvoiceSuppliesProps)
             cell: (info) => {
                return <Box>{info.getValue()}</Box>;
             },
-            size: 500,
          }),
          columnHelper.accessor('distributors_name', {
             header: 'Nhà phân phối',
@@ -76,9 +75,9 @@ const DetailRepairInvoiceSupplies = ({ data }: DetailRepairInvoiceSuppliesProps)
             isPagination={false}
             getRowCanExpand={() => true}
             renderSubComponent={renderSubComponent as never}
-            onClickRow={(row) => {
-               row.getToggleExpandedHandler();
-            }}
+            // onClickRow={(row) => {
+            //    row.getToggleExpandedHandler();
+            // }}
          />
       </Box>
    );

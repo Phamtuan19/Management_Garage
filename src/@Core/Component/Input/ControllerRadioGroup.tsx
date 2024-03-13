@@ -11,11 +11,23 @@ interface ControllerRadioGroupProps<TContext extends FieldValues = FieldValues> 
    sx?: SxProps<Theme> | undefined;
    disabled?: boolean;
    defaultValue?: string;
+   onChangeValue?: (e: React.ChangeEvent<HTMLInputElement>) => void;
    control: Control<TContext>;
 }
 
 const ControllerRadioGroup = (props: ControllerRadioGroupProps): JSX.Element => {
-   const { options, name, defaultValue, valuePath, titlePath, control, disabled = false, sx, ...rest } = props;
+   const {
+      options,
+      name,
+      defaultValue,
+      onChangeValue,
+      valuePath,
+      titlePath,
+      control,
+      disabled = false,
+      sx,
+      ...rest
+   } = props;
 
    return (
       <Controller
@@ -26,7 +38,10 @@ const ControllerRadioGroup = (props: ControllerRadioGroupProps): JSX.Element => 
                      title="hello"
                      ref={ref}
                      name={name}
-                     onChange={onChange}
+                     onChange={(e) => {
+                        onChange(e);
+                        return onChangeValue && onChangeValue(e);
+                     }}
                      value={value as string}
                      defaultValue={defaultValue}
                      {...rest}

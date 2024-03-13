@@ -67,7 +67,11 @@ function CoreTableBody<T>(props: TabelHeaderProps<T>) {
       return rows.map((row) => {
          return (
             <React.Fragment key={row.id}>
-               <StyledTableRow sx={{ cursor: onClickRow ? 'pointer' : 'default' }}>
+               <StyledTableRow
+                  sx={{
+                     cursor: onClickRow ? 'pointer' : 'default',
+                  }}
+               >
                   {row.getVisibleCells().map((cell, index) => (
                      <StyledTableCell
                         key={index}
@@ -76,6 +80,7 @@ function CoreTableBody<T>(props: TabelHeaderProps<T>) {
                               return onClickRow && onClickRow(row);
                            }
                         }}
+                        sx={{ backgroundColor: row.getIsExpanded() ? '#dadada29' : 'transparent' }}
                      >
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                      </StyledTableCell>

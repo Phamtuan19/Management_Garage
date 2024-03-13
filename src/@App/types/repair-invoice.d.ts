@@ -24,7 +24,7 @@ interface ResponseReadSuppliesInvoices {
       name: string;
       license_plate: string;
    };
-   kilometer: string;
+   kilometer: number;
    status: StatusRepair;
    describe: string;
    createdAt: string;
@@ -54,6 +54,7 @@ interface ResponseFindOneRepairInvoiceService {
    service_describe: string;
    service_code: string;
    service_id: string;
+   category_id: string;
    category_name: string;
 }
 
@@ -62,6 +63,8 @@ interface ResponseFindOneRepairInvoiceSupplies {
    repair_invoice_id: string;
    supplies_service_id: string;
    quantity: number;
+   price?: number;
+   discount?: number;
    describe: string;
    type: string;
    details: [];
@@ -73,7 +76,9 @@ interface ResponseFindOneRepairInvoiceSupplies {
    distributors_name: string;
    min_price: number;
    max_price: number;
-   total_quantity_received: number;
+   total_quantity_inventory: number;
+   repair_staff_id: string;
+   status_repair: string;
 }
 
 interface ResponseFindOneRepairInvoice extends ResponseReadSuppliesInvoices {
