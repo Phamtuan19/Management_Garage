@@ -226,10 +226,11 @@ const DetailTableSupplies = ({ supplies }: DetailTableSuppliesProps) => {
       <>
          <TableCore
             height={370}
-            onClickRow={(e: SuppliesItem) => {
-               getSuppliesInvoiceDetail(e._id);
+            onClickRow={(row) => {
+               const data = row.original as SuppliesItem;
+               getSuppliesInvoiceDetail(data._id);
                setOpenDrawer(true);
-               setSuppliesItem(e);
+               setSuppliesItem(data);
             }}
             columns={columns}
             data={supplies?.details ?? []}

@@ -24,6 +24,8 @@ import {
    getCoreRowModel,
    useReactTable,
    VisibilityState,
+   getExpandedRowModel,
+   Row,
 } from '@tanstack/react-table';
 import ScrollbarBase from '@App/component/customs/ScrollbarBase';
 import useSearchParamsHook from '@App/hooks/useSearchParamsHook';
@@ -45,9 +47,11 @@ interface TableCoreProps<TData = unknown[], TValue = never> {
    total_page?: number;
    total_record?: number;
    noData?: React.ReactNode;
-   onClickRow?: (e: any) => void;
+   onClickRow?: (e: Row<any>) => void;
    columnVisibility?: VisibilityState;
    onColumnVisibilityChange?: any;
+   getRowCanExpand?: (row: Row<TData>) => boolean;
+   renderSubComponent?: (e: Row<any>) => React.ReactNode;
 }
 
 export const columnHelper = createColumnHelper();
@@ -63,6 +67,8 @@ function TableCore<TData = unknown[], TValue = never>(props: TableCoreProps<TDat
       onClickRow,
       columnVisibility,
       onColumnVisibilityChange,
+      getRowCanExpand,
+      renderSubComponent,
       ...dataPagination
    } = props;
 
@@ -84,6 +90,8 @@ function TableCore<TData = unknown[], TValue = never>(props: TableCoreProps<TDat
       },
       onColumnVisibilityChange: onColumnVisibilityChange,
       getCoreRowModel: getCoreRowModel(), //truy cập dữ liệu cơ bản của một hàng (row) trong bảng.
+      getExpandedRowModel: getExpandedRowModel(),
+      getRowCanExpand,
    });
 
    return (
@@ -109,7 +117,13 @@ function TableCore<TData = unknown[], TValue = never>(props: TableCoreProps<TDat
                size="small"
             >
                <CoreTableHeader table={table as any} />
-               <CoreTableBody onClickRow={onClickRow} table={table} isLoading={isLoading ?? false} noData={noData} />
+               <CoreTableBody
+                  onClickRow={onClickRow}
+                  renderSubComponent={renderSubComponent}
+                  table={table}
+                  isLoading={isLoading ?? false}
+                  noData={noData}
+               />
             </Table>
          </ScrollbarBase>
 

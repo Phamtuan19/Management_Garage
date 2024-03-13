@@ -5,6 +5,7 @@ import formatPrice from '@Core/Helper/formatPrice';
 import { Box, ButtonBase, Chip, Drawer, Grid, Typography } from '@mui/material';
 import React, { useMemo, useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
+import { Row } from '@tanstack/react-table';
 
 const DetailTable = ({ suppliesinvoices }: { suppliesinvoices: ResponseGetSuppliesInvoice | undefined }) => {
    const [open, setOpen] = useState<boolean>(false);
@@ -149,9 +150,9 @@ const DetailTable = ({ suppliesinvoices }: { suppliesinvoices: ResponseGetSuppli
    return (
       <>
          <TableCore
-            onClickRow={(e: SuppliesInvoiceDetails) => {
+            onClickRow={(row: Row<SuppliesInvoiceDetails>) => {
                setOpen(true);
-               setSuppliesInvoiceItem(e);
+               setSuppliesInvoiceItem(row.original);
             }}
             height={450}
             columns={columns}

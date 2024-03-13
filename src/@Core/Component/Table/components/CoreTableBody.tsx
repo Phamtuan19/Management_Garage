@@ -16,17 +16,19 @@
  */
 
 import { Skeleton, TableBody, TableCell, TableRow, styled } from '@mui/material';
-import { Table as TypeReactTable, flexRender } from '@tanstack/react-table';
+import { Row, Table as TypeReactTable, flexRender } from '@tanstack/react-table';
+import React from 'react';
 
 interface TabelHeaderProps<T> {
    table: TypeReactTable<T>;
    isLoading: boolean;
    noData: React.ReactNode;
-   onClickRow?: (e: any) => void;
+   onClickRow?: (e: Row<any>) => void;
+   renderSubComponent?: (e: Row<any>) => React.ReactNode;
 }
 
 function CoreTableBody<T>(props: TabelHeaderProps<T>) {
-   const { table, isLoading, noData, onClickRow } = props;
+   const { table, isLoading, noData, onClickRow, renderSubComponent } = props;
 
    const renderTableBody = () => {
       const { rows } = table && table.getRowModel();
@@ -62,23 +64,29 @@ function CoreTableBody<T>(props: TabelHeaderProps<T>) {
          );
       }
 
-      return rows.map((row, index) => {
+      return rows.map((row) => {
          return (
-            <StyledTableRow key={index} sx={{ cursor: onClickRow ? 'pointer' : 'default' }}>
-               {row.getVisibleCells().map((cell, index) => (
-                  <StyledTableCell
-                     key={index}
-                     onClick={() => {
-                        const data = row.original;
-                        if (cell.column.id !== 'action') {
-                           return onClickRow && onClickRow(data);
-                        }
-                     }}
-                  >
-                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </StyledTableCell>
-               ))}
-            </StyledTableRow>
+            <React.Fragment key={row.id}>
+               <StyledTableRow sx={{ cursor: onClickRow ? 'pointer' : 'default' }}>
+                  {row.getVisibleCells().map((cell, index) => (
+                     <StyledTableCell
+                        key={index}
+                        onClick={() => {
+                           if (cell.column.id !== 'action') {
+                              return onClickRow && onClickRow(row);
+                           }
+                        }}
+                     >
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                     </StyledTableCell>
+                  ))}
+               </StyledTableRow>
+               {renderSubComponent && row.getIsExpanded() && (
+                  <StyledTableRow>
+                     <StyledTableCell colSpan={row.getVisibleCells().length}>{renderSubComponent(row)}</StyledTableCell>
+                  </StyledTableRow>
+               )}
+            </React.Fragment>
          );
       });
    };
