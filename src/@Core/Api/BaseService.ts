@@ -77,7 +77,7 @@ class BaseService {
     * @param {Object} data
     * @returns
     */
-   update<U>(data: TData, id?: string, method: 'put' | 'patch' = 'put'): Promise<U> {
+   update(data: TData, id?: string, method: 'put' | 'patch' = 'put'): Promise<AxiosResponseData> {
       const updateId = id || (data[this.PRIMARY_KEY] as string);
       return this.request[method](`${this.BASE_ENDPOINT}/${updateId}`, data);
    }

@@ -33,7 +33,11 @@ const RepairInvoiceDetail = () => {
       setParams('tab', newValue);
    };
 
-   const { data: repairInvoice, isLoading } = useQuery(['findOneRepairInvoice', repairInvoiceId], async () => {
+   const {
+      data: repairInvoice,
+      refetch,
+      isLoading,
+   } = useQuery(['findOneRepairInvoice', repairInvoiceId], async () => {
       const res = await repairInvoiceService.find(repairInvoiceId as string);
       return res.data as ResponseFindOneRepairInvoice;
    });
@@ -46,7 +50,7 @@ const RepairInvoiceDetail = () => {
          data={repairInvoice}
          isLoading={isLoading}
       >
-         <RepairDetailAction data={repairInvoice} />
+         <RepairDetailAction refetchRepairInvoice={refetch} data={repairInvoice} />
 
          <ArrowRight options={arrowRightOption} check={(repairInvoice?.status as string) ?? 'create'} />
          <RepairInvoiceInformation data={repairInvoice} />
