@@ -2,31 +2,15 @@
 import { StatusDelivery } from '@App/configs/status-config';
 import BaseService from '@Core/Api/BaseService';
 import { AxiosResponseData } from '@Core/Api/axios-config';
+import { DeliveryUpdateExportQuantity } from '@App/pages/Deliverys/utils/delivery';
 
 import { RepairOrderSupplies } from './repairorder.service';
 
 const deliveryNoteServicePath = {
    base: 'delivery-notes',
    CHECK_EMPTY: '/check',
+   UPDATE_DELIVERY_EXPORT_SUPPLIES: '/export-supplies/',
 };
-
-export interface DeliveryNoteData {
-   _id: string;
-   code: string;
-   personnel: {
-      _id: string;
-      full_name: string;
-   };
-   repair_order: {
-      _id: string;
-      code: string;
-   };
-   status: StatusDelivery;
-   describe: string;
-   createdAt: string;
-   updatedAt: string;
-   repair_order_details_size: number;
-}
 
 export interface FindOneDeliveryNode {
    _id: string;
@@ -48,6 +32,13 @@ class DeliveryNotesService extends BaseService {
 
    getCheckEmpty(id: string): Promise<AxiosResponseData> {
       return this.request(this.BASE_ENDPOINT + '/' + id + deliveryNoteServicePath.CHECK_EMPTY);
+   }
+
+   updateDeliveryExportSupplies(id: string, data: DeliveryUpdateExportQuantity): Promise<AxiosResponseData> {
+      return this.request.patch(
+         this.BASE_ENDPOINT + deliveryNoteServicePath.UPDATE_DELIVERY_EXPORT_SUPPLIES + id,
+         data,
+      );
    }
 }
 

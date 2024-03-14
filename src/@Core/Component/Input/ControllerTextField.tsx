@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/naming-convention */
 import React from 'react';
 import { Controller, Control, FieldValues, Path } from 'react-hook-form';
@@ -14,6 +15,7 @@ interface ControllerTextFieldProps<TFieldValues extends FieldValues = FieldValue
    variant?: TextFieldVariants;
    sx?: SxProps<Theme> | undefined;
    maxLength?: number;
+   onChangeValue?: (e: any) => void;
    control: Control<TFieldValues>;
 }
 
@@ -31,6 +33,7 @@ function ControllerTextField<TFieldValues extends FieldValues = FieldValues>(
       disabled = false,
       variant = 'outlined',
       maxLength,
+      onChangeValue,
       ...rest
    } = props;
 
@@ -50,6 +53,11 @@ function ControllerTextField<TFieldValues extends FieldValues = FieldValues>(
                      {...field}
                      {...rest}
                      disabled={disabled}
+                     onChange={(e) => {
+                        field.onChange(e);
+
+                        return onChangeValue && onChangeValue(e);
+                     }}
                      onInput={(event: React.ChangeEvent<HTMLInputElement>) => {
                         let newValue = event.target.value;
 
@@ -60,7 +68,7 @@ function ControllerTextField<TFieldValues extends FieldValues = FieldValues>(
 
                         // Kiểm tra number và string
                         if (number) {
-                           newValue = newValue.replace(Regexs.integer, ''); // Chỉ giữ lại các ký tự số
+                           newValue = String(Number(newValue.replace(Regexs.integer, ''))); // Chỉ giữ lại các ký tự số
                         }
 
                         if (string) {

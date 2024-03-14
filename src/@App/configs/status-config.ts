@@ -140,6 +140,16 @@ export const STATUS_DELIVERY = {
       key: 'close',
       color: 'error',
    },
+   return: {
+      title: 'Trả hàng',
+      key: 'return',
+      color: 'warning',
+   },
+   export: {
+      title: 'Xuất hàng',
+      key: 'export',
+      color: 'warning',
+   },
 } as const;
 
 export type StatusDelivery = keyof typeof STATUS_DELIVERY;

@@ -164,7 +164,7 @@ const RepairSupplies = ({ form }: RepairSuppliesProps) => {
                const status: {
                   title: string;
                   color: string;
-               } = STATUS_REPAIR_DETAIL[info.getValue()];
+               } = info.getValue() ? STATUS_REPAIR_DETAIL[info.getValue()] : STATUS_REPAIR_DETAIL.empty;
 
                return (
                   <Box textAlign="center">

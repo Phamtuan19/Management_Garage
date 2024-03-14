@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+import { ResponseSuppliesInvoiceDetailBySupplieDetailId } from '@App/types/supplies-invoice-detail';
 import BaseService from '@Core/Api/BaseService';
 
 const suppliesInvoiceDetailPath = {
@@ -14,7 +14,7 @@ class SuppliesInvoiceDetailService extends BaseService {
       this.setRequest();
    }
 
-   getByDistributor(id: string): Promise<any> {
+   getBySupplieDetailId(id: string): Promise<ResponseSuppliesInvoiceDetailBySupplieDetailId> {
       return this.request(this.BASE_ENDPOINT + suppliesInvoiceDetailPath.BY_DISTRIBUTOR + id);
    }
 }

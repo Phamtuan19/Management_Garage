@@ -6,6 +6,7 @@ import PreviewIcon from '@mui/icons-material/Preview';
 import LockIcon from '@mui/icons-material/Lock';
 import LockOpenSharpIcon from '@mui/icons-material/LockOpenSharp';
 import HistoryIcon from '@mui/icons-material/History';
+import OutputIcon from '@mui/icons-material/Output';
 
 export const CoreTableActionDelete = ({
    callback = () => {},
@@ -67,7 +68,7 @@ export const CoreTableActionViewDetail = ({
 export const CoreTableActionHistory = ({ title, callback = () => {} }: { title?: string; callback?: () => void }) => {
    return (
       <Tooltip title={title ?? 'Lịch sử'}>
-         <IconButton color="success" onClick={callback}>
+         <IconButton color="secondary" onClick={callback}>
             <HistoryIcon />
          </IconButton>
       </Tooltip>
@@ -83,11 +84,29 @@ export const CoreTableActionLock = ({ callback = () => {} }) => {
       </Tooltip>
    );
 };
+
 export const CoreTableActionLockOpen = ({ callback = () => {} }) => {
    return (
       <Tooltip title="Khóa">
          <IconButton color="success" onClick={callback}>
             <LockOpenSharpIcon />
+         </IconButton>
+      </Tooltip>
+   );
+};
+
+export const CoreTableActionOutput = ({
+   title,
+   callback = () => {},
+}: {
+   callback?: () => void;
+   title?: string;
+   isConfirm?: boolean;
+}) => {
+   return (
+      <Tooltip title={title ?? 'Xuất'}>
+         <IconButton color="primary" onClick={callback}>
+            <OutputIcon />
          </IconButton>
       </Tooltip>
    );

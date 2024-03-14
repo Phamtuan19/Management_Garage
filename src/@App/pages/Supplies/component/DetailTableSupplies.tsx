@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
@@ -48,7 +47,7 @@ const DetailTableSupplies = ({ supplies }: DetailTableSuppliesProps) => {
       isLoading: isSuppliesInvoiceDetailsLoading,
    } = useMutation({
       mutationFn: async (id: string) => {
-         const res = await suppliesInvoiceDetailService.getByDistributor(id);
+         const res = await suppliesInvoiceDetailService.getBySupplieDetailId(id);
          return res.data;
       },
    });
