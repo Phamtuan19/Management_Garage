@@ -2,7 +2,7 @@
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import PageContent from '@App/component/customs/PageContent';
 import ROUTE_PATH from '@App/configs/router-path';
-import deliveryNotesService from '@App/services/deliveryNotes.service';
+import deliveryNotesService from '@App/services/delivery.service';
 import { LoadingButton } from '@mui/lab';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
@@ -90,25 +90,25 @@ const DeliveryUpdate = () => {
                );
             },
          }),
-         columnHelper.accessor('supplies_detail.code', {
+         columnHelper.accessor('supplies_detail_code', {
             header: () => <Box sx={{ textAlign: 'center' }}>Mã VT</Box>,
             cell: (info) => {
                return <Box sx={{ textAlign: 'center' }}>#{info.getValue()}</Box>;
             },
          }),
-         columnHelper.accessor('supplies_detail.name_detail', {
+         columnHelper.accessor('supplies_detail_name', {
             header: () => <Box>Tên vật tư</Box>,
             cell: (info) => {
                return <Box>{info.getValue()}</Box>;
             },
          }),
-         columnHelper.accessor('supplies_detail.distributor_id.name', {
+         columnHelper.accessor('distributors_name', {
             header: () => <Box>Nhà phân phối</Box>,
             cell: (info) => {
                return <Box>{info.getValue()}</Box>;
             },
          }),
-         columnHelper.accessor('supplies_detail.supplies_id.unit', {
+         columnHelper.accessor('unit', {
             header: () => <Box>Đvt</Box>,
             cell: (info) => {
                return <Box>{info.getValue()}</Box>;
@@ -120,7 +120,7 @@ const DeliveryUpdate = () => {
                return <Box sx={{ textAlign: 'center' }}>{info.getValue()}</Box>;
             },
          }),
-         columnHelper.accessor('supplies_detail.isInStock', {
+         columnHelper.accessor('supplies_detail_isInStock', {
             header: () => <Box sx={{ textAlign: 'center' }}>Trạng thái vt</Box>,
             cell: (info) => {
                return (
@@ -133,7 +133,7 @@ const DeliveryUpdate = () => {
                );
             },
          }),
-         columnHelper.accessor('supplies_detail.status', {
+         columnHelper.accessor('status', {
             header: () => <Box sx={{ textAlign: 'center' }}>Trạng thái xuât kho</Box>,
             cell: ({ row }) => {
                const delivery = row.original as DeliveryNoteDataDetail;
@@ -161,13 +161,6 @@ const DeliveryUpdate = () => {
                                  refModalExport?.current?.setOpen(true);
                                  refModalExport?.current?.setData(delivery);
                                  form.setValue('supplies_service_id', delivery.supplies_service_id);
-                                 // form.setValue(
-                                 //    'exports',
-                                 //    delivery.options.map((item) => ({
-                                 //       ...item,
-                                 //       quantity_inventory: 0,
-                                 //    })),
-                                 // );
                               }}
                            />
                         </PermissionAccessRoute>

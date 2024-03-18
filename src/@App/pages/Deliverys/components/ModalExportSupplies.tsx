@@ -9,8 +9,6 @@ import { Box, Button, Chip, Grid, Modal, Typography } from '@mui/material';
 import React, { forwardRef, useImperativeHandle, useMemo, useState } from 'react';
 import { SubmitHandler, UseFormReturn, useFieldArray } from 'react-hook-form';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import deliveryNotesService from '@App/services/deliveryNotes.service';
-import { useParams } from 'react-router-dom';
 import { errorMessage, successMessage } from '@Core/Helper/message';
 import { AxiosError } from 'axios';
 import { DeliveryNoteDataDetail } from '@App/types/delivery';
@@ -20,6 +18,7 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import suppliesInvoiceDetailService from '@App/services/supplies-invoice-detail';
 import { DataGetSuppliesInvoiceDetailBySupplieId } from '@App/types/supplies-invoice-detail';
 import ScrollbarBase from '@App/component/customs/ScrollbarBase';
+import deliveryDetailService from '@App/services/delivery-detail.service';
 
 import { DeliveryUpdateExportQuantity } from '../utils/delivery';
 import { ModalExportSuppliesRef } from '../utils/modal-export-supplies';
@@ -31,7 +30,6 @@ interface ModalExportSuppliesProps {
 
 const ModalExportSupplies = forwardRef<ModalExportSuppliesRef, ModalExportSuppliesProps>(
    ({ form, refetchDelivery }, ref) => {
-      const { id: deliveryId } = useParams();
       const [open, setOpen] = useState<boolean>(false);
       const [data, setData] = useState<DeliveryNoteDataDetail | null>(null);
       const {
@@ -56,18 +54,19 @@ const ModalExportSupplies = forwardRef<ModalExportSuppliesRef, ModalExportSuppli
       }));
 
       const { data: suppliesInvoices } = useQuery(
-         ['getSuppliesInvoiceDetailsBySuppliesDetailId', data?.supplies_detail._id],
+         ['getSuppliesInvoiceDetailsBySuppliesDetailId', data?.supplies_service_id],
          async () => {
-            const res = await suppliesInvoiceDetailService.getBySupplieDetailId(data?.supplies_detail._id as string);
+            const res = await suppliesInvoiceDetailService.getBySupplieDetailId(data?.supplies_service_id as string);
             return res.data;
          },
       );
       const { mutate: updateExportDelivery, isLoading } = useMutation({
-         mutationFn: async (data: DeliveryUpdateExportQuantity) => {
-            return await deliveryNotesService.updateDeliveryExportSupplies(deliveryId as string, data);
+         mutationFn: async (dataExport: DeliveryUpdateExportQuantity) => {
+            return await deliveryDetailService.updateExport(data?._id as string, dataExport);
          },
          onSuccess: (data) => {
             refetchDelivery();
+            setOpen(false);
             return successMessage(data.message);
          },
          onError: (err: AxiosError) => {
@@ -78,21 +77,21 @@ const ModalExportSupplies = forwardRef<ModalExportSuppliesRef, ModalExportSuppli
       const handleOnchangeAutoComplete = (v: DataGetSuppliesInvoiceDetailBySupplieId, index: number) => {
          setValue(`exports.${index}.supplies_invoice_id`, v.supplies_invoice_id._id);
          setValue(`exports.${index}.selling_price`, v.selling_price);
-         setValue(`exports.${index}.quantity_inventory`, v.quantity_received - v.quantity_sold);
+         setValue(`exports.${index}.quantity_inventory`, v.quantity_sold);
          setValue(`exports.${index}.discount`, v.discount);
       };
 
       const handleSubmitForm: SubmitHandler<DeliveryUpdateExportQuantity> = (data) => updateExportDelivery(data);
 
       const total_export = useMemo(() => {
-         if (data) {
-            const total_option_export = data.options.reduce((total, item) => {
-               total += item.export_quantity;
-               return total;
-            }, 0);
+         // if (data) {
+         //    const total_option_export = data.options.reduce((total, item) => {
+         //       total += item.export_quantity;
+         //       return total;
+         //    }, 0);
 
-            return data.quantity - total_option_export;
-         }
+         //    return data.quantity - total_option_export;
+         // }
 
          return 0;
       }, [data]);
@@ -104,7 +103,7 @@ const ModalExportSupplies = forwardRef<ModalExportSuppliesRef, ModalExportSuppli
          >
             <Box sx={style} component="form">
                <Typography id="modal-modal-title" variant="h6" component="h2" mb={1.5}>
-                  Xuất vật tư {data && ' - ' + data.supplies_detail.name_detail + ` (${data.supplies_detail.code})`}
+                  Xuất vật tư {data && ' - ' + data.supplies_detail_name + ` (${data.supplies_detail_code})`}
                </Typography>
                <Box mb={1.5}>
                   <Box pb={1}>

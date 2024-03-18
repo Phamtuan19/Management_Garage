@@ -119,7 +119,7 @@ const RepairService = ({ form }: RepairServiceProps) => {
             },
          }),
          columnHelper.accessor('status', {
-            header: () => <Box sx={{ textAlign: 'center' }}>Thành tiền</Box>,
+            header: () => <Box sx={{ textAlign: 'center' }}>Trạng thái </Box>,
             cell: ({ row }) => {
                const data = row.original as RepairServiceUpdateSchema;
 

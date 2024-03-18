@@ -13,6 +13,9 @@ import { AxiosResponseData } from '@Core/Api/axios-config';
 import { errorMessage, successMessage } from '@Core/Helper/message';
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import { ResponseFindOneRepairInvoice } from '@App/types/repair-invoice';
+import personnelService from '@App/services/personnel.service';
+import { useConfirm } from '@Core/Component/Comfirm/CoreComfirm';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 
 import { RepairInvoiceUpdateSchema, repairInvoiceUpdateSchema } from './utils/repair-invoice-update';
 import BaseFormRepairInvoiceUpdate from './components/BaseFormRepairInvoiceUpdate';
@@ -31,6 +34,7 @@ const RepairInvoiceUpdate = () => {
       resolver: yupResolver(repairInvoiceUpdateSchema),
       defaultValues: repairInvoiceUpdateSchema.getDefault(),
    });
+   const coreConfirm = useConfirm();
 
    const { data: repairInvoice, isLoading: isLoadingGetRepairInvoice } = useQuery(
       ['findOneRepairInvoice', repairInvoiceId],
@@ -83,11 +87,13 @@ const RepairInvoiceUpdate = () => {
 
                repair_staff_id: item.repair_staff_id,
                status_repair: item.status_repair,
+               status_supplies: item.status_supplies,
 
                inventory: item.total_quantity_inventory,
                supplies_detail_code: item.supplies_detail_code,
                supplies_detail_name: item.supplies_detail_name,
                distributor_name: item.distributors_name,
+               options: item.options,
             }));
 
             form.setValue('suppliesInvoices', suppliesInvoices as never);
@@ -121,9 +127,12 @@ const RepairInvoiceUpdate = () => {
                quantity: item.quantity,
                repair_staff_id: item.repair_staff_id,
                status_repair: item.status_repair,
+               status_supplies: item.status_supplies,
                type: item.type,
+               options: item.options,
             })),
          };
+
          return await repairInvoiceService.update(newData, repairInvoiceId);
       },
       onSuccess: (data: AxiosResponseData) => {
@@ -135,8 +144,23 @@ const RepairInvoiceUpdate = () => {
       },
    });
 
-   const handleSubmitForm: SubmitHandler<RepairInvoiceUpdateSchema> = (data) =>
-      handleUpdateRepairInvoice(data as never);
+   const queryPersonnelAllField = useQuery(['getPersonnelsAllField'], async () => {
+      const res = await personnelService.fieldAll();
+      return res.data;
+   });
+
+   const handleSubmitForm: SubmitHandler<RepairInvoiceUpdateSchema> = (data) => {
+      coreConfirm({
+         icon: <ErrorOutlineIcon sx={{ fontSize: '56px' }} color="warning" />,
+         title: 'Cảnh báo',
+         confirmOk: 'Xác nhận',
+         content: 'Xác nhận lưu phiếu sửa chữa',
+         callbackOK: () => {
+            handleUpdateRepairInvoice(data as never);
+         },
+         isIcon: true,
+      });
+   };
 
    return (
       <BaseBreadcrumbs
@@ -151,7 +175,7 @@ const RepairInvoiceUpdate = () => {
                Lưu
             </LoadingButton>
          </Box>
-         <BaseFormRepairInvoiceUpdate form={form} />
+         <BaseFormRepairInvoiceUpdate repairInvoice={repairInvoice} form={form} personnels={queryPersonnelAllField} />
       </BaseBreadcrumbs>
    );
 };

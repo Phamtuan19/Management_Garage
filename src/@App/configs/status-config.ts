@@ -150,6 +150,11 @@ export const STATUS_DELIVERY = {
       key: 'export',
       color: 'warning',
    },
+   empty: {
+      key: 'empty',
+      title: 'Trống',
+      color: 'default',
+   },
 } as const;
 
 export type StatusDelivery = keyof typeof STATUS_DELIVERY;
@@ -168,6 +173,16 @@ export const STATUS_REPAIR_DETAIL = {
    repair: {
       key: 'repair',
       title: 'Sửa chữa',
+      color: 'warning',
+   },
+   refund: {
+      key: 'refund',
+      title: 'Trả vật tư',
+      color: 'warning',
+   },
+   export: {
+      key: 'export',
+      title: 'Lấy vật tư',
       color: 'warning',
    },
    empty: {

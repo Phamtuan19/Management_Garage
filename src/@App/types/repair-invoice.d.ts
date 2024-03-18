@@ -1,5 +1,7 @@
 import { StatusRepair } from '@App/configs/status-config';
 
+import { DeliveryNoteDataDetailOption } from './delivery';
+
 /* eslint-disable @typescript-eslint/naming-convention */
 interface ResponseReadSuppliesInvoices {
    _id: string;
@@ -79,6 +81,8 @@ interface ResponseFindOneRepairInvoiceSupplies {
    total_quantity_inventory: number;
    repair_staff_id: string;
    status_repair: string;
+   status_supplies: string;
+   options: DeliveryNoteDataDetailOption[];
 }
 
 interface ResponseFindOneRepairInvoice extends ResponseReadSuppliesInvoices {

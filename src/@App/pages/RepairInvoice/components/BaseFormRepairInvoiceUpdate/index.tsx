@@ -5,6 +5,8 @@ import { Grid, Tab, Tabs, styled } from '@mui/material';
 import useSearchParamsHook from '@App/hooks/useSearchParamsHook';
 import { TabContext, TabPanel } from '@mui/lab';
 import { UseFormReturn } from 'react-hook-form';
+import { UseQueryResult } from '@tanstack/react-query';
+import { ResponseFindOneRepairInvoice } from '@App/types/repair-invoice';
 
 import { RepairInvoiceUpdateSchema } from '../../utils/repair-invoice-update';
 
@@ -15,9 +17,17 @@ import RepairSupplies from './RepairSupplies';
 
 interface BaseFormOrderCreateProps {
    form: UseFormReturn<RepairInvoiceUpdateSchema>;
+   personnels: UseQueryResult<
+      {
+         _id: string;
+         full_name: string;
+      }[],
+      unknown
+   >;
+   repairInvoice: ResponseFindOneRepairInvoice | undefined
 }
 
-const BaseFormRepairInvoiceUpdate = ({ form }: BaseFormOrderCreateProps) => {
+const BaseFormRepairInvoiceUpdate = ({ form, personnels, repairInvoice }: BaseFormOrderCreateProps) => {
    const { searchParams, setParams } = useSearchParamsHook();
 
    const handleChange = (_e: React.SyntheticEvent, newValue: string) => {
@@ -27,8 +37,8 @@ const BaseFormRepairInvoiceUpdate = ({ form }: BaseFormOrderCreateProps) => {
    return (
       <>
          <PageContent>
-            <ClientInformation form={form} />
-            <VehicleInformation form={form} />
+            <ClientInformation form={form} repairInvoice={repairInvoice} />
+            <VehicleInformation form={form} repairInvoice={repairInvoice} />
          </PageContent>
          <Grid container spacing={1}>
             <Grid item xs={12}>
@@ -52,7 +62,7 @@ const BaseFormRepairInvoiceUpdate = ({ form }: BaseFormOrderCreateProps) => {
                         <RepairService form={form} />
                      </ExtendTabPanel>
                      <ExtendTabPanel value="2">
-                        <RepairSupplies form={form} />
+                        <RepairSupplies form={form} personnels={personnels} />
                      </ExtendTabPanel>
                   </TabContext>
                </PageContent>

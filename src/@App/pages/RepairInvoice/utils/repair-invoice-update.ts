@@ -37,11 +37,21 @@ export const suppliesInvoicesSchema = yup.object({
    describe: yup.string().default(''),
    repair_staff_id: yup.string().default(''),
    status_repair: yup.string().default(''),
-
+   status_supplies: yup.string().default(''),
    inventory: yup.number().default(1),
    supplies_detail_code: yup.string().default(''),
    supplies_detail_name: yup.string().default(''),
    distributor_name: yup.string().default(''),
+
+   options: yup.array().of(
+      yup.object({
+         supplies_invoice_id: yup.string().default(''),
+         supplies_invoice_code: yup.string().default(''),
+         selling_price: yup.string().default(''),
+         discount: yup.string().default(''),
+         export_quantity: yup.string().default(''),
+      }),
+   ),
 });
 
 export type SuppliesInvoiceUpdateSchema = yup.InferType<typeof suppliesInvoicesSchema>;

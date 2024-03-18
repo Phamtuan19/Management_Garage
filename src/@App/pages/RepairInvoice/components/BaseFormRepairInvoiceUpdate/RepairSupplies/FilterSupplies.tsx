@@ -108,6 +108,8 @@ const FilterSupplies = ({
          supplies_detail_name: supplies.name_detail,
          distributor_name: supplies.distributor_name,
          discount: 0,
+         status_supplies: STATUS_REPAIR_DETAIL.empty.key,
+         options: [],
       });
 
       return setOpen(false);

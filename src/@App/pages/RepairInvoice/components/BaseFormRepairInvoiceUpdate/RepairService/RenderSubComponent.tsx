@@ -103,6 +103,8 @@ const RenderDetails = ({ data, detail_index, form, index, personnels }: RenderDe
                         return setError(`repairService.${index}.details.${detail_index}.repair_staff_id`, {
                            message: 'Nhân viên sửa chữa không được để trống.',
                         });
+                     } else {
+                        return clearErrors(`repairService.${index}.details.${detail_index}.repair_staff_id`);
                      }
                   }
 

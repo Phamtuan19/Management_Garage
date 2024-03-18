@@ -2,7 +2,7 @@
 import ButtonCreate from '@App/component/common/ButtonCreate';
 import ButtonEdit from '@App/component/common/ButtonEdit';
 import ROUTE_PATH from '@App/configs/router-path';
-import { STATUS_REPAIR } from '@App/configs/status-config';
+import { STATUS_REPAIR, STATUS_REPAIR_DETAIL } from '@App/configs/status-config';
 import repairInvoiceService from '@App/services/repair-invoice';
 import { ResponseFindOneRepairInvoice } from '@App/types/repair-invoice';
 import { AxiosResponseData } from '@Core/Api/axios-config';
@@ -12,8 +12,9 @@ import { QueryObserverResult, RefetchOptions, RefetchQueryFilters, useMutation }
 import { useParams } from 'react-router-dom';
 import { AxiosError } from 'axios';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
-import deliveryNotesService from '@App/services/deliveryNotes.service';
+import deliveryNotesService from '@App/services/delivery.service';
 import { useConfirm } from '@Core/Component/Comfirm/CoreComfirm';
+import { useMemo } from 'react';
 
 interface RepairDetailActionProps {
    data: ResponseFindOneRepairInvoice | undefined;
@@ -32,7 +33,8 @@ const RepairDetailAction = ({ data, refetchRepairInvoice }: RepairDetailActionPr
       mutationFn: async (data: { status: string }) => {
          return await repairInvoiceService.update(data, repairInvoicId, 'patch');
       },
-      onSuccess: (data: AxiosResponseData) => {
+      onSuccess: async (data: AxiosResponseData) => {
+         await refetchRepairInvoice();
          successMessage(data.message);
          return data;
       },
@@ -55,14 +57,14 @@ const RepairDetailAction = ({ data, refetchRepairInvoice }: RepairDetailActionPr
       },
    });
 
-   const handleUpdateStatusCheck = () => {
+   const handleUpdateStatusCheck = (status: string, content = 'Xác nhận yêu chuyển trạng thái') => {
       return coreConfirm({
          icon: <ErrorOutlineIcon sx={{ fontSize: '56px' }} color="warning" />,
          title: 'Cảnh báo',
          confirmOk: 'Xác nhận',
-         content: 'Xác nhận yêu cầu lấy vật tư & chuyển trạng thái',
+         content: content,
          callbackOK: () => {
-            handleUpdateRepairInvoiceStatus({ status: STATUS_REPAIR.repair.key });
+            handleUpdateRepairInvoiceStatus({ status });
          },
          isIcon: true,
       });
@@ -86,9 +88,29 @@ const RepairDetailAction = ({ data, refetchRepairInvoice }: RepairDetailActionPr
             <ButtonEdit to={ROUTE_PATH.REPAIR_INVOICE + '/' + repairInvoicId + '/update'} />
          </Box>
          <Box display="flex" gap={1}>
-            {status !== STATUS_REPAIR.check.key && status !== STATUS_REPAIR.shipped.key && (
-               <Button color="warning" onClick={handleUpdateStatusCheck}>
+            {status === STATUS_REPAIR.create.key && (
+               <Button color="warning" onClick={() => handleUpdateStatusCheck(STATUS_REPAIR.check.key)}>
                   Chuyển trạng thái
+               </Button>
+            )}
+            {status === STATUS_REPAIR.shipped.key && (
+               <Button color="warning" onClick={() => handleUpdateStatusCheck(STATUS_REPAIR.repair.key)}>
+                  Chuyển trạng thái
+               </Button>
+            )}
+            {status === STATUS_REPAIR.repair.key && (
+               <Button
+                  color="warning"
+                  onClick={() =>
+                     handleUpdateStatusCheck(STATUS_REPAIR.pay.key, 'Xác nhận chuyển trạng thái sang thanh toán')
+                  }
+               >
+                  {STATUS_REPAIR.pay.title}
+               </Button>
+            )}
+            {status === STATUS_REPAIR.pay.key && (
+               <Button color="warning" onClick={() => handleUpdateStatusCheck(STATUS_REPAIR.complete.key)}>
+                  {STATUS_REPAIR.complete.title}
                </Button>
             )}
             {status === STATUS_REPAIR.check.key && (

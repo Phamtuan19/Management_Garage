@@ -91,7 +91,7 @@ function ControllerAutoComplate<TFieldValues extends FieldValues = FieldValues>(
          return renderOptionChildren(props, option);
       }
       return (
-         <Box component="li" sx={{ px: 2, py: 1, cursor: 'pointer' }} {...props}>
+         <Box component="li" sx={{ px: 2, py: 1, cursor: 'pointer' }} {...props} key={get(option, valuePath)}>
             {get(option, titlePath)}
          </Box>
       );

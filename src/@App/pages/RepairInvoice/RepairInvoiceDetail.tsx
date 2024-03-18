@@ -10,6 +10,7 @@ import { Tab, Tabs, styled } from '@mui/material';
 import PageContent from '@App/component/customs/PageContent';
 import { TabContext, TabPanel } from '@mui/lab';
 import useSearchParamsHook from '@App/hooks/useSearchParamsHook';
+import personnelService from '@App/services/personnel.service';
 
 import RepairInvoiceInformation from './components/RepairDetail/RepairInvoiceInformation';
 import { arrowRightOption } from './utils';
@@ -40,6 +41,11 @@ const RepairInvoiceDetail = () => {
    } = useQuery(['findOneRepairInvoice', repairInvoiceId], async () => {
       const res = await repairInvoiceService.find(repairInvoiceId as string);
       return res.data as ResponseFindOneRepairInvoice;
+   });
+
+   const {data: personnels} = useQuery(['getPersonnelsAllField'], async () => {
+      const res = await personnelService.fieldAll();
+      return res.data;
    });
 
    return (
@@ -74,7 +80,7 @@ const RepairInvoiceDetail = () => {
                   <DetailRepairInvoiceService data={repairInvoice?.repairInvoiceService ?? []} />
                </ExtendTabPanel>
                <ExtendTabPanel value="2">
-                  <DetailRepairInvoiceSupplies data={repairInvoice?.repairInvoiceSupplies ?? []} />
+                  <DetailRepairInvoiceSupplies personnels={personnels} data={repairInvoice?.repairInvoiceSupplies ?? []} />
                </ExtendTabPanel>
             </TabContext>
          </PageContent>

@@ -6,20 +6,28 @@ import { useQuery } from '@tanstack/react-query';
 import customerService, { ICustomer } from '@App/services/customer.service';
 import AddIcon from '@mui/icons-material/Add';
 import ControllerTextField from '@Core/Component/Input/ControllerTextField';
+import { ResponseFindOneRepairInvoice } from '@App/types/repair-invoice';
+import { useMemo } from 'react';
 
 import { RepairInvoiceUpdateSchema } from '../../utils/repair-invoice-update';
+import { arrowRightOption } from '../../utils';
 
 interface ClientInformationProps {
    form: UseFormReturn<RepairInvoiceUpdateSchema>;
+   repairInvoice: ResponseFindOneRepairInvoice | undefined;
 }
 
-const ClientInformation = ({ form }: ClientInformationProps) => {
+const ClientInformation = ({ form, repairInvoice }: ClientInformationProps) => {
    const { setValue, control } = form;
 
    const { data: customers } = useQuery(['getAllFieldCustomers'], async () => {
       const res = await customerService.fieldAll();
       return res.data;
    });
+
+   const isCheckStatus = useMemo(() => {
+      return repairInvoice?.status !== arrowRightOption[0].name && repairInvoice?.status !== arrowRightOption[1].name;
+   }, [repairInvoice]);
 
    return (
       <Grid container spacing={1}>
@@ -36,6 +44,7 @@ const ClientInformation = ({ form }: ClientInformationProps) => {
                         titlePath="name"
                         name="customer.customer_id"
                         placeholder="Chọn khách hàng"
+                        disabled={isCheckStatus}
                         control={control}
                         onChange={(e: ICustomer) => {
                            setValue('customer.phone', e.phone);
@@ -43,9 +52,11 @@ const ClientInformation = ({ form }: ClientInformationProps) => {
                         }}
                      />
                   </Box>
-                  <Button sx={{ minWidth: 'auto', px: '12px', maxHeight: '37.6px' }}>
-                     <AddIcon />
-                  </Button>
+                  {!isCheckStatus && (
+                     <Button sx={{ minWidth: 'auto', px: '12px', maxHeight: '37.6px' }}>
+                        <AddIcon />
+                     </Button>
+                  )}
                </Grid>
             </Grid>
          </Grid>

@@ -16,7 +16,7 @@ import { useConfirm } from '@Core/Component/Comfirm/CoreComfirm';
 import { errorMessage, successMessage } from '@Core/Helper/message';
 import { AxiosError } from 'axios';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
-import deliveryNotesService from '@App/services/deliveryNotes.service';
+import deliveryNotesService from '@App/services/delivery.service';
 import { useAuth } from '@App/redux/slices/auth.slice';
 import useSearchParamsHook from '@App/hooks/useSearchParamsHook';
 

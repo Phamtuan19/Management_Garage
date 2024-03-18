@@ -8,7 +8,7 @@ import { STATUS_DELIVERY } from '@App/configs/status-config';
 import useCoreTable from '@App/hooks/useCoreTable';
 import useSearchParamsHook from '@App/hooks/useSearchParamsHook';
 import PermissionAccessRoute from '@App/routes/components/PermissionAccessRoute';
-import deliveryNotesService from '@App/services/deliveryNotes.service';
+import deliveryNotesService from '@App/services/delivery.service';
 import { DeliveryNoteData } from '@App/types/delivery';
 import TableCore, { columnHelper } from '@Core/Component/Table';
 import { CoreTableActionViewDetail } from '@Core/Component/Table/components/CoreTableAction';
@@ -57,24 +57,24 @@ const Deliverys = () => {
                return <Box>#{info.getValue()} </Box>;
             },
          }),
-         columnHelper.accessor('details', {
-            header: () => <Box textAlign="center">Số loại vt</Box>,
-            cell: ({ row }) => {
-               const delivery = row.original as DeliveryNoteData;
-               return <Box textAlign="center">{delivery.details.length} </Box>;
-            },
-         }),
-         columnHelper.accessor('totle_details', {
-            header: () => <Box textAlign="center">Số lượng vt</Box>,
-            cell: ({ row }) => {
-               const delivery = row.original as DeliveryNoteData;
-               const totalQuantity = delivery.details.reduce((total, item) => {
-                  total += item.quantity;
-                  return total;
-               }, 0);
-               return <Box textAlign="center">{totalQuantity} </Box>;
-            },
-         }),
+         // columnHelper.accessor('details', {
+         //    header: () => <Box textAlign="center">Số loại vt</Box>,
+         //    cell: ({ row }) => {
+         //       const delivery = row.original as DeliveryNoteData;
+         //       return <Box textAlign="center">{delivery.details.length} </Box>;
+         //    },
+         // }),
+         // columnHelper.accessor('totle_details', {
+         //    header: () => <Box textAlign="center">Số lượng vt</Box>,
+         //    cell: ({ row }) => {
+         //       const delivery = row.original as DeliveryNoteData;
+         //       const totalQuantity = delivery.details.reduce((total, item) => {
+         //          total += item.quantity;
+         //          return total;
+         //       }, 0);
+         //       return <Box textAlign="center">{totalQuantity} </Box>;
+         //    },
+         // }),
          columnHelper.accessor('status', {
             header: () => <Box textAlign="center">Trạng thái</Box>,
             cell: ({ row }) => {

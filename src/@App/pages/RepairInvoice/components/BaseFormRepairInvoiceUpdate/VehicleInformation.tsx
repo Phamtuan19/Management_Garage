@@ -7,13 +7,17 @@ import { useQuery } from '@tanstack/react-query';
 import AddIcon from '@mui/icons-material/Add';
 import ControllerTextField from '@Core/Component/Input/ControllerTextField';
 import carsService, { DataGetAllFieldCart } from '@App/services/cars.service';
+import { ResponseFindOneRepairInvoice } from '@App/types/repair-invoice';
+import { useMemo } from 'react';
 
 import { RepairInvoiceUpdateSchema } from '../../utils/repair-invoice-update';
+import { arrowRightOption } from '../../utils';
 
 interface VehicleInformationProps {
    form: UseFormReturn<RepairInvoiceUpdateSchema>;
+   repairInvoice: ResponseFindOneRepairInvoice | undefined;
 }
-const VehicleInformation = ({ form }: VehicleInformationProps) => {
+const VehicleInformation = ({ form, repairInvoice }: VehicleInformationProps) => {
    const { setValue, control, watch } = form;
    const customerId: string = watch('customer.customer_id');
    //    const carId: string = watch('car.car_id');
@@ -35,6 +39,10 @@ const VehicleInformation = ({ form }: VehicleInformationProps) => {
       setValue('car.car_name', e.name);
    };
 
+   const isCheckStatus = useMemo(() => {
+      return repairInvoice?.status !== arrowRightOption[0].name && repairInvoice?.status !== arrowRightOption[1].name;
+   }, [repairInvoice]);
+
    return (
       <Grid container spacing={1}>
          <Grid item xs={5.5}>
@@ -50,13 +58,16 @@ const VehicleInformation = ({ form }: VehicleInformationProps) => {
                         titlePath="name"
                         name="car.car_id"
                         placeholder="Chọn xe cần sữa chữa"
+                        disabled={isCheckStatus}
                         control={control}
                         onChange={handleChangeCar}
                      />
                   </Box>
-                  <Button sx={{ minWidth: 'auto', px: '12px', maxHeight: '37.6px' }}>
-                     <AddIcon />
-                  </Button>
+                  {!isCheckStatus && (
+                     <Button sx={{ minWidth: 'auto', px: '12px', maxHeight: '37.6px' }}>
+                        <AddIcon />
+                     </Button>
+                  )}
                </Grid>
             </Grid>
          </Grid>
@@ -72,6 +83,7 @@ const VehicleInformation = ({ form }: VehicleInformationProps) => {
                      name="car.kilometer"
                      control={control}
                      maxLength={6}
+                     disabled={isCheckStatus}
                   />
                </Grid>
             </Grid>

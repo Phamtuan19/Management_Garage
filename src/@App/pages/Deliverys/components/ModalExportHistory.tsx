@@ -19,7 +19,6 @@ const ModalExportHistory = forwardRef<ModalExportSuppliesRef, ModalExportHistory
       setOpen: setOpen,
       setData: setData,
    }));
-
    return (
       <Modal open={open}>
          <Box sx={style} component="form">
@@ -32,33 +31,42 @@ const ModalExportHistory = forwardRef<ModalExportSuppliesRef, ModalExportHistory
                </ButtonBase>
             </Box>
             <Box sx={{ borderBottom: '1px solid #DADADA' }}></Box>
-            <Box>
+            <Box my={1}>
                <ScrollbarBase sx={{ height: 400 }}>
-                  {data?.history.map((item, index) => {
+                  {data?.history?.map((item, index) => {
                      return (
                         <React.Fragment key={index}>
                            <Box
-                              sx={({ palette, base }) => ({
+                              sx={() => ({
+                                 py: 0.5,
+                                 px: 1,
+                                 mb: 1,
+                                 borderRadius: '6px',
                                  display: 'flex',
-                                 alignItems: 'center',
-                                 gap: 24,
-                                 p: 1,
-                                 bgcolor:
-                                    item.status === (STATUS_DELIVERY.export.key as string) ? '' : palette.error.main,
-                                 color: base.text.black,
+                                 justifyContent: 'space-between',
+                                 bgcolor: item.type === STATUS_DELIVERY.export.key ? '' : '#DADADA',
                               })}
                            >
-                              <Typography>
-                                 {item.status === (STATUS_DELIVERY.export.key as string)
+                              <Typography sx={{ display: 'flex', alignItems: 'center', gap: 3, width: '250px' }}>
+                                 {item.type === (STATUS_DELIVERY.export.key as string)
                                     ? 'Yêu cầu xuất vật tư'
-                                    : 'Yêu cầu vật tư'}
+                                    : 'Yêu cầu trả vật tư'}
                               </Typography>
+
                               <Box sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
                                  <Typography>Số lượng:</Typography>
-                                 <Chip label={item.quantity} color="primary" />
+                                 <Chip
+                                    label={
+                                       item.type === STATUS_DELIVERY.export.key ? item.quantity : `- ${item.quantity}`
+                                    }
+                                    color="primary"
+                                 />
+                              </Box>
+
+                              <Box sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
+                                 {/* {item.isSuccess ? <></> : <Button>Xác nhận</Button>} */}
                               </Box>
                            </Box>
-                           <Box sx={{ borderBottom: '1px solid #DADADA' }}></Box>
                         </React.Fragment>
                      );
                   })}

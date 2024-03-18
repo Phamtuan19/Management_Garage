@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/naming-convention */
@@ -9,19 +10,32 @@ import TableCore, { columnHelper } from '@Core/Component/Table';
 import { CoreTableActionDelete } from '@Core/Component/Table/components/CoreTableAction';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
-import { RepairInvoiceUpdateSchema } from '@App/pages/RepairInvoice/utils/repair-invoice-update';
+import {
+   RepairInvoiceUpdateSchema,
+   SuppliesInvoiceUpdateSchema,
+} from '@App/pages/RepairInvoice/utils/repair-invoice-update';
 import formatPrice from '@Core/Helper/formatPrice';
-import { Row } from '@tanstack/react-table';
-import { STATUS_REPAIR_DETAIL } from '@App/configs/status-config';
+import { STATUS_DELIVERY, STATUS_REPAIR_DETAIL, StatusRepairDetail } from '@App/configs/status-config';
+import ControllerAutoComplate from '@Core/Component/Input/ControllerAutoComplate';
+import { UseQueryResult } from '@tanstack/react-query';
+import { dataStatus } from '@App/pages/RepairInvoice/utils';
 
+import RenderSubComponent from './RenderSubComponent';
 import FilterSupplies from './FilterSupplies';
 
 interface RepairSuppliesProps {
    form: UseFormReturn<RepairInvoiceUpdateSchema>;
+   personnels: UseQueryResult<
+      {
+         _id: string;
+         full_name: string;
+      }[],
+      unknown
+   >;
 }
 
 const columnVisibilityData: Record<string, string> = {
-   Stt: 'Số thứ tự',
+   expand: 'Xem chi vt xuất kho',
    supplies_detail_code: 'Mã vật tư',
    supplies_detail_name: 'Tên vật tư',
    distributor_name: 'Nhà phân phối',
@@ -30,11 +44,12 @@ const columnVisibilityData: Record<string, string> = {
    quantity: 'Số lượng',
    repair_staff_id: 'Nhân viên sửa chữa',
    status_repair: 'Trạng thái sửa chữa',
+   status_supplies: 'Trạng thái Lấy vật tư',
    action: 'thao tác',
 } as const;
 
-const RepairSupplies = ({ form }: RepairSuppliesProps) => {
-   const { watch, setValue, control } = form;
+const RepairSupplies = ({ form, personnels }: RepairSuppliesProps) => {
+   const { watch, setValue, clearErrors, setError, control } = form;
    // const { id: repairOrderId } = useParams();
 
    const { fields, remove, append } = useFieldArray({
@@ -43,7 +58,7 @@ const RepairSupplies = ({ form }: RepairSuppliesProps) => {
    });
 
    const [columnVisibility, setColumnVisibility] = useState({
-      Stt: true,
+      expand: true,
       supplies_detail_code: true,
       supplies_detail_name: true,
       distributor_name: true,
@@ -52,6 +67,7 @@ const RepairSupplies = ({ form }: RepairSuppliesProps) => {
       quantity: true,
       repair_staff_id: true,
       status_repair: true,
+      status_supplies: true,
       action: true,
    });
 
@@ -120,33 +136,39 @@ const RepairSupplies = ({ form }: RepairSuppliesProps) => {
          columnHelper.accessor('quantity', {
             header: () => <Box sx={{ textAlign: 'center', width: '100px' }}>Số lượng</Box>,
             cell: ({ row }) => {
+               const supplies = row.original as SuppliesInvoiceUpdateSchema;
+
                const quantity = form.watch(`suppliesInvoices.${row.index}.quantity`);
                const inventory = form.watch(`suppliesInvoices.${row.index}.inventory`);
 
                return (
                   <Box sx={{ textAlign: 'center', width: '100px' }}>
                      <Box display="flex" justifyContent="space-between" gap="6px">
-                        <ButtonAddQuantity
-                           disabled={quantity === inventory}
-                           sx={{ bgcolor: quantity === inventory ? '#ccc' : '#1976d2' }}
-                           onClick={() => handleIncrease(row.index)}
-                        >
-                           <AddIcon sx={{ fontSize: '16px' }} />
-                        </ButtonAddQuantity>
+                        {supplies.status_repair !== STATUS_REPAIR_DETAIL.complete.key && (
+                           <ButtonAddQuantity
+                              disabled={quantity === inventory}
+                              sx={{ bgcolor: quantity === inventory ? '#ccc' : '#1976d2' }}
+                              onClick={() => handleIncrease(row.index)}
+                           >
+                              <AddIcon sx={{ fontSize: '16px' }} />
+                           </ButtonAddQuantity>
+                        )}
                         <Box display="flex" justifyContent="center">
                            <ExtendInputBase disabled value={quantity} />
                         </Box>
-                        <ButtonAddQuantity
-                           disabled={quantity === 1 || inventory === 0}
-                           sx={({ palette }) => ({
-                              bgcolor: quantity === 1 || inventory === 0 ? '#ccc' : palette.error.main,
-                           })}
-                           onClick={() => {
-                              handleReduced(row.index);
-                           }}
-                        >
-                           <RemoveIcon sx={{ fontSize: '16px' }} />
-                        </ButtonAddQuantity>
+                        {supplies.status_repair !== STATUS_REPAIR_DETAIL.complete.key && (
+                           <ButtonAddQuantity
+                              disabled={quantity === 1 || inventory === 0}
+                              sx={({ palette }) => ({
+                                 bgcolor: quantity === 1 || inventory === 0 ? '#ccc' : palette.error.main,
+                              })}
+                              onClick={() => {
+                                 handleReduced(row.index);
+                              }}
+                           >
+                              <RemoveIcon sx={{ fontSize: '16px' }} />
+                           </ButtonAddQuantity>
+                        )}
                      </Box>
                   </Box>
                );
@@ -155,17 +177,81 @@ const RepairSupplies = ({ form }: RepairSuppliesProps) => {
          columnHelper.accessor('repair_staff_id', {
             header: () => <Box>Nhân viên Sc</Box>,
             cell: (info) => {
-               return <Box>{info.getValue()}</Box>;
+               const supplies = info.row.original as SuppliesInvoiceUpdateSchema;
+
+               const personnel = personnels?.data?.find((item) => item._id === info.getValue());
+
+               return (
+                  <Box sx={{ minWidth: 200 }}>
+                     {supplies.status_repair !== STATUS_REPAIR_DETAIL.complete.key ? (
+                        <ControllerAutoComplate
+                           name={`suppliesInvoices.${info.row.index}.repair_staff_id`}
+                           options={personnels?.data ?? []}
+                           valuePath="_id"
+                           titlePath="full_name"
+                           control={control}
+                           loading={personnels.isLoading}
+                        />
+                     ) : (
+                        personnel?.full_name
+                     )}
+                  </Box>
+               );
             },
          }),
          columnHelper.accessor('status_repair', {
             header: () => <Box>Trạng thái Sc</Box>,
+            cell: ({ row }) => {
+               const supplies = row.original as SuppliesInvoiceUpdateSchema;
+
+               const status: {
+                  title: string;
+                  color: string;
+               } = supplies.status_repair
+                  ? STATUS_REPAIR_DETAIL[supplies.status_repair as StatusRepairDetail]
+                  : STATUS_REPAIR_DETAIL.empty;
+
+               return (
+                  <Box
+                     textAlign={supplies.status_repair !== STATUS_REPAIR_DETAIL.complete.key ? 'center' : 'left'}
+                     minWidth={170}
+                  >
+                     {supplies.status_repair !== STATUS_REPAIR_DETAIL.complete.key ? (
+                        <ControllerAutoComplate
+                           name={`suppliesInvoices.${row.index}.status_repair`}
+                           options={dataStatus}
+                           valuePath="key"
+                           titlePath="title"
+                           control={control}
+                           loading={personnels.isLoading}
+                           onChange={() => {
+                              if (
+                                 watch(`suppliesInvoices.${row.index}.status_repair`) !== STATUS_REPAIR_DETAIL.empty.key
+                              ) {
+                                 if (watch(`suppliesInvoices.${row.index}.repair_staff_id`) === '') {
+                                    setError(`suppliesInvoices.${row.index}.repair_staff_id`, {
+                                       message: 'Không được để trống',
+                                    });
+                                 }
+                              } else {
+                                 clearErrors(`suppliesInvoices.${row.index}.repair_staff_id`);
+                              }
+                           }}
+                        />
+                     ) : (
+                        <Chip label={status.title} color={status.color as never} />
+                     )}
+                  </Box>
+               );
+            },
+         }),
+         columnHelper.accessor('status_supplies', {
+            header: () => <Box>Trạng thái lấy vt</Box>,
             cell: (info) => {
                const status: {
                   title: string;
                   color: string;
-               } = info.getValue() ? STATUS_REPAIR_DETAIL[info.getValue()] : STATUS_REPAIR_DETAIL.empty;
-
+               } = info.getValue() ? STATUS_DELIVERY[info.getValue()] : STATUS_DELIVERY.empty;
                return (
                   <Box textAlign="center">
                      <Chip label={status.title} color={status.color as never} />
@@ -176,9 +262,13 @@ const RepairSupplies = ({ form }: RepairSuppliesProps) => {
          columnHelper.accessor('action', {
             header: () => <Box sx={{ textAlign: 'center' }}>Thao tác</Box>,
             cell: ({ row }) => {
+               const supplies = row.original as SuppliesInvoiceUpdateSchema;
+
                return (
                   <Box display="flex" justifyContent="right" gap="6px">
-                     <CoreTableActionDelete isConfirm={false} callback={() => remove(row.index)} />
+                     {supplies.status_repair !== STATUS_REPAIR_DETAIL.complete.key && (
+                        <CoreTableActionDelete isConfirm={false} callback={() => remove(row.index)} />
+                     )}
                   </Box>
                );
             },
@@ -206,18 +296,10 @@ const RepairSupplies = ({ form }: RepairSuppliesProps) => {
                isPagination={false}
                noData="Chưa có vật tư sửa chữa."
                getRowCanExpand={() => true}
-               renderSubComponent={renderSubComponent as never}
+               renderSubComponent={(row) => <RenderSubComponent row={row} />}
             />
          </Box>
       </Box>
-   );
-};
-
-const renderSubComponent = (row: Row<any>) => {
-   return (
-      <pre style={{ fontSize: '10px' }}>
-         <code>{JSON.stringify(row.original, null, 2)}</code>
-      </pre>
    );
 };
 
