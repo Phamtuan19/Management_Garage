@@ -3,7 +3,6 @@ import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import PageContent from '@App/component/customs/PageContent';
 import ROUTE_PATH from '@App/configs/router-path';
 import deliveryNotesService from '@App/services/delivery.service';
-import { LoadingButton } from '@mui/lab';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import { DeliveryNoteData, DeliveryNoteDataDetail } from '@App/types/delivery';
@@ -13,11 +12,8 @@ import { STATUS_DELIVERY } from '@App/configs/status-config';
 import { useMemo, useRef } from 'react';
 import MODULE_PAGE from '@App/configs/module-page';
 import PermissionAccessRoute from '@App/routes/components/PermissionAccessRoute';
-import {
-   CoreTableActionEdit,
-   CoreTableActionHistory,
-   CoreTableActionOutput,
-} from '@Core/Component/Table/components/CoreTableAction';
+import { CoreTableActionOutput } from '@Core/Component/Table/components/CoreTableAction';
+import HistoryIcon from '@mui/icons-material/History';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
@@ -44,12 +40,8 @@ const DeliveryUpdate = () => {
 
    const refModalExport = useRef<ModalExportSuppliesRef>(null);
    const refModalHistory = useRef<ModalExportSuppliesRef>(null);
-   // const { reset } = useForm<DeliveryUpdateExportQuantity>({
-   //    mode: 'onSubmit',
-   //    reValidateMode: 'onSubmit',
-   //    resolver: yupResolver(deliveryUpdateExportQuantity),
-   //    defaultValues: deliveryUpdateExportQuantity.getDefault(),
-   // });
+
+   // const coreConfirm = useConfirm();
 
    const {
       data: delivery,
@@ -59,6 +51,18 @@ const DeliveryUpdate = () => {
       const res = await deliveryNotesService.find(deliveryId as string);
       return res.data as DeliveryNoteData;
    });
+
+   // const { mutate: updateExportAllDelivery, isLoading: isLoadingExport } = useMutation({
+   //    mutationFn: async () => {
+   //       return await deliveryOptionService.update({}, deliveryId as string);
+   //    },
+   //    onSuccess: (data) => {
+   //       return successMessage(data.message);
+   //    },
+   //    onError: (err: AxiosError) => {
+   //       return errorMessage(err);
+   //    },
+   // });
 
    const columns = useMemo(() => {
       return [
@@ -151,6 +155,7 @@ const DeliveryUpdate = () => {
             header: () => <Box sx={{ textAlign: 'center' }}>Thao tác</Box>,
             cell: ({ row }) => {
                const delivery = row.original as DeliveryNoteDataDetail;
+               
                return (
                   <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                      {delivery.status !== STATUS_DELIVERY.confirmed.key && (
@@ -160,22 +165,23 @@ const DeliveryUpdate = () => {
                               callback={() => {
                                  refModalExport?.current?.setOpen(true);
                                  refModalExport?.current?.setData(delivery);
-                                 form.setValue('supplies_service_id', delivery.supplies_service_id);
+                                 form.setValue('total_quantity', delivery.quantity);
+                                 form.setValue('exports', delivery.options as never);
                               }}
                            />
                         </PermissionAccessRoute>
                      )}
-                     <PermissionAccessRoute module={MODULE_PAGE.DELIVERY_NOTE} action="VIEW_ALL">
+                     {/* <PermissionAccessRoute module={MODULE_PAGE.DELIVERY_NOTE} action="VIEW_ALL">
                         <CoreTableActionEdit callback={() => {}} />
-                     </PermissionAccessRoute>
-                     <PermissionAccessRoute module={MODULE_PAGE.DELIVERY_NOTE} action="VIEW_ALL">
+                     </PermissionAccessRoute> */}
+                     {/* <PermissionAccessRoute module={MODULE_PAGE.DELIVERY_NOTE} action="VIEW_ALL">
                         <CoreTableActionHistory
                            callback={() => {
                               refModalHistory.current?.setOpen(true);
                               refModalHistory.current?.setData(delivery);
                            }}
                         />
-                     </PermissionAccessRoute>
+                     </PermissionAccessRoute> */}
                   </Box>
                );
             },
@@ -187,6 +193,24 @@ const DeliveryUpdate = () => {
    //    updateExportQuantity({ ...data, type: 'custom' });
    // };
 
+   const handleClickHistory = () => {
+      refModalHistory.current?.setOpen(true);
+      refModalHistory.current?.setData(delivery?.history as never);
+   };
+
+   // const handleClickExportAll = () => {
+   //    return coreConfirm({
+   //       icon: <ErrorOutlineIcon sx={{ fontSize: '56px' }} color="warning" />,
+   //       title: 'Cảnh báo',
+   //       confirmOk: 'Xác nhận',
+   //       content: 'Xác nhận xuất tất cả vật tư',
+   //       callbackOK: () => {
+   //          updateExportAllDelivery();
+   //       },
+   //       isIcon: true,
+   //    });
+   // };
+
    return (
       <BaseBreadcrumbs
          arialabel={'#' + delivery?.code}
@@ -195,9 +219,14 @@ const DeliveryUpdate = () => {
          data={delivery}
          isLoading={isLoadingDelivery}
       >
-         <LoadingButton type="submit" variant="contained" loading={false}>
-            Xuất tất cả
-         </LoadingButton>
+         <Box display="flex" justifyContent="space-between">
+            {/* <LoadingButton variant="contained" loading={isLoadingExport} onClick={handleClickExportAll}>
+               Xuất tất cả
+            </LoadingButton> */}
+            <Button color="secondary" endIcon={<HistoryIcon />} onClick={handleClickHistory}>
+               Lịch sử
+            </Button>
+         </Box>
          <PageContent>
             <DetailDeliveryInfo delivery={delivery} />
          </PageContent>

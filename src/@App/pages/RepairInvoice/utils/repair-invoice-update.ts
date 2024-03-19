@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
+import messageValidate from '@App/helpers/messageValidate';
 import * as yup from 'yup';
 
 export const repairServiceSchema = yup.object({
@@ -8,7 +9,8 @@ export const repairServiceSchema = yup.object({
    discount: yup.number().default(0),
    type: yup.string().default(''),
    describe: yup.string().default(''),
-
+   repair_staff_id: yup.string().default('').nullable(),
+   status_repair: yup.string().default(''),
    repair_service_code: yup.string().default(''),
    repair_service_name: yup.string().default(''),
    repair_service_category_id: yup.string().default(''),
@@ -17,8 +19,6 @@ export const repairServiceSchema = yup.object({
       yup.object({
          name: yup.string().default(''),
          describe: yup.string().default(''),
-         repair_staff_id: yup.string().default(''),
-         status: yup.string().default(''),
          note: yup.string().default(''),
          _id: yup.string().default(''),
       }),
@@ -35,7 +35,7 @@ export const suppliesInvoicesSchema = yup.object({
    discount: yup.number().default(0),
    type: yup.string().default(''),
    describe: yup.string().default(''),
-   repair_staff_id: yup.string().default(''),
+   repair_staff_id: yup.string().default('').nullable(),
    status_repair: yup.string().default(''),
    status_supplies: yup.string().default(''),
    inventory: yup.number().default(1),
@@ -43,15 +43,18 @@ export const suppliesInvoicesSchema = yup.object({
    supplies_detail_name: yup.string().default(''),
    distributor_name: yup.string().default(''),
 
-   options: yup.array().of(
-      yup.object({
-         supplies_invoice_id: yup.string().default(''),
-         supplies_invoice_code: yup.string().default(''),
-         selling_price: yup.string().default(''),
-         discount: yup.string().default(''),
-         export_quantity: yup.string().default(''),
-      }),
-   ),
+   options: yup
+      .array()
+      .of(
+         yup.object({
+            supplies_invoice_id: yup.string().default(''),
+            supplies_invoice_code: yup.string().default(''),
+            selling_price: yup.string().default(''),
+            discount: yup.string().default(''),
+            export_quantity: yup.string().default(''),
+         }),
+      )
+      .default([]),
 });
 
 export type SuppliesInvoiceUpdateSchema = yup.InferType<typeof suppliesInvoicesSchema>;
@@ -72,7 +75,11 @@ export const repairInvoiceUpdateSchema = yup.object({
       car_type: yup.string().default(''),
       brand_car: yup.string().default(''),
       license_plate: yup.string().default(''),
-      kilometer: yup.number().max(999999, 'Số kilometer không hợp lệ').default(0),
+      kilometer: yup
+         .number()
+         .max(999999, 'Số kilometer không hợp lệ')
+         .min(0, messageValidate.minNumber('kilometer', 0))
+         .default(0),
    }),
 
    suppliesInvoices: yup.array().of(suppliesInvoicesSchema).default([]),

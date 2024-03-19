@@ -1,12 +1,9 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import BaseService from '@Core/Api/BaseService';
-import { DeliveryUpdateExportQuantity } from '@App/pages/Deliverys/utils/delivery';
-import { AxiosResponseData } from '@Core/Api/axios-config';
 
 const Path = {
    base: 'delivery-detail',
 
-   UPDATE_EXPORT: '/export/',
+   UPDATE_EXPORT: 'delivery/export/',
 };
 
 class DeliveryDetailService extends BaseService {
@@ -15,10 +12,6 @@ class DeliveryDetailService extends BaseService {
    constructor() {
       super();
       this.setRequest();
-   }
-
-   updateExport(id: string, data: DeliveryUpdateExportQuantity): Promise<AxiosResponseData> {
-      return this.request.patch(this.BASE_ENDPOINT + Path.UPDATE_EXPORT + id, data);
    }
 }
 

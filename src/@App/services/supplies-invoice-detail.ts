@@ -1,13 +1,17 @@
-import { ResponseSuppliesInvoiceDetailBySupplieDetailId } from '@App/types/supplies-invoice-detail';
+import {
+   ResponseSupplieInvoiceDetailBySupplieId,
+   ResponseSuppliesInvoiceDetailBySupplieDetailId,
+} from '@App/types/supplies-invoice-detail';
 import BaseService from '@Core/Api/BaseService';
 
-const suppliesInvoiceDetailPath = {
+const path = {
    base: 'supplies-invoices-details',
    BY_DISTRIBUTOR: '/distributor/',
+   SUPPLIE_DETAIL: '/supplie-detail/',
 };
 
 class SuppliesInvoiceDetailService extends BaseService {
-   BASE_ENDPOINT = suppliesInvoiceDetailPath.base;
+   BASE_ENDPOINT = path.base;
 
    constructor() {
       super();
@@ -15,7 +19,11 @@ class SuppliesInvoiceDetailService extends BaseService {
    }
 
    getBySupplieDetailId(id: string): Promise<ResponseSuppliesInvoiceDetailBySupplieDetailId> {
-      return this.request(this.BASE_ENDPOINT + suppliesInvoiceDetailPath.BY_DISTRIBUTOR + id);
+      return this.request(this.BASE_ENDPOINT + path.BY_DISTRIBUTOR + id);
+   }
+
+   getBySupplieDetail(id: string): Promise<ResponseSupplieInvoiceDetailBySupplieId> {
+      return this.request(this.BASE_ENDPOINT + path.SUPPLIE_DETAIL + id);
    }
 }
 const suppliesInvoiceDetailService = new SuppliesInvoiceDetailService();

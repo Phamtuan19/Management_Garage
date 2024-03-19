@@ -11,12 +11,14 @@ import PageContent from '@App/component/customs/PageContent';
 import { TabContext, TabPanel } from '@mui/lab';
 import useSearchParamsHook from '@App/hooks/useSearchParamsHook';
 import personnelService from '@App/services/personnel.service';
+import { useState } from 'react';
 
 import RepairInvoiceInformation from './components/RepairDetail/RepairInvoiceInformation';
 import { arrowRightOption } from './utils';
 import RepairDetailAction from './components/RepairDetail/RepairDetailAction';
 import DetailRepairInvoiceSupplies from './components/RepairDetail/DetailRepairInvoiceSupplies';
 import DetailRepairInvoiceService from './components/RepairDetail/DetailRepairInvoiceService';
+import ModalPay from './components/RepairDetail/ModalPay';
 
 const breadcrumbs = [
    {
@@ -27,6 +29,7 @@ const breadcrumbs = [
 
 const RepairInvoiceDetail = () => {
    const { id: repairInvoiceId } = useParams();
+   const [open, setOpen] = useState<boolean>(false);
 
    const { searchParams, setParams } = useSearchParamsHook();
 
@@ -43,7 +46,7 @@ const RepairInvoiceDetail = () => {
       return res.data as ResponseFindOneRepairInvoice;
    });
 
-   const {data: personnels} = useQuery(['getPersonnelsAllField'], async () => {
+   const { data: personnels } = useQuery(['getPersonnelsAllField'], async () => {
       const res = await personnelService.fieldAll();
       return res.data;
    });
@@ -56,7 +59,7 @@ const RepairInvoiceDetail = () => {
          data={repairInvoice}
          isLoading={isLoading}
       >
-         <RepairDetailAction refetchRepairInvoice={refetch} data={repairInvoice} />
+         <RepairDetailAction refetchRepairInvoice={refetch} data={repairInvoice} setOpen={setOpen} />
 
          <ArrowRight options={arrowRightOption} check={(repairInvoice?.status as string) ?? 'create'} />
          <RepairInvoiceInformation data={repairInvoice} />
@@ -80,10 +83,14 @@ const RepairInvoiceDetail = () => {
                   <DetailRepairInvoiceService data={repairInvoice?.repairInvoiceService ?? []} />
                </ExtendTabPanel>
                <ExtendTabPanel value="2">
-                  <DetailRepairInvoiceSupplies personnels={personnels} data={repairInvoice?.repairInvoiceSupplies ?? []} />
+                  <DetailRepairInvoiceSupplies
+                     personnels={personnels}
+                     data={repairInvoice?.repairInvoiceSupplies ?? []}
+                  />
                </ExtendTabPanel>
             </TabContext>
          </PageContent>
+         <ModalPay open={open} setOpen={setOpen} repairInvoice={repairInvoice} />
       </BaseBreadcrumbs>
    );
 };

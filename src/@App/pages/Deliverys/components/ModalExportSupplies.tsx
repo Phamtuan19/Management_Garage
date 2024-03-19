@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-misused-promises */
@@ -6,7 +8,7 @@ import ControllerLabel from '@Core/Component/Input/ControllerLabel';
 import ControllerTextField from '@Core/Component/Input/ControllerTextField';
 import { LoadingButton } from '@mui/lab';
 import { Box, Button, Chip, Grid, Modal, Typography } from '@mui/material';
-import React, { forwardRef, useImperativeHandle, useMemo, useState } from 'react';
+import React, { forwardRef, useEffect, useImperativeHandle, useMemo, useState } from 'react';
 import { SubmitHandler, UseFormReturn, useFieldArray } from 'react-hook-form';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { errorMessage, successMessage } from '@Core/Helper/message';
@@ -16,9 +18,9 @@ import ControllerAutoComplate from '@Core/Component/Input/ControllerAutoComplate
 import AddIcon from '@mui/icons-material/Add';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import suppliesInvoiceDetailService from '@App/services/supplies-invoice-detail';
-import { DataGetSuppliesInvoiceDetailBySupplieId } from '@App/types/supplies-invoice-detail';
+import { SupplieInvoiceDetailBySupplieId } from '@App/types/supplies-invoice-detail';
 import ScrollbarBase from '@App/component/customs/ScrollbarBase';
-import deliveryDetailService from '@App/services/delivery-detail.service';
+import deliveryOptionService from '@App/services/delivery-option-service';
 
 import { DeliveryUpdateExportQuantity } from '../utils/delivery';
 import { ModalExportSuppliesRef } from '../utils/modal-export-supplies';
@@ -42,7 +44,7 @@ const ModalExportSupplies = forwardRef<ModalExportSuppliesRef, ModalExportSuppli
          control,
          formState: { errors },
       } = form;
-      const exportData = watch('exports');
+
       const { fields, append, remove } = useFieldArray({
          name: 'exports',
          control,
@@ -56,13 +58,30 @@ const ModalExportSupplies = forwardRef<ModalExportSuppliesRef, ModalExportSuppli
       const { data: suppliesInvoices } = useQuery(
          ['getSuppliesInvoiceDetailsBySuppliesDetailId', data?.supplies_service_id],
          async () => {
-            const res = await suppliesInvoiceDetailService.getBySupplieDetailId(data?.supplies_service_id as string);
+            const res = await suppliesInvoiceDetailService.getBySupplieDetail(data?.supplies_service_id as string);
             return res.data;
          },
       );
+
       const { mutate: updateExportDelivery, isLoading } = useMutation({
          mutationFn: async (dataExport: DeliveryUpdateExportQuantity) => {
-            return await deliveryDetailService.updateExport(data?._id as string, dataExport);
+            const newData = {
+               delivery_id: data?.delivery_id,
+               exports: dataExport.exports.map((item) => ({
+                  ...(item._id !== '' ? { _id: item._id } : {}),
+                  delivery_detail_id: item.delivery_detail_id,
+                  repair_invoice_detail_id: item.repair_invoice_detail_id,
+                  supplies_service_id: item.supplies_service_id,
+                  supplies_invoice_id: item.supplies_invoice_id,
+                  supplies_invoice_code: item.supplies_invoice_code,
+                  supplies_invoice_detail_id: item.supplies_invoice_detail_id,
+                  export_quantity: item.export_quantity,
+                  selling_price: item.selling_price,
+                  discount: item.discount,
+               })),
+            };
+
+            return await deliveryOptionService.updateExport(newData);
          },
          onSuccess: (data) => {
             refetchDelivery();
@@ -74,40 +93,59 @@ const ModalExportSupplies = forwardRef<ModalExportSuppliesRef, ModalExportSuppli
          },
       });
 
-      const handleOnchangeAutoComplete = (v: DataGetSuppliesInvoiceDetailBySupplieId, index: number) => {
-         setValue(`exports.${index}.supplies_invoice_id`, v.supplies_invoice_id._id);
+      const handleOnchangeAutoComplete = (v: SupplieInvoiceDetailBySupplieId, index: number) => {
+         setValue(`exports.${index}.supplies_invoice_id`, v.supplies_invoice_id);
          setValue(`exports.${index}.selling_price`, v.selling_price);
-         setValue(`exports.${index}.quantity_inventory`, v.quantity_sold);
+         setValue(`exports.${index}.quantity_sold`, v.quantity_sold);
          setValue(`exports.${index}.discount`, v.discount);
+         setValue(`exports.${index}.supplies_invoice_detail_id`, v._id);
+         setValue(`exports.${index}.delivery_detail_id`, data?._id ?? '');
+         setValue(`exports.${index}.repair_invoice_detail_id`, data?.repair_invoice_detail_id ?? '');
+         setValue(`exports.${index}.supplies_service_id`, data?.supplies_service_id ?? '');
+         setValue(`exports.${index}._id`, data?.supplies_service_id ?? '');
       };
 
       const handleSubmitForm: SubmitHandler<DeliveryUpdateExportQuantity> = (data) => updateExportDelivery(data);
 
-      const total_export = useMemo(() => {
-         // if (data) {
-         //    const total_option_export = data.options.reduce((total, item) => {
-         //       total += item.export_quantity;
-         //       return total;
-         //    }, 0);
+      const total_quantity = watch('total_quantity');
 
-         //    return data.quantity - total_option_export;
-         // }
+      const export_total = useMemo(() => {
+         const total_export_quantity = fields.reduce((total, item) => (total += item.export_quantity), 0);
 
-         return 0;
-      }, [data]);
+         if (total_export_quantity === 0) {
+            clearErrors('exports.0.export_quantity');
+            return false;
+         }
+
+         if (total_quantity > fields.reduce((total, item) => (total += item.export_quantity), 0)) {
+            clearErrors('exports.0.export_quantity');
+            return true;
+         }
+
+         setError('exports.0.export_quantity', { message: 'Tổng số lượng xuất vượt quá số lượng yêu cầu' });
+         return false;
+      }, [fields, total_quantity]);
+
+      useEffect(() => {
+         if (suppliesInvoices) {
+            fields.map((item, index) => {
+               const invoice = suppliesInvoices.find((v) => v.supplies_invoice_code === item.supplies_invoice_code);
+
+               setValue(`exports.${index}.quantity_sold`, invoice?.quantity_sold ?? 0);
+               return;
+            });
+         }
+      }, [suppliesInvoices, fields]);
 
       return (
-         <Modal
-            open={open}
-            // onClose={handleClose}
-         >
+         <Modal open={open}>
             <Box sx={style} component="form">
                <Typography id="modal-modal-title" variant="h6" component="h2" mb={1.5}>
                   Xuất vật tư {data && ' - ' + data.supplies_detail_name + ` (${data.supplies_detail_code})`}
                </Typography>
                <Box mb={1.5}>
                   <Box pb={1}>
-                     Số lượng cần xuất: <Chip label={total_export} color="primary" />
+                     Số lượng cần xuất: <Chip label={total_quantity} color="primary" />
                   </Box>
                   <Box sx={{ borderBottom: '1px solid #DADADA' }}></Box>
                </Box>
@@ -122,15 +160,15 @@ const ModalExportSupplies = forwardRef<ModalExportSuppliesRef, ModalExportSuppli
                                     name={`exports.${index}.supplies_invoice_code`}
                                     options={
                                        (suppliesInvoices?.map((item) => ({
-                                          key: item.supplies_invoice_id.code,
-                                          title: item.supplies_invoice_id.code,
+                                          key: item.supplies_invoice_code,
+                                          title: item.supplies_invoice_code,
                                           ...item,
                                        })) as never) ?? []
                                     }
                                     valuePath="key"
                                     titlePath="title"
                                     control={control}
-                                    onChange={(e: DataGetSuppliesInvoiceDetailBySupplieId) => {
+                                    onChange={(e: SupplieInvoiceDetailBySupplieId) => {
                                        handleOnchangeAutoComplete(e, index);
                                     }}
                                  />
@@ -142,25 +180,13 @@ const ModalExportSupplies = forwardRef<ModalExportSuppliesRef, ModalExportSuppli
                                     disabled={!watch(`exports.${index}.supplies_invoice_code`)}
                                     number
                                     control={control}
-                                    onChangeValue={() => {
-                                       const quantityExport = exportData.reduce((quantity, item) => {
-                                          quantity += Number(item.export_quantity);
-                                          return quantity;
-                                       }, 0);
-
-                                       return Number(quantityExport) > Number(data?.quantity)
-                                          ? setError(`exports.${index}.export_quantity`, {
-                                               message: 'Số lượng đã chọn đã lớn hơn số cần xuất',
-                                            })
-                                          : clearErrors(`exports.${index}.export_quantity`);
-                                    }}
                                  />
                               </Grid>
                               <Grid item xs={4} minHeight="80px">
                                  <ControllerLabel title="Tồn kho" />
                                  <ControllerTextField
                                     disabled
-                                    name={`exports.${index}.quantity_inventory`}
+                                    name={`exports.${index}.quantity_sold`}
                                     control={control}
                                  />
                               </Grid>
@@ -189,24 +215,31 @@ const ModalExportSupplies = forwardRef<ModalExportSuppliesRef, ModalExportSuppli
                                           <DeleteOutlineIcon sx={{ fontSize: '16px' }} />
                                        </Button>
                                     )}
-                                    <Button
-                                       variant="contained"
-                                       size="small"
-                                       color="primary"
-                                       sx={{ minWidth: 'auto', p: 1 }}
-                                       onClick={() =>
-                                          append({
-                                             supplies_invoice_id: '',
-                                             supplies_invoice_code: '',
-                                             selling_price: 0,
-                                             quantity_inventory: 0,
-                                             discount: 0,
-                                             export_quantity: 0,
-                                          })
-                                       }
-                                    >
-                                       <AddIcon sx={{ fontSize: '16px' }} />
-                                    </Button>
+                                    {export_total && (
+                                       <Button
+                                          variant="contained"
+                                          size="small"
+                                          color="primary"
+                                          sx={{ minWidth: 'auto', p: 1 }}
+                                          onClick={() =>
+                                             append({
+                                                _id: '',
+                                                delivery_detail_id: '',
+                                                export_quantity: 0,
+                                                repair_invoice_detail_id: '',
+                                                supplies_invoice_code: '',
+                                                selling_price: 0,
+                                                quantity_sold: 0,
+                                                supplies_invoice_detail_id: '',
+                                                discount: 0,
+                                                supplies_invoice_id: '',
+                                                supplies_service_id: '',
+                                             })
+                                          }
+                                       >
+                                          <AddIcon sx={{ fontSize: '16px' }} />
+                                       </Button>
+                                    )}
                                  </Box>
                               </Grid>
                               <Grid item xs={12} sx={{ borderBottom: '1px solid #DADADA' }}></Grid>

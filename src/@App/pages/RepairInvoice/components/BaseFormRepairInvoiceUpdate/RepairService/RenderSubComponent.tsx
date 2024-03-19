@@ -7,18 +7,14 @@ import { Row } from '@tanstack/react-table';
 import ControllerLabel from '@Core/Component/Input/ControllerLabel';
 import MuiAccordion, { AccordionProps } from '@mui/material/Accordion';
 import RemoveIcon from '@mui/icons-material/Remove';
-import { dataStatus } from '@App/pages/RepairInvoice/utils';
-import ControllerRadioGroup from '@Core/Component/Input/ControllerRadioGroup';
 import { UseFormReturn } from 'react-hook-form';
 import {
    RepairInvoiceUpdateSchema,
    RepairServiceUpdateSchema,
 } from '@App/pages/RepairInvoice/utils/repair-invoice-update';
-import ControllerAutoComplate from '@Core/Component/Input/ControllerAutoComplate';
 import personnelService from '@App/services/personnel.service';
 import { useQuery } from '@tanstack/react-query';
 import ControllerTextarea from '@Core/Component/Input/ControllerTextarea';
-import { STATUS_REPAIR_DETAIL } from '@App/configs/status-config';
 
 interface RenderSubComponentProps {
    row: Row<RepairServiceUpdateSchema>;
@@ -50,8 +46,6 @@ const RenderSubComponent = ({ form, row }: RenderSubComponentProps) => {
 interface RenderDetailsProps {
    data: {
       name: string;
-      repair_staff_id: string;
-      status: string;
       note: string;
       describe: string;
    };
@@ -61,67 +55,10 @@ interface RenderDetailsProps {
    form: UseFormReturn<RepairInvoiceUpdateSchema>;
 }
 
-const RenderDetails = ({ data, detail_index, form, index, personnels }: RenderDetailsProps) => {
-   const { setError, clearErrors, setValue, watch, control } = form;
+const RenderDetails = ({ data, detail_index, form, index }: RenderDetailsProps) => {
+   const { control } = form;
 
    const dataRender = [
-      {
-         title: 'Nhân viên sc:',
-         render: () => (
-            <ControllerAutoComplate
-               name={`repairService.${index}.details.${detail_index}.repair_staff_id`}
-               options={personnels ?? []}
-               valuePath="_id"
-               titlePath="full_name"
-               control={control}
-               onChange={(e: any) => {
-                  if (e) {
-                     clearErrors(`repairService.${index}.details.${detail_index}.repair_staff_id`);
-                  }
-               }}
-            />
-         ),
-         border: false,
-         xs: 6,
-      },
-      {
-         title: 'Trạng thái:',
-         render: () => (
-            <ControllerRadioGroup
-               name={`repairService.${index}.details.${detail_index}.status`}
-               options={dataStatus}
-               valuePath="key"
-               titlePath="title"
-               control={control as never}
-               sx={{ display: 'flex', flexDirection: 'row' }}
-               onChangeValue={(e) => {
-                  if (
-                     e.target.value === STATUS_REPAIR_DETAIL.repair.key ||
-                     e.target.value === STATUS_REPAIR_DETAIL.complete.key
-                  ) {
-                     if (watch(`repairService.${index}.details.${detail_index}.repair_staff_id`) === '') {
-                        return setError(`repairService.${index}.details.${detail_index}.repair_staff_id`, {
-                           message: 'Nhân viên sửa chữa không được để trống.',
-                        });
-                     } else {
-                        return clearErrors(`repairService.${index}.details.${detail_index}.repair_staff_id`);
-                     }
-                  }
-
-                  if (
-                     e.target.value !== STATUS_REPAIR_DETAIL.repair.key &&
-                     e.target.value !== STATUS_REPAIR_DETAIL.complete.key
-                  ) {
-                     return clearErrors(`repairService.${index}.details.${detail_index}.repair_staff_id`);
-                  }
-
-                  return setValue(`repairService.${index}.details.${detail_index}.repair_staff_id`, '');
-               }}
-            />
-         ),
-         border: false,
-         xs: 6,
-      },
       {
          title: 'Ghi chú:',
          render: () => (

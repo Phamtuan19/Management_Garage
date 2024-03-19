@@ -5,33 +5,45 @@ import messageValidate from '@App/helpers/messageValidate';
 import * as yup from 'yup';
 
 export const deliveryUpdateExportQuantity = yup.object({
-   supplies_service_id: yup.string().default(''),
+   total_quantity: yup.number().default(0),
    exports: yup
       .array()
       .of(
          yup.object({
-            supplies_invoice_id: yup.string().required(messageValidate.required()).default(''),
+            _id: yup.string().default(''),
+            delivery_detail_id: yup.string().default(''),
+            repair_invoice_detail_id: yup.string().default(''),
+            supplies_service_id: yup.string().default(''),
+            supplies_invoice_id: yup.string().default(''),
             supplies_invoice_code: yup.string().required(messageValidate.required()).default(''),
-            selling_price: yup.number().default(0),
-            quantity_inventory: yup.number().min(0, messageValidate.minNumber('Số lượng', 0)).default(0),
-            export_quantity: yup
+            supplies_invoice_detail_id: yup.string().default(''),
+
+            quantity_sold: yup.number().default(0), // Tồn kho
+            selling_price: yup.number().default(0), // giá bán
+            export_quantity: yup // số lượng xuất
                .number()
                .min(1, messageValidate.minNumber('Số lượng', 0))
-               .test('maxExportQuantity', 'Số lượng xuất không được lớn hơn tồn kho', function (value) {
-                  return value! <= this.parent.quantity_inventory; // Trả về true nếu export_quantity không lớn hơn quantity_inventory
+               .test('maxExportQuantityInventory', 'Số lượng xuất không được lớn hơn tồn kho', function (value) {
+                  return value! <= this.parent.quantity_sold;
+                  // Trả về true nếu export_quantity không lớn hơn quantity_sold
                })
                .default(0),
-            discount: yup.number().default(0),
+            discount: yup.number().default(0), // giảm giá
          }),
       )
       .default([
          {
-            supplies_invoice_id: '',
+            _id: '',
+            delivery_detail_id: '',
+            export_quantity: 0,
+            repair_invoice_detail_id: '',
             supplies_invoice_code: '',
             selling_price: 0,
-            quantity_inventory: 0,
+            quantity_sold: 0,
+            supplies_invoice_detail_id: '',
             discount: 0,
-            export_quantity: 0,
+            supplies_invoice_id: '',
+            supplies_service_id: '',
          },
       ]),
 });

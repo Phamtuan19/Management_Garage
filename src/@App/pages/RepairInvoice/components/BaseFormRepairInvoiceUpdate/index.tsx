@@ -7,8 +7,10 @@ import { TabContext, TabPanel } from '@mui/lab';
 import { UseFormReturn } from 'react-hook-form';
 import { UseQueryResult } from '@tanstack/react-query';
 import { ResponseFindOneRepairInvoice } from '@App/types/repair-invoice';
+import { STATUS_REPAIR } from '@App/configs/status-config';
 
 import { RepairInvoiceUpdateSchema } from '../../utils/repair-invoice-update';
+import RepairInvoiceInformation from '../RepairDetail/RepairInvoiceInformation';
 
 import ClientInformation from './ClientInformation';
 import VehicleInformation from './VehicleInformation';
@@ -24,7 +26,7 @@ interface BaseFormOrderCreateProps {
       }[],
       unknown
    >;
-   repairInvoice: ResponseFindOneRepairInvoice | undefined
+   repairInvoice: ResponseFindOneRepairInvoice | undefined;
 }
 
 const BaseFormRepairInvoiceUpdate = ({ form, personnels, repairInvoice }: BaseFormOrderCreateProps) => {
@@ -36,10 +38,14 @@ const BaseFormRepairInvoiceUpdate = ({ form, personnels, repairInvoice }: BaseFo
 
    return (
       <>
-         <PageContent>
-            <ClientInformation form={form} repairInvoice={repairInvoice} />
-            <VehicleInformation form={form} repairInvoice={repairInvoice} />
-         </PageContent>
+         {repairInvoice?.status === STATUS_REPAIR.create.key || repairInvoice?.status === STATUS_REPAIR.check.key ? (
+            <PageContent>
+               <ClientInformation form={form} repairInvoice={repairInvoice} />
+               <VehicleInformation form={form} repairInvoice={repairInvoice} />
+            </PageContent>
+         ) : (
+            <RepairInvoiceInformation data={repairInvoice} />
+         )}
          <Grid container spacing={1}>
             <Grid item xs={12}>
                <PageContent>
@@ -59,10 +65,14 @@ const BaseFormRepairInvoiceUpdate = ({ form, personnels, repairInvoice }: BaseFo
                         <ExtendTab label="Vật tư" value="2" />
                      </Tabs>
                      <ExtendTabPanel value="1">
-                        <RepairService form={form} />
+                        <RepairService form={form} personnels={personnels} repairInvoice={repairInvoice} />
                      </ExtendTabPanel>
                      <ExtendTabPanel value="2">
-                        <RepairSupplies form={form} personnels={personnels} />
+                        <RepairSupplies
+                           form={form}
+                           personnels={personnels}
+                           status={repairInvoice?.status ?? 'create'}
+                        />
                      </ExtendTabPanel>
                   </TabContext>
                </PageContent>

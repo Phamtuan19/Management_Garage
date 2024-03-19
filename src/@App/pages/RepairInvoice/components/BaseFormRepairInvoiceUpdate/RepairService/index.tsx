@@ -11,13 +11,31 @@ import {
    RepairServiceUpdateSchema,
 } from '@App/pages/RepairInvoice/utils/repair-invoice-update';
 import { Row } from '@tanstack/react-table';
-import { STATUS_REPAIR_DETAIL } from '@App/configs/status-config';
+import { STATUS_REPAIR_DETAIL, StatusRepairDetail } from '@App/configs/status-config';
+import { UseQueryResult, useMutation } from '@tanstack/react-query';
+import repairInvoiceService from '@App/services/repair-invoice';
+import { AxiosResponseData } from '@Core/Api/axios-config';
+import { errorMessage, successMessage } from '@Core/Helper/message';
+import { AxiosError } from 'axios';
+import { useConfirm } from '@Core/Component/Comfirm/CoreComfirm';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import ControllerAutoComplate from '@Core/Component/Input/ControllerAutoComplate';
+import { dataStatus } from '@App/pages/RepairInvoice/utils';
+import { ResponseFindOneRepairInvoice } from '@App/types/repair-invoice';
 
-import FilterService from './FilterService';
 import RenderSubComponent from './RenderSubComponent';
+import FilterService from './FilterService';
 
 interface RepairServiceProps {
    form: UseFormReturn<RepairInvoiceUpdateSchema>;
+   personnels: UseQueryResult<
+      {
+         _id: string;
+         full_name: string;
+      }[],
+      unknown
+   >;
+   repairInvoice: ResponseFindOneRepairInvoice | undefined;
 }
 
 const columnVisibilityData: Record<string, string> = {
@@ -30,8 +48,8 @@ const columnVisibilityData: Record<string, string> = {
    action: 'thao tác',
 } as const;
 
-const RepairService = ({ form }: RepairServiceProps) => {
-   const { watch, control } = form;
+const RepairService = ({ form, personnels, repairInvoice }: RepairServiceProps) => {
+   const { watch, control, setError, clearErrors } = form;
 
    const { fields, append, remove } = useFieldArray({
       name: 'repairService',
@@ -48,7 +66,33 @@ const RepairService = ({ form }: RepairServiceProps) => {
       action: true,
    });
 
-   const handleRemoveFieldItem = (index: number) => {
+   const coreConfirm = useConfirm();
+
+   const { mutate: deleteRepairInvoiceDetail } = useMutation({
+      mutationFn: async (id: string) => {
+         return await repairInvoiceService.delete(id);
+      },
+      onSuccess: (data: AxiosResponseData) => {
+         successMessage(data.message);
+         return data;
+      },
+      onError: (err: AxiosError) => {
+         return errorMessage(err);
+      },
+   });
+
+   const handleRemoveFieldItem = (id: string, index: number) => {
+      coreConfirm({
+         icon: <ErrorOutlineIcon sx={{ fontSize: '56px' }} color="warning" />,
+         title: 'Cảnh báo',
+         confirmOk: 'Xác nhận',
+         content: 'Xác nhận xóa và trả vật tư về kho',
+         callbackOK: () => {
+            deleteRepairInvoiceDetail(id);
+         },
+         isIcon: true,
+      });
+
       if (fields.length === 1) {
          return form.setValue('repairService', []);
       }
@@ -118,20 +162,79 @@ const RepairService = ({ form }: RepairServiceProps) => {
                return <Box sx={{ textAlign: 'center' }}>{formatPrice(total_price)}</Box>;
             },
          }),
-         columnHelper.accessor('status', {
-            header: () => <Box sx={{ textAlign: 'center' }}>Trạng thái </Box>,
-            cell: ({ row }) => {
-               const data = row.original as RepairServiceUpdateSchema;
-
-               const isCheck = data.details?.every(
-                  (item) =>
-                     item.status === STATUS_REPAIR_DETAIL.complete.key ||
-                     item.status === STATUS_REPAIR_DETAIL.close.key,
+         columnHelper.accessor('repair_staff_id', {
+            header: () => <Box>Nhân viên Sc</Box>,
+            cell: (info) => {
+               const personnel = personnels?.data?.find((item) => item._id === info.getValue());
+               return (
+                  <Box sx={{ minWidth: 200 }}>
+                     {repairInvoice?.repairInvoiceService[info.row.index].status_repair !==
+                     STATUS_REPAIR_DETAIL.complete.key ? (
+                        <ControllerAutoComplate
+                           name={`repairService.${info.row.index}.repair_staff_id`}
+                           options={personnels?.data ?? []}
+                           valuePath="_id"
+                           titlePath="full_name"
+                           control={control}
+                           loading={personnels.isLoading}
+                           onChange={() => {
+                              watch(`repairService.${info.row.index}.repair_staff_id`) !== '' &&
+                                 clearErrors(`repairService.${info.row.index}.repair_staff_id`);
+                           }}
+                        />
+                     ) : (
+                        personnel?.full_name
+                     )}
+                  </Box>
                );
+            },
+         }),
+         columnHelper.accessor('status_repair', {
+            header: () => <Box>Trạng thái Sc</Box>,
+            cell: ({ row }) => {
+               const supplies = row.original as RepairServiceUpdateSchema;
+
+               const status: {
+                  title: string;
+                  color: string;
+               } = supplies.status_repair
+                  ? STATUS_REPAIR_DETAIL[(supplies.status_repair as StatusRepairDetail) ?? 'empty']
+                  : STATUS_REPAIR_DETAIL.empty;
 
                return (
-                  <Box sx={{ textAlign: 'center' }}>
-                     <Chip label={isCheck ? 'Hoàn thành' : 'Chưa hoàn thành'} color={isCheck ? 'success' : 'error'} />
+                  <Box
+                     textAlign={supplies.status_repair !== STATUS_REPAIR_DETAIL.complete.key ? 'center' : 'left'}
+                     minWidth={170}
+                  >
+                     {repairInvoice?.repairInvoiceService[row.index].status_repair !==
+                     STATUS_REPAIR_DETAIL.complete.key ? (
+                        <ControllerAutoComplate
+                           name={`repairService.${row.index}.status_repair`}
+                           options={dataStatus}
+                           valuePath="key"
+                           titlePath="title"
+                           control={control}
+                           loading={personnels.isLoading}
+                           onChange={() => {
+                              if (
+                                 watch(`repairService.${row.index}.status_repair`) !== STATUS_REPAIR_DETAIL.empty.key
+                              ) {
+                                 if (watch(`repairService.${row.index}.repair_staff_id`) === '') {
+                                    setError(`repairService.${row.index}.repair_staff_id`, {
+                                       message: 'Không được để trống',
+                                    });
+                                 }
+                              } else {
+                                 clearErrors(`repairService.${row.index}.repair_staff_id`);
+                              }
+
+                              watch(`repairService.${row.index}.status_repair`) === '' &&
+                                 clearErrors(`repairService.${row.index}.repair_staff_id`);
+                           }}
+                        />
+                     ) : (
+                        <Chip label={status.title} color={status.color as never} />
+                     )}
                   </Box>
                );
             },
@@ -141,18 +244,13 @@ const RepairService = ({ form }: RepairServiceProps) => {
             cell: ({ row }) => {
                const data = row.original as RepairServiceUpdateSchema;
 
-               const isCheck = data.details?.every(
-                  (item) =>
-                     item.status === STATUS_REPAIR_DETAIL.complete.key ||
-                     item.status === STATUS_REPAIR_DETAIL.close.key,
-               );
                return (
                   <Box display="flex" justifyContent="right" gap="6px" px={1}>
-                     {isCheck || (
+                     {data.status_repair !== STATUS_REPAIR_DETAIL.complete.key && (
                         <CoreTableActionDelete
                            isConfirm={false}
                            callback={() => {
-                              handleRemoveFieldItem(row.index);
+                              handleRemoveFieldItem(data._id, row.index);
                            }}
                         />
                      )}
@@ -161,7 +259,7 @@ const RepairService = ({ form }: RepairServiceProps) => {
             },
          }),
       ];
-   }, []);
+   }, [fields]);
 
    return (
       <Box>

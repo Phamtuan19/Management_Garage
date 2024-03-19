@@ -22,9 +22,9 @@ class BaseService {
 
    DEFAULT_PAGE: number = 1;
 
-   PRIMARY_KEY: string = 'id';
+   PRIMARY_KEY: string = '_id';
 
-   DEFAULT_SORT: 'asc' | 'desc' = 'asc';
+   DEFAULT_SORT: 'asc' | 'desc' = 'desc';
 
    request!: AxiosInstance;
 

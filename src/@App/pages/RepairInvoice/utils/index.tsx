@@ -31,9 +31,4 @@ export const arrowRightOption = [
    },
 ];
 
-export const dataStatus = [
-   STATUS_REPAIR_DETAIL.empty,
-   STATUS_REPAIR_DETAIL.repair,
-   STATUS_REPAIR_DETAIL.complete,
-   STATUS_REPAIR_DETAIL.close,
-];
+export const dataStatus = [STATUS_REPAIR_DETAIL.empty, STATUS_REPAIR_DETAIL.repair, STATUS_REPAIR_DETAIL.complete];

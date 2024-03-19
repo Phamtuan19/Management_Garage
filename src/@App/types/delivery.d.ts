@@ -12,18 +12,26 @@ interface DeliveryNoteDataDetailOption {
 }
 
 interface DeliveryNoteDataDetailHistory {
-   quantity: string;
-   status: string;
-   type: string;
-   isSuccess: boolean;
-   createdAt: Date;
+   delivery_id: string; // id của phiếu xuất kho
+   details: Array<{
+      delivery_detail_id: string; // id của phiếu xuất kho chi tiết
+      supplies_service_id: string; // Id của vật tư chi tiết
+      supplies_invoice_detail_id: string; // id của hóa đơn nhập chi tiết
+      supplies_invoice_id?: string; // id của hóa đơn nhập hàng
+      supplies_invoice_code?: string; // Code của hóa đơn nhập hàng
+      quantity: number; // Số lượng yêu cầu lấy thêm hoặc trả lại
+      type: StatusDelivery; // Hình thức yêu cầu "export" | "return"
+      status: StatusDelivery;
+      createdAt: Date;
+      updatedAt: Date;
+   }>;
 }
 
 interface DeliveryNoteDataDetail {
    _id: string;
+   delivery_id: string;
    supplies_service_id: string;
    quantity: number;
-
    supplies_detail_code: string;
    supplies_detail_name: string;
    unit: string;
@@ -34,7 +42,7 @@ interface DeliveryNoteDataDetail {
    total_quantity_inventory: number;
    supplies_detail_isInStock: boolean;
    options: Array<DeliveryNoteDataDetailOption>;
-   history: Array<DeliveryNoteDataDetailHistory>;
+   repair_invoice_detail_id: string;
 }
 
 interface DeliveryNoteData {
@@ -62,4 +70,5 @@ interface DeliveryNoteData {
    details: DeliveryNoteDataDetail[];
    createdAt: string;
    updatedAt: string;
+   history: Array<DeliveryNoteDataDetailHistory>;
 }

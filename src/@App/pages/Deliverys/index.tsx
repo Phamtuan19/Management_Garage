@@ -45,13 +45,13 @@ const Deliverys = () => {
                return <Box textAlign="center">#{info.getValue()} </Box>;
             },
          }),
-         columnHelper.accessor('personnel_id.full_name', {
+         columnHelper.accessor('personnel.full_name', {
             header: () => <Box>Nhân viên tạo</Box>,
             cell: (info) => {
                return <Box>{info.getValue()} </Box>;
             },
          }),
-         columnHelper.accessor('repair_invoice_id.code', {
+         columnHelper.accessor('repair_invoice.code', {
             header: () => <Box>Mã Psc</Box>,
             cell: (info) => {
                return <Box>#{info.getValue()} </Box>;

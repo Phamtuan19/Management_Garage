@@ -16,6 +16,7 @@ import { ResponseFindOneRepairInvoice } from '@App/types/repair-invoice';
 import personnelService from '@App/services/personnel.service';
 import { useConfirm } from '@Core/Component/Comfirm/CoreComfirm';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import { STATUS_REPAIR_DETAIL } from '@App/configs/status-config';
 
 import { RepairInvoiceUpdateSchema, repairInvoiceUpdateSchema } from './utils/repair-invoice-update';
 import BaseFormRepairInvoiceUpdate from './components/BaseFormRepairInvoiceUpdate';
@@ -63,7 +64,8 @@ const RepairInvoiceUpdate = () => {
                discount: (item.price * item.discount) / 100,
                type: item.type,
                describe: item.describe,
-
+               repair_staff_id: item.repair_staff_id ?? '',
+               status_repair: item.status_repair ?? STATUS_REPAIR_DETAIL.empty.key,
                repair_service_code: item.service_code,
                repair_service_name: item.service_name,
                repair_service_category_id: item.category_id,
@@ -73,28 +75,34 @@ const RepairInvoiceUpdate = () => {
 
             form.setValue('repairService', repairService as never);
 
-            const suppliesInvoices = data.repairInvoiceSupplies.map((item) => ({
-               _id: item._id,
-               repair_invoice_id: item.supplies_service_id,
-               quantity: item.quantity,
-               price:
-                  item.price ?? item.min_price === item.max_price
-                     ? item.max_price
-                     : `${item.min_price} - ${item.max_price}`,
-               discount: (item.price && item.discount && item.price - (item.price * item.discount) / 100) || 0,
-               type: item.type,
-               describe: item.describe,
+            const suppliesInvoices = data.repairInvoiceSupplies.map((item) => {
+               const maxPrice =
+                  item.options.length > 0 ? Math.max(...item.options.map((v) => v.selling_price)) : item.max_price;
+               const minPrice =
+                  item.options.length > 0 ? Math.min(...item.options.map((v) => v.selling_price)) : item.min_price;
 
-               repair_staff_id: item.repair_staff_id,
-               status_repair: item.status_repair,
-               status_supplies: item.status_supplies,
+                  const price = maxPrice === minPrice ? maxPrice : `${minPrice} - ${maxPrice}`;
 
-               inventory: item.total_quantity_inventory,
-               supplies_detail_code: item.supplies_detail_code,
-               supplies_detail_name: item.supplies_detail_name,
-               distributor_name: item.distributors_name,
-               options: item.options,
-            }));
+               return {
+                  _id: item._id,
+                  repair_invoice_id: item.supplies_service_id,
+                  quantity: item.quantity,
+                  price: price,
+                  discount: (item.price && item.discount && item.price - (item.price * item.discount) / 100) || 0,
+                  type: item.type,
+                  describe: item.describe,
+
+                  repair_staff_id: item.repair_staff_id ?? '',
+                  status_repair: item.status_repair ?? STATUS_REPAIR_DETAIL.empty.key,
+                  status_supplies: item.status_supplies,
+
+                  inventory: item.total_quantity_inventory,
+                  supplies_detail_code: item.supplies_detail_code,
+                  supplies_detail_name: item.supplies_detail_name,
+                  distributor_name: item.distributors_name,
+                  options: item.options,
+               };
+            });
 
             form.setValue('suppliesInvoices', suppliesInvoices as never);
 
@@ -117,8 +125,8 @@ const RepairInvoiceUpdate = () => {
                price: item.price,
                discount: item.discount,
                describe: '',
-               type: item.type,
-               details: item.details,
+               repair_staff_id: item.repair_staff_id,
+               status_repair: item.status_repair,
             })),
             repairSupplies: data.suppliesInvoices.map((item) => ({
                _id: item._id,
@@ -127,9 +135,6 @@ const RepairInvoiceUpdate = () => {
                quantity: item.quantity,
                repair_staff_id: item.repair_staff_id,
                status_repair: item.status_repair,
-               status_supplies: item.status_supplies,
-               type: item.type,
-               options: item.options,
             })),
          };
 

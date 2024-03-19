@@ -15,13 +15,19 @@ import {
    SuppliesInvoiceUpdateSchema,
 } from '@App/pages/RepairInvoice/utils/repair-invoice-update';
 import formatPrice from '@Core/Helper/formatPrice';
-import { STATUS_DELIVERY, STATUS_REPAIR_DETAIL, StatusRepairDetail } from '@App/configs/status-config';
+import { STATUS_DELIVERY, STATUS_REPAIR_DETAIL, StatusRepair, StatusRepairDetail } from '@App/configs/status-config';
 import ControllerAutoComplate from '@Core/Component/Input/ControllerAutoComplate';
-import { UseQueryResult } from '@tanstack/react-query';
+import { UseQueryResult, useMutation } from '@tanstack/react-query';
 import { dataStatus } from '@App/pages/RepairInvoice/utils';
+import repairInvoiceService from '@App/services/repair-invoice';
+import { AxiosResponseData } from '@Core/Api/axios-config';
+import { errorMessage, successMessage } from '@Core/Helper/message';
+import { AxiosError } from 'axios';
+import { useConfirm } from '@Core/Component/Comfirm/CoreComfirm';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 
-import RenderSubComponent from './RenderSubComponent';
 import FilterSupplies from './FilterSupplies';
+import RenderSubComponent from './RenderSubComponent';
 
 interface RepairSuppliesProps {
    form: UseFormReturn<RepairInvoiceUpdateSchema>;
@@ -32,6 +38,7 @@ interface RepairSuppliesProps {
       }[],
       unknown
    >;
+   status: StatusRepair;
 }
 
 const columnVisibilityData: Record<string, string> = {
@@ -48,7 +55,7 @@ const columnVisibilityData: Record<string, string> = {
    action: 'thao tác',
 } as const;
 
-const RepairSupplies = ({ form, personnels }: RepairSuppliesProps) => {
+const RepairSupplies = ({ form, personnels, status }: RepairSuppliesProps) => {
    const { watch, setValue, clearErrors, setError, control } = form;
    // const { id: repairOrderId } = useParams();
 
@@ -65,10 +72,25 @@ const RepairSupplies = ({ form, personnels }: RepairSuppliesProps) => {
       inventory: true,
       price: true,
       quantity: true,
-      repair_staff_id: true,
-      status_repair: true,
+      repair_staff_id: status !== 'create',
+      status_repair: status !== 'create',
       status_supplies: true,
       action: true,
+   });
+
+   const coreConfirm = useConfirm();
+
+   const { mutate: deleteRepairInvoiceDetail } = useMutation({
+      mutationFn: async (id: string) => {
+         return await repairInvoiceService.delete(id);
+      },
+      onSuccess: (data: AxiosResponseData) => {
+         successMessage(data.message);
+         return data;
+      },
+      onError: (err: AxiosError) => {
+         return errorMessage(err);
+      },
    });
 
    // Tăng số lượng vật tư
@@ -82,6 +104,22 @@ const RepairSupplies = ({ form, personnels }: RepairSuppliesProps) => {
          `suppliesInvoices.${index}.quantity`,
          watch(`suppliesInvoices.${index}.quantity`) <= 1 ? 1 : watch(`suppliesInvoices.${index}.quantity`) - 1,
       );
+   };
+
+   // Xóa vật tư sửa chữa hoặc dịch vụ sửa chữa
+   const handleDeleteRepiarInvoiceDetail = (id: string, index: number) => {
+      coreConfirm({
+         icon: <ErrorOutlineIcon sx={{ fontSize: '56px' }} color="warning" />,
+         title: 'Cảnh báo',
+         confirmOk: 'Xác nhận',
+         content: 'Xác nhận xóa và trả vật tư về kho',
+         callbackOK: () => {
+            deleteRepairInvoiceDetail(id);
+         },
+         isIcon: true,
+      });
+
+      return remove(index);
    };
 
    const columnsService = useMemo(() => {
@@ -191,6 +229,7 @@ const RepairSupplies = ({ form, personnels }: RepairSuppliesProps) => {
                            titlePath="full_name"
                            control={control}
                            loading={personnels.isLoading}
+                           disabled={supplies.options?.length === 0}
                         />
                      ) : (
                         personnel?.full_name
@@ -237,6 +276,7 @@ const RepairSupplies = ({ form, personnels }: RepairSuppliesProps) => {
                                  clearErrors(`suppliesInvoices.${row.index}.repair_staff_id`);
                               }
                            }}
+                           disabled={supplies.options?.length === 0}
                         />
                      ) : (
                         <Chip label={status.title} color={status.color as never} />
@@ -263,11 +303,15 @@ const RepairSupplies = ({ form, personnels }: RepairSuppliesProps) => {
             header: () => <Box sx={{ textAlign: 'center' }}>Thao tác</Box>,
             cell: ({ row }) => {
                const supplies = row.original as SuppliesInvoiceUpdateSchema;
-
                return (
                   <Box display="flex" justifyContent="right" gap="6px">
                      {supplies.status_repair !== STATUS_REPAIR_DETAIL.complete.key && (
-                        <CoreTableActionDelete isConfirm={false} callback={() => remove(row.index)} />
+                        <CoreTableActionDelete
+                           isConfirm={false}
+                           callback={() => {
+                              handleDeleteRepiarInvoiceDetail(supplies._id, row.index);
+                           }}
+                        />
                      )}
                   </Box>
                );
