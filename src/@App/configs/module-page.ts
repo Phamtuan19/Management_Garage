@@ -23,15 +23,13 @@ const MODULE_PAGE = {
 
    WAREHOUSES: 'WAREHOUSES', //
 
-   REPAIR_ORDERS: 'REPAIR_ORDERS', //
+   REPAIR_INVOICE: 'REPAIR_INVOICE', //
 
    REPAIR_SERVICES: 'REPAIR_SERVICES',
 
-   USER_PROFILE: 'USER_PROFILE',
-
    RESET_PASSWORD: 'RESET_PASSWORD',
 
-   DELIVERY_NOTE: 'DELIVERY_NOTE',
+   DELIVERY: 'DELIVERY',
 } as const;
 
 export const modulePageSchema = yup.string().oneOf(Object.values(MODULE_PAGE)).required();

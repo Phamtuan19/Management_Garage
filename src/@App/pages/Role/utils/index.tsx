@@ -304,9 +304,9 @@ export const ROLES: RolePropsTypeConfig[] = [
          },
       ],
    },
-   // REPAIR_ORDERS
+   // REPAIR_INVOICE
    {
-      name: MODULE_PAGE.REPAIR_ORDERS,
+      name: MODULE_PAGE.REPAIR_INVOICE,
       title: 'Hóa đơn sử chữa',
       action: [
          {
@@ -359,7 +359,7 @@ export const ROLES: RolePropsTypeConfig[] = [
       ],
    },
    {
-      name: MODULE_PAGE.REPAIR_ORDERS,
+      name: MODULE_PAGE.REPAIR_INVOICE,
       title: 'Phiếu sửa chữa',
       action: [
          {
@@ -389,7 +389,7 @@ export const ROLES: RolePropsTypeConfig[] = [
       ],
    },
    {
-      name: MODULE_PAGE.DELIVERY_NOTE,
+      name: MODULE_PAGE.DELIVERY,
       title: 'Phiếu xuất kho',
       action: [
          {

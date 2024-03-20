@@ -22,6 +22,7 @@ import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import ControllerAutoComplate from '@Core/Component/Input/ControllerAutoComplate';
 import { dataStatus } from '@App/pages/RepairInvoice/utils';
 import { ResponseFindOneRepairInvoice } from '@App/types/repair-invoice';
+import PermissionAccessRoute from '@App/routes/components/PermissionAccessRoute';
 
 import RenderSubComponent from './RenderSubComponent';
 import FilterService from './FilterService';
@@ -167,25 +168,27 @@ const RepairService = ({ form, personnels, repairInvoice }: RepairServiceProps) 
             cell: (info) => {
                const personnel = personnels?.data?.find((item) => item._id === info.getValue());
                return (
-                  <Box sx={{ minWidth: 200 }}>
+                  <>
                      {repairInvoice?.repairInvoiceService[info.row.index].status_repair !==
                      STATUS_REPAIR_DETAIL.complete.key ? (
-                        <ControllerAutoComplate
-                           name={`repairService.${info.row.index}.repair_staff_id`}
-                           options={personnels?.data ?? []}
-                           valuePath="_id"
-                           titlePath="full_name"
-                           control={control}
-                           loading={personnels.isLoading}
-                           onChange={() => {
-                              watch(`repairService.${info.row.index}.repair_staff_id`) !== '' &&
-                                 clearErrors(`repairService.${info.row.index}.repair_staff_id`);
-                           }}
-                        />
+                        <Box sx={{ minWidth: 200 }}>
+                           <ControllerAutoComplate
+                              name={`repairService.${info.row.index}.repair_staff_id`}
+                              options={personnels?.data ?? []}
+                              valuePath="_id"
+                              titlePath="full_name"
+                              control={control}
+                              loading={personnels.isLoading}
+                              onChange={() => {
+                                 watch(`repairService.${info.row.index}.repair_staff_id`) !== '' &&
+                                    clearErrors(`repairService.${info.row.index}.repair_staff_id`);
+                              }}
+                           />
+                        </Box>
                      ) : (
-                        personnel?.full_name
+                        <Box>{personnel?.full_name}</Box>
                      )}
-                  </Box>
+                  </>
                );
             },
          }),
@@ -202,40 +205,44 @@ const RepairService = ({ form, personnels, repairInvoice }: RepairServiceProps) 
                   : STATUS_REPAIR_DETAIL.empty;
 
                return (
-                  <Box
-                     textAlign={supplies.status_repair !== STATUS_REPAIR_DETAIL.complete.key ? 'center' : 'left'}
-                     minWidth={170}
-                  >
+                  <>
                      {repairInvoice?.repairInvoiceService[row.index].status_repair !==
                      STATUS_REPAIR_DETAIL.complete.key ? (
-                        <ControllerAutoComplate
-                           name={`repairService.${row.index}.status_repair`}
-                           options={dataStatus}
-                           valuePath="key"
-                           titlePath="title"
-                           control={control}
-                           loading={personnels.isLoading}
-                           onChange={() => {
-                              if (
-                                 watch(`repairService.${row.index}.status_repair`) !== STATUS_REPAIR_DETAIL.empty.key
-                              ) {
-                                 if (watch(`repairService.${row.index}.repair_staff_id`) === '') {
-                                    setError(`repairService.${row.index}.repair_staff_id`, {
-                                       message: 'Không được để trống',
-                                    });
+                        <Box
+                           textAlign={supplies.status_repair !== STATUS_REPAIR_DETAIL.complete.key ? 'center' : 'left'}
+                           minWidth={170}
+                        >
+                           <ControllerAutoComplate
+                              name={`repairService.${row.index}.status_repair`}
+                              options={dataStatus}
+                              valuePath="key"
+                              titlePath="title"
+                              control={control}
+                              loading={personnels.isLoading}
+                              onChange={() => {
+                                 if (
+                                    watch(`repairService.${row.index}.status_repair`) !== STATUS_REPAIR_DETAIL.empty.key
+                                 ) {
+                                    if (watch(`repairService.${row.index}.repair_staff_id`) === '') {
+                                       setError(`repairService.${row.index}.repair_staff_id`, {
+                                          message: 'Không được để trống',
+                                       });
+                                    }
+                                 } else {
+                                    clearErrors(`repairService.${row.index}.repair_staff_id`);
                                  }
-                              } else {
-                                 clearErrors(`repairService.${row.index}.repair_staff_id`);
-                              }
 
-                              watch(`repairService.${row.index}.status_repair`) === '' &&
-                                 clearErrors(`repairService.${row.index}.repair_staff_id`);
-                           }}
-                        />
+                                 watch(`repairService.${row.index}.status_repair`) === '' &&
+                                    clearErrors(`repairService.${row.index}.repair_staff_id`);
+                              }}
+                           />
+                        </Box>
                      ) : (
-                        <Chip label={status.title} color={status.color as never} />
+                        <Box>
+                           <Chip label={status.title} color={status.color as never} />
+                        </Box>
                      )}
-                  </Box>
+                  </>
                );
             },
          }),
@@ -246,14 +253,16 @@ const RepairService = ({ form, personnels, repairInvoice }: RepairServiceProps) 
 
                return (
                   <Box display="flex" justifyContent="right" gap="6px" px={1}>
-                     {data.status_repair !== STATUS_REPAIR_DETAIL.complete.key && (
-                        <CoreTableActionDelete
-                           isConfirm={false}
-                           callback={() => {
-                              handleRemoveFieldItem(data._id, row.index);
-                           }}
-                        />
-                     )}
+                     <PermissionAccessRoute action="UPDATE" module="DELIVERY">
+                        {data.status_repair !== STATUS_REPAIR_DETAIL.complete.key && (
+                           <CoreTableActionDelete
+                              isConfirm={false}
+                              callback={() => {
+                                 handleRemoveFieldItem(data._id, row.index);
+                              }}
+                           />
+                        )}
+                     </PermissionAccessRoute>
                   </Box>
                );
             },

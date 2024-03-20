@@ -101,7 +101,7 @@ const Deliverys = () => {
                const delivery = row.original as DeliveryNoteData;
                return (
                   <Box>
-                     <PermissionAccessRoute module={MODULE_PAGE.DELIVERY_NOTE} action="VIEW_ONE">
+                     <PermissionAccessRoute module={MODULE_PAGE.DELIVERY} action="VIEW_ONE">
                         <CoreTableActionViewDetail
                            callback={() => navigate(ROUTE_PATH.DELIVERY_NOTES + '/' + delivery._id + '/details')}
                         />

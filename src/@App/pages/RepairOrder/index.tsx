@@ -123,12 +123,12 @@ const Repairorder = () => {
                const repairOrder = row.original as RepairOrdersResponse;
                return (
                   <Box>
-                     <PermissionAccessRoute module={MODULE_PAGE.REPAIR_ORDERS} action="VIEW_ALL">
+                     <PermissionAccessRoute module={MODULE_PAGE.REPAIR_INVOICE} action="VIEW_ALL">
                         <CoreTableActionEdit
                            callback={() => navigate(ROUTE_PATH.REPAIR_INVOICE + '/' + repairOrder._id + '/update')}
                         />
                      </PermissionAccessRoute>
-                     <PermissionAccessRoute module={MODULE_PAGE.REPAIR_ORDERS} action="VIEW_ONE">
+                     <PermissionAccessRoute module={MODULE_PAGE.REPAIR_INVOICE} action="VIEW_ONE">
                         <CoreTableActionViewDetail
                            callback={() => navigate(ROUTE_PATH.REPAIR_INVOICE + '/' + repairOrder._id + '/details')}
                         />
@@ -143,7 +143,7 @@ const Repairorder = () => {
    return (
       <BaseBreadcrumbs arialabel="Phiếu sửa chữa">
          <Box>
-            <PermissionAccessRoute module={MODULE_PAGE.REPAIR_ORDERS} action={PAGE_ACTION.CREATE}>
+            <PermissionAccessRoute module={MODULE_PAGE.REPAIR_INVOICE} action={PAGE_ACTION.CREATE}>
                <Button component={Link} to="create" size="medium">
                   Thêm mới
                </Button>

@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Box, Button, ButtonBase, Chip, InputBase, styled } from '@mui/material';
@@ -153,13 +151,15 @@ const RepairSupplies = ({ form, personnels, status }: RepairSuppliesProps) => {
          }),
          columnHelper.accessor('supplies_detail_name', {
             header: () => <Box>Tên VT</Box>,
-            cell: (info) => <Box sx={{ width: '180px' }}>{info.getValue()}</Box>,
+            cell: (info) => (
+               <Box sx={{ maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis' }}>{info.getValue()}</Box>
+            ),
          }),
          columnHelper.accessor('distributor_name', {
             header: () => <Box>Nhà phân phối</Box>,
             cell: (info) => {
                return (
-                  <Box sx={{ width: '300px', overflow: 'hidden', textOverflow: 'ellipsis' }}>{info.getValue()}</Box>
+                  <Box sx={{ maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis' }}>{info.getValue()}</Box>
                );
             },
          }),

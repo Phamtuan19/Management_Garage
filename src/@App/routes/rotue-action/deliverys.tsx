@@ -16,7 +16,7 @@ const deliverysRoute: RouteObject = {
       {
          index: true,
          element: (
-            <PermissionAccessRoute module={MODULE_PAGE.DELIVERY_NOTE} action={PAGE_ACTION.VIEW_ALL} type="route">
+            <PermissionAccessRoute module={MODULE_PAGE.DELIVERY} action={PAGE_ACTION.VIEW_ALL} type="route">
                <Deliverys />
             </PermissionAccessRoute>
          ),
@@ -24,7 +24,7 @@ const deliverysRoute: RouteObject = {
       {
          path: ROUTE_PATH.DELIVERY_NOTES + ROUTE_PATH.DETAILS,
          element: (
-            <PermissionAccessRoute module={MODULE_PAGE.DELIVERY_NOTE} action={PAGE_ACTION.UPDATE} type="route">
+            <PermissionAccessRoute module={MODULE_PAGE.DELIVERY} action={PAGE_ACTION.UPDATE} type="route">
                <DeliveryDetail />
             </PermissionAccessRoute>
          ),

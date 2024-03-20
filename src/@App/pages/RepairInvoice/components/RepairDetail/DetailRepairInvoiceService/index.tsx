@@ -74,10 +74,9 @@ const DetailRepairInvoiceService = ({ data }: DetailRepairInvoiceServiceProps) =
             header: 'Số lượng',
             cell: ({ row }) => {
                const data = row.original as ResponseFindOneRepairInvoiceService;
-               const isCheck = data.details.some(
-                  (item) =>
-                     item.status !== STATUS_REPAIR_DETAIL.empty.key && item.status !== STATUS_REPAIR_DETAIL.check.key,
-               );
+               const isCheck =
+                  data.status_repair !== STATUS_REPAIR_DETAIL.empty.key &&
+                  data.status_repair !== STATUS_REPAIR_DETAIL.check.key;
                return (
                   <Box>
                      <Chip label={isCheck ? 'Hoàn thành' : 'Chưa hoàn thành'} color={isCheck ? 'success' : 'error'} />

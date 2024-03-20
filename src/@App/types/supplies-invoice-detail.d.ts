@@ -28,9 +28,8 @@ interface SupplieInvoiceDetailBySupplieId {
    selling_price: number;
    quantity_sold: number;
    discount: number;
-   createdAt: string;
+   createdAt: Date;
    supplies_invoice_code: string;
-   
 }
 
 interface ResponseSupplieInvoiceDetailBySupplieId extends AxiosResponseData {

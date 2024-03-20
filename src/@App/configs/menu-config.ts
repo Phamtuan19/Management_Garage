@@ -35,7 +35,7 @@ const menuConfig: MenuConfigItem[] = [
             id: 2.2,
             title: 'Phiếu sửa chữa',
             link: ROUTE_PATH.REPAIR_INVOICE,
-            module: MODULE_PAGE.REPAIR_ORDERS,
+            module: MODULE_PAGE.REPAIR_INVOICE,
             action: PAGE_ACTION.VIEW_ALL,
          },
          {

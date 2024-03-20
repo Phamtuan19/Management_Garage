@@ -21,7 +21,7 @@ import repairServicesRoutes from './rotue-action/repair-services';
 import profileRoute from './rotue-action/profile';
 import repairInvoiceRoute from './rotue-action/repair-invoice';
 import deliverysRoute from './rotue-action/deliverys';
-import repairOrder1 from './rotue-action/repair-order-1';
+
 const SignIn = Loadable('auth/SignIn');
 const Doashboard = Loadable('Doashboard');
 
@@ -58,7 +58,6 @@ const routes = (): RouteObject[] => {
             profileRoute,
             repairInvoiceRoute,
             deliverysRoute,
-            repairOrder1,
          ],
       },
 

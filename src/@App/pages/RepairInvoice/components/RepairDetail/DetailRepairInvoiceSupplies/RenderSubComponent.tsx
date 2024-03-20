@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/naming-convention */
 import { Box, Chip, Grid, Typography } from '@mui/material';
 import { Row } from '@tanstack/react-table';
 import { DeliveryNoteDataDetailOption } from '@App/types/delivery';

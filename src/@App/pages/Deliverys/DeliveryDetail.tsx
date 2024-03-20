@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable react-hooks/exhaustive-deps */
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import PageContent from '@App/component/customs/PageContent';
@@ -13,7 +14,7 @@ import { useMemo, useRef } from 'react';
 import MODULE_PAGE from '@App/configs/module-page';
 import PermissionAccessRoute from '@App/routes/components/PermissionAccessRoute';
 import { CoreTableActionOutput } from '@Core/Component/Table/components/CoreTableAction';
-import HistoryIcon from '@mui/icons-material/History';
+// import HistoryIcon from '@mui/icons-material/History';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
@@ -22,7 +23,6 @@ import RenderSubComponent from './components/RenderSubComponent';
 import ModalExportSupplies from './components/ModalExportSupplies';
 import { DeliveryUpdateExportQuantity, deliveryUpdateExportQuantity } from './utils/delivery';
 import { ModalExportSuppliesRef } from './utils/modal-export-supplies';
-import ModalExportHistory from './components/ModalExportHistory';
 
 const breadcrumbs = [
    {
@@ -39,7 +39,7 @@ const DeliveryUpdate = () => {
    });
 
    const refModalExport = useRef<ModalExportSuppliesRef>(null);
-   const refModalHistory = useRef<ModalExportSuppliesRef>(null);
+   // const refModalHistory = useRef<ModalExportSuppliesRef>(null);
 
    // const coreConfirm = useConfirm();
 
@@ -47,22 +47,16 @@ const DeliveryUpdate = () => {
       data: delivery,
       refetch: refetchDelivery,
       isLoading: isLoadingDelivery,
-   } = useQuery(['getDeliveryNote', deliveryId], async () => {
-      const res = await deliveryNotesService.find(deliveryId as string);
-      return res.data as DeliveryNoteData;
-   });
-
-   // const { mutate: updateExportAllDelivery, isLoading: isLoadingExport } = useMutation({
-   //    mutationFn: async () => {
-   //       return await deliveryOptionService.update({}, deliveryId as string);
-   //    },
-   //    onSuccess: (data) => {
-   //       return successMessage(data.message);
-   //    },
-   //    onError: (err: AxiosError) => {
-   //       return errorMessage(err);
-   //    },
-   // });
+   } = useQuery(
+      ['getDeliveryNote', deliveryId],
+      async () => {
+         const res = await deliveryNotesService.find(deliveryId as string);
+         return res.data as DeliveryNoteData;
+      },
+      {
+         staleTime: 0,
+      },
+   );
 
    const columns = useMemo(() => {
       return [
@@ -155,26 +149,45 @@ const DeliveryUpdate = () => {
             header: () => <Box sx={{ textAlign: 'center' }}>Thao tác</Box>,
             cell: ({ row }) => {
                const delivery = row.original as DeliveryNoteDataDetail;
-               
+
+               const export_options =
+                  delivery.options.length > 0
+                     ? (delivery.options as never)
+                     : [
+                          {
+                             _id: '',
+                             delivery_detail_id: '',
+                             export_quantity: 0,
+                             repair_invoice_detail_id: '',
+                             supplies_invoice_code: '',
+                             selling_price: 0,
+                             quantity_sold: 0,
+                             supplies_invoice_detail_id: '',
+                             discount: 0,
+                             supplies_invoice_id: '',
+                             supplies_service_id: '',
+                          },
+                       ];
+
                return (
                   <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                      {delivery.status !== STATUS_DELIVERY.confirmed.key && (
-                        <PermissionAccessRoute module={MODULE_PAGE.DELIVERY_NOTE} action="VIEW_ALL">
+                        <PermissionAccessRoute module={MODULE_PAGE.DELIVERY} action="VIEW_ALL">
                            <CoreTableActionOutput
                               title="Xuất kho"
                               callback={() => {
                                  refModalExport?.current?.setOpen(true);
                                  refModalExport?.current?.setData(delivery);
                                  form.setValue('total_quantity', delivery.quantity);
-                                 form.setValue('exports', delivery.options as never);
+                                 form.setValue('exports', export_options);
                               }}
                            />
                         </PermissionAccessRoute>
                      )}
-                     {/* <PermissionAccessRoute module={MODULE_PAGE.DELIVERY_NOTE} action="VIEW_ALL">
+                     {/* <PermissionAccessRoute module={MODULE_PAGE.DELIVERY} action="VIEW_ALL">
                         <CoreTableActionEdit callback={() => {}} />
                      </PermissionAccessRoute> */}
-                     {/* <PermissionAccessRoute module={MODULE_PAGE.DELIVERY_NOTE} action="VIEW_ALL">
+                     {/* <PermissionAccessRoute module={MODULE_PAGE.DELIVERY} action="VIEW_ALL">
                         <CoreTableActionHistory
                            callback={() => {
                               refModalHistory.current?.setOpen(true);
@@ -193,22 +206,9 @@ const DeliveryUpdate = () => {
    //    updateExportQuantity({ ...data, type: 'custom' });
    // };
 
-   const handleClickHistory = () => {
-      refModalHistory.current?.setOpen(true);
-      refModalHistory.current?.setData(delivery?.history as never);
-   };
-
-   // const handleClickExportAll = () => {
-   //    return coreConfirm({
-   //       icon: <ErrorOutlineIcon sx={{ fontSize: '56px' }} color="warning" />,
-   //       title: 'Cảnh báo',
-   //       confirmOk: 'Xác nhận',
-   //       content: 'Xác nhận xuất tất cả vật tư',
-   //       callbackOK: () => {
-   //          updateExportAllDelivery();
-   //       },
-   //       isIcon: true,
-   //    });
+   // const handleClickHistory = () => {
+   //    refModalHistory.current?.setOpen(true);
+   //    refModalHistory.current?.setData(delivery?.history as never);
    // };
 
    return (
@@ -219,14 +219,9 @@ const DeliveryUpdate = () => {
          data={delivery}
          isLoading={isLoadingDelivery}
       >
-         <Box display="flex" justifyContent="space-between">
-            {/* <LoadingButton variant="contained" loading={isLoadingExport} onClick={handleClickExportAll}>
-               Xuất tất cả
-            </LoadingButton> */}
-            <Button color="secondary" endIcon={<HistoryIcon />} onClick={handleClickHistory}>
-               Lịch sử
-            </Button>
-         </Box>
+         {/* <Button color="secondary" endIcon={<HistoryIcon />} onClick={handleClickHistory}>
+            Lịch sử
+         </Button> */}
          <PageContent>
             <DetailDeliveryInfo delivery={delivery} />
          </PageContent>
@@ -241,7 +236,7 @@ const DeliveryUpdate = () => {
             />
          </PageContent>
          <ModalExportSupplies ref={refModalExport} refetchDelivery={refetchDelivery} form={form} />
-         <ModalExportHistory ref={refModalHistory} />
+         {/* <ModalExportHistory ref={refModalHistory} /> */}
       </BaseBreadcrumbs>
    );
 };

@@ -7,7 +7,6 @@ import ControllerLabel from '@Core/Component/Input/ControllerLabel';
 import MuiAccordion, { AccordionProps } from '@mui/material/Accordion';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { ResponseFindOneRepairInvoiceService } from '@App/types/repair-invoice';
-import { STATUS_REPAIR_DETAIL, StatusRepairDetail } from '@App/configs/status-config';
 
 const RenderSubComponent = (row: Row<ResponseFindOneRepairInvoiceService>) => {
    return row.original.details.map((item) => {
@@ -15,27 +14,11 @@ const RenderSubComponent = (row: Row<ResponseFindOneRepairInvoiceService>) => {
    });
 };
 
-const renderDetails = (data: {
-   name: string;
-   repair_staff_id: string;
-   status: string;
-   note: string;
-   describe: string;
-}) => {
+const renderDetails = (data: { name: string; note: string; describe: string }) => {
    const dataRender = [
       {
          title: 'Tên công việc:',
          value: data.name,
-         border: true,
-      },
-      {
-         title: 'Trạng thái:',
-         value: STATUS_REPAIR_DETAIL[data.status as StatusRepairDetail].title,
-         border: true,
-      },
-      {
-         title: 'Nhân viên sc:',
-         value: data.repair_staff_id,
          border: true,
       },
       {

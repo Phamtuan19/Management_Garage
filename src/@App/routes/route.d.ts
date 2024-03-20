@@ -1,8 +1,9 @@
+import { ModulePagePropsType } from '@App/configs/module-page';
 import { PageActionPropsType } from '@App/configs/page-action';
 
 interface PermissionAccessType {
    action: PageActionPropsType;
-   module: string;
+   module: ModulePagePropsType;
    path?: string;
    type?: 'route' | 'component';
    aceptPermission?: boolean;

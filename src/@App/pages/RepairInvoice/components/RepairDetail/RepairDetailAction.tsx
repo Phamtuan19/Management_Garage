@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import ButtonCreate from '@App/component/common/ButtonCreate';
 import ButtonEdit from '@App/component/common/ButtonEdit';
 import ROUTE_PATH from '@App/configs/router-path';
@@ -49,7 +48,7 @@ const RepairDetailAction = ({ data, refetchRepairInvoice, setOpen }: RepairDetai
       if (status === STATUS_REPAIR.complete.key) {
          return setOpen(true);
       }
-      
+
       return coreConfirm({
          icon: <ErrorOutlineIcon sx={{ fontSize: '56px' }} color="warning" />,
          title: 'Cảnh báo',

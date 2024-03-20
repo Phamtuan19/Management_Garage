@@ -163,13 +163,13 @@ const RepairOrderDetails = () => {
          >
             <Box mb={1} display="flex" justifyContent="space-between" gap={1}>
                <Box display="flex" gap={1}>
-                  <PermissionAccessRoute module={MODULE_PAGE.REPAIR_ORDERS} action="CREATE">
+                  <PermissionAccessRoute module={MODULE_PAGE.REPAIR_INVOICE} action="CREATE">
                      <Button component={Link} to={ROUTE_PATH.REPAIR_INVOICE + ROUTE_PATH.CREATE} size="medium">
                         Thêm mới
                      </Button>
                   </PermissionAccessRoute>
 
-                  <PermissionAccessRoute module={MODULE_PAGE.REPAIR_ORDERS} action="UPDATE">
+                  <PermissionAccessRoute module={MODULE_PAGE.REPAIR_INVOICE} action="UPDATE">
                      <Button
                         component={Link}
                         to={ROUTE_PATH.REPAIR_INVOICE + '/' + repairorderId + '/update'}
@@ -182,7 +182,7 @@ const RepairOrderDetails = () => {
                </Box>
                <Box display="flex" gap={1}>
                   {repairorder?.status === STATUS_REPAIR.create.key && (
-                     <PermissionAccessRoute module={MODULE_PAGE.REPAIR_ORDERS} action="UPDATE_STATUS_REPAIR_ORDER">
+                     <PermissionAccessRoute module={MODULE_PAGE.REPAIR_INVOICE} action="UPDATE_STATUS_REPAIR_ORDER">
                         <Button
                            size="medium"
                            color="secondary"
@@ -196,7 +196,7 @@ const RepairOrderDetails = () => {
                   )}
 
                   {repairorder?.status === STATUS_REPAIR.check.key && (
-                     <PermissionAccessRoute module={MODULE_PAGE.REPAIR_ORDERS} action="UPDATE_STATUS_REPAIR_ORDER">
+                     <PermissionAccessRoute module={MODULE_PAGE.REPAIR_INVOICE} action="UPDATE_STATUS_REPAIR_ORDER">
                         <Button size="medium" color="inherit" onClick={handleCreateDelivery}>
                            Lấy vật tư
                         </Button>
@@ -204,7 +204,7 @@ const RepairOrderDetails = () => {
                   )}
 
                   {repairorder?.status === STATUS_REPAIR.shipped.key && (
-                     <PermissionAccessRoute module={MODULE_PAGE.REPAIR_ORDERS} action="UPDATE_STATUS_REPAIR_ORDER">
+                     <PermissionAccessRoute module={MODULE_PAGE.REPAIR_INVOICE} action="UPDATE_STATUS_REPAIR_ORDER">
                         <Button
                            size="medium"
                            color="secondary"
@@ -217,7 +217,7 @@ const RepairOrderDetails = () => {
                      </PermissionAccessRoute>
                   )}
                   {repairorder?.status === STATUS_REPAIR.repair.key && isCheckStatusRepairOrder && (
-                     <PermissionAccessRoute module={MODULE_PAGE.REPAIR_ORDERS} action="UPDATE_STATUS_REPAIR_ORDER">
+                     <PermissionAccessRoute module={MODULE_PAGE.REPAIR_INVOICE} action="UPDATE_STATUS_REPAIR_ORDER">
                         <Button
                            size="medium"
                            color="secondary"
@@ -230,7 +230,7 @@ const RepairOrderDetails = () => {
                      </PermissionAccessRoute>
                   )}
                   {repairorder?.status === STATUS_REPAIR.pay.key && (
-                     <PermissionAccessRoute module={MODULE_PAGE.REPAIR_ORDERS} action="UPDATE_STATUS_REPAIR_ORDER">
+                     <PermissionAccessRoute module={MODULE_PAGE.REPAIR_INVOICE} action="UPDATE_STATUS_REPAIR_ORDER">
                         <Button
                            size="medium"
                            color="secondary"
@@ -245,7 +245,7 @@ const RepairOrderDetails = () => {
 
                   {(repairorder?.status === STATUS_REPAIR.create.key ||
                      repairorder?.status === STATUS_REPAIR.check.key) && (
-                     <PermissionAccessRoute module={MODULE_PAGE.REPAIR_ORDERS} action="UPDATE_STATUS_REPAIR_ORDER">
+                     <PermissionAccessRoute module={MODULE_PAGE.REPAIR_INVOICE} action="UPDATE_STATUS_REPAIR_ORDER">
                         <Button size="medium" color="error" onClick={handleClose}>
                            Hủy
                         </Button>
@@ -254,12 +254,12 @@ const RepairOrderDetails = () => {
 
                   {repairorder?.status === STATUS_REPAIR.close.key && (
                      <>
-                        <PermissionAccessRoute module={MODULE_PAGE.REPAIR_ORDERS} action="UPDATE_STATUS_REPAIR_ORDER">
+                        <PermissionAccessRoute module={MODULE_PAGE.REPAIR_INVOICE} action="UPDATE_STATUS_REPAIR_ORDER">
                            <Button size="medium" color="secondary" onClick={handleRefetchRepairOrder}>
                               Đặt lại
                            </Button>
                         </PermissionAccessRoute>
-                        <PermissionAccessRoute module={MODULE_PAGE.REPAIR_ORDERS} action="DELETE">
+                        <PermissionAccessRoute module={MODULE_PAGE.REPAIR_INVOICE} action="DELETE">
                            <Button component={Link} to="create" size="medium" color="error">
                               Xóa Phiếu
                            </Button>

@@ -81,7 +81,7 @@ const RepairInvoiceUpdate = () => {
                const minPrice =
                   item.options.length > 0 ? Math.min(...item.options.map((v) => v.selling_price)) : item.min_price;
 
-                  const price = maxPrice === minPrice ? maxPrice : `${minPrice} - ${maxPrice}`;
+               const price = maxPrice === minPrice ? maxPrice : `${minPrice} - ${maxPrice}`;
 
                return {
                   _id: item._id,

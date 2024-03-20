@@ -4,7 +4,7 @@ import * as yup from 'yup';
 
 export const repairServiceSchema = yup.object({
    _id: yup.string().default(''),
-   repair_invoice_id: yup.string().default(''),
+   repair_invoice_id: yup.string().default('').nullable(),
    price: yup.number().default(0),
    discount: yup.number().default(0),
    type: yup.string().default(''),
@@ -15,14 +15,17 @@ export const repairServiceSchema = yup.object({
    repair_service_name: yup.string().default(''),
    repair_service_category_id: yup.string().default(''),
    repair_service_category_name: yup.string().default(''),
-   details: yup.array().of(
-      yup.object({
-         name: yup.string().default(''),
-         describe: yup.string().default(''),
-         note: yup.string().default(''),
-         _id: yup.string().default(''),
-      }),
-   ),
+   details: yup
+      .array()
+      .of(
+         yup.object({
+            name: yup.string().default(''),
+            describe: yup.string().default(''),
+            note: yup.string().default(''),
+            _id: yup.string().default(''),
+         }),
+      )
+      .default([]),
 });
 
 export type RepairServiceUpdateSchema = yup.InferType<typeof repairServiceSchema>;
