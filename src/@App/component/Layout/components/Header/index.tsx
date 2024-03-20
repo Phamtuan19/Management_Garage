@@ -3,7 +3,7 @@ import { Avatar, Box, IconButton, ListItemIcon, Menu, MenuItem, Tooltip, styled,
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import { useState } from 'react';
 import Logout from '@mui/icons-material/Logout';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useAuth } from '@App/redux/slices/auth.slice';
 import LazyLoadingImage from '@App/component/customs/LazyLoadingImage';
 import { useConfirm } from '@Core/Component/Comfirm/CoreComfirm';
@@ -19,7 +19,6 @@ interface HeaderProps {
 const Header = ({ setisOpenSidebar, isOpenSidebar }: HeaderProps) => {
    const { authLogout, user } = useAuth();
    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-   const navigate = useNavigate();
    const coreConfirm = useConfirm();
    const isOpen = Boolean(anchorEl);
    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -28,7 +27,6 @@ const Header = ({ setisOpenSidebar, isOpenSidebar }: HeaderProps) => {
 
    const handleClose = () => {
       setAnchorEl(null);
-      navigate(ROUTE_PATH.USER_PROFILE);
    };
 
    const handleRedirectProfile = () => {
@@ -110,7 +108,7 @@ const Header = ({ setisOpenSidebar, isOpenSidebar }: HeaderProps) => {
                   transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                   anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                >
-                  <MenuItem onClick={handleRedirectProfile}>
+                  <MenuItem component={Link} to={ROUTE_PATH.USER_PROFILE} onClick={handleRedirectProfile}>
                      <ListItemIcon>
                         <AccountCircleOutlinedIcon fontSize="small" />
                      </ListItemIcon>

@@ -118,7 +118,7 @@ const style = {
    bgcolor: 'background.paper',
    boxShadow: 24,
    borderRadius: '6px',
-   p: 4,
+   p: 3,
 };
 
 export default ResetPassword;

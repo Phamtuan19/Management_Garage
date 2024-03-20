@@ -46,6 +46,11 @@ export interface IPersonnel {
    createdAt: string;
    updatedAt: string;
    isAdmin: boolean;
+
+   bank_account_number: string;
+   bank_name: string;
+   bank_branch: string;
+   account_holder_name: string;
 }
 
 export interface ResponseFieldAll extends AxiosResponseData {
