@@ -12,7 +12,7 @@ import { type MenuConfigItem } from './config';
 const menuConfig: MenuConfigItem[] = [
    {
       id: 1,
-      title: 'Trang chủ',
+      title: 'Thống kê',
       link: '/',
       icon: HomeIcon,
       action: PAGE_ACTION.VIEW_ALL,
