@@ -12,6 +12,7 @@ import { TabContext, TabPanel } from '@mui/lab';
 import useSearchParamsHook from '@App/hooks/useSearchParamsHook';
 import personnelService from '@App/services/personnel.service';
 import { useState } from 'react';
+import { STATUS_DELIVERY } from '@App/configs/status-config';
 
 import RepairInvoiceInformation from './components/RepairDetail/RepairInvoiceInformation';
 import { arrowRightOption } from './utils';
@@ -19,6 +20,7 @@ import RepairDetailAction from './components/RepairDetail/RepairDetailAction';
 import DetailRepairInvoiceSupplies from './components/RepairDetail/DetailRepairInvoiceSupplies';
 import DetailRepairInvoiceService from './components/RepairDetail/DetailRepairInvoiceService';
 import ModalPay from './components/RepairDetail/ModalPay';
+import Transaction from './components/RepairDetail/Transaction';
 
 const breadcrumbs = [
    {
@@ -50,7 +52,6 @@ const RepairInvoiceDetail = () => {
       const res = await personnelService.fieldAll();
       return res.data;
    });
-
    return (
       <BaseBreadcrumbs
          arialabel="Chi tiết"
@@ -63,6 +64,9 @@ const RepairInvoiceDetail = () => {
 
          <ArrowRight options={arrowRightOption} check={(repairInvoice?.status as string) ?? 'create'} />
          <RepairInvoiceInformation data={repairInvoice} />
+         {repairInvoice?.transactions_id && (repairInvoice?.status as never) === STATUS_DELIVERY.complete.key && (
+            <Transaction transaction_id={repairInvoice?.transactions_id} />
+         )}
          <PageContent>
             <TabContext value={searchParams['tab'] ?? '1'}>
                <Tabs
@@ -80,7 +84,10 @@ const RepairInvoiceDetail = () => {
                   <ExtendTab label="Vật tư" value="2" />
                </Tabs>
                <ExtendTabPanel value="1">
-                  <DetailRepairInvoiceService data={repairInvoice?.repairInvoiceService ?? []} />
+                  <DetailRepairInvoiceService
+                     personnels={personnels}
+                     data={repairInvoice?.repairInvoiceService ?? []}
+                  />
                </ExtendTabPanel>
                <ExtendTabPanel value="2">
                   <DetailRepairInvoiceSupplies
@@ -90,7 +97,7 @@ const RepairInvoiceDetail = () => {
                </ExtendTabPanel>
             </TabContext>
          </PageContent>
-         <ModalPay open={open} setOpen={setOpen} repairInvoice={repairInvoice} />
+         <ModalPay open={open} setOpen={setOpen} refetchRepairInvoice={refetch} repairInvoice={repairInvoice} />
       </BaseBreadcrumbs>
    );
 };

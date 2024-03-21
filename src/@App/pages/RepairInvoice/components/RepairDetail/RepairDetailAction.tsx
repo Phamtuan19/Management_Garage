@@ -67,10 +67,12 @@ const RepairDetailAction = ({ data, refetchRepairInvoice, setOpen }: RepairDetai
 
    return (
       <Box mb={1} display="flex" justifyContent="space-between">
-         <Box display="flex" gap={1}>
-            <ButtonCreate to={ROUTE_PATH.REPAIR_INVOICE + ROUTE_PATH.CREATE} />
-            <ButtonEdit to={ROUTE_PATH.REPAIR_INVOICE + '/' + repairInvoicId + '/update'} />
-         </Box>
+         {status !== STATUS_REPAIR.complete.key && status !== STATUS_REPAIR.close.key && (
+            <Box display="flex" gap={1}>
+               <ButtonCreate to={ROUTE_PATH.REPAIR_INVOICE + ROUTE_PATH.CREATE} />
+               <ButtonEdit to={ROUTE_PATH.REPAIR_INVOICE + '/' + repairInvoicId + '/update'} />
+            </Box>
+         )}
          <Box display="flex" gap={1}>
             {status !== STATUS_REPAIR.complete.key && (
                <Button

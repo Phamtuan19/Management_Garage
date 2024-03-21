@@ -19,10 +19,12 @@ import { AxiosError } from 'axios';
 import ControllerAutoComplate from '@Core/Component/Input/ControllerAutoComplate';
 import { useCallback, useMemo } from 'react';
 import brandCarService from '@App/services/brand-car.service';
+import { useParams } from 'react-router-dom';
 
 import { SuppliesSchema } from '../utils/supplies.schema';
 
 const FormSuppliesDetails = ({ form }: { form: UseFormReturn<SuppliesSchema> }) => {
+   const { id: suppliesId } = useParams();
    const { control, watch } = form;
 
    const { fields, append, remove } = useFieldArray({
@@ -195,9 +197,11 @@ const FormSuppliesDetails = ({ form }: { form: UseFormReturn<SuppliesSchema> }) 
                                  <AddRoundedIcon />
                               </Button>
                            )}
-                           <Button sx={{ minWidth: 'auto', px: '12px' }} color="error" onClick={() => remove(index)}>
-                              <DeleteOutlineRoundedIcon />
-                           </Button>
+                           {!suppliesId && (
+                              <Button sx={{ minWidth: 'auto', px: '12px' }} color="error" onClick={() => remove(index)}>
+                                 <DeleteOutlineRoundedIcon />
+                              </Button>
+                           )}
                         </Box>
                      </Grid>
                   </Grid>

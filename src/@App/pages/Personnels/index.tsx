@@ -6,11 +6,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import TableCore, { columnHelper } from '@Core/Component/Table';
 import LazyLoadingImage from '@App/component/customs/LazyLoadingImage';
 import Switch from '@App/component/customs/Switch';
-import {
-   CoreTableActionDelete,
-   CoreTableActionLock,
-   CoreTableActionViewDetail,
-} from '@Core/Component/Table/components/CoreTableAction';
+import { CoreTableActionLock, CoreTableActionViewDetail } from '@Core/Component/Table/components/CoreTableAction';
 import { useMemo } from 'react';
 import useCoreTable from '@App/hooks/useCoreTable';
 import useSearchParamsHook from '@App/hooks/useSearchParamsHook';
@@ -23,6 +19,8 @@ import MODULE_PAGE from '@App/configs/module-page';
 import { AxiosResponseData, HandleErrorApi } from '@Core/Api/axios-config';
 import { AxiosError } from 'axios';
 import { errorMessage, successMessage } from '@Core/Helper/message';
+import { useConfirm } from '@Core/Component/Comfirm/CoreComfirm';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 
 const sortList = [
    {
@@ -42,11 +40,17 @@ const sortList = [
 export default function Personnels() {
    const navigate = useNavigate();
    const { searchParams, setParams } = useSearchParamsHook();
-
-   const queryTable = useQuery(['getPersonnelList', searchParams], async () => {
-      const res = await personnelService.get(searchParams);
-      return res.data;
-   });
+   const coreConfirm = useConfirm();
+   const queryTable = useQuery(
+      ['getPersonnelList', searchParams],
+      async () => {
+         const res = await personnelService.get(searchParams);
+         return res.data;
+      },
+      {
+         staleTime: 0,
+      },
+   );
 
    const data = useCoreTable(queryTable);
 
@@ -55,25 +59,22 @@ export default function Personnels() {
       setParams('is_lock', newIsLockValue);
    };
 
-   const { mutate: handleDelete } = useMutation({
-      mutationFn: async (id: string) => {
-         const res = await personnelService.delete(id);
-         return res;
-      },
-      onSuccess: (data: AxiosResponseData) => {
-         successMessage(data.message || 'Xóa thành công');
-         const refetch = queryTable.refetch;
-         return refetch();
-      },
-      onError: (err: AxiosError) => {
-         const dataError = err.response?.data as HandleErrorApi;
+   // const { mutate: handleDelete } = useMutation({
+   //    mutationFn: async (id: string) => {
+   //       const res = await personnelService.delete(id);
+   //       return res;
+   //    },
+   //    onSuccess: (data: AxiosResponseData) => {
+   //       successMessage(data.message || 'Xóa thành công');
+   //       const refetch = queryTable.refetch;
+   //       return refetch();
+   //    },
+   //    onError: (err: AxiosError) => {
+   //       const dataError = err.response?.data as HandleErrorApi;
 
-         return errorMessage((dataError?.message as unknown as string) || 'Xóa thất bại');
-      },
-   });
-
-   // 65d8bc35d6b107bb3eb8d390
-   // 65bdd1c7d2e36066f7a4f653
+   //       return errorMessage((dataError?.message as unknown as string) || 'Xóa thất bại');
+   //    },
+   // });
 
    const { mutate: handleIsLock } = useMutation({
       mutationFn: async (id: string) => {
@@ -91,15 +92,18 @@ export default function Personnels() {
       },
    });
 
-   // const handleLockClick = async (personnelId: string) => {
-   //    try {
-   //       await personnelService.lockPersonnel(personnelId);
-   //       const refetch = queryTable.refetch;
-   //       return refetch();
-   //    } catch (error) {
-   //       // console.error('Error locking personnel:', error);
-   //    }
-   // };
+   const handleClickLock = (id: string, isLock: boolean) => {
+      coreConfirm({
+         icon: <ErrorOutlineIcon sx={{ fontSize: '56px' }} color="warning" />,
+         title: 'Cảnh báo',
+         confirmOk: 'Xác nhận',
+         content: isLock ? 'Xác nhận mở khóa tài khoản.' : 'Xác nhận khóa tài khoản.',
+         callbackOK: () => {
+            handleIsLock(id);
+         },
+         isIcon: true,
+      });
+   };
 
    const columns = useMemo(() => {
       return [
@@ -166,16 +170,11 @@ export default function Personnels() {
                            callback={() => navigate(ROUTE_PATH.PERSONNELS + '/' + personnel._id + '/details')}
                         />
                      </PermissionAccessRoute>
-                     {personnel.isAdmin === false && (
-                        <>
-                           <PermissionAccessRoute module={MODULE_PAGE.PERSONNELS} action="IS_LOCK">
-                              <CoreTableActionLock callback={() => handleIsLock(personnel._id)} />
-                           </PermissionAccessRoute>
-                           <PermissionAccessRoute module={MODULE_PAGE.PERSONNELS} action="DELETE">
-                              <CoreTableActionDelete callback={() => handleDelete(personnel._id)} />
-                           </PermissionAccessRoute>
-                        </>
-                     )}
+                     <PermissionAccessRoute module={MODULE_PAGE.PERSONNELS} action="IS_LOCK">
+                        <CoreTableActionLock
+                           callback={() => handleClickLock(personnel._id, Boolean(personnel.isLock))}
+                        />
+                     </PermissionAccessRoute>
                   </Box>
                );
             },

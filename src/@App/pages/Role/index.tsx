@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/naming-convention */
+
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import ROUTE_PATH from '@App/configs/router-path';
 import useCoreTable from '@App/hooks/useCoreTable';
@@ -72,9 +73,9 @@ const Role = () => {
       return [
          columnHelper.accessor((_, index) => index + 1, {
             id: 'STT',
-            header: 'STT',
+            header: () => <Box textAlign="center">STT</Box>,
             cell: ({ getValue }) => {
-               return <Box>{getValue()}</Box>;
+               return <Box textAlign="center">{getValue()}</Box>;
             },
          }),
          columnHelper.accessor('name', {
@@ -102,21 +103,18 @@ const Role = () => {
                return <Box textAlign="center">{format(row.getValue('createdAt'), 'yyyy-MM-dd')}</Box>;
             },
          }),
-         columnHelper.accessor('updatedAt', {
-            header: () => <Box textAlign="center">Cập nhật lần cuối</Box>,
-            cell: ({ row }) => {
-               return <Box textAlign="center">{format(row.getValue('updatedAt'), 'yyyy-MM-dd')}</Box>;
-            },
-         }),
          columnHelper.accessor('', {
             header: 'Thao tác',
             cell: ({ row }) => {
-               const role = row.original as RoleResponseData;
+               const role = row.original as Pick<RoleResponseData, '_id' | 'name'> & { userCount: number };
+
                return (
                   <Box>
-                     <PermissionAccessRoute module={MODULE_PAGE.ROLES} action="DELETE">
-                        <CoreTableActionDelete callback={() => handleDelete(role._id)} />
-                     </PermissionAccessRoute>
+                     {role.userCount === 0 && (
+                        <PermissionAccessRoute module={MODULE_PAGE.ROLES} action="DELETE">
+                           <CoreTableActionDelete callback={() => handleDelete(role._id)} />
+                        </PermissionAccessRoute>
+                     )}
                      <PermissionAccessRoute module={MODULE_PAGE.ROLES} action="VIEW_ALL">
                         <CoreTableActionEdit callback={() => navigate(ROUTE_PATH.ROLES + '/' + role._id + '/update')} />
                      </PermissionAccessRoute>

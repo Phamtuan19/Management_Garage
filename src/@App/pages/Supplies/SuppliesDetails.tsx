@@ -77,16 +77,9 @@ const SuppliesDetails = () => {
             <Grid container spacing={1} columnSpacing={8}>
                {suppliesDetails.map((detail, index) => (
                   <Grid item xs={6}>
-                     <Grid container spacing={2}>
+                     <Grid container spacing={1}>
                         <Grid item xs={2} paddingBottom={2} key={index}>
-                           <Typography
-                              sx={{
-                                 fontSize: '1rem',
-                                 lineHeight: '2.2rem',
-                                 mt: 1,
-                                 color: theme.palette.grey[800],
-                              }}
-                           >
+                           <Typography sx={{ fontSize: '1rem', lineHeight: '2.2rem', color: theme.palette.grey[800] }}>
                               {detail.label}
                            </Typography>
                         </Grid>
@@ -99,7 +92,7 @@ const SuppliesDetails = () => {
                                  flexGrow: 1,
                                  fontSize: '1rem',
                                  lineHeight: '2rem',
-                                 height: '40px',
+                                 minHeight: '40px',
                               }}
                            >
                               {detail.value}
@@ -112,9 +105,6 @@ const SuppliesDetails = () => {
             </Grid>
 
             <Box mt={4}>
-               {/* <Typography variant="h6" fontWeight={400} fontSize={16}>
-                     Danh sách sản phẩm theo nhà phân phối:
-                  </Typography> */}
                <DetailTableSupplies supplies={supplies} />
             </Box>
          </PageContent>

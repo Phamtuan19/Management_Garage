@@ -1,6 +1,6 @@
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import ROUTE_PATH from '@App/configs/router-path';
-import { Box, Button, Grid, Stack, Typography } from '@mui/material';
+import { Box, Button, Grid, Typography } from '@mui/material';
 import theme from '@Core/Theme';
 import PermissionAccessRoute from '@App/routes/components/PermissionAccessRoute';
 import MODULE_PAGE from '@App/configs/module-page';
@@ -8,6 +8,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import roleService, { RoleResponseData } from '@App/services/role.service';
 import RateReviewRoundedIcon from '@mui/icons-material/RateReviewRounded';
+import PageContent from '@App/component/customs/PageContent';
 
 import RoleAccordionDetail from './component/RoleAccordionDetail';
 import { ROLES, RolePropsTypeConfig } from './utils';
@@ -23,10 +24,15 @@ const RoleDetailScreen = () => {
    const { id: roleId } = useParams();
    const navigate = useNavigate();
 
-   const { data: roleDetail } = useQuery<RoleResponseData, Error>(['getDetailRole'], async () => {
+   const { data: roleDetail, isLoading } = useQuery<RoleResponseData, Error>(['getDetailRole'], async () => {
       const res = await roleService.find(roleId as string);
       return res.data as RoleResponseData;
    });
+
+   const render = [
+      { label: 'Tên vai trò:', value: roleDetail?.name },
+      { label: 'Mô tả', value: roleDetail?.describe },
+   ];
 
    return (
       <Box>
@@ -34,32 +40,55 @@ const RoleDetailScreen = () => {
             breadcrumbs={breadcrumbs}
             arialabel="Chi tiết vai trò"
             sx={({ base }) => ({ bgcolor: base.background.default, border: 'none', p: 0 })}
+            isCheck={true}
+            data={roleDetail}
+            isLoading={isLoading}
          >
+            <PermissionAccessRoute module={MODULE_PAGE.ROLES} action="VIEW_ALL">
+               <Button
+                  variant="contained"
+                  onClick={() => navigate(ROUTE_PATH.ROLES + '/' + roleId + '/update/')}
+                  endIcon={<RateReviewRoundedIcon />}
+               >
+                  Chỉnh sửa
+               </Button>
+            </PermissionAccessRoute>
             {roleDetail && (
-               <Stack>
-                  <Box sx={{ mt: 2, bgcolor: '#FFFF', p: 2, borderRadius: 2, position: 'relative' }}>
-                     <Box sx={{ minHeight: '80px', display: 'flex', gap: 1 }}>
-                        <Typography sx={{ fontSize: '1rem', color: theme.palette.grey[800] }}>Tên vai trò:</Typography>
-                        <Typography sx={{ flexGrow: 1, fontWeight: '500' }}>{roleDetail.name}</Typography>
-                     </Box>
-
-                     <Box sx={{ minHeight: '80px', display: 'flex', gap: 1 }}>
-                        <Typography sx={{ fontSize: '1rem', color: theme.palette.grey[800] }}>Tên vai trò:</Typography>
-                        <Typography sx={{ flexGrow: 1, fontWeight: '500' }}>{roleDetail.describe}.</Typography>
-                     </Box>
-                     <Box sx={{ position: 'absolute', top: '0', right: '0', p: 3 }}>
-                        <PermissionAccessRoute module={MODULE_PAGE.ROLES} action="VIEW_ALL">
-                           <Button
-                              variant="contained"
-                              onClick={() => navigate(ROUTE_PATH.ROLES + '/update/' + roleId)}
-                              endIcon={<RateReviewRoundedIcon />}
-                           >
-                              Chỉnh sửa
-                           </Button>
-                        </PermissionAccessRoute>
-                     </Box>
-                  </Box>
-                  <Box sx={{ mt: 3.5, bgcolor: '#FFFF', p: '0px 16px 16px 16px', borderRadius: 2 }}>
+               <>
+                  <PageContent>
+                     <Grid container spacing={1} columnSpacing={4}>
+                        {render.map((info, index) => (
+                           <Grid item xs={6} key={index}>
+                              <Grid container spacing={1}>
+                                 <Grid item xs={2} sx={{ display: 'flex', alignItems: 'flex-end' }}>
+                                    <Typography
+                                       sx={{ fontSize: '1rem', lineHeight: '2.2rem', color: theme.palette.grey[800] }}
+                                    >
+                                       {info.label}
+                                    </Typography>
+                                 </Grid>
+                                 <Grid item xs={10}>
+                                    <Typography
+                                       sx={{
+                                          p: 1,
+                                          pb: 0,
+                                          fontWeight: '500',
+                                          flexGrow: 1,
+                                          fontSize: '1rem',
+                                          lineHeight: '2rem',
+                                          minHeight: '40px',
+                                       }}
+                                    >
+                                       {info.value}
+                                    </Typography>
+                                    <Box sx={{ borderBottom: '1px solid #DADADA' }}></Box>
+                                 </Grid>
+                              </Grid>
+                           </Grid>
+                        ))}
+                     </Grid>
+                  </PageContent>
+                  <PageContent>
                      <Typography
                         variant="h2"
                         sx={{
@@ -88,8 +117,8 @@ const RoleDetailScreen = () => {
                            </Box>
                         </Grid>
                      </Grid>
-                  </Box>
-               </Stack>
+                  </PageContent>
+               </>
             )}
          </BaseBreadcrumbs>
       </Box>

@@ -6,7 +6,7 @@ import ROUTE_PATH from '@App/configs/router-path';
 import MODULE_PAGE from '@App/configs/module-page';
 import TableCore, { columnHelper } from '@Core/Component/Table';
 import {
-   CoreTableActionDelete,
+   // CoreTableActionDelete,
    CoreTableActionEdit,
    CoreTableActionViewDetail,
 } from '@Core/Component/Table/components/CoreTableAction';
@@ -119,9 +119,9 @@ const Supplies = () => {
                            callback={() => navigate(ROUTE_PATH.SUPPLIES + '/' + supplies.supplies_id + '/details')}
                         />
                      </PermissionAccessRoute>
-                     <PermissionAccessRoute module={MODULE_PAGE.SUPPLIES} action="DELETE">
+                     {/* <PermissionAccessRoute module={MODULE_PAGE.SUPPLIES} action="DELETE">
                         <CoreTableActionDelete />
-                     </PermissionAccessRoute>
+                     </PermissionAccessRoute> */}
                      <CoreTableActionEdit
                         callback={() => navigate(ROUTE_PATH.SUPPLIES + '/' + supplies.supplies_id + '/update')}
                      />

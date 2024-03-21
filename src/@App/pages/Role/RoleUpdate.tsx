@@ -27,7 +27,11 @@ const RoleUpdate = () => {
       defaultValues: validationFormCreate.getDefault(),
    });
 
-   const { refetch: handleGetRoleById } = useQuery(
+   const {
+      data: roleDetail,
+      isLoading,
+      refetch: handleGetRoleById,
+   } = useQuery(
       ['getRoleById', roleId],
       async () => {
          const res = await roleService.find(roleId || '');
@@ -40,11 +44,13 @@ const RoleUpdate = () => {
                permission: data.permission as never,
                describe: data.describe,
             });
+
+            return data;
          },
       },
    );
 
-   const { mutate: handleUpdate, isLoading } = useMutation({
+   const { mutate: handleUpdate, isLoading: isLoadingUpdate } = useMutation({
       mutationFn: async (data: ValidationFormCreate) => {
          return await roleService.update(data, roleId, 'patch');
       },
@@ -80,9 +86,11 @@ const RoleUpdate = () => {
       <BaseBreadcrumbs
          breadcrumbs={breadcrumbs}
          arialabel="Chỉnh sửa"
-         sx={({ base }) => ({ bgcolor: base.background.default, border: 'none', p: 0 })}
+         isCheck={true}
+         data={roleDetail}
+         isLoading={isLoading}
       >
-         <BaseFormRole form={form} onSubmitForm={onSubmitForm} isLoading={isLoading} />
+         <BaseFormRole form={form} onSubmitForm={onSubmitForm} isLoading={isLoadingUpdate} />
       </BaseBreadcrumbs>
    );
 };

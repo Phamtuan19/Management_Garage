@@ -135,10 +135,20 @@ export const STATUS_DELIVERY = {
       key: 'confirmed',
       color: 'success',
    },
+   complete: {
+      key: 'complete',
+      title: 'Hoàn thành',
+      color: 'success',
+   },
    close: {
       title: 'Hủy',
       key: 'close',
       color: 'error',
+   },
+   repair: {
+      title: 'Sửa chữa',
+      color: 'secondary',
+      key: 'repair',
    },
    return: {
       title: 'Trả hàng',

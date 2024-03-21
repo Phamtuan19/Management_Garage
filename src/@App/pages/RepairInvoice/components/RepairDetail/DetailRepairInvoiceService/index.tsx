@@ -1,17 +1,25 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/naming-convention */
 import { Box, Button, Chip } from '@mui/material';
 import { ResponseFindOneRepairInvoiceService } from '@App/types/repair-invoice';
 import { useMemo } from 'react';
 import TableCore, { columnHelper } from '@Core/Component/Table';
 import formatPrice from '@Core/Helper/formatPrice';
-import { STATUS_REPAIR_DETAIL } from '@App/configs/status-config';
+import { STATUS_DELIVERY } from '@App/configs/status-config';
 
 import RenderSubComponent from './RenderSubComponent';
 
 interface DetailRepairInvoiceServiceProps {
    data: ResponseFindOneRepairInvoiceService[];
+   personnels:
+      | {
+           _id: string;
+           full_name: string;
+        }[]
+      | undefined;
 }
 
-const DetailRepairInvoiceService = ({ data }: DetailRepairInvoiceServiceProps) => {
+const DetailRepairInvoiceService = ({ data, personnels }: DetailRepairInvoiceServiceProps) => {
    const columns = useMemo(() => {
       return [
          columnHelper.accessor('expander', {
@@ -59,27 +67,33 @@ const DetailRepairInvoiceService = ({ data }: DetailRepairInvoiceServiceProps) =
          columnHelper.accessor('price', {
             header: 'Đơn giá',
             cell: (info) => {
-               return <Box>{info.getValue()}</Box>;
+               return <Box>{formatPrice(info.getValue())}</Box>;
             },
          }),
          columnHelper.accessor('discount', {
-            header: 'giảm giá',
-            cell: ({ row }) => {
-               const data = row.original as ResponseFindOneRepairInvoiceService;
-               const discountPrice = data.price - (data.price * data.discount) / 100;
-               return <Box>{formatPrice(discountPrice)}</Box>;
+            header: () => <Box textAlign="center">Giảm giá</Box>,
+            cell: (info) => {
+               return <Box textAlign="center">{info.getValue()}%</Box>;
             },
          }),
-         columnHelper.accessor('status', {
-            header: 'Số lượng',
-            cell: ({ row }) => {
-               const data = row.original as ResponseFindOneRepairInvoiceService;
-               const isCheck =
-                  data.status_repair !== STATUS_REPAIR_DETAIL.empty.key &&
-                  data.status_repair !== STATUS_REPAIR_DETAIL.check.key;
+         columnHelper.accessor('repair_staff_id', {
+            header: 'Nhân viên Sc',
+            cell: (info) => {
+               const personnel = personnels?.find((item) => item._id === info.getValue());
+
+               return <Box>{personnel?.full_name}</Box>;
+            },
+         }),
+         columnHelper.accessor('status_repair', {
+            header: 'Trạng thái Sc',
+            cell: (info) => {
+               const status: {
+                  title: string;
+                  color: string;
+               } = info.getValue() ? STATUS_DELIVERY[info.getValue()] : STATUS_DELIVERY.empty;
                return (
                   <Box>
-                     <Chip label={isCheck ? 'Hoàn thành' : 'Chưa hoàn thành'} color={isCheck ? 'success' : 'error'} />
+                     <Chip label={status.title} color={status.color as never} />
                   </Box>
                );
             },

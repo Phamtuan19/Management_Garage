@@ -50,6 +50,7 @@ const RepairInvoice = () => {
       const res = await repairInvoiceService.get(searchParams);
       return res.data;
    });
+
    const data = useCoreTable(queryTable);
 
    const columns = useMemo(() => {

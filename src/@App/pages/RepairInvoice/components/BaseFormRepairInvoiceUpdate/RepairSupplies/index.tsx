@@ -178,7 +178,6 @@ const RepairSupplies = ({ form, personnels, status }: RepairSuppliesProps) => {
 
                const quantity = form.watch(`suppliesInvoices.${row.index}.quantity`);
                const inventory = form.watch(`suppliesInvoices.${row.index}.inventory`);
-
                return (
                   <Box sx={{ textAlign: 'center', width: '100px' }}>
                      <Box display="flex" justifyContent="space-between" gap="6px">

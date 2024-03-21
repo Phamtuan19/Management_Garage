@@ -91,9 +91,7 @@ const DetailRepairInvoiceSupplies = ({ data, personnels }: DetailRepairInvoiceSu
                } = info.getValue() ? STATUS_DELIVERY[info.getValue()] : STATUS_DELIVERY.empty;
 
                return (
-                  <Box textAlign="center">
-                     <Chip label={status.title} color={status.color as never} />
-                  </Box>
+                  <Box textAlign="center">{status && <Chip label={status.title} color={status.color as never} />}</Box>
                );
             },
          }),

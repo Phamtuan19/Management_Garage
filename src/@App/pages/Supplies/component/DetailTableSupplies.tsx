@@ -118,11 +118,16 @@ const DetailTableSupplies = ({ supplies }: DetailTableSuppliesProps) => {
          }),
          columnHelper.accessor('name_detail', {
             header: () => <Box>Tên biến thể</Box>,
-            cell: (info) => <Box>{info.getValue()}</Box>,
+            cell: (info) => (
+               <Box sx={{ maxWidth: 300, overflow: 'hidden', textOverflow: 'ellipsis' }}>{info.getValue()}</Box>
+            ),
          }),
 
          columnHelper.accessor('distributor_name', {
             header: 'Nhà cung cấp',
+            cell: (info) => (
+               <Box sx={{ maxWidth: 300, overflow: 'hidden', textOverflow: 'ellipsis' }}>{info.getValue()}</Box>
+            ),
          }),
          columnHelper.accessor('isInStock', {
             header: () => <Box textAlign="center">Trạng thái</Box>,
@@ -138,7 +143,7 @@ const DetailTableSupplies = ({ supplies }: DetailTableSuppliesProps) => {
             },
          }),
          columnHelper.accessor('createdAt', {
-            header: () => <Box textAlign="center">Mô tả</Box>,
+            header: () => <Box textAlign="center">Ngày tạo</Box>,
             cell: (info) => {
                return (
                   <Box display="flex" justifyContent="center">
@@ -181,10 +186,12 @@ const DetailTableSupplies = ({ supplies }: DetailTableSuppliesProps) => {
          }),
          columnHelper.accessor('supplies_detail_id.name_detail', {
             header: 'Tên vật tư theo NPP',
-            cell: (info) => <Box>{info.getValue()}</Box>,
+            cell: (info) => (
+               <Box sx={{ maxWidth: 300, overflow: 'hidden', textOverflow: 'ellipsis' }}>{info.getValue()}</Box>
+            ),
          }),
          columnHelper.accessor('supplies_detail_id.isInStock', {
-            header: () => <Box sx={{ textAlign: 'center' }}>SL nhập</Box>,
+            header: () => <Box sx={{ textAlign: 'center' }}>Trạng thái</Box>,
             cell: (info) => (
                <Box sx={{ textAlign: 'center' }}>
                   <Chip
@@ -200,7 +207,14 @@ const DetailTableSupplies = ({ supplies }: DetailTableSuppliesProps) => {
          }),
          columnHelper.accessor('quantity_sold', {
             header: () => <Box>SL bán</Box>,
-            cell: (info) => <Box sx={{ textAlign: 'center' }}>{info.getValue()}</Box>,
+            cell: ({ row }) => {
+               const supplies = row.original as any;
+               return (
+                  <Box sx={{ textAlign: 'center' }}>
+                     {Number(supplies.quantity_received) - Number(supplies.quantity_sold)}
+                  </Box>
+               );
+            },
          }),
          columnHelper.accessor('cost_price', {
             header: 'Giá nhập',

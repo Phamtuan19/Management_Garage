@@ -33,7 +33,7 @@ const BaseFormPersonnel = ({ form }: BaseFormPersonnelPropType) => {
                <Box height="65px">
                   <ControllerLabel title="Chức vụ" required />
                   <ControllerAutoComplate
-                     options={roles ?? []}
+                     options={(roles as never) ?? []}
                      valuePath="_id"
                      titlePath="name"
                      name="role_id"

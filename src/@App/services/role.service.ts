@@ -16,7 +16,7 @@ export interface RoleResponseData {
 }
 
 export interface ResponseRoleFiellAll extends AxiosRequestConfig {
-   data: Pick<RoleResponseData, '_id' | 'name'>[];
+   data: Array<Pick<RoleResponseData, '_id' | 'name'>> & { userCount: number }[];
 }
 
 class RoleService extends BaseService {

@@ -15,7 +15,7 @@ import setValueHookForm from '@App/helpers/setValueHookForm';
 import { HandleErrorApi } from '@Core/Api/axios-config';
 import suppliesService, { Supplies } from '@App/services/supplies.service';
 import { LoadingButton } from '@mui/lab';
-import { Box } from '@mui/material';
+import PageContent from '@App/component/customs/PageContent';
 
 import BaseFormSupplies from './component/BaseFormSupplies';
 import { SuppliesSchema, suppliesSchema } from './utils/supplies.schema';
@@ -36,7 +36,11 @@ const SuppliesUpdate = () => {
       defaultValues: suppliesSchema.getDefault(),
    });
 
-   const { data: supplies, refetch: getMaterialsCatalog } = useQuery(
+   const {
+      data: supplies,
+      isLoading: isLoadingGetSupplies,
+      refetch: getMaterialsCatalog,
+   } = useQuery(
       ['getDistributorDetail', suppliesId],
       async () => {
          const res = await suppliesService.find(suppliesId!);
@@ -88,21 +92,16 @@ const SuppliesUpdate = () => {
       <BaseBreadcrumbs
          arialabel={supplies?.name ?? ''}
          breadcrumbs={breadcrumbs}
-         sx={({ base }) => ({ bgcolor: base.background.default, border: 'none', p: 0 })}
+         isCheck
+         data={supplies}
+         isLoading={isLoadingGetSupplies}
       >
          <LoadingButton type="submit" variant="contained" loading={isLoading} onClick={form.handleSubmit(onSubmitForm)}>
             Cập nhật
          </LoadingButton>
-         <Box
-            sx={({ base }) => ({
-               marginTop: '12px',
-               padding: '12px',
-               borderRadius: '5px',
-               backgroundColor: base.background.white as string,
-            })}
-         >
+         <PageContent>
             <BaseFormSupplies form={form} />
-         </Box>
+         </PageContent>
       </BaseBreadcrumbs>
    );
 };

@@ -97,13 +97,13 @@ const DeliveryUpdate = () => {
          columnHelper.accessor('supplies_detail_name', {
             header: () => <Box>Tên vật tư</Box>,
             cell: (info) => {
-               return <Box>{info.getValue()}</Box>;
+               return <Box sx={{ maxWidth: 300, overflow: 'hidden', textOverflow: 'ellipsis' }}>{info.getValue()}</Box>;
             },
          }),
          columnHelper.accessor('distributors_name', {
             header: () => <Box>Nhà phân phối</Box>,
             cell: (info) => {
-               return <Box>{info.getValue()}</Box>;
+               return <Box sx={{ maxWidth: 300, overflow: 'hidden', textOverflow: 'ellipsis' }}>{info.getValue()}</Box>;
             },
          }),
          columnHelper.accessor('unit', {
@@ -113,13 +113,34 @@ const DeliveryUpdate = () => {
             },
          }),
          columnHelper.accessor('quantity', {
-            header: () => <Box>Số lượng</Box>,
+            header: () => <Box>SL Yc</Box>,
             cell: (info) => {
-               return <Box sx={{ textAlign: 'center' }}>{info.getValue()}</Box>;
+               return (
+                  <Box sx={{ textAlign: 'center' }}>
+                     <Chip label={info.getValue()} variant="outlined" color="primary" />
+                  </Box>
+               );
+            },
+         }),
+         columnHelper.accessor('export_quantity', {
+            header: () => <Box>SL xuất</Box>,
+            cell: ({ row }) => {
+               const delivery = row.original as DeliveryNoteDataDetail;
+
+               const export_quantity =
+                  delivery.options.length > 0
+                     ? delivery.options.reduce((total, item) => (total += item.export_quantity), 0)
+                     : 0;
+
+               return (
+                  <Box sx={{ textAlign: 'center' }}>
+                     <Chip label={export_quantity} variant="outlined" color="error" />
+                  </Box>
+               );
             },
          }),
          columnHelper.accessor('supplies_detail_isInStock', {
-            header: () => <Box sx={{ textAlign: 'center' }}>Trạng thái vt</Box>,
+            header: () => <Box sx={{ textAlign: 'center' }}>Trạng thái Vt</Box>,
             cell: (info) => {
                return (
                   <Box sx={{ textAlign: 'center' }}>
@@ -132,7 +153,7 @@ const DeliveryUpdate = () => {
             },
          }),
          columnHelper.accessor('status', {
-            header: () => <Box sx={{ textAlign: 'center' }}>Trạng thái xuât kho</Box>,
+            header: () => <Box sx={{ textAlign: 'center' }}>Trạng thái Xk</Box>,
             cell: ({ row }) => {
                const delivery = row.original as DeliveryNoteDataDetail;
                return (
