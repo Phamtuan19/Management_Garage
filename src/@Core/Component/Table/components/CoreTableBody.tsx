@@ -36,7 +36,7 @@ function CoreTableBody<T>(props: TabelHeaderProps<T>) {
       const allColumns = table.getAllColumns();
 
       if (isLoading) {
-         return Array.from({ length: 7 }, (_, index) => index + 1).map((item) => {
+         return Array.from({ length: 10 }, (_, index) => index + 1).map((item) => {
             return (
                <StyledTableRow key={item}>
                   {Array.from(

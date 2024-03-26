@@ -13,11 +13,34 @@ import repairInvoiceService from '@App/services/repair-invoice';
 import { RepairOrdersResponse } from '@App/services/repairorder.service';
 import TableCore, { columnHelper } from '@Core/Component/Table';
 import { CoreTableActionEdit, CoreTableActionViewDetail } from '@Core/Component/Table/components/CoreTableAction';
+import formatDateTime from '@Core/Helper/formatDateTime';
 import { Box, Button, Chip } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
-import { format } from 'date-fns';
 import { useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+
+const searchType = [
+   {
+      title: 'Mã phiếu',
+      value: 'code',
+   },
+   {
+      title: 'Tên khách hàng',
+      value: 'customer.name',
+   },
+   {
+      title: 'SĐT khách hàng',
+      value: 'customer.phone',
+   },
+   {
+      title: 'Tên xe',
+      value: 'car.name',
+   },
+   {
+      title: 'Biển số xe',
+      value: 'car.license_plate',
+   },
+];
 
 const sortList = [
    {
@@ -39,6 +62,10 @@ const sortList = [
    {
       title: 'Biển số xe',
       value: 'car.license_plate',
+   },
+   {
+      title: 'Thời gian',
+      value: 'createdAt',
    },
 ];
 
@@ -114,7 +141,7 @@ const RepairInvoice = () => {
          columnHelper.accessor('createdAt', {
             header: () => <Box textAlign="center">Ngày tạo</Box>,
             cell: ({ row }) => {
-               return <Box textAlign="center">{format(row.getValue('createdAt'), 'yyyy-MM-dd')}</Box>;
+               return <Box textAlign="center">{formatDateTime(row.getValue('createdAt'))}</Box>;
             },
          }),
          columnHelper.accessor('', {
@@ -123,16 +150,22 @@ const RepairInvoice = () => {
                const repairOrder = row.original as RepairOrdersResponse;
                return (
                   <Box>
-                     <PermissionAccessRoute module={MODULE_PAGE.REPAIR_INVOICE} action="VIEW_ALL">
-                        <CoreTableActionEdit
-                           callback={() => navigate(ROUTE_PATH.REPAIR_INVOICE + '/' + repairOrder._id + '/update')}
-                        />
-                     </PermissionAccessRoute>
                      <PermissionAccessRoute module={MODULE_PAGE.REPAIR_INVOICE} action="VIEW_ONE">
                         <CoreTableActionViewDetail
                            callback={() => navigate(ROUTE_PATH.REPAIR_INVOICE + '/' + repairOrder._id + '/details')}
                         />
                      </PermissionAccessRoute>
+                     {repairOrder.status !== STATUS_REPAIR.pay.key &&
+                        repairOrder.status !== STATUS_REPAIR.complete.key &&
+                        repairOrder.status !== STATUS_REPAIR.close.key && (
+                           <PermissionAccessRoute module={MODULE_PAGE.REPAIR_INVOICE} action="VIEW_ALL">
+                              <CoreTableActionEdit
+                                 callback={() =>
+                                    navigate(ROUTE_PATH.REPAIR_INVOICE + '/' + repairOrder._id + '/update')
+                                 }
+                              />
+                           </PermissionAccessRoute>
+                        )}
                   </Box>
                );
             },
@@ -151,7 +184,7 @@ const RepairInvoice = () => {
          </Box>
          <PageContent>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-               <FilterTable sortList={sortList} searchType={sortList} />
+               <FilterTable sortList={sortList} searchType={searchType} />
             </Box>
             <TableCore columns={columns} {...data} />
          </PageContent>

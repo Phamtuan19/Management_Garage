@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/naming-convention */
+import FilterTable from '@App/component/common/FilterTable';
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import PageContent from '@App/component/customs/PageContent';
 import MODULE_PAGE from '@App/configs/module-page';
@@ -18,6 +19,40 @@ import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+const searchType = [
+   {
+      title: 'Mã phiếu',
+      value: 'code',
+   },
+   {
+      title: 'Nhân viên tạo',
+      value: 'personnel.full_name',
+   },
+   {
+      title: 'Mã phiếu sửa chữa',
+      value: 'repair_invoice.code',
+   },
+];
+
+const sortList = [
+   {
+      title: 'Mã phiếu',
+      value: 'code',
+   },
+   {
+      title: 'Nhân viên tạo',
+      value: 'personnel.full_name',
+   },
+   {
+      title: 'Mã phiếu sửa chữa',
+      value: 'repair_invoice.code',
+   },
+   {
+      title: 'Ngày tạo',
+      value: 'createdAt',
+   },
+];
+
 const Deliverys = () => {
    const navigate = useNavigate();
 
@@ -34,9 +69,9 @@ const Deliverys = () => {
       return [
          columnHelper.accessor((_, index) => index + 1, {
             id: 'STT',
-            header: 'STT',
+            header: () => <Box textAlign="center">STT</Box>,
             cell: ({ getValue }) => {
-               return <Box alignItems="center">{getValue()}</Box>;
+               return <Box textAlign="center">{getValue()}</Box>;
             },
          }),
          columnHelper.accessor('code', {
@@ -57,24 +92,6 @@ const Deliverys = () => {
                return <Box>#{info.getValue()} </Box>;
             },
          }),
-         // columnHelper.accessor('details', {
-         //    header: () => <Box textAlign="center">Số loại vt</Box>,
-         //    cell: ({ row }) => {
-         //       const delivery = row.original as DeliveryNoteData;
-         //       return <Box textAlign="center">{delivery.details.length} </Box>;
-         //    },
-         // }),
-         // columnHelper.accessor('totle_details', {
-         //    header: () => <Box textAlign="center">Số lượng vt</Box>,
-         //    cell: ({ row }) => {
-         //       const delivery = row.original as DeliveryNoteData;
-         //       const totalQuantity = delivery.details.reduce((total, item) => {
-         //          total += item.quantity;
-         //          return total;
-         //       }, 0);
-         //       return <Box textAlign="center">{totalQuantity} </Box>;
-         //    },
-         // }),
          columnHelper.accessor('status', {
             header: () => <Box textAlign="center">Trạng thái</Box>,
             cell: ({ row }) => {
@@ -116,7 +133,10 @@ const Deliverys = () => {
    return (
       <BaseBreadcrumbs arialabel="Phiếu xuất kho">
          <PageContent>
-            <TableCore columns={columns} {...data} />
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+               <FilterTable sortList={sortList} searchType={searchType} />
+            </Box>
+            <TableCore columns={columns} {...data} height={430} />
          </PageContent>
       </BaseBreadcrumbs>
    );

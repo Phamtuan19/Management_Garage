@@ -274,7 +274,7 @@ const DetailTableSupplies = ({ supplies }: DetailTableSuppliesProps) => {
          </Modal>
          <Drawer open={openDrawer} anchor="right">
             {suppliesItem && (
-               <Box sx={{ minWidth: 600 }}>
+               <Box sx={{ minWidth: 600, maxWidth: 700 }}>
                   <Box
                      sx={({ palette, base }) => ({
                         display: 'flex',

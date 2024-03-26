@@ -45,7 +45,12 @@ const DoashboardFilter = () => {
                            fontSize: '15px',
                         },
                      }}
-                     value={[dayjs(searchParams['start_date']), dayjs(searchParams['end_date'])]}
+                     value={[
+                        searchParams['start_date'] ? dayjs(searchParams['start_date']) : dayjs().startOf('month'),
+                        searchParams['end_date'] ? dayjs(searchParams['end_date']) : dayjs(),
+                     ]}
+                     // defaultValue={[]}
+                     format="DD-MM-YYYY"
                      onChange={(e) => {
                         setParams('start_date', dayjs(e[0]) as unknown as string);
                         setParams('end_date', dayjs(e[1]) as unknown as string);

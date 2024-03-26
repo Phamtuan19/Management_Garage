@@ -2,19 +2,37 @@
 import { AccordionDetails, Box, Button, Grid, Typography, styled } from '@mui/material';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import MuiAccordionSummary, { AccordionSummaryProps } from '@mui/material/AccordionSummary';
-import { Row } from '@tanstack/react-table';
 import ControllerLabel from '@Core/Component/Input/ControllerLabel';
 import MuiAccordion, { AccordionProps } from '@mui/material/Accordion';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { ResponseFindOneRepairInvoiceService } from '@App/types/repair-invoice';
+import { useState } from 'react';
 
-const RenderSubComponent = (row: Row<ResponseFindOneRepairInvoiceService>) => {
-   return row.original.details.map((item) => {
-      return renderDetails(item);
+const RenderSubComponent = ({ data }: { data: ResponseFindOneRepairInvoiceService }) => {
+   const [expanded, setExpanded] = useState<string | false>(false);
+
+   return data.details.map((item, index) => {
+      return (
+         <Box sx={{ borderBottom: '1px solid #e0e0e0' }} key={index}>
+            <RenderDetails data={item} expanded={expanded} setExpanded={setExpanded} />
+         </Box>
+      );
    });
 };
 
-const renderDetails = (data: { name: string; note: string; describe: string }) => {
+const RenderDetails = ({
+   data,
+   expanded,
+   setExpanded,
+}: {
+   data: { _id: string; name: string; note: string; describe: string };
+   expanded: string | false;
+   setExpanded: React.Dispatch<React.SetStateAction<string | false>>;
+}) => {
+   const handleChange = (panel: string) => (_event: React.SyntheticEvent, isExpanded: boolean) => {
+      setExpanded(isExpanded ? panel : false);
+   };
+
    const dataRender = [
       {
          title: 'Tên công việc:',
@@ -36,7 +54,12 @@ const renderDetails = (data: { name: string; note: string; describe: string }) =
    ];
 
    return (
-      <Accordion sx={{ boxShadow: 'none', pb: 0 }}>
+      <Accordion
+         expanded={expanded === data._id}
+         onChange={handleChange(data._id)}
+         sx={{ boxShadow: 'none', pb: 0, mt: 3, mb: 2 }}
+         key={data._id}
+      >
          <AccordionSummary>
             <Box display="flex" alignItems="center" gap="12px">
                <Button variant="text" sx={{ p: 0, minWidth: '20px' }}>
@@ -51,12 +74,12 @@ const renderDetails = (data: { name: string; note: string; describe: string }) =
             <Grid container spacing={1}>
                {dataRender.map((item, index) => {
                   return (
-                     <Grid item xs={item.xs ?? 4} key={index}>
+                     <Grid item xs={item.xs ?? 12} key={index}>
                         <Grid container spacing={1}>
-                           <Grid item xs={item.xs ? 1.5 : 4} sx={{ display: 'flex', alignItems: 'flex-end' }}>
+                           <Grid item xs={3} sx={{ display: 'flex', alignItems: 'flex-end' }}>
                               <ControllerLabel title={item.title} />
                            </Grid>
-                           <Grid item xs={item.xs ? 10.5 : 8} pb={1} minHeight="36px">
+                           <Grid item xs={9} pb={1} minHeight="36px">
                               <Typography
                                  sx={{
                                     p: 1,
@@ -117,7 +140,7 @@ const AccordionSummary = styled((props: AccordionSummaryProps) => (
       transform: 'rotate(90deg)',
    },
    '& .MuiAccordionSummary-content': {
-      margin: '1px !important',
+      // margin: '1px !important',
    },
    '& .css-635bne-MuiPaper-root-MuiAccordion-root .Mui-expanded': {
       backgroundColor: '#f3f5f7 !important',

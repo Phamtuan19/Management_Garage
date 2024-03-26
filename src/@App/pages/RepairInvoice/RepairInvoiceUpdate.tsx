@@ -5,7 +5,7 @@ import { LoadingButton } from '@mui/lab';
 import { Box } from '@mui/material';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { AxiosError } from 'axios';
 import ROUTE_PATH from '@App/configs/router-path';
 import repairInvoiceService from '@App/services/repair-invoice';
@@ -13,10 +13,8 @@ import { AxiosResponseData } from '@Core/Api/axios-config';
 import { errorMessage, successMessage } from '@Core/Helper/message';
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import { ResponseFindOneRepairInvoice } from '@App/types/repair-invoice';
-import personnelService from '@App/services/personnel.service';
 import { useConfirm } from '@Core/Component/Comfirm/CoreComfirm';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
-import { STATUS_REPAIR_DETAIL } from '@App/configs/status-config';
 
 import { RepairInvoiceUpdateSchema, repairInvoiceUpdateSchema } from './utils/repair-invoice-update';
 import BaseFormRepairInvoiceUpdate from './components/BaseFormRepairInvoiceUpdate';
@@ -30,14 +28,17 @@ const breadcrumbs = [
 
 const RepairInvoiceUpdate = () => {
    const { id: repairInvoiceId } = useParams();
-   const navigate = useNavigate();
    const form = useForm<RepairInvoiceUpdateSchema>({
       resolver: yupResolver(repairInvoiceUpdateSchema),
       defaultValues: repairInvoiceUpdateSchema.getDefault(),
    });
    const coreConfirm = useConfirm();
 
-   const { data: repairInvoice, isLoading: isLoadingGetRepairInvoice } = useQuery(
+   const {
+      data: repairInvoice,
+      isLoading: isLoadingGetRepairInvoice,
+      refetch,
+   } = useQuery(
       ['findOneRepairInvoice', repairInvoiceId],
       async () => {
          const res = await repairInvoiceService.find(repairInvoiceId as string);
@@ -64,8 +65,6 @@ const RepairInvoiceUpdate = () => {
                discount: (item.price * item.discount) / 100,
                type: item.type,
                describe: item.describe,
-               repair_staff_id: item.repair_staff_id ?? '',
-               status_repair: item.status_repair ?? STATUS_REPAIR_DETAIL.empty.key,
                repair_service_code: item.service_code,
                repair_service_name: item.service_name,
                repair_service_category_id: item.category_id,
@@ -92,8 +91,6 @@ const RepairInvoiceUpdate = () => {
                   type: item.type,
                   describe: item.describe,
 
-                  repair_staff_id: item.repair_staff_id ?? '',
-                  status_repair: item.status_repair ?? STATUS_REPAIR_DETAIL.empty.key,
                   status_supplies: item.status_supplies,
 
                   inventory: item.total_quantity_inventory,
@@ -142,16 +139,12 @@ const RepairInvoiceUpdate = () => {
       },
       onSuccess: (data: AxiosResponseData) => {
          successMessage(data.message);
-         return navigate(ROUTE_PATH.REPAIR_INVOICE);
+         return refetch();
+         // return navigate(ROUTE_PATH.REPAIR_INVOICE);
       },
       onError: (err: AxiosError) => {
          return errorMessage(err);
       },
-   });
-
-   const queryPersonnelAllField = useQuery(['getPersonnelsAllField'], async () => {
-      const res = await personnelService.fieldAll();
-      return res.data;
    });
 
    const handleSubmitForm: SubmitHandler<RepairInvoiceUpdateSchema> = (data) => {
@@ -169,7 +162,7 @@ const RepairInvoiceUpdate = () => {
 
    return (
       <BaseBreadcrumbs
-         arialabel="Chỉnh sửa"
+         arialabel={`#${repairInvoice?.code}`}
          breadcrumbs={breadcrumbs}
          isCheck
          data={repairInvoice}
@@ -180,7 +173,7 @@ const RepairInvoiceUpdate = () => {
                Lưu
             </LoadingButton>
          </Box>
-         <BaseFormRepairInvoiceUpdate repairInvoice={repairInvoice} form={form} personnels={queryPersonnelAllField} />
+         <BaseFormRepairInvoiceUpdate repairInvoice={repairInvoice} form={form} />
       </BaseBreadcrumbs>
    );
 };

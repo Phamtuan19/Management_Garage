@@ -56,8 +56,6 @@ interface ResponseFindOneRepairInvoiceService {
    service_id: string;
    category_id: string;
    category_name: string;
-   repair_staff_id: string;
-   status_repair: string;
 }
 
 interface ResponseFindOneRepairInvoiceSupplies {

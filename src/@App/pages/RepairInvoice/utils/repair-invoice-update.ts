@@ -91,3 +91,10 @@ export const repairInvoiceUpdateSchema = yup.object({
 });
 
 export type RepairInvoiceUpdateSchema = yup.InferType<typeof repairInvoiceUpdateSchema>;
+
+export const repairInvoiceStatusPay = yup.object({
+   repair_staff_id: yup.array().of(yup.string()).min(1, messageValidate.required('Nhân viên sửa chữa')).default([]),
+   describe: yup.string().default(''),
+});
+
+export type RepairInvoiceStatusPaySchema = yup.InferType<typeof repairInvoiceStatusPay>;

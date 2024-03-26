@@ -5,12 +5,8 @@ import ROUTE_PATH from '@App/configs/router-path';
 import MODULE_PAGE from '@App/configs/module-page';
 import { IMaterialsCatalog } from '@App/services/materialsCatalog.service';
 import TableCore, { columnHelper } from '@Core/Component/Table';
-import {
-   CoreTableActionDelete,
-   CoreTableActionEdit,
-   CoreTableActionViewDetail,
-} from '@Core/Component/Table/components/CoreTableAction';
-import { Box, Button, Chip } from '@mui/material';
+import { CoreTableActionEdit, CoreTableActionViewDetail } from '@Core/Component/Table/components/CoreTableAction';
+import { Box, Button, Chip, MenuItem, Select } from '@mui/material';
 import PermissionAccessRoute from '@App/routes/components/PermissionAccessRoute';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
@@ -21,15 +17,22 @@ import { CAR_STATUS } from '@App/configs/status-config';
 import FilterTable from '@App/component/common/FilterTable';
 import PAGE_ACTION from '@App/configs/page-action';
 import PageContent from '@App/component/customs/PageContent';
+import useSearchParamsHook from '@App/hooks/useSearchParamsHook';
+
+import { car_status } from './utils';
 
 const sortList = [
+   {
+      title: 'Mã',
+      value: 'code',
+   },
    {
       title: 'Tên',
       value: 'name',
    },
    {
-      title: 'Trạng thái',
-      value: 'status',
+      title: 'Biển số xe',
+      value: 'license_plate',
    },
    {
       title: 'Loại xe',
@@ -39,17 +42,18 @@ const sortList = [
       title: 'Thương hiệu',
       value: 'brand_car',
    },
-   {
-      title: 'Năm sản xuất',
-      value: 'production_year',
-   },
 ];
 
 const MaterialsCatalog = () => {
    const navigate = useNavigate();
 
-   const queryTable = useQuery(['getListCars'], async () => {
-      const res = await carsService.get();
+   const { searchParams, setParams } = useSearchParamsHook();
+
+   const queryTable = useQuery(['getListCars', searchParams], async () => {
+      const res = await carsService.get({
+         ...searchParams,
+         status: searchParams['searchParams'] === 'all' ? '' : searchParams['searchParams'],
+      });
       return res.data;
    });
 
@@ -102,7 +106,7 @@ const MaterialsCatalog = () => {
                            callback={() => navigate(ROUTE_PATH.CARS + '/' + car._id + '/details')}
                         />
                      </PermissionAccessRoute>
-                     <CoreTableActionDelete />
+                     {/* <CoreTableActionDelete /> */}
                      <CoreTableActionEdit callback={() => navigate(ROUTE_PATH.CARS + '/' + car._id + '/update')} />
                   </Box>
                );
@@ -123,7 +127,18 @@ const MaterialsCatalog = () => {
 
          <PageContent>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-               <FilterTable sortList={sortList} searchType={sortList} />
+               <FilterTable sortList={sortList} searchType={sortList}>
+                  <Select
+                     placeholder=""
+                     value={searchParams['status'] ?? car_status[0].key}
+                     fullWidth
+                     onChange={(e) => setParams('status', e.target.value)}
+                  >
+                     {car_status.map((item) => (
+                        <MenuItem value={item.key}>{item.title}</MenuItem>
+                     ))}
+                  </Select>
+               </FilterTable>
 
                {/* <Button component={Link} to="create" endIcon={<AddIcon />}>
                   Thêm mới

@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { Box, Button, Chip } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { useMemo, useState } from 'react';
 import { UseFormReturn, useFieldArray } from 'react-hook-form';
 import TableCore, { columnHelper } from '@Core/Component/Table';
@@ -11,16 +11,14 @@ import {
    RepairServiceUpdateSchema,
 } from '@App/pages/RepairInvoice/utils/repair-invoice-update';
 import { Row } from '@tanstack/react-table';
-import { STATUS_REPAIR_DETAIL, StatusRepairDetail } from '@App/configs/status-config';
-import { UseQueryResult, useMutation } from '@tanstack/react-query';
+import { STATUS_REPAIR_DETAIL } from '@App/configs/status-config';
+import { useMutation } from '@tanstack/react-query';
 import repairInvoiceService from '@App/services/repair-invoice';
 import { AxiosResponseData } from '@Core/Api/axios-config';
 import { errorMessage, successMessage } from '@Core/Helper/message';
 import { AxiosError } from 'axios';
 import { useConfirm } from '@Core/Component/Comfirm/CoreComfirm';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
-import ControllerAutoComplate from '@Core/Component/Input/ControllerAutoComplate';
-import { dataStatus } from '@App/pages/RepairInvoice/utils';
 import { ResponseFindOneRepairInvoice } from '@App/types/repair-invoice';
 import PermissionAccessRoute from '@App/routes/components/PermissionAccessRoute';
 
@@ -29,13 +27,6 @@ import FilterService from './FilterService';
 
 interface RepairServiceProps {
    form: UseFormReturn<RepairInvoiceUpdateSchema>;
-   personnels: UseQueryResult<
-      {
-         _id: string;
-         full_name: string;
-      }[],
-      unknown
-   >;
    repairInvoice: ResponseFindOneRepairInvoice | undefined;
 }
 
@@ -49,8 +40,8 @@ const columnVisibilityData: Record<string, string> = {
    action: 'thao tác',
 } as const;
 
-const RepairService = ({ form, personnels, repairInvoice }: RepairServiceProps) => {
-   const { watch, control, setError, clearErrors } = form;
+const RepairService = ({ form }: RepairServiceProps) => {
+   const { watch, control } = form;
 
    const { fields, append, remove } = useFieldArray({
       name: 'repairService',
@@ -87,18 +78,17 @@ const RepairService = ({ form, personnels, repairInvoice }: RepairServiceProps) 
          icon: <ErrorOutlineIcon sx={{ fontSize: '56px' }} color="warning" />,
          title: 'Cảnh báo',
          confirmOk: 'Xác nhận',
-         content: 'Xác nhận xóa và trả vật tư về kho',
+         content: 'Xác nhận xóa dịch vụ sửa chữa',
          callbackOK: () => {
             deleteRepairInvoiceDetail(id);
+
+            if (fields.length === 1) {
+               return form.setValue('repairService', []);
+            }
+            return remove(index);
          },
          isIcon: true,
       });
-
-      if (fields.length === 1) {
-         return form.setValue('repairService', []);
-      }
-
-      return remove(index);
    };
 
    const columnsService = useMemo(() => {
@@ -161,89 +151,6 @@ const RepairService = ({ form, personnels, repairInvoice }: RepairServiceProps) 
                const total_price = price - discount;
 
                return <Box sx={{ textAlign: 'center' }}>{formatPrice(total_price)}</Box>;
-            },
-         }),
-         columnHelper.accessor('repair_staff_id', {
-            header: () => <Box>Nhân viên Sc</Box>,
-            cell: (info) => {
-               const personnel = personnels?.data?.find((item) => item._id === info.getValue());
-               return (
-                  <>
-                     {repairInvoice?.repairInvoiceService[info.row.index].status_repair !==
-                     STATUS_REPAIR_DETAIL.complete.key ? (
-                        <Box sx={{ minWidth: 200 }}>
-                           <ControllerAutoComplate
-                              name={`repairService.${info.row.index}.repair_staff_id`}
-                              options={personnels?.data ?? []}
-                              valuePath="_id"
-                              titlePath="full_name"
-                              control={control}
-                              loading={personnels.isLoading}
-                              onChange={() => {
-                                 watch(`repairService.${info.row.index}.repair_staff_id`) !== '' &&
-                                    clearErrors(`repairService.${info.row.index}.repair_staff_id`);
-                              }}
-                           />
-                        </Box>
-                     ) : (
-                        <Box>{personnel?.full_name}</Box>
-                     )}
-                  </>
-               );
-            },
-         }),
-         columnHelper.accessor('status_repair', {
-            header: () => <Box>Trạng thái Sc</Box>,
-            cell: ({ row }) => {
-               const supplies = row.original as RepairServiceUpdateSchema;
-
-               const status: {
-                  title: string;
-                  color: string;
-               } = supplies.status_repair
-                  ? STATUS_REPAIR_DETAIL[(supplies.status_repair as StatusRepairDetail) ?? 'empty']
-                  : STATUS_REPAIR_DETAIL.empty;
-
-               return (
-                  <>
-                     {repairInvoice?.repairInvoiceService[row.index].status_repair !==
-                     STATUS_REPAIR_DETAIL.complete.key ? (
-                        <Box
-                           textAlign={supplies.status_repair !== STATUS_REPAIR_DETAIL.complete.key ? 'center' : 'left'}
-                           minWidth={170}
-                        >
-                           <ControllerAutoComplate
-                              name={`repairService.${row.index}.status_repair`}
-                              options={dataStatus}
-                              valuePath="key"
-                              titlePath="title"
-                              control={control}
-                              loading={personnels.isLoading}
-                              onChange={() => {
-                                 if (
-                                    watch(`repairService.${row.index}.status_repair`) !== STATUS_REPAIR_DETAIL.empty.key
-                                 ) {
-                                    if (watch(`repairService.${row.index}.repair_staff_id`) === '') {
-                                       setError(`repairService.${row.index}.repair_staff_id`, {
-                                          message: 'Không được để trống',
-                                       });
-                                    }
-                                 } else {
-                                    clearErrors(`repairService.${row.index}.repair_staff_id`);
-                                 }
-
-                                 watch(`repairService.${row.index}.status_repair`) === '' &&
-                                    clearErrors(`repairService.${row.index}.repair_staff_id`);
-                              }}
-                           />
-                        </Box>
-                     ) : (
-                        <Box>
-                           <Chip label={status.title} color={status.color as never} />
-                        </Box>
-                     )}
-                  </>
-               );
             },
          }),
          columnHelper.accessor('action', {

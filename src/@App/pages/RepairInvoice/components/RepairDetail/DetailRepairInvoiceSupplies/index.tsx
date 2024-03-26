@@ -1,131 +1,209 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { ResponseFindOneRepairInvoiceSupplies } from '@App/types/repair-invoice';
-import { Box, Button, Chip } from '@mui/material';
-import { useMemo } from 'react';
-import TableCore, { columnHelper } from '@Core/Component/Table';
+import { Box, Button, ButtonBase, Chip, Drawer, Grid, Stack, Tooltip, Typography } from '@mui/material';
+import { useState } from 'react';
+import styled from 'styled-components';
+import ControllerLabel from '@Core/Component/Input/ControllerLabel';
+import formatPrice from '@Core/Helper/formatPrice';
+import CloseIcon from '@mui/icons-material/Close';
 import { STATUS_DELIVERY } from '@App/configs/status-config';
 
 import RenderSubComponent from './RenderSubComponent';
 
 interface DetailRepairInvoiceSuppliesProps {
    data: ResponseFindOneRepairInvoiceSupplies[];
-   personnels:
-      | {
-           _id: string;
-           full_name: string;
-        }[]
-      | undefined;
 }
 
-const DetailRepairInvoiceSupplies = ({ data, personnels }: DetailRepairInvoiceSuppliesProps) => {
-   const columns = useMemo(() => {
-      return [
-         columnHelper.accessor('expander', {
-            header: '',
-            cell: ({ row }) => {
-               return (
-                  <Box textAlign="center" width="25px" py={1}>
-                     {row.getCanExpand() ? (
-                        <Button
-                           variant="text"
-                           sx={{ p: '1px 2px', minWidth: 'auto' }}
-                           {...{
-                              onClick: row.getToggleExpandedHandler(),
-                              style: { cursor: 'pointer' },
-                           }}
-                        >
-                           {row.getIsExpanded() ? '👇' : '👉'}
-                        </Button>
-                     ) : (
-                        '🔵'
-                     )}{' '}
-                  </Box>
-               );
-            },
-         }),
-         columnHelper.accessor('supplies_detail_code', {
-            header: 'Mã VT',
-            cell: (info) => {
-               return <Box>#{info.getValue()}</Box>;
-            },
-         }),
-         columnHelper.accessor('supplies_detail_name', {
-            header: 'Tên vật tư',
-            cell: (info) => {
-               return <Box>{info.getValue()}</Box>;
-            },
-         }),
-         columnHelper.accessor('distributors_name', {
-            header: 'Nhà phân phối',
-            cell: (info) => {
-               return <Box>{info.getValue()}</Box>;
-            },
-         }),
-         columnHelper.accessor('unit', {
-            header: 'Dvt',
-            cell: (info) => {
-               return <Box>{info.getValue()}</Box>;
-            },
-         }),
-         columnHelper.accessor('quantity', {
-            header: () => <Box textAlign="center">Số lượng</Box>,
-            cell: (info) => {
-               return <Box textAlign="center">{info.getValue()}</Box>;
-            },
-         }),
-         columnHelper.accessor('repair_staff_id', {
-            header: () => <Box>Nhân viên sửa chữa</Box>,
-            cell: (info) => {
-               const personnel = personnels?.find((item) => item._id === info.getValue());
+const DetailRepairInvoiceSupplies = ({ data }: DetailRepairInvoiceSuppliesProps) => {
+   const [openDrawer, setOpenDrawer] = useState<boolean>(false);
+   const [dataDrawer, setDataDrawer] = useState<ResponseFindOneRepairInvoiceSupplies | null>(null);
 
-               return <Box>{personnel?.full_name}</Box>;
-            },
-         }),
-         columnHelper.accessor('status_repair', {
-            header: () => <Box textAlign="center">Trạng thái SC</Box>,
-            cell: (info) => {
-               const status: {
-                  title: string;
-                  color: string;
-               } = info.getValue() ? STATUS_DELIVERY[info.getValue()] : STATUS_DELIVERY.empty;
-
-               return (
-                  <Box textAlign="center">{status && <Chip label={status.title} color={status.color as never} />}</Box>
-               );
-            },
-         }),
-         columnHelper.accessor('status_supplies', {
-            header: () => <Box textAlign="center">Trạng thái lấy VT</Box>,
-            cell: (info) => {
-               const status: {
-                  title: string;
-                  color: string;
-               } = info.getValue() ? STATUS_DELIVERY[info.getValue()] : STATUS_DELIVERY.empty;
-               return (
-                  <Box textAlign="center">
-                     <Chip label={status.title} color={status.color as never} />
-                  </Box>
-               );
-            },
-         }),
-      ];
-   }, []);
+   // const columns = useMemo(() => {
+   //    return [
+   //       columnHelper.accessor('unit', {
+   //          header: 'Dvt',
+   //          cell: (info) => {
+   //             return <Box>{info.getValue()}</Box>;
+   //          },
+   //       }),
+   //       columnHelper.accessor('quantity', {
+   //          header: () => <Box textAlign="center">Số lượng</Box>,
+   //          cell: (info) => {
+   //             return <Box textAlign="center">{info.getValue()}</Box>;
+   //          },
+   //       }),
+   //       columnHelper.accessor('status_supplies', {
+   //          header: () => <Box textAlign="center">Trạng thái lấy VT</Box>,
+   //          cell: (info) => {
+   //             const status: {
+   //                title: string;
+   //                color: string;
+   //             } = info.getValue() ? STATUS_DELIVERY[info.getValue()] : STATUS_DELIVERY.empty;
+   //             return (
+   //                <Box textAlign="center">
+   //                   <Chip label={status.title} color={status.color as never} />
+   //                </Box>
+   //             );
+   //          },
+   //       }),
+   //    ];
+   // }, []);
 
    return (
       <Box>
-         <TableCore
-            data={data}
-            columns={columns}
-            isPagination={false}
-            getRowCanExpand={() => true}
-            renderSubComponent={(row) => <RenderSubComponent row={row} />}
-            // onClickRow={(row) => {
-            //    row.getToggleExpandedHandler();
-            // }}
-         />
+         <Grid container spacing={1}>
+            {data.map((item) => {
+               const status: {
+                  title: string;
+                  color: string;
+               } = item.status_supplies ? STATUS_DELIVERY[item.status_supplies as never] : STATUS_DELIVERY.empty;
+
+               return (
+                  <Grid item xs={4}>
+                     <Button
+                        component={Tooltip}
+                        title="Xem chi tiết"
+                        variant="text"
+                        sx={{ p: 0, width: '100%' }}
+                        onClick={() => {
+                           if (item.options.length > 0) {
+                              setOpenDrawer(true);
+                              setDataDrawer(item);
+                           }
+                        }}
+                     >
+                        <ExtendStack>
+                           <Box display="flex" gap="12px" flex={1}>
+                              <Flex>
+                                 <ControllerLabel title="Mã :" />
+                                 <Typography
+                                    sx={{
+                                       pb: '2px',
+                                       textAlign: 'start',
+                                    }}
+                                 >
+                                    #{item.supplies_detail_code}
+                                 </Typography>
+                              </Flex>
+                              <Flex>
+                                 <ControllerLabel title="Loại :" />
+                                 <Chip label="Vật tư" color="secondary" size="small" />
+                              </Flex>
+                           </Box>
+                           <Flex>
+                              <ControllerLabel title="Tên:" />
+                              <Typography
+                                 component="div"
+                                 sx={{
+                                    pb: '2px',
+                                    textAlign: 'start',
+                                    flex: 1,
+                                    overflow: 'hidden',
+                                    textOverflow: 'ellipsis',
+                                    whiteSpace: 'nowrap',
+                                 }}
+                              >
+                                 {item.supplies_detail_name}
+                              </Typography>
+                           </Flex>
+                           <Flex>
+                              <ControllerLabel title="NPP:" />
+                              <Typography
+                                 component="div"
+                                 sx={{
+                                    pb: '2px',
+                                    textAlign: 'start',
+                                    flex: 1,
+                                    overflow: 'hidden',
+                                    textOverflow: 'ellipsis',
+                                    whiteSpace: 'nowrap',
+                                 }}
+                              >
+                                 {item.distributors_name}
+                              </Typography>
+                           </Flex>
+                           <Flex>
+                              <Flex>
+                                 <ControllerLabel title="Đvt :" />
+                                 <Typography
+                                    sx={{
+                                       pb: '2px',
+                                       textAlign: 'start',
+                                    }}
+                                 >
+                                    <Chip label={item.unit} color="default" size="small" />
+                                 </Typography>
+                              </Flex>
+                              <Flex>
+                                 <ControllerLabel title="Giá :" />
+                                 <Typography
+                                    sx={{
+                                       pb: '2px',
+                                       textAlign: 'start',
+                                    }}
+                                 >
+                                    {formatPrice(item.price ?? 0)}
+                                 </Typography>
+                              </Flex>
+                           </Flex>
+                           <Flex>
+                              <ControllerLabel title="Lấy vt :" />
+                              <Chip label={status.title} color={status.color as never} size="small" />
+                           </Flex>
+                        </ExtendStack>
+                     </Button>
+                  </Grid>
+               );
+            })}
+         </Grid>
+
+         <Drawer open={openDrawer} anchor="right">
+            <Box sx={{ minWidth: 600, maxWidth: 700 }}>
+               <Box
+                  sx={({ palette, base }) => ({
+                     display: 'flex',
+                     justifyContent: 'space-between',
+                     alignItems: 'center',
+                     borderBottom: '1px solid #DADADA',
+                     p: '12px 24px 6px 24px',
+                     color: base.text.white,
+                     backgroundColor: palette.primary.main,
+                  })}
+               >
+                  <Typography>Thông tin chi tiết</Typography>
+                  <Box>
+                     <ButtonBase onClick={() => setOpenDrawer(false)}>
+                        <CloseIcon />
+                     </ButtonBase>
+                  </Box>
+               </Box>
+               <Box sx={{ px: '12px', py: '12px' }}>
+                  <RenderSubComponent data={dataDrawer as never} />
+               </Box>
+            </Box>
+         </Drawer>
       </Box>
    );
 };
 
+const ExtendStack = styled(Stack)(() => ({
+   color: 'black',
+   gap: '8px',
+   padding: '12px',
+   border: '1px solid #e0e0e0',
+   borderRadius: '6px',
+   bgcolor: 'white',
+   boxShadow: '0 0 12px 0 rgba(82,63,105,.08)',
+   width: '100%',
+}));
+
+const Flex = styled('div')({
+   display: 'flex',
+   alignItems: 'flex-start',
+   width: '100%',
+   justifyContent: 'flex-start',
+   gap: '12px',
+   overflow: 'hidden',
+   textOverflow: 'ellipsis',
+});
 export default DetailRepairInvoiceSupplies;

@@ -21,8 +21,11 @@ const SortTable = ({ sortList }: SortTableProps) => {
 
    const handleClickSort = (key: string) => {
       if (searchParams['sort_type'] === key) {
-         return setParams('sort_by', searchParams['sort_by'] === 'asc' ? 'desc' : 'asc');
+         const sort_by = searchParams['sort_by'] ? (searchParams['sort_by'] === 'asc' ? 'desc' : 'asc') : 'desc';
+
+         return setParams('sort_by', sort_by);
       }
+      setParams('sort_by', 'desc');
       return setParams('sort_type', key);
    };
 

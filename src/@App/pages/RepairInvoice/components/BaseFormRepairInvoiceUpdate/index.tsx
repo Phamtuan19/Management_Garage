@@ -5,7 +5,6 @@ import { Grid, Tab, Tabs, styled } from '@mui/material';
 import useSearchParamsHook from '@App/hooks/useSearchParamsHook';
 import { TabContext, TabPanel } from '@mui/lab';
 import { UseFormReturn } from 'react-hook-form';
-import { UseQueryResult } from '@tanstack/react-query';
 import { ResponseFindOneRepairInvoice } from '@App/types/repair-invoice';
 import { STATUS_REPAIR } from '@App/configs/status-config';
 
@@ -19,17 +18,10 @@ import RepairSupplies from './RepairSupplies';
 
 interface BaseFormOrderCreateProps {
    form: UseFormReturn<RepairInvoiceUpdateSchema>;
-   personnels: UseQueryResult<
-      {
-         _id: string;
-         full_name: string;
-      }[],
-      unknown
-   >;
    repairInvoice: ResponseFindOneRepairInvoice | undefined;
 }
 
-const BaseFormRepairInvoiceUpdate = ({ form, personnels, repairInvoice }: BaseFormOrderCreateProps) => {
+const BaseFormRepairInvoiceUpdate = ({ form, repairInvoice }: BaseFormOrderCreateProps) => {
    const { searchParams, setParams } = useSearchParamsHook();
 
    const handleChange = (_e: React.SyntheticEvent, newValue: string) => {
@@ -65,14 +57,10 @@ const BaseFormRepairInvoiceUpdate = ({ form, personnels, repairInvoice }: BaseFo
                         <ExtendTab label="Vật tư" value="2" />
                      </Tabs>
                      <ExtendTabPanel value="1">
-                        <RepairService form={form} personnels={personnels} repairInvoice={repairInvoice} />
+                        <RepairService form={form} repairInvoice={repairInvoice} />
                      </ExtendTabPanel>
                      <ExtendTabPanel value="2">
-                        <RepairSupplies
-                           form={form}
-                           personnels={personnels}
-                           status={repairInvoice?.status ?? 'create'}
-                        />
+                        <RepairSupplies form={form} status={repairInvoice?.status ?? 'create'} />
                      </ExtendTabPanel>
                   </TabContext>
                </PageContent>

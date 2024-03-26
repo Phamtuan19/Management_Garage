@@ -10,7 +10,6 @@ import { Tab, Tabs, styled } from '@mui/material';
 import PageContent from '@App/component/customs/PageContent';
 import { TabContext, TabPanel } from '@mui/lab';
 import useSearchParamsHook from '@App/hooks/useSearchParamsHook';
-import personnelService from '@App/services/personnel.service';
 import { useState } from 'react';
 import { STATUS_DELIVERY } from '@App/configs/status-config';
 
@@ -19,8 +18,9 @@ import { arrowRightOption } from './utils';
 import RepairDetailAction from './components/RepairDetail/RepairDetailAction';
 import DetailRepairInvoiceSupplies from './components/RepairDetail/DetailRepairInvoiceSupplies';
 import DetailRepairInvoiceService from './components/RepairDetail/DetailRepairInvoiceService';
-import ModalPay from './components/RepairDetail/ModalPay';
+import ModalPayComplete from './components/RepairDetail/ModalPayComplete';
 import Transaction from './components/RepairDetail/Transaction';
+import ModalPay from './components/RepairDetail/ModalPay';
 
 const breadcrumbs = [
    {
@@ -32,6 +32,7 @@ const breadcrumbs = [
 const RepairInvoiceDetail = () => {
    const { id: repairInvoiceId } = useParams();
    const [open, setOpen] = useState<boolean>(false);
+   const [openModalPay, setOpenModalPay] = useState<boolean>(false);
 
    const { searchParams, setParams } = useSearchParamsHook();
 
@@ -48,19 +49,20 @@ const RepairInvoiceDetail = () => {
       return res.data as ResponseFindOneRepairInvoice;
    });
 
-   const { data: personnels } = useQuery(['getPersonnelsAllField'], async () => {
-      const res = await personnelService.fieldAll();
-      return res.data;
-   });
    return (
       <BaseBreadcrumbs
-         arialabel="Chi tiết"
+         arialabel={`#${repairInvoice?.code}`}
          breadcrumbs={breadcrumbs}
          isCheck
          data={repairInvoice}
          isLoading={isLoading}
       >
-         <RepairDetailAction refetchRepairInvoice={refetch} data={repairInvoice} setOpen={setOpen} />
+         <RepairDetailAction
+            refetchRepairInvoice={refetch}
+            data={repairInvoice}
+            setOpen={setOpen}
+            setOpenModalPay={setOpenModalPay}
+         />
 
          <ArrowRight options={arrowRightOption} check={(repairInvoice?.status as string) ?? 'create'} />
          <RepairInvoiceInformation data={repairInvoice} />
@@ -84,20 +86,15 @@ const RepairInvoiceDetail = () => {
                   <ExtendTab label="Vật tư" value="2" />
                </Tabs>
                <ExtendTabPanel value="1">
-                  <DetailRepairInvoiceService
-                     personnels={personnels}
-                     data={repairInvoice?.repairInvoiceService ?? []}
-                  />
+                  <DetailRepairInvoiceService data={repairInvoice?.repairInvoiceService ?? []} />
                </ExtendTabPanel>
                <ExtendTabPanel value="2">
-                  <DetailRepairInvoiceSupplies
-                     personnels={personnels}
-                     data={repairInvoice?.repairInvoiceSupplies ?? []}
-                  />
+                  <DetailRepairInvoiceSupplies data={repairInvoice?.repairInvoiceSupplies ?? []} />
                </ExtendTabPanel>
             </TabContext>
          </PageContent>
-         <ModalPay open={open} setOpen={setOpen} refetchRepairInvoice={refetch} repairInvoice={repairInvoice} />
+         <ModalPayComplete open={open} setOpen={setOpen} refetchRepairInvoice={refetch} repairInvoice={repairInvoice} />
+         <ModalPay open={openModalPay} setOpen={setOpenModalPay} refetchRepairInvoice={refetch} />
       </BaseBreadcrumbs>
    );
 };

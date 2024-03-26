@@ -112,33 +112,6 @@ const DeliveryUpdate = () => {
                return <Box>{info.getValue()}</Box>;
             },
          }),
-         columnHelper.accessor('quantity', {
-            header: () => <Box>SL Yc</Box>,
-            cell: (info) => {
-               return (
-                  <Box sx={{ textAlign: 'center' }}>
-                     <Chip label={info.getValue()} variant="outlined" color="primary" />
-                  </Box>
-               );
-            },
-         }),
-         columnHelper.accessor('export_quantity', {
-            header: () => <Box>SL xuất</Box>,
-            cell: ({ row }) => {
-               const delivery = row.original as DeliveryNoteDataDetail;
-
-               const export_quantity =
-                  delivery.options.length > 0
-                     ? delivery.options.reduce((total, item) => (total += item.export_quantity), 0)
-                     : 0;
-
-               return (
-                  <Box sx={{ textAlign: 'center' }}>
-                     <Chip label={export_quantity} variant="outlined" color="error" />
-                  </Box>
-               );
-            },
-         }),
          columnHelper.accessor('supplies_detail_isInStock', {
             header: () => <Box sx={{ textAlign: 'center' }}>Trạng thái Vt</Box>,
             cell: (info) => {
@@ -152,20 +125,96 @@ const DeliveryUpdate = () => {
                );
             },
          }),
-         columnHelper.accessor('status', {
-            header: () => <Box sx={{ textAlign: 'center' }}>Trạng thái Xk</Box>,
+
+         columnHelper.accessor('export_quantity', {
+            header: () => <Box>SL đã xuất</Box>,
             cell: ({ row }) => {
                const delivery = row.original as DeliveryNoteDataDetail;
+
+               const export_quantity =
+                  delivery.options.length > 0
+                     ? delivery.options.reduce((total, item) => (total += item.export_quantity), 0)
+                     : 0;
+
                return (
                   <Box sx={{ textAlign: 'center' }}>
-                     <Chip
-                        label={STATUS_DELIVERY[delivery.status].title}
-                        color={STATUS_DELIVERY[delivery.status].color}
-                     />
+                     <Chip label={export_quantity} variant="outlined" color="success" />
                   </Box>
                );
             },
          }),
+         columnHelper.accessor('quantity', {
+            header: () => <Box>Sl yêu cầu</Box>,
+            cell: ({ row }) => {
+               const delivery = row.original as DeliveryNoteDataDetail;
+               // console.log(delivery.quantity);
+               // const export_quantity =
+               //    delivery.options.length > 0
+               //       ? delivery.status === STATUS_DELIVERY.confirmed.key
+               //          ? 0
+               //          : delivery.quantity
+               //       : 0;
+
+               return (
+                  <Box sx={{ textAlign: 'center' }}>
+                     <Chip label={delivery.quantity} variant="outlined" color="warning" />
+                  </Box>
+               );
+            },
+         }),
+         columnHelper.accessor('type', {
+            header: () => <Box sx={{ textAlign: 'center' }}>Trạng thái</Box>,
+            cell: ({ row }) => {
+               const delivery = row.original as DeliveryNoteDataDetail;
+
+               const quantity = delivery.quantity;
+
+               const export_quantity =
+                  delivery.options.length > 0
+                     ? delivery.options.reduce((total, item) => (total += item.export_quantity), 0)
+                     : 0;
+
+               const statusCheck = {
+                  color:
+                     quantity === export_quantity
+                        ? quantity !== 0
+                           ? 'default'
+                           : 'error'
+                        : quantity > export_quantity
+                          ? 'warning'
+                          : 'error',
+                  title:
+                     quantity === export_quantity
+                        ? quantity !== 0
+                           ? 'Hoàn thành'
+                           : 'Hủy'
+                        : quantity > export_quantity
+                          ? 'Chờ Xuất kho'
+                          : 'Chờ Thu hồi',
+               };
+
+               return (
+                  <Box sx={{ textAlign: 'center' }}>
+                     <Chip label={statusCheck.title} color={statusCheck?.color as never} />
+                  </Box>
+               );
+            },
+         }),
+         // columnHelper.accessor('status', {
+         //    header: () => <Box sx={{ textAlign: 'center' }}>Trạng thái xk</Box>,
+         //    cell: ({ row }) => {
+         //       const delivery = row.original as DeliveryNoteDataDetail;
+
+         //       return (
+         //          <Box sx={{ textAlign: 'center' }}>
+         //             <Chip
+         //                label={STATUS_DELIVERY[delivery.status].title}
+         //                color={STATUS_DELIVERY[delivery.status].color}
+         //             />
+         //          </Box>
+         //       );
+         //    },
+         // }),
          columnHelper.accessor('action', {
             header: () => <Box sx={{ textAlign: 'center' }}>Thao tác</Box>,
             cell: ({ row }) => {

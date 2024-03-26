@@ -22,11 +22,14 @@ interface RepairDetailActionProps {
       options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined,
    ) => Promise<QueryObserverResult<ResponseFindOneRepairInvoice, unknown>>;
    setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+   setOpenModalPay: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const RepairDetailAction = ({ data, refetchRepairInvoice, setOpen }: RepairDetailActionProps) => {
+const RepairDetailAction = ({ data, refetchRepairInvoice, setOpen, setOpenModalPay }: RepairDetailActionProps) => {
    const { id: repairInvoicId } = useParams();
    const status = data?.status;
+
+   const isCheckPay = data?.repairInvoiceSupplies.every((item) => item.options.length > 0);
 
    const coreConfirm = useConfirm();
 
@@ -74,11 +77,17 @@ const RepairDetailAction = ({ data, refetchRepairInvoice, setOpen }: RepairDetai
             </Box>
          )}
          <Box display="flex" gap={1}>
-            {status !== STATUS_REPAIR.complete.key && (
+            {status !== STATUS_REPAIR.complete.key && status !== STATUS_REPAIR.repair.key && (
                <Button
                   color="warning"
                   onClick={() => handleUpdateStatusCheck(arrowRightOption[indexStatusRepairInvoice + 1].name)}
                >
+                  {arrowRightOption[indexStatusRepairInvoice + 1].title}
+               </Button>
+            )}
+            {/* Pay */}
+            {isCheckPay && status === STATUS_REPAIR.repair.key && (
+               <Button color="warning" onClick={() => setOpenModalPay(true)}>
                   {arrowRightOption[indexStatusRepairInvoice + 1].title}
                </Button>
             )}

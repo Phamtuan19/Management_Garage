@@ -6,8 +6,6 @@ export const dataSelectTime = [
    'Tuần trước',
    'Tháng này',
    'Tháng trước',
-   'Quý này',
-   'Quý trước',
    'Năm nay',
    'Năm trước',
 ];

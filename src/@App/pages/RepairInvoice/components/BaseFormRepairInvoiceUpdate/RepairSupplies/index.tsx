@@ -1,3 +1,4 @@
+/* eslint-disable no-empty */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Box, Button, ButtonBase, Chip, InputBase, styled } from '@mui/material';
@@ -13,10 +14,8 @@ import {
    SuppliesInvoiceUpdateSchema,
 } from '@App/pages/RepairInvoice/utils/repair-invoice-update';
 import formatPrice from '@Core/Helper/formatPrice';
-import { STATUS_DELIVERY, STATUS_REPAIR_DETAIL, StatusRepair, StatusRepairDetail } from '@App/configs/status-config';
-import ControllerAutoComplate from '@Core/Component/Input/ControllerAutoComplate';
-import { UseQueryResult, useMutation } from '@tanstack/react-query';
-import { dataStatus } from '@App/pages/RepairInvoice/utils';
+import { STATUS_DELIVERY, STATUS_REPAIR_DETAIL, StatusRepair } from '@App/configs/status-config';
+import { useMutation } from '@tanstack/react-query';
 import repairInvoiceService from '@App/services/repair-invoice';
 import { AxiosResponseData } from '@Core/Api/axios-config';
 import { errorMessage, successMessage } from '@Core/Helper/message';
@@ -29,13 +28,6 @@ import RenderSubComponent from './RenderSubComponent';
 
 interface RepairSuppliesProps {
    form: UseFormReturn<RepairInvoiceUpdateSchema>;
-   personnels: UseQueryResult<
-      {
-         _id: string;
-         full_name: string;
-      }[],
-      unknown
-   >;
    status: StatusRepair;
 }
 
@@ -47,14 +39,12 @@ const columnVisibilityData: Record<string, string> = {
    inventory: 'tồn kho',
    price: 'Đơn giá',
    quantity: 'Số lượng',
-   repair_staff_id: 'Nhân viên sửa chữa',
-   status_repair: 'Trạng thái sửa chữa',
    status_supplies: 'Trạng thái Lấy vật tư',
    action: 'thao tác',
 } as const;
 
-const RepairSupplies = ({ form, personnels, status }: RepairSuppliesProps) => {
-   const { watch, setValue, clearErrors, setError, control } = form;
+const RepairSupplies = ({ form, status }: RepairSuppliesProps) => {
+   const { watch, setValue, control } = form;
    // const { id: repairOrderId } = useParams();
 
    const { fields, remove, append } = useFieldArray({
@@ -112,12 +102,13 @@ const RepairSupplies = ({ form, personnels, status }: RepairSuppliesProps) => {
          confirmOk: 'Xác nhận',
          content: 'Xác nhận xóa và trả vật tư về kho',
          callbackOK: () => {
-            deleteRepairInvoiceDetail(id);
+            try {
+               deleteRepairInvoiceDetail(id);
+               return remove(index);
+            } catch (error) {}
          },
          isIcon: true,
       });
-
-      return remove(index);
    };
 
    const columnsService = useMemo(() => {
@@ -207,79 +198,6 @@ const RepairSupplies = ({ form, personnels, status }: RepairSuppliesProps) => {
                            </ButtonAddQuantity>
                         )}
                      </Box>
-                  </Box>
-               );
-            },
-         }),
-         columnHelper.accessor('repair_staff_id', {
-            header: () => <Box>Nhân viên Sc</Box>,
-            cell: (info) => {
-               const supplies = info.row.original as SuppliesInvoiceUpdateSchema;
-
-               const personnel = personnels?.data?.find((item) => item._id === info.getValue());
-
-               return (
-                  <Box sx={{ minWidth: 200 }}>
-                     {supplies.status_repair !== STATUS_REPAIR_DETAIL.complete.key ? (
-                        <ControllerAutoComplate
-                           name={`suppliesInvoices.${info.row.index}.repair_staff_id`}
-                           options={personnels?.data ?? []}
-                           valuePath="_id"
-                           titlePath="full_name"
-                           control={control}
-                           loading={personnels.isLoading}
-                           disabled={supplies.options?.length === 0}
-                        />
-                     ) : (
-                        personnel?.full_name
-                     )}
-                  </Box>
-               );
-            },
-         }),
-         columnHelper.accessor('status_repair', {
-            header: () => <Box>Trạng thái Sc</Box>,
-            cell: ({ row }) => {
-               const supplies = row.original as SuppliesInvoiceUpdateSchema;
-
-               const status: {
-                  title: string;
-                  color: string;
-               } = supplies.status_repair
-                  ? STATUS_REPAIR_DETAIL[supplies.status_repair as StatusRepairDetail]
-                  : STATUS_REPAIR_DETAIL.empty;
-
-               return (
-                  <Box
-                     textAlign={supplies.status_repair !== STATUS_REPAIR_DETAIL.complete.key ? 'center' : 'left'}
-                     minWidth={170}
-                  >
-                     {supplies.status_repair !== STATUS_REPAIR_DETAIL.complete.key ? (
-                        <ControllerAutoComplate
-                           name={`suppliesInvoices.${row.index}.status_repair`}
-                           options={dataStatus}
-                           valuePath="key"
-                           titlePath="title"
-                           control={control}
-                           loading={personnels.isLoading}
-                           onChange={() => {
-                              if (
-                                 watch(`suppliesInvoices.${row.index}.status_repair`) !== STATUS_REPAIR_DETAIL.empty.key
-                              ) {
-                                 if (watch(`suppliesInvoices.${row.index}.repair_staff_id`) === '') {
-                                    setError(`suppliesInvoices.${row.index}.repair_staff_id`, {
-                                       message: 'Không được để trống',
-                                    });
-                                 }
-                              } else {
-                                 clearErrors(`suppliesInvoices.${row.index}.repair_staff_id`);
-                              }
-                           }}
-                           disabled={supplies.options?.length === 0}
-                        />
-                     ) : (
-                        <Chip label={status.title} color={status.color as never} />
-                     )}
                   </Box>
                );
             },

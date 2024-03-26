@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/naming-convention */
@@ -29,7 +28,7 @@ import {
 } from '@tanstack/react-table';
 import ScrollbarBase from '@App/component/customs/ScrollbarBase';
 import useSearchParamsHook from '@App/hooks/useSearchParamsHook';
-import { useEffect, useState } from 'react';
+import React from 'react';
 
 import CoreTableBody from './components/CoreTableBody';
 import CoreTableHeader from './components/CoreTableHeader';
@@ -71,14 +70,6 @@ function TableCore<TData = unknown[], TValue = never>(props: TableCoreProps<TDat
       renderSubComponent,
       ...dataPagination
    } = props;
-
-   const [totalPage, setTotalPage] = useState(1);
-
-   useEffect(() => {
-      if (!isLoading) {
-         setTotalPage(dataPagination.total_page || 1);
-      }
-   }, [isLoading]);
 
    const { setParams } = useSearchParamsHook();
 
@@ -169,12 +160,12 @@ function TableCore<TData = unknown[], TValue = never>(props: TableCoreProps<TDat
                   </Box>
                   <Box display="flex" gap="12px" alignItems="center">
                      <Box component="span" fontSize="14px">
-                        Trang {dataPagination.page} trên {totalPage}
+                        Trang {dataPagination.page} trên {dataPagination.total_page ?? 1}
                      </Box>
                      <Pagination
                         variant="outlined"
                         onChange={(_, page) => setParams('page', String(page))}
-                        count={totalPage}
+                        count={dataPagination.total_page ?? 1}
                         page={dataPagination.page}
                         siblingCount={1}
                      />

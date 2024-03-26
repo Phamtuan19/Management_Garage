@@ -13,6 +13,7 @@ import DirectionsCarFilledRoundedIcon from '@mui/icons-material/DirectionsCarFil
 import ConstructionRoundedIcon from '@mui/icons-material/ConstructionRounded';
 import { useQuery } from '@tanstack/react-query';
 import dashboardService from '@App/services/dashboard-service';
+import dayjs from 'dayjs';
 
 import DoashboardPrice from './component/DoashboardPrice';
 import DoashboardFilter from './component/DoashboardFilter';
@@ -69,8 +70,8 @@ const Doashboard = () => {
       ['getDoashboard', searchParams['start_date'], searchParams['end_date']],
       async () => {
          const res = await dashboardService.get({
-            start_date: searchParams['start_date'],
-            end_date: searchParams['end_date'],
+            start_date: searchParams['start_date'] ?? new Date(new Date().setDate(1)),
+            end_date: searchParams['end_date'] ?? dayjs().endOf('month'),
          });
 
          return res.data;
@@ -261,7 +262,7 @@ const Doashboard = () => {
    };
 
    return (
-      <BaseBreadcrumbs arialabel="Doashboard" isLoading={isLoading}>
+      <BaseBreadcrumbs arialabel="Thống kê" isLoading={isLoading}>
          <DoashboardFilter />
 
          <PageContent>

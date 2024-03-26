@@ -18,8 +18,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import useCoreTable from '@App/hooks/useCoreTable';
 import PageContent from '@App/component/customs/PageContent';
 import FilterTable from '@App/component/common/FilterTable';
-import LazyLoadingImage from '@App/component/customs/LazyLoadingImage';
 import useSearchParamsHook from '@App/hooks/useSearchParamsHook';
+import formatDateTime from '@Core/Helper/formatDateTime';
 
 const sortList = [
    {
@@ -37,6 +37,10 @@ const sortList = [
    {
       title: 'Nhà Phân Phối',
       value: 'name_distributor',
+   },
+   {
+      title: 'Thời gian',
+      value: 'createdAt',
    },
 ];
 
@@ -60,14 +64,14 @@ const Supplies = () => {
             header: () => <Box sx={{ textAlign: 'center' }}>Mã</Box>,
             cell: (info) => <Box sx={{ textAlign: 'center' }}>#{info.getValue()}</Box>,
          }),
-         columnHelper.accessor('avatar', {
-            header: () => <Box sx={{ textAlign: 'center' }}>Hình ảnh</Box>,
-            cell: ({ row }) => (
-               <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                  <LazyLoadingImage src={row.getValue('avatar')} w="35" h="35" style={{ borderRadius: '50%' }} />
-               </Box>
-            ),
-         }),
+         // columnHelper.accessor('avatar', {
+         //    header: () => <Box sx={{ textAlign: 'center' }}>Hình ảnh</Box>,
+         //    cell: ({ row }) => (
+         //       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+         //          <LazyLoadingImage src={row.getValue('avatar')} w="35" h="35" style={{ borderRadius: '50%' }} />
+         //       </Box>
+         //    ),
+         // }),
          columnHelper.accessor('name_supplie', {
             header: 'Nhóm vật tư',
          }),
@@ -106,6 +110,12 @@ const Supplies = () => {
                      />
                   </Box>
                );
+            },
+         }),
+         columnHelper.accessor('createdAt', {
+            header: () => <Box textAlign="center">Ngày tạo</Box>,
+            cell: ({ row }) => {
+               return <Box textAlign="center">{formatDateTime(row.getValue('createdAt'))}</Box>;
             },
          }),
          columnHelper.accessor('', {

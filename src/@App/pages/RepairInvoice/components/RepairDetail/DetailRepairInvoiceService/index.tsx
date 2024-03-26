@@ -1,117 +1,139 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { Box, Button, Chip } from '@mui/material';
+import { Box, Button, ButtonBase, Chip, Drawer, Grid, Stack, Tooltip, Typography, styled } from '@mui/material';
 import { ResponseFindOneRepairInvoiceService } from '@App/types/repair-invoice';
-import { useMemo } from 'react';
-import TableCore, { columnHelper } from '@Core/Component/Table';
+import { useState } from 'react';
+import ControllerLabel from '@Core/Component/Input/ControllerLabel';
+import CloseIcon from '@mui/icons-material/Close';
 import formatPrice from '@Core/Helper/formatPrice';
-import { STATUS_DELIVERY } from '@App/configs/status-config';
 
 import RenderSubComponent from './RenderSubComponent';
 
 interface DetailRepairInvoiceServiceProps {
    data: ResponseFindOneRepairInvoiceService[];
-   personnels:
-      | {
-           _id: string;
-           full_name: string;
-        }[]
-      | undefined;
 }
 
-const DetailRepairInvoiceService = ({ data, personnels }: DetailRepairInvoiceServiceProps) => {
-   const columns = useMemo(() => {
-      return [
-         columnHelper.accessor('expander', {
-            header: '',
-            cell: ({ row }) => {
-               return (
-                  <Box textAlign="center" width="25px" py={1}>
-                     {row.getCanExpand() ? (
-                        <Button
-                           variant="text"
-                           sx={{ p: '1px 2px', minWidth: 'auto' }}
-                           {...{
-                              onClick: row.getToggleExpandedHandler(),
-                              style: { cursor: 'pointer' },
-                           }}
-                        >
-                           {row.getIsExpanded() ? '👇' : '👉'}
-                        </Button>
-                     ) : (
-                        '🔵'
-                     )}{' '}
-                  </Box>
-               );
-            },
-         }),
-         columnHelper.accessor('service_code', {
-            header: 'Mã Dv',
-            cell: (info) => {
-               return <Box>#{info.getValue()}</Box>;
-            },
-         }),
-         columnHelper.accessor('service_name', {
-            header: 'Tên dịch vụ',
-            cell: (info) => {
-               return <Box>{info.getValue()}</Box>;
-            },
-            size: 500,
-         }),
-         columnHelper.accessor('category_name', {
-            header: 'Danh mục',
-            cell: (info) => {
-               return <Box>{info.getValue()}</Box>;
-            },
-         }),
-         columnHelper.accessor('price', {
-            header: 'Đơn giá',
-            cell: (info) => {
-               return <Box>{formatPrice(info.getValue())}</Box>;
-            },
-         }),
-         columnHelper.accessor('discount', {
-            header: () => <Box textAlign="center">Giảm giá</Box>,
-            cell: (info) => {
-               return <Box textAlign="center">{info.getValue()}%</Box>;
-            },
-         }),
-         columnHelper.accessor('repair_staff_id', {
-            header: 'Nhân viên Sc',
-            cell: (info) => {
-               const personnel = personnels?.find((item) => item._id === info.getValue());
-
-               return <Box>{personnel?.full_name}</Box>;
-            },
-         }),
-         columnHelper.accessor('status_repair', {
-            header: 'Trạng thái Sc',
-            cell: (info) => {
-               const status: {
-                  title: string;
-                  color: string;
-               } = info.getValue() ? STATUS_DELIVERY[info.getValue()] : STATUS_DELIVERY.empty;
-               return (
-                  <Box>
-                     <Chip label={status.title} color={status.color as never} />
-                  </Box>
-               );
-            },
-         }),
-      ];
-   }, []);
+const DetailRepairInvoiceService = ({ data }: DetailRepairInvoiceServiceProps) => {
+   const [openDrawer, setOpenDrawer] = useState<boolean>(false);
+   const [dataDrawer, setDataDrawer] = useState<ResponseFindOneRepairInvoiceService | null>(null);
 
    return (
-      <>
-         <TableCore
-            data={data}
-            columns={columns}
-            isPagination={false}
-            getRowCanExpand={() => true}
-            renderSubComponent={RenderSubComponent as never}
-         />
-      </>
+      <Box>
+         <Grid container spacing={1}>
+            {data.map((item) => {
+               return (
+                  <Grid item xs={4}>
+                     <Button
+                        component={Tooltip}
+                        title="Xem chi tiết"
+                        variant="text"
+                        sx={{ p: 0, width: '100%' }}
+                        onClick={() => {
+                           setOpenDrawer(true);
+                           setDataDrawer(item);
+                        }}
+                     >
+                        <ExtendStack>
+                           <Flex>
+                              <ControllerLabel title="Loại :" />
+                              <Chip label="Dịch vụ" color="warning" size="small" />
+                           </Flex>
+                           <Flex>
+                              <ControllerLabel title="Mã :" />
+                              <Typography
+                                 sx={{
+                                    pb: '2px',
+                                    textAlign: 'start',
+                                 }}
+                              >
+                                 #{item.service_code}
+                              </Typography>
+                           </Flex>
+                           <Flex>
+                              <ControllerLabel title="Tên dịch vụ :" />
+                              <Typography
+                                 sx={{
+                                    pb: '2px',
+                                    textAlign: 'start',
+                                 }}
+                              >
+                                 {item.service_name}
+                              </Typography>
+                           </Flex>
+                           <Flex>
+                              <ControllerLabel title="Danh mục :" />
+                              <Typography
+                                 sx={{
+                                    pb: '2px',
+                                    textAlign: 'start',
+                                 }}
+                              >
+                                 {item.category_name}
+                              </Typography>
+                           </Flex>
+                           <Flex>
+                              <ControllerLabel title="Giá :" />
+                              <Typography
+                                 sx={{
+                                    pb: '2px',
+                                    textAlign: 'start',
+                                 }}
+                              >
+                                 {formatPrice(item.price)}
+                              </Typography>
+                           </Flex>
+                        </ExtendStack>
+                     </Button>
+                  </Grid>
+               );
+            })}
+         </Grid>
+
+         <Drawer open={openDrawer} anchor="right">
+            <Box sx={{ minWidth: 600, maxWidth: 700 }}>
+               <Box
+                  sx={({ palette, base }) => ({
+                     display: 'flex',
+                     justifyContent: 'space-between',
+                     alignItems: 'center',
+                     borderBottom: '1px solid #DADADA',
+                     p: '12px 24px 6px 24px',
+                     color: base.text.white,
+                     backgroundColor: palette.primary.main,
+                  })}
+               >
+                  <Typography>Thông tin chi tiết</Typography>
+                  <Box>
+                     <ButtonBase onClick={() => setOpenDrawer(false)}>
+                        <CloseIcon />
+                     </ButtonBase>
+                  </Box>
+               </Box>
+               <Box sx={{ px: '12px', py: '12px' }}>
+                  <RenderSubComponent data={dataDrawer as never} />;
+               </Box>
+            </Box>
+         </Drawer>
+      </Box>
    );
 };
+
+const ExtendStack = styled(Stack)(() => ({
+   color: 'black',
+   gap: '8px',
+   padding: '12px',
+   border: '1px solid #e0e0e0',
+   borderRadius: '6px',
+   bgcolor: 'white',
+   boxShadow: '0 0 12px 0 rgba(82,63,105,.08)',
+   width: '100%',
+}));
+
+const Flex = styled('div')({
+   display: 'flex',
+   alignItems: 'flex-end',
+   width: '100%',
+   justifyContent: 'flex-start',
+   gap: '12px',
+});
 
 export default DetailRepairInvoiceService;
