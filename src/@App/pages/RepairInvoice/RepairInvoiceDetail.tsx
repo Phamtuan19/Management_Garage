@@ -6,12 +6,11 @@ import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import ArrowRight from '@App/component/common/ArrowRight';
 import { ResponseFindOneRepairInvoice } from '@App/types/repair-invoice';
-import { Tab, Tabs, styled } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import PageContent from '@App/component/customs/PageContent';
-import { TabContext, TabPanel } from '@mui/lab';
-import useSearchParamsHook from '@App/hooks/useSearchParamsHook';
 import { useState } from 'react';
 import { STATUS_DELIVERY } from '@App/configs/status-config';
+import ScrollbarBase from '@App/component/customs/ScrollbarBase';
 
 import RepairInvoiceInformation from './components/RepairDetail/RepairInvoiceInformation';
 import { arrowRightOption } from './utils';
@@ -33,12 +32,6 @@ const RepairInvoiceDetail = () => {
    const { id: repairInvoiceId } = useParams();
    const [open, setOpen] = useState<boolean>(false);
    const [openModalPay, setOpenModalPay] = useState<boolean>(false);
-
-   const { searchParams, setParams } = useSearchParamsHook();
-
-   const handleChange = (_e: React.SyntheticEvent, newValue: string) => {
-      setParams('tab', newValue);
-   };
 
    const {
       data: repairInvoice,
@@ -67,45 +60,25 @@ const RepairInvoiceDetail = () => {
          <ArrowRight options={arrowRightOption} check={(repairInvoice?.status as string) ?? 'create'} />
          <RepairInvoiceInformation data={repairInvoice} />
          {repairInvoice?.transactions_id && (repairInvoice?.status as never) === STATUS_DELIVERY.complete.key && (
-            <Transaction transaction_id={repairInvoice?.transactions_id} />
+            <Transaction repairInvoice={repairInvoice} />
          )}
          <PageContent>
-            <TabContext value={searchParams['tab'] ?? '1'}>
-               <Tabs
-                  value={searchParams['tab'] ?? '1'}
-                  onChange={handleChange}
-                  sx={{
-                     minHeight: '36px',
-                     borderBottom: '1px solid #90909080',
-                     '& .css-1aquho2-MuiTabs-indicator': {
-                        height: '1px',
-                     },
-                  }}
-               >
-                  <ExtendTab label="Dịch vụ" value="1" />
-                  <ExtendTab label="Vật tư" value="2" />
-               </Tabs>
-               <ExtendTabPanel value="1">
+            <Box pb={1} borderBottom="1px solid #DADADA">
+               <Typography variant="h3" fontSize={24}>
+                  Dịch vụ & Vật tư sử dụng
+               </Typography>
+            </Box>
+            <ScrollbarBase sx={{ mt: 4, maxHeight: 680 }}>
+               <Grid container spacing={2}>
                   <DetailRepairInvoiceService data={repairInvoice?.repairInvoiceService ?? []} />
-               </ExtendTabPanel>
-               <ExtendTabPanel value="2">
                   <DetailRepairInvoiceSupplies data={repairInvoice?.repairInvoiceSupplies ?? []} />
-               </ExtendTabPanel>
-            </TabContext>
+               </Grid>
+            </ScrollbarBase>
          </PageContent>
          <ModalPayComplete open={open} setOpen={setOpen} refetchRepairInvoice={refetch} repairInvoice={repairInvoice} />
          <ModalPay open={openModalPay} setOpen={setOpenModalPay} refetchRepairInvoice={refetch} />
       </BaseBreadcrumbs>
    );
 };
-
-const ExtendTabPanel = styled(TabPanel)({
-   padding: '12px 0px',
-});
-
-const ExtendTab = styled(Tab)({
-   padding: '6px 12px',
-   minHeight: 'auto',
-});
 
 export default RepairInvoiceDetail;

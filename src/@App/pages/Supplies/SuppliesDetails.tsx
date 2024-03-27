@@ -9,7 +9,6 @@ import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import PageContent from '@App/component/customs/PageContent';
 import suppliesService, { SuppliesFindOne } from '@App/services/supplies.service';
 import { useMemo } from 'react';
-import formatDateTime from '@Core/Helper/formatDateTime';
 
 import DetailTableSupplies from './component/DetailTableSupplies';
 
@@ -24,6 +23,7 @@ interface RenderSuppliesDetails {
    label: string;
    value: string | number;
    border?: boolean;
+   xs?: number;
 }
 
 const SuppliesDetails = () => {
@@ -41,9 +41,8 @@ const SuppliesDetails = () => {
               { label: 'Tên vật tư', value: supplies.name, border: true },
               { label: 'Danh mục', value: supplies.materials_catalog_id.name, border: true },
               { label: 'Đơn vị', value: supplies.unit, border: true },
-              { label: 'Mô tả', value: supplies.describe, border: true },
+              { label: 'Mô tả', value: supplies.describe, border: true, xs: 12 },
               // { label: 'Trạng thái hàng', value: supplies?.details?.isInStock ? 'Còn hàng' : 'Hết hàng' },
-              { label: 'Ngày tạo', value: formatDateTime(supplies.createdAt), border: true },
            ]
          : [];
       return { suppliesDetails };
@@ -76,14 +75,14 @@ const SuppliesDetails = () => {
          <PageContent>
             <Grid container spacing={1} columnSpacing={8}>
                {suppliesDetails.map((detail, index) => (
-                  <Grid item xs={6}>
+                  <Grid item xs={detail.xs ?? 4}>
                      <Grid container spacing={1}>
-                        <Grid item xs={2} paddingBottom={2} key={index}>
+                        <Grid item xs={detail.xs ? 1 : 3} paddingBottom={2} key={index}>
                            <Typography sx={{ fontSize: '1rem', lineHeight: '2.2rem', color: theme.palette.grey[800] }}>
                               {detail.label}
                            </Typography>
                         </Grid>
-                        <Grid item xs={10}>
+                        <Grid item xs={detail.xs ? 11 : 9}>
                            <Typography
                               sx={{
                                  p: 1,

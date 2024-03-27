@@ -12,11 +12,13 @@ import setErrorMessageHookForm from '@App/helpers/setErrorMessageHookForm';
 import { HandleErrorApi } from '@Core/Api/axios-config';
 import repairServiceService from '@App/services/repairService.service';
 import setValueHookForm from '@App/helpers/setValueHookForm';
-import { Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
+import { useRef } from 'react';
 
 import { RepairServiceSchema, validationFormCreate } from './utils/repairService.schema';
 import BaseFormRepairService from './components/BaseFormRepairService';
+import ModalCreateCategories, { ModalCreateCategoriesRef } from './components/ModalCreateCategories';
 
 const breadcrumbs = [
    {
@@ -31,6 +33,8 @@ const RepairServiceUpdate = () => {
       resolver: yupResolver(validationFormCreate),
       defaultValues: validationFormCreate.getDefault(),
    });
+
+   const refModalCate = useRef<ModalCreateCategoriesRef>(null);
 
    const { data: repairService } = useQuery(
       ['getRepairService', repairServiceId],
@@ -65,7 +69,7 @@ const RepairServiceUpdate = () => {
    const onSubmitForm: SubmitHandler<RepairServiceSchema> = (data) => handleUpdateRepairService(data);
    return (
       <BaseBreadcrumbs arialabel={repairService?.name as string} breadcrumbs={breadcrumbs}>
-         <Box>
+         <Box display="flex" justifyContent="space-between">
             <LoadingButton
                type="submit"
                variant="contained"
@@ -74,8 +78,12 @@ const RepairServiceUpdate = () => {
             >
                Lưu
             </LoadingButton>
+            <Button variant="contained" color="warning" onClick={() => refModalCate.current?.handleOpen()}>
+               Thêm danh mục
+            </Button>
          </Box>
          <BaseFormRepairService form={form} onSubmitForm={onSubmitForm} />
+         <ModalCreateCategories ref={refModalCate} />
       </BaseBreadcrumbs>
    );
 };

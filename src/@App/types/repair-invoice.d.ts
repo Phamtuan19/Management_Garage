@@ -31,6 +31,7 @@ interface ResponseReadSuppliesInvoices {
    describe: string;
    createdAt: string;
    updatedAt: string;
+   repair_staff_id: Array<string>;
 }
 
 interface ResponseFindOneRepairInvoiceService {

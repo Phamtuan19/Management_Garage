@@ -32,6 +32,10 @@ const sortList = [
       title: 'Tên',
       value: 'name',
    },
+   {
+      title: 'Tên danh mục',
+      value: 'repair_service_category_id.name',
+   },
 ];
 
 const sortOptions = [
@@ -103,7 +107,7 @@ const RepairServices = () => {
             },
          }),
          columnHelper.accessor('repair_service_category_id.name', {
-            header: 'Tên dịch vụ',
+            header: 'Danh mục dịch vụ',
             cell: (info) => {
                return (
                   <Box sx={{ maxWidth: '340px', textOverflow: 'ellipsis', overflow: 'hidden' }}>{info.getValue()}</Box>

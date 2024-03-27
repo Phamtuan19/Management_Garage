@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
@@ -31,6 +32,7 @@ import repairServiceCategoriesService from '@App/services/repairServiceCategorie
 import { errorMessage } from '@Core/Helper/message';
 import { RepairInvoiceUpdateSchema } from '@App/pages/RepairInvoice/utils/repair-invoice-update';
 import { STATUS_REPAIR_DETAIL } from '@App/configs/status-config';
+import formatPrice from '@Core/Helper/formatPrice';
 
 interface FilterServiceProps {
    form: UseFormReturn<RepairInvoiceUpdateSchema>;
@@ -97,10 +99,19 @@ const FilterService = ({
       },
    );
 
-   const { data: repairServiceCategories } = useQuery(['getRepairServiceCategories'], async () => {
-      const res = await repairServiceCategoriesService.get({});
-      return res.data;
-   });
+   const { data: repairServiceCategories } = useQuery(
+      ['getRepairServiceCategories'],
+      async () => {
+         const res = await repairServiceCategoriesService.get({});
+         return res.data;
+      },
+      {
+         onSuccess: (data) => {
+            setCategory_id(data[0]._id);
+            return data;
+         },
+      },
+   );
 
    const dataFilterSupplie = useMemo(() => {
       if (repairService && repairServiceForm) {
@@ -152,7 +163,7 @@ const FilterService = ({
 
    return (
       <Grid container spacing={2}>
-         <Grid item xs={8.3}>
+         <Grid item xs={6}>
             <Box
                sx={{
                   position: 'relative',
@@ -231,9 +242,17 @@ const FilterService = ({
                                     >
                                        <Flex sx={{ flexDirection: 'column', flex: 1, gap: '6px' }}>
                                           <Box sx={{ width: '100%', textAlign: 'left' }}>{item.name}</Box>
-                                          <Flex sx={{ width: '100%', gap: '12px' }}>
+                                          <Flex sx={{ width: '100%', gap: '24px' }}>
                                              <Box>
                                                 <span>#{item.code}</span>
+                                             </Box>
+                                             <Box>
+                                                <span>Giá: </span>
+                                                <span>{formatPrice(item.price)}</span>
+                                             </Box>
+                                             <Box>
+                                                <span>Giảm: </span>
+                                                <span>{item.discount}</span>
                                              </Box>
                                           </Flex>
                                        </Flex>
@@ -259,6 +278,7 @@ const FilterService = ({
                   })}
             </Select>
          </Grid>
+         <Grid item xs={2.3}></Grid>
          <Grid item xs={0.7} display="flex" justifyContent="flex-end">
             <Box position="relative" display="flex" justifyContent="flex-end" ref={refVisibility}>
                <Button

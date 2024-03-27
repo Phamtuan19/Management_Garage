@@ -13,6 +13,7 @@ export const validationFormCreate = yup.object({
       .default(0),
    describe: yup.string().default(''),
    cars: yup.array().of(yup.string()).default([]),
+   brand_car: yup.string().default(''),
    repair_service_category_id: yup.string().default(''),
    // details: yup
    //    .array()
@@ -41,3 +42,10 @@ export const validationFormCreate = yup.object({
    ),
 });
 export type RepairServiceSchema = yup.InferType<typeof validationFormCreate>;
+
+export const validationFormCategory = yup.object({
+   name: yup.string().required(messageValidate.required('Tên')).default(''),
+   describe: yup.string().default(''),
+});
+
+export type ValidationFormCategory = yup.InferType<typeof validationFormCategory>;

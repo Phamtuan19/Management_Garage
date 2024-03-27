@@ -18,146 +18,123 @@ const DetailRepairInvoiceSupplies = ({ data }: DetailRepairInvoiceSuppliesProps)
    const [openDrawer, setOpenDrawer] = useState<boolean>(false);
    const [dataDrawer, setDataDrawer] = useState<ResponseFindOneRepairInvoiceSupplies | null>(null);
 
-   // const columns = useMemo(() => {
-   //    return [
-   //       columnHelper.accessor('unit', {
-   //          header: 'Dvt',
-   //          cell: (info) => {
-   //             return <Box>{info.getValue()}</Box>;
-   //          },
-   //       }),
-   //       columnHelper.accessor('quantity', {
-   //          header: () => <Box textAlign="center">Số lượng</Box>,
-   //          cell: (info) => {
-   //             return <Box textAlign="center">{info.getValue()}</Box>;
-   //          },
-   //       }),
-   //       columnHelper.accessor('status_supplies', {
-   //          header: () => <Box textAlign="center">Trạng thái lấy VT</Box>,
-   //          cell: (info) => {
-   //             const status: {
-   //                title: string;
-   //                color: string;
-   //             } = info.getValue() ? STATUS_DELIVERY[info.getValue()] : STATUS_DELIVERY.empty;
-   //             return (
-   //                <Box textAlign="center">
-   //                   <Chip label={status.title} color={status.color as never} />
-   //                </Box>
-   //             );
-   //          },
-   //       }),
-   //    ];
-   // }, []);
-
    return (
-      <Box>
-         <Grid container spacing={1}>
-            {data.map((item) => {
-               const status: {
-                  title: string;
-                  color: string;
-               } = item.status_supplies ? STATUS_DELIVERY[item.status_supplies as never] : STATUS_DELIVERY.empty;
+      <>
+         {data.map((item) => {
+            const status: {
+               title: string;
+               color: string;
+            } = item.status_supplies ? STATUS_DELIVERY[item.status_supplies as never] : STATUS_DELIVERY.empty;
 
-               return (
-                  <Grid item xs={4}>
-                     <Button
-                        component={Tooltip}
-                        title="Xem chi tiết"
-                        variant="text"
-                        sx={{ p: 0, width: '100%' }}
-                        onClick={() => {
-                           if (item.options.length > 0) {
-                              setOpenDrawer(true);
-                              setDataDrawer(item);
-                           }
-                        }}
-                     >
-                        <ExtendStack>
-                           <Box display="flex" gap="12px" flex={1}>
-                              <Flex>
-                                 <ControllerLabel title="Mã :" />
-                                 <Typography
-                                    sx={{
-                                       pb: '2px',
-                                       textAlign: 'start',
-                                    }}
-                                 >
-                                    #{item.supplies_detail_code}
-                                 </Typography>
-                              </Flex>
-                              <Flex>
-                                 <ControllerLabel title="Loại :" />
-                                 <Chip label="Vật tư" color="secondary" size="small" />
-                              </Flex>
-                           </Box>
+            const minSellingPrice = item.options.length > 0 ? Math.min(...item.options.map((v) => v.selling_price)) : 0;
+
+            // Tìm giá bán (selling_price) lớn nhất
+            const maxSellingPrice = item.options.length > 0 ? Math.max(...item.options.map((v) => v.selling_price)) : 0;
+
+            const price =
+               minSellingPrice === maxSellingPrice
+                  ? formatPrice(maxSellingPrice)
+                  : `${formatPrice(minSellingPrice)} - ${formatPrice(maxSellingPrice)}`;
+
+            return (
+               <Grid item xs={4}>
+                  <Button
+                     component={Tooltip}
+                     title="Xem chi tiết"
+                     variant="text"
+                     sx={{ p: 0, width: '100%' }}
+                     onClick={() => {
+                        if (item.options.length > 0) {
+                           setOpenDrawer(true);
+                           setDataDrawer(item);
+                        }
+                     }}
+                  >
+                     <ExtendStack>
+                        <Box display="flex" gap="12px" flex={1}>
                            <Flex>
-                              <ControllerLabel title="Tên:" />
+                              <ControllerLabel title="Mã :" />
                               <Typography
-                                 component="div"
                                  sx={{
                                     pb: '2px',
                                     textAlign: 'start',
-                                    flex: 1,
-                                    overflow: 'hidden',
-                                    textOverflow: 'ellipsis',
-                                    whiteSpace: 'nowrap',
                                  }}
                               >
-                                 {item.supplies_detail_name}
+                                 #{item.supplies_detail_code}
                               </Typography>
                            </Flex>
                            <Flex>
-                              <ControllerLabel title="NPP:" />
+                              <ControllerLabel title="Loại :" />
+                              <Chip label="Vật tư" color="secondary" size="small" />
+                           </Flex>
+                        </Box>
+                        <Flex>
+                           <ControllerLabel title="Tên:" />
+                           <Typography
+                              component="div"
+                              sx={{
+                                 pb: '2px',
+                                 textAlign: 'start',
+                                 flex: 1,
+                                 overflow: 'hidden',
+                                 textOverflow: 'ellipsis',
+                                 whiteSpace: 'nowrap',
+                              }}
+                           >
+                              {item.supplies_detail_name}
+                           </Typography>
+                        </Flex>
+                        <Flex>
+                           <ControllerLabel title="NPP:" />
+                           <Typography
+                              component="div"
+                              sx={{
+                                 pb: '2px',
+                                 textAlign: 'start',
+                                 flex: 1,
+                                 overflow: 'hidden',
+                                 textOverflow: 'ellipsis',
+                                 whiteSpace: 'nowrap',
+                              }}
+                           >
+                              {item.distributors_name}
+                           </Typography>
+                        </Flex>
+                        <Flex>
+                           <Flex>
+                              <ControllerLabel title="Đvt :" />
                               <Typography
-                                 component="div"
                                  sx={{
                                     pb: '2px',
                                     textAlign: 'start',
-                                    flex: 1,
-                                    overflow: 'hidden',
-                                    textOverflow: 'ellipsis',
-                                    whiteSpace: 'nowrap',
                                  }}
                               >
-                                 {item.distributors_name}
+                                 <Chip label={item.unit} color="default" size="small" />
                               </Typography>
                            </Flex>
                            <Flex>
-                              <Flex>
-                                 <ControllerLabel title="Đvt :" />
-                                 <Typography
-                                    sx={{
-                                       pb: '2px',
-                                       textAlign: 'start',
-                                    }}
-                                 >
-                                    <Chip label={item.unit} color="default" size="small" />
-                                 </Typography>
-                              </Flex>
-                              <Flex>
-                                 <ControllerLabel title="Giá :" />
-                                 <Typography
-                                    sx={{
-                                       pb: '2px',
-                                       textAlign: 'start',
-                                    }}
-                                 >
-                                    {formatPrice(item.price ?? 0)}
-                                 </Typography>
-                              </Flex>
+                              <ControllerLabel title="Giá :" />
+                              <Typography
+                                 sx={{
+                                    pb: '2px',
+                                    textAlign: 'start',
+                                 }}
+                              >
+                                 {price ?? 0}
+                              </Typography>
                            </Flex>
-                           <Flex>
-                              <ControllerLabel title="Lấy vt :" />
-                              <Chip label={status.title} color={status.color as never} size="small" />
-                           </Flex>
-                        </ExtendStack>
-                     </Button>
-                  </Grid>
-               );
-            })}
-         </Grid>
+                        </Flex>
+                        <Flex>
+                           <ControllerLabel title="Lấy vt :" />
+                           <Chip label={status.title} color={status.color as never} size="small" />
+                        </Flex>
+                     </ExtendStack>
+                  </Button>
+               </Grid>
+            );
+         })}
 
-         <Drawer open={openDrawer} anchor="right">
+         <Drawer open={openDrawer} anchor="right" sx={{ zIndex: 9999 }}>
             <Box sx={{ minWidth: 600, maxWidth: 700 }}>
                <Box
                   sx={({ palette, base }) => ({
@@ -182,7 +159,7 @@ const DetailRepairInvoiceSupplies = ({ data }: DetailRepairInvoiceSuppliesProps)
                </Box>
             </Box>
          </Drawer>
-      </Box>
+      </>
    );
 };
 

@@ -1,24 +1,42 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/naming-convention */
 import PageContent from '@App/component/customs/PageContent';
 import { STATUS_PAYMENT, StatusPayment } from '@App/configs/status-config';
+import personnelService from '@App/services/personnel.service';
 import transactionService from '@App/services/transaction-service';
+import { ResponseReadSuppliesInvoices } from '@App/types/repair-invoice';
 import ControllerLabel from '@Core/Component/Input/ControllerLabel';
 import formatPrice from '@Core/Helper/formatPrice';
 import { Box, Chip, Grid, Typography } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 
 interface TransactionProps {
-   transaction_id: string;
+   repairInvoice: ResponseReadSuppliesInvoices;
 }
 
-const Transaction = ({ transaction_id }: TransactionProps) => {
-   const { data: transaction } = useQuery(['getTransaction', transaction_id], async () => {
-      const res = await transactionService.find(transaction_id);
+const Transaction = ({ repairInvoice }: TransactionProps) => {
+   const { data: transaction } = useQuery(['getTransaction', repairInvoice.transactions_id], async () => {
+      const res = await transactionService.find(repairInvoice.transactions_id);
+      return res.data;
+   });
+   const { data: personnels } = useQuery(['getPersonnel', repairInvoice.transactions_id], async () => {
+      const res = await personnelService.fieldAll();
       return res.data;
    });
 
    const renderInfo = [
+      {
+         title: 'Nhân viên sửa chữa:',
+         value: (
+            <Box display="flex" gap={1}>
+               {personnels
+                  ?.filter((item) => repairInvoice.repair_staff_id.includes(item._id))
+                  .map((item) => <Chip label={item.full_name} />)}
+            </Box>
+         ),
+
+         border: false,
+         xs: 12,
+      },
       {
          title: 'Tổng hóa đơn:',
          value: formatPrice(transaction?.total_price ?? 0),
@@ -45,12 +63,12 @@ const Transaction = ({ transaction_id }: TransactionProps) => {
          <Grid container spacing={2}>
             {renderInfo.map((item, index) => {
                return (
-                  <Grid item xs={4} key={index}>
+                  <Grid item xs={item.xs ?? 4} key={index}>
                      <Grid container spacing={1}>
-                        <Grid item xs={4} sx={{ display: 'flex', alignItems: 'flex-end' }}>
+                        <Grid item xs={item.xs ? 2 : 4} sx={{ display: 'flex', alignItems: 'flex-end' }}>
                            <ControllerLabel title={item.title} />
                         </Grid>
-                        <Grid item xs={8}>
+                        <Grid item xs={item.xs ? 10 : 8}>
                            <Typography
                               sx={{
                                  p: 1,

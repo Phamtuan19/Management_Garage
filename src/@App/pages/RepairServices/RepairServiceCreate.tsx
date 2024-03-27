@@ -10,11 +10,13 @@ import { HandleErrorApi } from '@Core/Api/axios-config';
 import ROUTE_PATH from '@App/configs/router-path';
 import repairServiceService from '@App/services/repairService.service';
 import { useNavigate } from 'react-router-dom';
-import { Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
+import { useRef } from 'react';
 
 import { RepairServiceSchema, validationFormCreate } from './utils/repairService.schema';
 import BaseFormRepairService from './components/BaseFormRepairService';
+import ModalCreateCategories, { ModalCreateCategoriesRef } from './components/ModalCreateCategories';
 
 const breadcrumbs = [
    {
@@ -29,6 +31,9 @@ const RepairServiceCreate = () => {
       resolver: yupResolver(validationFormCreate),
       defaultValues: validationFormCreate.getDefault(),
    });
+
+   const refModalCate = useRef<ModalCreateCategoriesRef>(null);
+
    const { mutate: handleCreateRepairService, isLoading } = useMutation({
       mutationFn: async (data: RepairServiceSchema) => {
          return await repairServiceService.create(data);
@@ -50,7 +55,7 @@ const RepairServiceCreate = () => {
 
    return (
       <BaseBreadcrumbs arialabel="Thêm mới" breadcrumbs={breadcrumbs}>
-         <Box>
+         <Box display="flex" justifyContent="space-between">
             <LoadingButton
                type="submit"
                variant="contained"
@@ -59,8 +64,13 @@ const RepairServiceCreate = () => {
             >
                Lưu
             </LoadingButton>
+
+            <Button variant="contained" color="warning" onClick={() => refModalCate.current?.handleOpen()}>
+               Thêm danh mục
+            </Button>
          </Box>
          <BaseFormRepairService form={form} onSubmitForm={onSubmitForm} />
+         <ModalCreateCategories ref={refModalCate} />
       </BaseBreadcrumbs>
    );
 };

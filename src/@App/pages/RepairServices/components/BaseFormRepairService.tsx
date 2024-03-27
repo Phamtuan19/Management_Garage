@@ -1,8 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable import/order */
@@ -17,10 +12,9 @@ import PageContent from '@App/component/customs/PageContent';
 import BaseFormRepairServiceDetail from './BaseFormRepairServiceDetail';
 import ControllerAutoComplate from '@Core/Component/Input/ControllerAutoComplate';
 import { useQuery } from '@tanstack/react-query';
-import brandCarService from '@App/services/brand-car.service';
-import { useMemo } from 'react';
 import formatPrice from '@Core/Helper/formatPrice';
 import repairServiceCategoriesService from '@App/services/repairServiceCategories.service';
+import CarType from './CarType';
 
 interface BaseFormRepairService {
    form: UseFormReturn<RepairServiceSchema>;
@@ -30,11 +24,6 @@ interface BaseFormRepairService {
 const BaseFormRepairService = ({ form, onSubmitForm }: BaseFormRepairService) => {
    const { handleSubmit, control } = form;
 
-   const { data: brandCar, isLoading: isLoadingBrandCar } = useQuery(['getBrandCarAll'], async () => {
-      const res = await brandCarService.get();
-      return res.data;
-   });
-
    const { data: repairServiceCategories, isLoading: isLoadingCategories } = useQuery(
       ['getRepairServiceCategories'],
       async () => {
@@ -42,26 +31,6 @@ const BaseFormRepairService = ({ form, onSubmitForm }: BaseFormRepairService) =>
          return res.data;
       },
    );
-
-   const models = useMemo(() => {
-      const brands =
-         brandCar?.map((item: any) => ({
-            key: item.name,
-            name: item.name,
-         })) ?? [];
-
-      const models =
-         brandCar?.flatMap((item: any) => {
-            return item.models.map((model: unknown) => {
-               return { key: model, name: model };
-            });
-         }) ?? [];
-
-      return {
-         brands,
-         models,
-      };
-   }, [brandCar]);
 
    return (
       <Box component="form" onSubmit={handleSubmit(onSubmitForm)}>
@@ -87,21 +56,7 @@ const BaseFormRepairService = ({ form, onSubmitForm }: BaseFormRepairService) =>
                      />
                   </Box>
                </Grid>
-               <Grid item xs={12}>
-                  <Box minHeight="85px">
-                     <ControllerLabel title="Loại xe sử dụng dịch vụ" />
-                     <ControllerAutoComplate
-                        loading={isLoadingBrandCar}
-                        multiple
-                        name="cars"
-                        options={models.models ?? []}
-                        valuePath="key"
-                        titlePath="name"
-                        control={control}
-                        placeholder="Chọn loại xe sử dụng dịch vụ"
-                     />
-                  </Box>
-               </Grid>
+
                <Grid item xs={4}>
                   <Box minHeight="85px">
                      <ControllerLabel title="Giá" required />
@@ -109,11 +64,11 @@ const BaseFormRepairService = ({ form, onSubmitForm }: BaseFormRepairService) =>
                   </Box>
                </Grid>
                <Grid item xs={4} minHeight="85px">
-                  <ControllerLabel title="Giảm giá (%)" required />
+                  <ControllerLabel title="Giảm giá (%)" />
                   <ControllerTextField name="discount" number control={control} placeholder="Giảm giá " />
                </Grid>
                <Grid item xs={4} minHeight="85px">
-                  <ControllerLabel title="Giá sau khi giảm" required />
+                  <ControllerLabel title="Giá sau khi giảm" />
                   {/* <ControllerTextField name="discount" number control={control} placeholder="Giảm giá " /> */}
                   <InputBase
                      fullWidth
@@ -127,6 +82,11 @@ const BaseFormRepairService = ({ form, onSubmitForm }: BaseFormRepairService) =>
                      }}
                      disabled
                   />
+               </Grid>
+               <Grid item xs={12}>
+                  <Box minHeight="85px">
+                     <CarType form={form} />
+                  </Box>
                </Grid>
                <Grid item xs={12}>
                   <Controller

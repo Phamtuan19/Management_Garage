@@ -31,12 +31,12 @@ interface RepairServiceProps {
 }
 
 const columnVisibilityData: Record<string, string> = {
-   Stt: 'Số thứ tự',
-   supplies_detail_code: 'Mã vật tư',
-   supplies_detail_name: 'Tên vật tư',
-   distributor_name: 'Nhà phân phối',
-   inventory: 'tồn kho',
-   quantity: 'Số lượng',
+   expand: 'Số thứ tự',
+   repair_service_code: 'Mã dịch vụ',
+   repair_service_name: 'Tên dịch vụ',
+   repair_service_category_name: 'Danh mục',
+   price: 'Giá',
+   total_price: 'Thành ti',
    action: 'thao tác',
 } as const;
 
@@ -49,23 +49,30 @@ const RepairService = ({ form }: RepairServiceProps) => {
    });
 
    const [columnVisibility, setColumnVisibility] = useState({
-      Stt: true,
-      supplies_detail_code: true,
-      supplies_detail_name: true,
-      distributor_name: true,
-      inventory: true,
-      quantity: true,
+      expand: true,
+      repair_service_code: true,
+      repair_service_name: true,
+      repair_service_category_name: true,
+      price: true,
+      total_price: true,
       action: true,
    });
 
    const coreConfirm = useConfirm();
 
    const { mutate: deleteRepairInvoiceDetail } = useMutation({
-      mutationFn: async (id: string) => {
-         return await repairInvoiceService.delete(id);
+      mutationFn: async ({ id, index }: { id: string; index: number }) => {
+         const res = await repairInvoiceService.delete(id);
+         return { data: res, index };
       },
-      onSuccess: (data: AxiosResponseData) => {
+      onSuccess: ({ data, index }: { data: AxiosResponseData; index: number }) => {
          successMessage(data.message);
+         if (fields.length === 1) {
+            form.setValue('repairService', []);
+         } else {
+            remove(index);
+         }
+
          return data;
       },
       onError: (err: AxiosError) => {
@@ -74,21 +81,20 @@ const RepairService = ({ form }: RepairServiceProps) => {
    });
 
    const handleRemoveFieldItem = (id: string, index: number) => {
-      coreConfirm({
-         icon: <ErrorOutlineIcon sx={{ fontSize: '56px' }} color="warning" />,
-         title: 'Cảnh báo',
-         confirmOk: 'Xác nhận',
-         content: 'Xác nhận xóa dịch vụ sửa chữa',
-         callbackOK: () => {
-            deleteRepairInvoiceDetail(id);
-
-            if (fields.length === 1) {
-               return form.setValue('repairService', []);
-            }
-            return remove(index);
-         },
-         isIcon: true,
-      });
+      if (id !== '') {
+         coreConfirm({
+            icon: <ErrorOutlineIcon sx={{ fontSize: '56px' }} color="warning" />,
+            title: 'Cảnh báo',
+            confirmOk: 'Xác nhận',
+            content: 'Xác nhận xóa dịch vụ sửa chữa',
+            callbackOK: () => {
+               deleteRepairInvoiceDetail({ id, index });
+            },
+            isIcon: true,
+         });
+      } else {
+         return remove(index);
+      }
    };
 
    const columnsService = useMemo(() => {
@@ -139,18 +145,26 @@ const RepairService = ({ form }: RepairServiceProps) => {
             },
          }),
          columnHelper.accessor('discount', {
-            header: () => <Box>Giá Km</Box>,
-            cell: (info) => <Box>{formatPrice(info.getValue())}</Box>,
-         }),
-         columnHelper.accessor('total_price', {
-            header: () => <Box sx={{ textAlign: 'center' }}>Thành tiền</Box>,
+            header: () => <Box>khuyến mại</Box>,
             cell: ({ row }) => {
                const price = watch(`repairService.${row.index}.price`);
                const discount = watch(`repairService.${row.index}.discount`);
 
-               const total_price = price - discount;
+               const priceKm = (price * discount) / 100;
 
-               return <Box sx={{ textAlign: 'center' }}>{formatPrice(total_price)}</Box>;
+               return <Box>{formatPrice(priceKm)}</Box>;
+            },
+         }),
+
+         columnHelper.accessor('total_price', {
+            header: () => <Box>Thành tiền</Box>,
+            cell: ({ row }) => {
+               const price = watch(`repairService.${row.index}.price`);
+               const discount = watch(`repairService.${row.index}.discount`);
+
+               const total_price = price - (price * discount) / 100;
+
+               return <Box>{formatPrice(total_price)}</Box>;
             },
          }),
          columnHelper.accessor('action', {

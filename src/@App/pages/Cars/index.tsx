@@ -52,7 +52,7 @@ const MaterialsCatalog = () => {
    const queryTable = useQuery(['getListCars', searchParams], async () => {
       const res = await carsService.get({
          ...searchParams,
-         status: searchParams['searchParams'] === 'all' ? '' : searchParams['searchParams'],
+         status: searchParams['status'] === 'all' ? '' : searchParams['status'],
       });
       return res.data;
    });

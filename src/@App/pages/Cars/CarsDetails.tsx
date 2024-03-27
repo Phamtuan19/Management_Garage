@@ -18,6 +18,7 @@ import TableCore, { columnHelper } from '@Core/Component/Table';
 import { useMemo, useRef } from 'react';
 import { RepairOrdersResponse } from '@App/services/repairorder.service';
 import { format } from 'date-fns';
+import formatPrice from '@Core/Helper/formatPrice';
 
 import ModalDetailRepairInvoice, { ModalDetailRepairInvoicePropsRef } from './ModalDetailRepairInvoice';
 
@@ -80,9 +81,9 @@ const CarsDetails = () => {
          }),
 
          columnHelper.accessor('personnel_id.full_name', {
-            header: () => <Box textAlign="center">NV Tạo</Box>,
+            header: () => <Box>NV Tạo</Box>,
             cell: (info) => {
-               return <Box textAlign="center">{info.getValue()} </Box>;
+               return <Box>{info.getValue()} </Box>;
             },
          }),
          columnHelper.accessor('status', {
@@ -97,6 +98,12 @@ const CarsDetails = () => {
                      />
                   </Box>
                );
+            },
+         }),
+         columnHelper.accessor('transactions_id.total_price', {
+            header: () => <Box>Tổng tiền</Box>,
+            cell: (info) => {
+               return <Box>{formatPrice(info.getValue() ?? 0)} </Box>;
             },
          }),
          columnHelper.accessor('createdAt', {
@@ -162,6 +169,11 @@ const CarsDetails = () => {
          </PageContent>
 
          <PageContent>
+            <Box pb={1} borderBottom="1px solid #DADADA">
+               <Typography variant="h3" fontSize={24}>
+                  Dịch vụ & Vật tư sử dụng
+               </Typography>
+            </Box>
             <TableCore
                columns={columns}
                data={cars?.repair_invoices ?? []}

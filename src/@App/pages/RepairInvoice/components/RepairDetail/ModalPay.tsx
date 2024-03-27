@@ -44,13 +44,14 @@ const ModalPay = ({ open, refetchRepairInvoice, setOpen }: ModalPayProps) => {
       defaultValues: repairInvoiceStatusPay.getDefault(),
    });
 
-   const { mutate: handleUpdateRepairInvoiceStatus } = useMutation({
+   const { mutate: handleUpdateRepairInvoiceStatus, isLoading } = useMutation({
       mutationFn: async (data: RepairInvoiceStatusPaySchema) => {
          return await repairInvoiceService.update({ ...data, status: STATUS_REPAIR.pay.key }, repairInvoicId, 'patch');
       },
       onSuccess: async (data: AxiosResponseData) => {
          await refetchRepairInvoice();
          successMessage(data.message);
+         setOpen(false);
          return data;
       },
       onError: (err: AxiosError) => {
@@ -89,19 +90,20 @@ const ModalPay = ({ open, refetchRepairInvoice, setOpen }: ModalPayProps) => {
                      titlePath="full_name"
                      control={control}
                      multiple
+                     disabled={isLoading}
                   />
                </Box>
                <Box mt={1}>
                   <ControllerLabel title="Ghi chú" />
-                  <ControllerTextarea name="describe" minRows={10} control={control as never} />
+                  <ControllerTextarea name="describe" minRows={10} control={control as never} disabled={isLoading} />
                </Box>
             </Box>
             <Box mt={3}>
                <Box display="flex" justifyContent="flex-end" gap={1.5}>
-                  <Button variant="contained" color="error" onClick={() => setOpen(false)}>
+                  <Button disabled={isLoading} variant="contained" color="error" onClick={() => setOpen(false)}>
                      Hủy
                   </Button>
-                  <LoadingButton variant="contained" onClick={handleSubmit(handleSubmitForm)}>
+                  <LoadingButton variant="contained" loading={isLoading} onClick={handleSubmit(handleSubmitForm)}>
                      Xác nhận
                   </LoadingButton>
                </Box>

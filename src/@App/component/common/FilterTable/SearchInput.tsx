@@ -1,13 +1,21 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Box, IconButton, InputAdornment, OutlinedInput, Stack, Typography } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import SearchSharpIcon from '@mui/icons-material/SearchSharp';
 import KeyboardDoubleArrowRightSharpIcon from '@mui/icons-material/KeyboardDoubleArrowRightSharp';
 import useSearchParamsHook from '@App/hooks/useSearchParamsHook';
 import CancelSharpIcon from '@mui/icons-material/CancelSharp';
+import { useOnClickOutside } from '@App/hooks/useOnClickOutside';
 
 const SearchInput = ({ searchType = [], children }: { searchType: SortList[]; children?: React.ReactNode }) => {
    const [value, setValue] = useState<string>('');
+   const [open, setOpen] = useState<boolean>(false);
+
+   const ref = useRef<HTMLElement>(null);
+
+   useOnClickOutside(ref, () => {
+      setOpen(false);
+   });
 
    const { setParams, searchParams, deleteParams } = useSearchParamsHook();
 
@@ -16,14 +24,14 @@ const SearchInput = ({ searchType = [], children }: { searchType: SortList[]; ch
    };
 
    const handleClickSearchItem = (key: string) => {
-      setParams(key, value);
+      setParams(key, value.trim());
       setValue('');
    };
 
    // handle Input Key Down Enter
    const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
       if (e.key === 'Enter') {
-         setParams(searchType[0].value, value);
+         setParams(searchType[0].value, value.trim());
          return setValue('');
       }
    };
@@ -31,7 +39,7 @@ const SearchInput = ({ searchType = [], children }: { searchType: SortList[]; ch
    return (
       <Box sx={{ flex: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
          <Box sx={{ width: '60%', maxWidth: '700px', display: 'flex', gap: '0px 12px' }}>
-            <Box sx={{ display: 'flex', gap: '0px 12px', position: 'relative', flex: 1 }}>
+            <Box ref={ref} sx={{ display: 'flex', gap: '0px 12px', position: 'relative', flex: 1 }}>
                <OutlinedInput
                   fullWidth
                   size="small"
@@ -54,8 +62,9 @@ const SearchInput = ({ searchType = [], children }: { searchType: SortList[]; ch
                         </IconButton>
                      </InputAdornment>
                   }
+                  onFocus={() => setOpen(true)}
                />
-               {value.length > 0 && (
+               {open && value.length > 0 && (
                   <Box
                      sx={{
                         position: 'absolute',
@@ -112,6 +121,7 @@ const SearchInput = ({ searchType = [], children }: { searchType: SortList[]; ch
             </Box>
             <Box>{children}</Box>
          </Box>
+
          <Stack sx={{ flexDirection: 'row', gap: 1 }}>
             {searchType.map((item, index) => {
                if (searchParams[item.value]?.length > 0) {

@@ -17,78 +17,80 @@ const DetailRepairInvoiceService = ({ data }: DetailRepairInvoiceServiceProps) =
    const [dataDrawer, setDataDrawer] = useState<ResponseFindOneRepairInvoiceService | null>(null);
 
    return (
-      <Box>
-         <Grid container spacing={1}>
-            {data.map((item) => {
-               return (
-                  <Grid item xs={4}>
-                     <Button
-                        component={Tooltip}
-                        title="Xem chi tiết"
-                        variant="text"
-                        sx={{ p: 0, width: '100%' }}
-                        onClick={() => {
-                           setOpenDrawer(true);
-                           setDataDrawer(item);
-                        }}
-                     >
-                        <ExtendStack>
-                           <Flex>
-                              <ControllerLabel title="Loại :" />
-                              <Chip label="Dịch vụ" color="warning" size="small" />
-                           </Flex>
-                           <Flex>
-                              <ControllerLabel title="Mã :" />
-                              <Typography
-                                 sx={{
-                                    pb: '2px',
-                                    textAlign: 'start',
-                                 }}
-                              >
-                                 #{item.service_code}
-                              </Typography>
-                           </Flex>
-                           <Flex>
-                              <ControllerLabel title="Tên dịch vụ :" />
-                              <Typography
-                                 sx={{
-                                    pb: '2px',
-                                    textAlign: 'start',
-                                 }}
-                              >
-                                 {item.service_name}
-                              </Typography>
-                           </Flex>
-                           <Flex>
-                              <ControllerLabel title="Danh mục :" />
-                              <Typography
-                                 sx={{
-                                    pb: '2px',
-                                    textAlign: 'start',
-                                 }}
-                              >
-                                 {item.category_name}
-                              </Typography>
-                           </Flex>
-                           <Flex>
-                              <ControllerLabel title="Giá :" />
-                              <Typography
-                                 sx={{
-                                    pb: '2px',
-                                    textAlign: 'start',
-                                 }}
-                              >
-                                 {formatPrice(item.price)}
-                              </Typography>
-                           </Flex>
-                        </ExtendStack>
-                     </Button>
-                  </Grid>
-               );
-            })}
-         </Grid>
+      <>
+         {data.map((item) => {
+            return (
+               <Grid item xs={4}>
+                  <Button
+                     component={Tooltip}
+                     title="Xem chi tiết"
+                     variant="text"
+                     sx={{ p: 0, width: '100%' }}
+                     onClick={() => {
+                        setOpenDrawer(true);
+                        setDataDrawer(item);
+                     }}
+                  >
+                     <ExtendStack>
+                        <Flex>
+                           <ControllerLabel title="Loại :" />
+                           <Chip label="Dịch vụ" color="warning" size="small" />
+                        </Flex>
+                        <Flex>
+                           <ControllerLabel title="Mã :" />
+                           <Typography
+                              sx={{
+                                 pb: '2px',
+                                 textAlign: 'start',
+                              }}
+                           >
+                              #{item.service_code}
+                           </Typography>
+                        </Flex>
+                        <Flex>
+                           <ControllerLabel title="Tên dịch vụ :" />
+                           <Typography
+                              sx={{
+                                 pb: '2px',
+                                 flex: 1,
+                                 textAlign: 'start',
+                                 overflow: 'hidden',
+                                 textOverflow: 'ellipsis',
+                                 whiteSpace: 'nowrap',
+                              }}
+                           >
+                              {item.service_name}
+                           </Typography>
+                        </Flex>
+                        <Flex>
+                           <ControllerLabel title="Danh mục :" />
+                           <Typography
+                              sx={{
+                                 pb: '2px',
+                                 textAlign: 'start',
+                              }}
+                           >
+                              {item.category_name}
+                           </Typography>
+                        </Flex>
+                        <Flex>
+                           <ControllerLabel title="Giá :" />
+                           <Typography
+                              sx={{
+                                 pb: '2px',
+                                 textAlign: 'start',
+                              }}
+                           >
+                              {formatPrice(item.price)}
+                           </Typography>
+                        </Flex>
+                     </ExtendStack>
+                  </Button>
+               </Grid>
+            );
+         })}
 
-         <Drawer open={openDrawer} anchor="right">
+         <Drawer open={openDrawer} anchor="right" sx={{ zIndex: 9999 }}>
             <Box sx={{ minWidth: 600, maxWidth: 700 }}>
                <Box
                   sx={({ palette, base }) => ({
@@ -113,7 +115,7 @@ const DetailRepairInvoiceService = ({ data }: DetailRepairInvoiceServiceProps) =
                </Box>
             </Box>
          </Drawer>
-      </Box>
+      </>
    );
 };
 

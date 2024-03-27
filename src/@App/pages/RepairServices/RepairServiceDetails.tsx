@@ -28,6 +28,9 @@ import MuiAccordionSummary, { AccordionSummaryProps } from '@mui/material/Accord
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import formatPrice from '@Core/Helper/formatPrice';
 import formatDateTime from '@Core/Helper/formatDateTime';
+import { useRef } from 'react';
+
+import ModalCreateCategories, { ModalCreateCategoriesRef } from './components/ModalCreateCategories';
 
 const breadcrumbs = [
    {
@@ -51,7 +54,7 @@ const RepairServiceDetails = () => {
       {
          label: 'Loại xe sử dụng dịch vụ',
          value: (
-            <Box display="flex" alignItems="center" gap="12px" mb={1}>
+            <Box display="flex" alignItems="center" flexWrap="wrap" gap="12px" mb={1}>
                {repairService?.cars.map((item: string) => <Chip label={item} color="default" />)}
             </Box>
          ),
@@ -60,21 +63,30 @@ const RepairServiceDetails = () => {
       { label: 'Ngày tạo', value: formatDateTime(repairService?.createdAt) },
    ];
 
+   const refModalCate = useRef<ModalCreateCategoriesRef>(null);
+
    return (
       <BaseBreadcrumbs breadcrumbs={breadcrumbs} arialabel={repairService?.name ?? ''}>
-         <Box display="flex" gap="12px">
+         <Box display="flex" justifyContent="space-between">
+            <Box display="flex" gap="12px">
+               <PermissionAccessRoute module={MODULE_PAGE.REPAIR_SERVICES} action="UPDATE">
+                  <Button variant="contained" onClick={() => navigate(ROUTE_PATH.REPAIR_SERVICES + ROUTE_PATH.CREATE)}>
+                     Thêm mới
+                  </Button>
+               </PermissionAccessRoute>
+               <PermissionAccessRoute module={MODULE_PAGE.REPAIR_SERVICES} action="UPDATE">
+                  <Button
+                     variant="contained"
+                     onClick={() => navigate(ROUTE_PATH.REPAIR_SERVICES + '/' + repairServiceId + '/update')}
+                     color="secondary"
+                  >
+                     Chỉnh sửa
+                  </Button>
+               </PermissionAccessRoute>
+            </Box>
             <PermissionAccessRoute module={MODULE_PAGE.REPAIR_SERVICES} action="UPDATE">
-               <Button variant="contained" onClick={() => navigate(ROUTE_PATH.REPAIR_SERVICES + ROUTE_PATH.CREATE)}>
-                  Thêm mới
-               </Button>
-            </PermissionAccessRoute>
-            <PermissionAccessRoute module={MODULE_PAGE.REPAIR_SERVICES} action="UPDATE">
-               <Button
-                  variant="contained"
-                  onClick={() => navigate(ROUTE_PATH.REPAIR_SERVICES + '/' + repairServiceId + '/update')}
-                  color="secondary"
-               >
-                  Chỉnh sửa
+               <Button variant="contained" color="warning" onClick={() => refModalCate.current?.handleOpen()}>
+                  Thêm danh mục
                </Button>
             </PermissionAccessRoute>
          </Box>
@@ -156,6 +168,8 @@ const RepairServiceDetails = () => {
                );
             })}
          </PageContent>
+
+         <ModalCreateCategories ref={refModalCate} />
       </BaseBreadcrumbs>
    );
 };
