@@ -28,6 +28,7 @@ import suppliesService, { SuppliesItem } from '@App/services/supplies.service';
 import formatPrice from '@Core/Helper/formatPrice';
 import { RepairInvoiceUpdateSchema } from '@App/pages/RepairInvoice/utils/repair-invoice-update';
 import { STATUS_REPAIR_DETAIL } from '@App/configs/status-config';
+import { errorMessage } from '@Core/Helper/message';
 
 interface FilterSuppliesProps {
    form: UseFormReturn<RepairInvoiceUpdateSchema>;
@@ -91,28 +92,33 @@ const FilterSupplies = ({
          return setOpen(false);
       }
 
-      append({
-         _id: '',
-         describe: '',
-         inventory: supplies.total_quantity_received ?? 0,
-         quantity: 1,
-         price:
-            supplies.min_price === supplies.max_price
-               ? formatPrice(supplies.max_price)
-               : `${formatPrice(supplies.min_price)} - ${formatPrice(supplies.max_price)}`,
-         repair_invoice_id: supplies._id,
-         repair_staff_id: '',
-         type: 'supplies',
-         status_repair: STATUS_REPAIR_DETAIL.empty.key,
-         supplies_detail_code: supplies.code,
-         supplies_detail_name: supplies.name_detail,
-         distributor_name: supplies.distributor_name,
-         discount: 0,
-         status_supplies: STATUS_REPAIR_DETAIL.empty.key,
-         options: [],
-      });
+      if (supplies.isInStock) {
+         append({
+            _id: '',
+            describe: '',
+            inventory: supplies.total_quantity_received ?? 0,
+            current_quantity: 0,
+            quantity: 1,
+            price:
+               supplies.min_price === supplies.max_price
+                  ? formatPrice(supplies.max_price)
+                  : `${formatPrice(supplies.min_price)} - ${formatPrice(supplies.max_price)}`,
+            repair_invoice_id: supplies._id,
+            repair_staff_id: '',
+            type: 'supplies',
+            status_repair: STATUS_REPAIR_DETAIL.empty.key,
+            supplies_detail_code: supplies.code,
+            supplies_detail_name: supplies.name_detail,
+            distributor_name: supplies.distributor_name,
+            discount: 0,
+            status_supplies: STATUS_REPAIR_DETAIL.empty.key,
+            options: [],
+         });
 
-      return setOpen(false);
+         return setOpen(false);
+      }
+
+      return errorMessage('Vật tư không còn hàng tồn.');
    };
 
    return (

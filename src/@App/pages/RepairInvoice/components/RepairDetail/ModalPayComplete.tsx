@@ -16,7 +16,6 @@ import React from 'react';
 import { ResponseFindOneRepairInvoice } from '@App/types/repair-invoice';
 import ScrollbarBase from '@App/component/customs/ScrollbarBase';
 import { LoadingButton } from '@mui/lab';
-import ControllerLabel from '@Core/Component/Input/ControllerLabel';
 import { QueryObserverResult, RefetchOptions, RefetchQueryFilters, useMutation } from '@tanstack/react-query';
 import repairInvoiceService from '@App/services/repair-invoice';
 import { STATUS_REPAIR } from '@App/configs/status-config';
@@ -128,10 +127,8 @@ const ModalPayComplete = ({ open, setOpen, repairInvoice, refetchRepairInvoice }
                            <TableRow>
                               <ExtendTableCell width={50}></ExtendTableCell>
                               <ExtendTableCell>Vật tư & Dịch vụ</ExtendTableCell>
+                              <ExtendTableCell width={70}>DVT</ExtendTableCell>
                               <ExtendTableCell width={70} align="center">
-                                 DVT
-                              </ExtendTableCell>
-                              <ExtendTableCell align="center" width={50}>
                                  SL
                               </ExtendTableCell>
                               <ExtendTableCell width={140}>Đơn giá</ExtendTableCell>
@@ -149,8 +146,10 @@ const ModalPayComplete = ({ open, setOpen, repairInvoice, refetchRepairInvoice }
                </Box>
                <Box mt={1.5}>
                   <Box mt={1.5} display="flex" justifyContent="space-between" gap={1.5}>
-                     <Box width="40%" maxWidth={300} display="flex" justifyContent="space-between">
-                        <ControllerLabel title="Tổng hóa đơn:" />
+                     <Box width="40%" maxWidth={300} display="flex" alignItems="center" justifyContent="space-between">
+                        <Typography fontSize={20} py="1px">
+                           Tổng hóa đơn:
+                        </Typography>
                         <ExtendTypography sx={{ fontWeight: 600, fontSize: '18px' }}>
                            {formatPrice(data.reduce((total, item) => (total += item.total_price), 0)) ?? 0}
                         </ExtendTypography>
@@ -176,12 +175,15 @@ const style = {
    top: '50%',
    left: '50%',
    transform: 'translate(-50%, -50%)',
-   width: 1200,
+   width: 1100,
    height: 680,
    bgcolor: 'background.paper',
    borderRadius: '6px',
    boxShadow: 24,
    border: 'none',
+   display: 'flex',
+   flexDirection: 'column',
+   justifyContent: 'space-between',
    p: 1.5,
 };
 

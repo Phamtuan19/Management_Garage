@@ -17,14 +17,15 @@ export const deliveryUpdateExportQuantity = yup.object({
             supplies_invoice_id: yup.string().default(''),
             supplies_invoice_code: yup.string().required(messageValidate.required()).default(''),
             supplies_invoice_detail_id: yup.string().default(''),
-
+            quantity_exported: yup.number().default(0), // số lượng đã xuất
             quantity_sold: yup.number().default(0), // Tồn kho
             selling_price: yup.number().default(0), // giá bán
             export_quantity: yup // số lượng xuất
                .number()
                .min(1, messageValidate.minNumber('Số lượng', 0))
+
                .test('maxExportQuantityInventory', 'Số lượng xuất không được lớn hơn tồn kho', function (value) {
-                  return value! <= this.parent.quantity_sold;
+                  return value! <= this.parent.quantity_sold + this.parent.quantity_exported;
                   // Trả về true nếu export_quantity không lớn hơn quantity_sold
                })
                .default(0),
@@ -35,6 +36,7 @@ export const deliveryUpdateExportQuantity = yup.object({
          {
             _id: '',
             delivery_detail_id: '',
+            quantity_exported: 0,
             export_quantity: 0,
             repair_invoice_detail_id: '',
             supplies_invoice_code: '',

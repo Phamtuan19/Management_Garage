@@ -33,6 +33,7 @@ export type RepairServiceUpdateSchema = yup.InferType<typeof repairServiceSchema
 export const suppliesInvoicesSchema = yup.object({
    _id: yup.string().default(''),
    repair_invoice_id: yup.string().default(''),
+   current_quantity: yup.number().default(0),
    quantity: yup.number().default(0),
    price: yup.string().default('0'),
    discount: yup.number().default(0),

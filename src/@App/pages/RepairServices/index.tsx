@@ -29,12 +29,16 @@ import formatDateTime from '@Core/Helper/formatDateTime';
 
 const sortList = [
    {
+      title: 'Mã',
+      value: 'code',
+   },
+   {
       title: 'Tên',
       value: 'name',
    },
    {
       title: 'Tên danh mục',
-      value: 'repair_service_category_id.name',
+      value: 'repair_service_category.name',
    },
 ];
 

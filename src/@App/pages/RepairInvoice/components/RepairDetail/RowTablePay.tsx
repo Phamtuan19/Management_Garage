@@ -2,6 +2,7 @@
 import { DeliveryNoteDataDetailOption } from '@App/types/delivery';
 import {
    Box,
+   Chip,
    Collapse,
    IconButton,
    Table,
@@ -40,11 +41,16 @@ function RowTablePay(props: {
                   </IconButton>
                )}
             </ExtendTableCell>
-            <ExtendTableCell>{row.name}</ExtendTableCell>
+            <ExtendTableCell>
+               <Box display="flex" gap={2}>
+                  <Box>{row.name}</Box>
+                  {row.options && <Chip label="Vật tư" color="warning" size="small" />}
+               </Box>
+            </ExtendTableCell>
             <ExtendTableCell>{row.unit}</ExtendTableCell>
-            <ExtendTableCell>{row.sl}</ExtendTableCell>
+            <ExtendTableCell align="center">{row.sl}</ExtendTableCell>
             <ExtendTableCell>{formatPrice(row.price)}</ExtendTableCell>
-            <ExtendTableCell>{row.discount}</ExtendTableCell>
+            <ExtendTableCell>{formatPrice((row.price * row.discount) / 100)}</ExtendTableCell>
             <ExtendTableCell>{formatPrice(row.total_price)}</ExtendTableCell>
          </TableRow>
 
@@ -59,10 +65,19 @@ function RowTablePay(props: {
                                  <ExtendTableCell colSpan={1}></ExtendTableCell>
                                  <ExtendTableCell colSpan={1}></ExtendTableCell>
                                  <ExtendTableCell colSpan={1}></ExtendTableCell>
-                                 <ExtendTableCell colSpan={1}></ExtendTableCell>
-                                 <ExtendTableCell width={56}>{option.export_quantity}</ExtendTableCell>
+                                 <ExtendTableCell colSpan={1}>
+                                    <Box display="flex" gap={1.5}>
+                                       <Box>Mã Lô:</Box>
+                                       <Box>#{option.supplies_invoice_code}</Box>
+                                    </Box>
+                                 </ExtendTableCell>
+                                 <ExtendTableCell sx={{ textAlign: 'center' }} width={70}>
+                                    {option.export_quantity}
+                                 </ExtendTableCell>
                                  <ExtendTableCell width={140}>{formatPrice(option.selling_price)}</ExtendTableCell>
-                                 <ExtendTableCell width={140}>{option.discount}</ExtendTableCell>
+                                 <ExtendTableCell width={140}>
+                                    {formatPrice((option.selling_price * option.discount) / 100)}
+                                 </ExtendTableCell>
                                  <ExtendTableCell width={140}>{formatPrice(option.selling_price)}</ExtendTableCell>
                               </TableRow>
                            ))}

@@ -14,10 +14,12 @@ import { RepairOrdersResponse } from '@App/services/repairorder.service';
 import TableCore, { columnHelper } from '@Core/Component/Table';
 import { CoreTableActionEdit, CoreTableActionViewDetail } from '@Core/Component/Table/components/CoreTableAction';
 import formatDateTime from '@Core/Helper/formatDateTime';
-import { Box, Button, Chip } from '@mui/material';
+import { Box, Button, Chip, MenuItem, Select } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+
+import { statusFilter } from './utils';
 
 const searchType = [
    {
@@ -26,19 +28,19 @@ const searchType = [
    },
    {
       title: 'Tên khách hàng',
-      value: 'customer.name',
+      value: 'customer_id.name',
    },
    {
       title: 'SĐT khách hàng',
-      value: 'customer.phone',
+      value: 'customer_id.phone',
    },
    {
       title: 'Tên xe',
-      value: 'car.name',
+      value: 'car_id.name',
    },
    {
       title: 'Biển số xe',
-      value: 'car.license_plate',
+      value: 'car_id.license_plate',
    },
 ];
 
@@ -71,10 +73,13 @@ const sortList = [
 
 const RepairInvoice = () => {
    const navigate = useNavigate();
-   const { searchParams } = useSearchParamsHook();
+   const { searchParams, setParams } = useSearchParamsHook();
 
    const queryTable = useQuery(['readRepairInvoice', searchParams], async () => {
-      const res = await repairInvoiceService.get(searchParams);
+      const res = await repairInvoiceService.get({
+         ...searchParams,
+         status: searchParams['status'] === 'all' ? '' : searchParams['status'],
+      });
       return res.data;
    });
 
@@ -184,7 +189,18 @@ const RepairInvoice = () => {
          </Box>
          <PageContent>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-               <FilterTable sortList={sortList} searchType={searchType} />
+               <FilterTable sortList={sortList} searchType={searchType}>
+                  <Select
+                     placeholder=""
+                     value={searchParams['status'] ?? statusFilter[0].name}
+                     fullWidth
+                     onChange={(e) => setParams('status', e.target.value)}
+                  >
+                     {statusFilter.map((item) => (
+                        <MenuItem value={item.name}>{item.title}</MenuItem>
+                     ))}
+                  </Select>
+               </FilterTable>
             </Box>
             <TableCore columns={columns} {...data} />
          </PageContent>

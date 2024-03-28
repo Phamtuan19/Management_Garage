@@ -39,9 +39,6 @@ const DeliveryUpdate = () => {
    });
 
    const refModalExport = useRef<ModalExportSuppliesRef>(null);
-   // const refModalHistory = useRef<ModalExportSuppliesRef>(null);
-
-   // const coreConfirm = useConfirm();
 
    const {
       data: delivery,
@@ -60,11 +57,6 @@ const DeliveryUpdate = () => {
 
    const columns = useMemo(() => {
       return [
-         // columnHelper.accessor('', {
-         //    id: 'stt',
-         //    header: () => <Box sx={{ textAlign: 'center' }}>STT</Box>,
-         //    cell: ({ row }) => <Box sx={{ textAlign: 'center', p: 1 }}>{row.index + 1}</Box>,
-         // }),
          columnHelper.accessor('expander', {
             header: 'Chi tiết',
             cell: ({ row }) => {
@@ -147,13 +139,6 @@ const DeliveryUpdate = () => {
             header: () => <Box>Sl yêu cầu</Box>,
             cell: ({ row }) => {
                const delivery = row.original as DeliveryNoteDataDetail;
-               // console.log(delivery.quantity);
-               // const export_quantity =
-               //    delivery.options.length > 0
-               //       ? delivery.status === STATUS_DELIVERY.confirmed.key
-               //          ? 0
-               //          : delivery.quantity
-               //       : 0;
 
                return (
                   <Box sx={{ textAlign: 'center' }}>
@@ -182,7 +167,7 @@ const DeliveryUpdate = () => {
                            : 'error'
                         : quantity > export_quantity
                           ? 'warning'
-                          : 'error',
+                          : 'secondary',
                   title:
                      quantity === export_quantity
                         ? quantity !== 0
@@ -200,33 +185,24 @@ const DeliveryUpdate = () => {
                );
             },
          }),
-         // columnHelper.accessor('status', {
-         //    header: () => <Box sx={{ textAlign: 'center' }}>Trạng thái xk</Box>,
-         //    cell: ({ row }) => {
-         //       const delivery = row.original as DeliveryNoteDataDetail;
-
-         //       return (
-         //          <Box sx={{ textAlign: 'center' }}>
-         //             <Chip
-         //                label={STATUS_DELIVERY[delivery.status].title}
-         //                color={STATUS_DELIVERY[delivery.status].color}
-         //             />
-         //          </Box>
-         //       );
-         //    },
-         // }),
          columnHelper.accessor('action', {
             header: () => <Box sx={{ textAlign: 'center' }}>Thao tác</Box>,
             cell: ({ row }) => {
                const delivery = row.original as DeliveryNoteDataDetail;
 
+               const option = delivery.options.map((item) => ({
+                  ...item,
+                  quantity_exported: item.export_quantity,
+               }));
+
                const export_options =
                   delivery.options.length > 0
-                     ? (delivery.options as never)
+                     ? (option as never)
                      : [
                           {
                              _id: '',
                              delivery_detail_id: '',
+                             quantity_exported: 0,
                              export_quantity: 0,
                              repair_invoice_detail_id: '',
                              supplies_invoice_code: '',
@@ -272,15 +248,6 @@ const DeliveryUpdate = () => {
       ];
    }, []);
 
-   // const handleSubmitForm: SubmitHandler<DeliveryUpdateExportQuantity> = (data) => {
-   //    updateExportQuantity({ ...data, type: 'custom' });
-   // };
-
-   // const handleClickHistory = () => {
-   //    refModalHistory.current?.setOpen(true);
-   //    refModalHistory.current?.setData(delivery?.history as never);
-   // };
-
    return (
       <BaseBreadcrumbs
          arialabel={'#' + delivery?.code}
@@ -289,9 +256,6 @@ const DeliveryUpdate = () => {
          data={delivery}
          isLoading={isLoadingDelivery}
       >
-         {/* <Button color="secondary" endIcon={<HistoryIcon />} onClick={handleClickHistory}>
-            Lịch sử
-         </Button> */}
          <PageContent>
             <DetailDeliveryInfo delivery={delivery} />
          </PageContent>
@@ -306,7 +270,6 @@ const DeliveryUpdate = () => {
             />
          </PageContent>
          <ModalExportSupplies ref={refModalExport} refetchDelivery={refetchDelivery} form={form} />
-         {/* <ModalExportHistory ref={refModalHistory} /> */}
       </BaseBreadcrumbs>
    );
 };

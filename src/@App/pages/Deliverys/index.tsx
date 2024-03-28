@@ -14,7 +14,7 @@ import { DeliveryNoteData } from '@App/types/delivery';
 import TableCore, { columnHelper } from '@Core/Component/Table';
 import { CoreTableActionViewDetail } from '@Core/Component/Table/components/CoreTableAction';
 import hendleDateTime from '@Core/Helper/formatDateTime';
-import { Box, Chip } from '@mui/material';
+import { Box, Chip, MenuItem, Select } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -56,10 +56,13 @@ const sortList = [
 const Deliverys = () => {
    const navigate = useNavigate();
 
-   const { searchParams } = useSearchParamsHook();
+   const { searchParams, setParams } = useSearchParamsHook();
 
    const queryTable = useQuery(['getDeliveryNotesList', searchParams], async () => {
-      const res = await deliveryNotesService.get(searchParams);
+      const res = await deliveryNotesService.get({
+         ...searchParams,
+         status: searchParams['status'] === 'all' ? '' : searchParams['status'],
+      });
       return res.data;
    });
 
@@ -134,7 +137,18 @@ const Deliverys = () => {
       <BaseBreadcrumbs arialabel="Phiếu xuất kho">
          <PageContent>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-               <FilterTable sortList={sortList} searchType={searchType} />
+               <FilterTable sortList={sortList} searchType={searchType}>
+                  <Select
+                     placeholder=""
+                     value={searchParams['status'] ?? 'all'}
+                     fullWidth
+                     onChange={(e) => setParams('status', e.target.value)}
+                  >
+                     <MenuItem value="all">Tất cả</MenuItem>
+                     <MenuItem value={STATUS_DELIVERY.confirmed.key}>Đã xác nhận</MenuItem>
+                     <MenuItem value={STATUS_DELIVERY.unconfimred.key}>Chờ xác nhận</MenuItem>
+                  </Select>
+               </FilterTable>
             </Box>
             <TableCore columns={columns} {...data} height={430} />
          </PageContent>

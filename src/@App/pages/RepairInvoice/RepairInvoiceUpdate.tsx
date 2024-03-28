@@ -85,6 +85,7 @@ const RepairInvoiceUpdate = () => {
                return {
                   _id: item._id,
                   repair_invoice_id: item.supplies_service_id,
+                  current_quantity: item.quantity,
                   quantity: item.quantity,
                   price: price,
                   discount: (item.price && item.discount && item.price - (item.price * item.discount) / 100) || 0,

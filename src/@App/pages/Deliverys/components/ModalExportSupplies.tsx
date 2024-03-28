@@ -37,6 +37,8 @@ const ModalExportSupplies = forwardRef<ModalExportSuppliesRef, ModalExportSuppli
          handleSubmit,
          control,
          formState: { errors },
+         setError,
+         clearErrors,
       } = form;
 
       const { append, remove } = useFieldArray({
@@ -100,8 +102,6 @@ const ModalExportSupplies = forwardRef<ModalExportSuppliesRef, ModalExportSuppli
          if (isCheck) {
             return updateExportDelivery(data);
          }
-
-         return errorMessage('Số lượng xuất lớn hơn số lượng yêu cầu');
       };
 
       const total_quantity = watch('total_quantity');
@@ -158,6 +158,28 @@ const ModalExportSupplies = forwardRef<ModalExportSuppliesRef, ModalExportSuppli
                                     disabled={!watch(`exports.${index}.supplies_invoice_code`)}
                                     number
                                     control={control}
+                                    onChangeValue={() => {
+                                       const total_export_quantity = data_exports.reduce(
+                                          (total, item) => (total += item.export_quantity),
+                                          0,
+                                       );
+
+                                       if (total_export_quantity > total_quantity) {
+                                          let maxIndex = 0;
+
+                                          data_exports.find((item, index) => {
+                                             if (item.export_quantity > data_exports[maxIndex].export_quantity) {
+                                                maxIndex = index;
+                                             }
+                                          });
+
+                                          return setError(`exports.${maxIndex}.export_quantity`, {
+                                             message: 'Tổng số lượng xuất lớn hơn số lượng yêu cầu.',
+                                          });
+                                       } else {
+                                          return clearErrors(`exports`);
+                                       }
+                                    }}
                                  />
                               </Grid>
                               <Grid item xs={4} minHeight="80px">
@@ -216,6 +238,7 @@ const ModalExportSupplies = forwardRef<ModalExportSuppliesRef, ModalExportSuppli
                                           append({
                                              _id: '',
                                              delivery_detail_id: '',
+                                             quantity_exported: 0,
                                              export_quantity: 0,
                                              repair_invoice_detail_id: '',
                                              supplies_invoice_code: '',
@@ -256,7 +279,7 @@ const ModalExportSupplies = forwardRef<ModalExportSuppliesRef, ModalExportSuppli
                      loading={isLoading}
                      disabled={!errors}
                   >
-                     Xuất vật tư
+                     Lưu
                   </LoadingButton>
                </Box>
             </Box>

@@ -96,19 +96,23 @@ const RepairSupplies = ({ form, status }: RepairSuppliesProps) => {
 
    // Xóa vật tư sửa chữa hoặc dịch vụ sửa chữa
    const handleDeleteRepiarInvoiceDetail = (id: string, index: number) => {
-      coreConfirm({
-         icon: <ErrorOutlineIcon sx={{ fontSize: '56px' }} color="warning" />,
-         title: 'Cảnh báo',
-         confirmOk: 'Xác nhận',
-         content: 'Xác nhận xóa và trả vật tư về kho',
-         callbackOK: () => {
-            try {
-               deleteRepairInvoiceDetail(id);
-               return remove(index);
-            } catch (error) {}
-         },
-         isIcon: true,
-      });
+      if (id !== '') {
+         return coreConfirm({
+            icon: <ErrorOutlineIcon sx={{ fontSize: '56px' }} color="warning" />,
+            title: 'Cảnh báo',
+            confirmOk: 'Xác nhận',
+            content: 'Xác nhận xóa và trả vật tư về kho',
+            callbackOK: () => {
+               try {
+                  deleteRepairInvoiceDetail(id);
+                  return remove(index);
+               } catch (error) {}
+            },
+            isIcon: true,
+         });
+      }
+
+      return remove(index);
    };
 
    const columnsService = useMemo(() => {
@@ -167,6 +171,7 @@ const RepairSupplies = ({ form, status }: RepairSuppliesProps) => {
             cell: ({ row }) => {
                const supplies = row.original as SuppliesInvoiceUpdateSchema;
 
+               const current_quantity = form.watch(`suppliesInvoices.${row.index}.current_quantity`);
                const quantity = form.watch(`suppliesInvoices.${row.index}.quantity`);
                const inventory = form.watch(`suppliesInvoices.${row.index}.inventory`);
                return (
@@ -174,8 +179,8 @@ const RepairSupplies = ({ form, status }: RepairSuppliesProps) => {
                      <Box display="flex" justifyContent="space-between" gap="6px">
                         {supplies.status_repair !== STATUS_REPAIR_DETAIL.complete.key && (
                            <ButtonAddQuantity
-                              disabled={quantity === inventory}
-                              sx={{ bgcolor: quantity === inventory ? '#ccc' : '#1976d2' }}
+                              disabled={quantity === inventory + current_quantity}
+                              sx={{ bgcolor: quantity === inventory + current_quantity ? '#ccc' : '#1976d2' }}
                               onClick={() => handleIncrease(row.index)}
                            >
                               <AddIcon sx={{ fontSize: '16px' }} />
@@ -186,9 +191,9 @@ const RepairSupplies = ({ form, status }: RepairSuppliesProps) => {
                         </Box>
                         {supplies.status_repair !== STATUS_REPAIR_DETAIL.complete.key && (
                            <ButtonAddQuantity
-                              disabled={quantity === 1 || inventory === 0}
+                              disabled={quantity === 1}
                               sx={({ palette }) => ({
-                                 bgcolor: quantity === 1 || inventory === 0 ? '#ccc' : palette.error.main,
+                                 bgcolor: quantity === 1 ? '#ccc' : palette.error.main,
                               })}
                               onClick={() => {
                                  handleReduced(row.index);

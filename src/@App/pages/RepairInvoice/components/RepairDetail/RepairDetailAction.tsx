@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import ButtonCreate from '@App/component/common/ButtonCreate';
 import ButtonEdit from '@App/component/common/ButtonEdit';
 import ROUTE_PATH from '@App/configs/router-path';
@@ -30,6 +31,12 @@ const RepairDetailAction = ({ data, refetchRepairInvoice, setOpen, setOpenModalP
    const status = data?.status;
 
    const isCheckPay = data?.repairInvoiceSupplies.every((item) => item.options.length > 0);
+
+   const isCheckShipped = data?.repairInvoiceSupplies.every((item) => {
+      const total_option = item.options.reduce((total, option) => (total += option.export_quantity), 0);
+
+      return total_option === item.quantity;
+   });
 
    const coreConfirm = useConfirm();
 
@@ -77,11 +84,19 @@ const RepairDetailAction = ({ data, refetchRepairInvoice, setOpen, setOpenModalP
             </Box>
          )}
          <Box display="flex" gap={1}>
-            {status !== STATUS_REPAIR.complete.key && status !== STATUS_REPAIR.repair.key && (
-               <Button
-                  color="warning"
-                  onClick={() => handleUpdateStatusCheck(arrowRightOption[indexStatusRepairInvoice + 1].name)}
-               >
+            {status !== STATUS_REPAIR.complete.key &&
+               status !== STATUS_REPAIR.repair.key &&
+               status !== STATUS_REPAIR.shipped.key && (
+                  <Button
+                     color="warning"
+                     onClick={() => handleUpdateStatusCheck(arrowRightOption[indexStatusRepairInvoice + 1].name)}
+                  >
+                     {arrowRightOption[indexStatusRepairInvoice + 1].title}
+                  </Button>
+               )}
+            {/* shipped */}
+            {isCheckShipped && status === STATUS_REPAIR.shipped.key && (
+               <Button color="warning" onClick={() => setOpenModalPay(true)}>
                   {arrowRightOption[indexStatusRepairInvoice + 1].title}
                </Button>
             )}
