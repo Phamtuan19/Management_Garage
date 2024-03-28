@@ -1,4 +1,3 @@
-import PAGE_ACTION from '@App/configs/page-action';
 import { Outlet, RouteObject } from 'react-router-dom';
 import MODULE_PAGE from '@App/configs/module-page';
 import ROUTE_PATH from '@App/configs/router-path';
@@ -18,7 +17,7 @@ const repairInvoiceRoute: RouteObject = {
       {
          index: true,
          element: (
-            <PermissionAccessRoute module={MODULE_PAGE.REPAIR_INVOICE} action={PAGE_ACTION.VIEW_ALL} type="route">
+            <PermissionAccessRoute module={MODULE_PAGE.REPAIR_INVOICE} action="VIEW_ALL" type="route">
                <RepairInvoice />
             </PermissionAccessRoute>
          ),
@@ -26,7 +25,7 @@ const repairInvoiceRoute: RouteObject = {
       {
          path: ROUTE_PATH.REPAIR_INVOICE + ROUTE_PATH.CREATE,
          element: (
-            <PermissionAccessRoute module={MODULE_PAGE.REPAIR_INVOICE} action={PAGE_ACTION.CREATE} type="route">
+            <PermissionAccessRoute module={MODULE_PAGE.REPAIR_INVOICE} action="CREATE" type="route">
                <RepairInvoiceCreate />
             </PermissionAccessRoute>
          ),
@@ -34,7 +33,7 @@ const repairInvoiceRoute: RouteObject = {
       {
          path: ROUTE_PATH.REPAIR_INVOICE + ROUTE_PATH.DETAILS,
          element: (
-            <PermissionAccessRoute module={MODULE_PAGE.REPAIR_INVOICE} action={PAGE_ACTION.DELETE} type="route">
+            <PermissionAccessRoute module={MODULE_PAGE.REPAIR_INVOICE} action="VIEW_ONE" type="route">
                <RepairInvoiceDetail />
             </PermissionAccessRoute>
          ),
@@ -42,7 +41,7 @@ const repairInvoiceRoute: RouteObject = {
       {
          path: ROUTE_PATH.REPAIR_INVOICE + ROUTE_PATH.UPDATE,
          element: (
-            <PermissionAccessRoute module={MODULE_PAGE.REPAIR_INVOICE} action={PAGE_ACTION.UPDATE} type="route">
+            <PermissionAccessRoute module={MODULE_PAGE.REPAIR_INVOICE} action="UPDATE" type="route">
                <RepairInvoiceUpdate />
             </PermissionAccessRoute>
          ),

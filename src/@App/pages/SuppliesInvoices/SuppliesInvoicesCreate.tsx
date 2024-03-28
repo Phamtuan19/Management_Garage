@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable react-hooks/exhaustive-deps */
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import ROUTE_PATH from '@App/configs/router-path';
@@ -32,9 +31,7 @@ const SuppliesInvoicesCreate = () => {
       resolver: yupResolver(suppliesInvoicesSchema),
       defaultValues: suppliesInvoicesSchema.getDefault(),
    });
-   const transfer_money = form.watch('transaction.transfer_money');
-   const cash_money = form.watch('transaction.cash_money');
-   const total_price = form.watch('transaction.total_price');
+
    useEffect(() => {
       form.setValue('personnel_id', user?._id as string);
    }, [user?._id]);
@@ -55,21 +52,14 @@ const SuppliesInvoicesCreate = () => {
    });
 
    const handleSubmitSuppliesInvoice = (data: SuppliesInvoicesSchema) => {
-      const isCheck = Number(transfer_money) + Number(cash_money) - Number(total_price);
-
       coreConfirm({
          icon: <LazyLoadingImage src={svg.warning} />,
-         title: isCheck === 0 ? 'Xác nhận' : 'Cảnh báo',
-         content:
-            isCheck === 0
-               ? 'Xác nhận lưu hóa đơn nhập hàng'
-               : isCheck < 0
-                 ? 'Bạn chưa thanh toán hoàn tất đơn hàng.'
-                 : 'Số tiền đã trả lớn hơn giá trị hóa đơn.',
+         title: 'Xác nhận',
+         content: 'Xác nhận tạo hóa đơn nhập hàng',
          isIcon: true,
          color: 'error',
          callbackOK: () => {
-            isCheck === 0 && createSuppliesInvoice(data);
+            createSuppliesInvoice(data);
          },
       });
    };

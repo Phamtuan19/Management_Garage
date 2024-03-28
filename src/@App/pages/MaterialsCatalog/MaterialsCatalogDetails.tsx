@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { useParams, useNavigate } from 'react-router-dom';
 import ROUTE_PATH from '@App/configs/router-path';
 import { useQuery } from '@tanstack/react-query';
@@ -8,11 +7,9 @@ import theme from '@Core/Theme';
 import PermissionAccessRoute from '@App/routes/components/PermissionAccessRoute';
 import RateReviewRoundedIcon from '@mui/icons-material/RateReviewRounded';
 import materialsCatalogService from '@App/services/materialsCatalog.service';
-import { Box, Typography, Stack, Button, Grid } from '@mui/material';
+import { Box, Typography, Button, Grid } from '@mui/material';
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import PageContent from '@App/component/customs/PageContent';
-import Divider from '@mui/material/Divider';
-import hendleDateTime from '@Core/Helper/formatDateTime';
 
 const breadcrumbs = [
    {
@@ -31,9 +28,7 @@ const MaterialsCatalogDetails = () => {
    const materialCatalogDetails = [
       { label: 'Mã vật tư', value: material?.code },
       { label: 'Tên vật tư', value: material?.name },
-      { label: 'Mô tả', value: material?.describe },
-      { label: 'Ngày tạo', value: hendleDateTime(material?.createdAt) },
-      { label: 'Ngày cập nhật cuối', value: hendleDateTime(material?.updatedAt) },
+      { label: 'Mô tả', value: material?.describe, xs: 12 },
    ];
 
    return (
@@ -55,32 +50,37 @@ const MaterialsCatalogDetails = () => {
          </Box>
          <PageContent>
             {material && (
-               <Stack>
-                  <Box sx={{ ml: '25px', mr: '25px' }}>
-                     <Typography sx={{ fontWeight: '600', fontSize: '1.5rem', color: theme.palette.grey[800] }}>
-                        Thông tin danh mục vật tư
-                     </Typography>
-                     {materialCatalogDetails.map((detail, index) => (
-                        <Grid key={index}>
-                           <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                              <Grid item xs={3}>
-                                 <Typography sx={{ p: 1, fontSize: '1rem', color: theme.palette.grey[800] }}>
-                                    {detail.label}
-                                 </Typography>
-                              </Grid>
-                              <Grid item xs={9}>
-                                 <Typography
-                                    sx={{ p: 1, fontWeight: '500', flexGrow: 1, fontSize: '1rem', height: '32px' }}
-                                 >
-                                    {detail.value}
-                                 </Typography>
-                                 <Divider variant="inset" sx={{ m: 0 }} />
-                              </Grid>
+               <Grid container spacing={1} columnSpacing={8}>
+                  {materialCatalogDetails.map((detail, index) => (
+                     <Grid item xs={detail.xs ? detail.xs : 6}>
+                        <Grid container spacing={1}>
+                           <Grid item xs={detail.xs ? 1.4 : 3} paddingBottom={2} key={index}>
+                              <Typography
+                                 sx={{ fontSize: '1rem', lineHeight: '2.2rem', color: theme.palette.grey[800] }}
+                              >
+                                 {detail.label}
+                              </Typography>
+                           </Grid>
+                           <Grid item xs={detail.xs ? 10.6 : 9}>
+                              <Typography
+                                 sx={{
+                                    p: 1,
+                                    pb: 0,
+                                    fontWeight: '500',
+                                    flexGrow: 1,
+                                    fontSize: '1rem',
+                                    lineHeight: '2rem',
+                                    minHeight: '40px',
+                                 }}
+                              >
+                                 {detail.value}
+                              </Typography>
+                              <Box sx={{ borderBottom: '1px solid #DADADA' }}></Box>
                            </Grid>
                         </Grid>
-                     ))}
-                  </Box>
-               </Stack>
+                     </Grid>
+                  ))}
+               </Grid>
             )}
          </PageContent>
       </BaseBreadcrumbs>

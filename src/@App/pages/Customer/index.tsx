@@ -4,7 +4,7 @@ import { Box, Button, Chip } from '@mui/material';
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import { useQuery } from '@tanstack/react-query';
 import TableCore, { columnHelper } from '@Core/Component/Table';
-import { CoreTableActionDelete, CoreTableActionEdit } from '@Core/Component/Table/components/CoreTableAction';
+import { CoreTableActionEdit } from '@Core/Component/Table/components/CoreTableAction';
 import { useMemo } from 'react';
 import useCoreTable from '@App/hooks/useCoreTable';
 import useSearchParamsHook from '@App/hooks/useSearchParamsHook';
@@ -14,6 +14,8 @@ import AddIcon from '@mui/icons-material/Add';
 import customerService, { ICustomer } from '@App/services/customer.service';
 import { useNavigate } from 'react-router-dom';
 import ROUTE_PATH from '@App/configs/router-path';
+import PermissionAccessRoute from '@App/routes/components/PermissionAccessRoute';
+import MODULE_PAGE from '@App/configs/module-page';
 
 const sortList = [
    {
@@ -81,10 +83,12 @@ const Customer = () => {
                const customer = row.original as ICustomer;
                return (
                   <Box>
-                     <CoreTableActionDelete />
-                     <CoreTableActionEdit
-                        callback={() => navigate(ROUTE_PATH.CUSTOMERS + '/' + customer._id + '/update')}
-                     />
+                     {/* <CoreTableActionDelete /> */}
+                     <PermissionAccessRoute module={MODULE_PAGE.CUSTOMERS} action="UPDATE">
+                        <CoreTableActionEdit
+                           callback={() => navigate(ROUTE_PATH.CUSTOMERS + '/' + customer._id + '/update')}
+                        />
+                     </PermissionAccessRoute>
                   </Box>
                );
             },
@@ -97,10 +101,11 @@ const Customer = () => {
          arialabel="Danh sách khách hàng"
          sx={({ base }) => ({ bgcolor: base.background.default, border: 'none', p: 0 })}
       >
-         <Button size="medium" component={Link} to="create" sx={{ py: '5px', px: '12px' }} endIcon={<AddIcon />}>
-            Thêm mới
-         </Button>
-
+         <PermissionAccessRoute module={MODULE_PAGE.CUSTOMERS} action="CREATE">
+            <Button size="medium" component={Link} to="create" sx={{ py: '5px', px: '12px' }} endIcon={<AddIcon />}>
+               Thêm mới
+            </Button>
+         </PermissionAccessRoute>
          <Box
             sx={({ base }) => ({
                marginTop: '12px',

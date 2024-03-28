@@ -118,7 +118,7 @@ const CarsDetails = () => {
    return (
       <BaseBreadcrumbs breadcrumbs={breadcrumbs} arialabel="Chi tiết nhà phân phối">
          <Box>
-            <PermissionAccessRoute module={MODULE_PAGE.CARS} action="VIEW_ALL">
+            <PermissionAccessRoute module={MODULE_PAGE.CARS} action="UPDATE">
                <Button
                   variant="contained"
                   onClick={() => navigate(ROUTE_PATH.CARS + '/' + carsId + '/update')}

@@ -4,7 +4,6 @@ import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import personnelService, { IPersonnel } from '@App/services/personnel.service';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import TableCore, { columnHelper } from '@Core/Component/Table';
-import LazyLoadingImage from '@App/component/customs/LazyLoadingImage';
 import Switch from '@App/component/customs/Switch';
 import { CoreTableActionLock, CoreTableActionViewDetail } from '@Core/Component/Table/components/CoreTableAction';
 import { useMemo } from 'react';
@@ -24,7 +23,11 @@ import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 
 const sortList = [
    {
-      title: 'Tên',
+      title: 'Mã nhân viên',
+      value: 'code',
+   },
+   {
+      title: 'Tên nhân viên',
       value: 'full_name',
    },
    {
@@ -32,7 +35,7 @@ const sortList = [
       value: 'email',
    },
    {
-      title: 'SĐT',
+      title: 'Số điện thoại',
       value: 'phone',
    },
 ];
@@ -107,13 +110,17 @@ export default function Personnels() {
 
    const columns = useMemo(() => {
       return [
-         columnHelper.accessor('avatar', {
-            header: () => <Box sx={{ textAlign: 'center' }}>Hình ảnh</Box>,
-            cell: ({ row }) => (
-               <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                  <LazyLoadingImage src={row.getValue('avatar')} w="35" h="35" style={{ borderRadius: '50%' }} />
-               </Box>
-            ),
+         columnHelper.accessor('STT', {
+            header: () => <Box textAlign="center">STT</Box>,
+            cell: ({ row }) => {
+               return <Box textAlign="center">{row.index + 1}</Box>;
+            },
+         }),
+         columnHelper.accessor('code', {
+            header: () => <Box textAlign="center">Mã nv</Box>,
+            cell: (info) => {
+               return <Box textAlign="center">#{info.getValue()} </Box>;
+            },
          }),
          columnHelper.accessor('full_name', {
             header: 'Tên nhân viên',
@@ -123,9 +130,6 @@ export default function Personnels() {
          }),
          columnHelper.accessor('phone', {
             header: 'Số điện thoại',
-         }),
-         columnHelper.accessor('address', {
-            header: 'Địa chỉ',
          }),
          columnHelper.accessor('gender', {
             header: () => <Box sx={{ textAlign: 'center' }}>Giới tính</Box>,
@@ -187,9 +191,11 @@ export default function Personnels() {
          arialabel="Danh sách nhân viên"
          sx={({ base }) => ({ bgcolor: base.background.default, border: 'none', p: 0 })}
       >
-         <Button size="medium" component={Link} to="create" sx={{ py: '5px', px: '12px' }} endIcon={<AddIcon />}>
-            Thêm mới
-         </Button>
+         <PermissionAccessRoute module={MODULE_PAGE.PERSONNELS} action="CREATE">
+            <Button size="medium" component={Link} to="create" sx={{ py: '5px', px: '12px' }} endIcon={<AddIcon />}>
+               Thêm mới
+            </Button>
+         </PermissionAccessRoute>
          <Box
             sx={({ base }) => ({
                marginTop: '12px',
@@ -199,11 +205,11 @@ export default function Personnels() {
             })}
          >
             <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 1, alignItems: 'center' }}>
-               <FilterTable sortList={sortList} searchType={sortList} />
-
-               <Button onClick={() => handleClickIsLock(searchParams.is_lock)}>
-                  {searchParams.is_lock === 'true' ? 'Tài khoản đã mở' : 'Tài khoản bị khóa'}
-               </Button>
+               <FilterTable sortList={sortList} searchType={sortList}>
+                  <Button onClick={() => handleClickIsLock(searchParams.is_lock)}>
+                     {searchParams.is_lock === 'true' ? 'Tài khoản đã mở' : 'Tài khoản bị khóa'}
+                  </Button>
+               </FilterTable>
             </Box>
 
             <TableCore columns={columns} {...data} />

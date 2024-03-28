@@ -5,11 +5,13 @@ import * as yup from 'yup';
 
 export const validationFormCreate = yup.object({
    full_name: yup.string().required(messageValidate.required('Họ và tên')).default(''),
-   account_name: yup.string().min(8, messageValidate.minText('Tài khoản đăng nhập', 8)),
+   account_name: yup.string().min(8, messageValidate.minText('Tài khoản đăng nhập', 8)).default(''),
+   position: yup.string().required(messageValidate.required('Vị trí làm việc')).default(''),
    password: yup
       .string()
       .required(messageValidate.required('Mật khẩu'))
-      .matches(Regexs.password, 'Mật khẩu tối thiểu 8 ký tự, 1 số, 1 chữ cái viết hoa'),
+      .matches(Regexs.password, 'Mật khẩu tối thiểu 8 ký tự, 1 số, 1 chữ cái viết hoa')
+      .default(''),
    email: yup
       .string()
       .required(messageValidate.required('Email'))

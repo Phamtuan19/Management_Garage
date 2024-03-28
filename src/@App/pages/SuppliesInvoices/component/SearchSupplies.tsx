@@ -12,8 +12,6 @@ import { useQuery } from '@tanstack/react-query';
 import suppliesService, { ReadSupplies } from '@App/services/supplies.service';
 import useDebounce from '@App/hooks/useDebounce';
 import { UseFormReturn } from 'react-hook-form';
-import distributorService from '@App/services/distributor.service';
-import ControllerAutoComplate from '@Core/Component/Input/ControllerAutoComplate';
 import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 import ControllerLabel from '@Core/Component/Input/ControllerLabel';
 
@@ -29,6 +27,20 @@ interface SearchSupplies {
    setColumnVisibility: React.Dispatch<any>;
 }
 
+const columnVisibilityData: Record<string, string> = {
+   stt: 'Số thứ tự',
+   code: 'Mã',
+   name_detail: 'Tên vật tư',
+   distributor_name: 'Nhà phân phối',
+   unit: 'Đơn vị tính',
+   quantity_received: 'Số lượng',
+   cost_price: 'Giá nhập',
+   selling_price: 'Giá bán',
+   discount: 'Giảm giá',
+   total_price: 'Tổng tiền',
+   action: 'Thao tác',
+};
+
 const SearchSupplies = ({ form, columnVisibility, setColumnVisibility }: SearchSupplies) => {
    // const { id: suppliesInvoiceId } = useParams();
    const { watch, setValue } = form;
@@ -42,11 +54,6 @@ const SearchSupplies = ({ form, columnVisibility, setColumnVisibility }: SearchS
    useOnClickOutside(ref, () => setOpen(false));
 
    const valueDebounce = useDebounce(valueSearch, 500);
-
-   const { data: distributors } = useQuery(['getAllFieldDistributors'], async () => {
-      const res = await distributorService.getAllField({});
-      return res.data;
-   });
 
    const { data: supplies } = useQuery(['getAllFieldSuppliesDetails', valueDebounce, distributor_id], async () => {
       const res = await suppliesService.getAllSupplies({
@@ -115,17 +122,6 @@ const SearchSupplies = ({ form, columnVisibility, setColumnVisibility }: SearchS
 
    return (
       <Grid container spacing={2} mt={0.5} ml={0.5}>
-         <Grid item xs={4}>
-            <ControllerAutoComplate
-               label="Nhà phân phối"
-               options={distributors || []}
-               valuePath="_id"
-               titlePath="name"
-               name="distributor_id"
-               control={form.control}
-               // disabled={Boolean(suppliesInvoiceId)}
-            />
-         </Grid>
          <Grid item xs={7.3}>
             <Box
                sx={{
@@ -212,6 +208,9 @@ const SearchSupplies = ({ form, columnVisibility, setColumnVisibility }: SearchS
                )}
             </Box>
          </Grid>
+
+         <Grid item xs={4}></Grid>
+
          <Grid item xs={0.7} display="flex" justifyContent="flex-end">
             <Box position="relative">
                <Button
@@ -245,6 +244,11 @@ const SearchSupplies = ({ form, columnVisibility, setColumnVisibility }: SearchS
                      }}
                   >
                      {Object.keys(columnVisibility).map((item) => {
+                        const title = columnVisibilityData[item];
+                        if (!title) {
+                           return;
+                        }
+
                         return (
                            <Box px={1} display="flex" justifyContent="flex-start" alignItems="center" key={item}>
                               <Checkbox
@@ -254,7 +258,7 @@ const SearchSupplies = ({ form, columnVisibility, setColumnVisibility }: SearchS
                                  }}
                                  size="small"
                               />
-                              <ControllerLabel title={item} />
+                              <ControllerLabel title={title} />
                            </Box>
                         );
                      })}

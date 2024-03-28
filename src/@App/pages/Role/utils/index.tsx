@@ -304,33 +304,7 @@ export const ROLES: RolePropsTypeConfig[] = [
          },
       ],
    },
-   // REPAIR_INVOICE
-   {
-      name: MODULE_PAGE.REPAIR_INVOICE,
-      title: 'Hóa đơn sử chữa',
-      action: [
-         {
-            name: PAGE_ACTION.VIEW_ALL,
-            title: 'Xem Danh sách hóa đơn sử chữa',
-         },
-         {
-            name: PAGE_ACTION.VIEW_ONE,
-            title: 'Xem Chi tiết thông tin hóa đơn sử chữa',
-         },
-         {
-            name: PAGE_ACTION.CREATE,
-            title: 'Thêm mới thông tin hóa đơn sử chữa',
-         },
-         {
-            name: PAGE_ACTION.DELETE,
-            title: 'Xóa thông tin hóa đơn sử chữa',
-         },
-         {
-            name: PAGE_ACTION.UPDATE,
-            title: 'Cập nhật thông tin hóa đơn sử chữa',
-         },
-      ],
-   },
+
    // REPAIR_SERVICES
    {
       name: MODULE_PAGE.REPAIR_SERVICES,
@@ -358,6 +332,8 @@ export const ROLES: RolePropsTypeConfig[] = [
          },
       ],
    },
+
+   // REPAIR_INVOICE
    {
       name: MODULE_PAGE.REPAIR_INVOICE,
       title: 'Phiếu sửa chữa',
@@ -388,6 +364,8 @@ export const ROLES: RolePropsTypeConfig[] = [
          },
       ],
    },
+
+   // DELIVERY
    {
       name: MODULE_PAGE.DELIVERY,
       title: 'Phiếu xuất kho',
@@ -395,18 +373,6 @@ export const ROLES: RolePropsTypeConfig[] = [
          {
             name: PAGE_ACTION.VIEW_ALL,
             title: 'Xem Danh sách phiếu xuất kho',
-         },
-         {
-            name: PAGE_ACTION.VIEW_ONE,
-            title: 'Xem Chi tiết thông tin phiếu xuất kho',
-         },
-         {
-            name: PAGE_ACTION.CREATE,
-            title: 'Thêm mới thông tin phiếu xuất kho',
-         },
-         {
-            name: PAGE_ACTION.DELETE,
-            title: 'Xóa thông tin phiếu xuất kho',
          },
          {
             name: PAGE_ACTION.UPDATE,

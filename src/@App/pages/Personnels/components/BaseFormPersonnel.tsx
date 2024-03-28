@@ -8,6 +8,7 @@ import { useQuery } from '@tanstack/react-query';
 import roleService from '@App/services/role.service';
 
 import { ValidationFormCreate } from '../utils/personnel.schema';
+import { positions } from '../utils';
 interface BaseFormPersonnelPropType {
    form: UseFormReturn<ValidationFormCreate>;
 }
@@ -23,15 +24,27 @@ const BaseFormPersonnel = ({ form }: BaseFormPersonnelPropType) => {
    return (
       <Box component="form" sx={{ pb: 3, pt: 1 }}>
          <Grid container spacing={4}>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={4}>
                <Box height="65px">
                   <ControllerLabel title="Họ và tên" required />
                   <ControllerTextField name="full_name" control={control} placeholder="Họ và tên" />
                </Box>
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={4}>
                <Box height="65px">
-                  <ControllerLabel title="Chức vụ" required />
+                  <ControllerLabel title="Vị trí" required />
+                  <ControllerAutoComplate
+                     options={positions}
+                     valuePath="key"
+                     titlePath="label"
+                     name="position"
+                     control={control}
+                  />
+               </Box>
+            </Grid>
+            <Grid item xs={12} md={4}>
+               <Box height="65px">
+                  <ControllerLabel title="Vai trò" required />
                   <ControllerAutoComplate
                      options={(roles as never) ?? []}
                      valuePath="_id"

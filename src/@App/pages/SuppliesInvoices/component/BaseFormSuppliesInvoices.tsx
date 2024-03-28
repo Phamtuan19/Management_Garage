@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/naming-convention */
 import React, { useEffect, useMemo } from 'react';
-import { Box, Button, Grid } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { UseFormReturn } from 'react-hook-form';
 import PageContent from '@App/component/customs/PageContent';
 import { ResponseGetSuppliesInvoice } from '@App/services/supplies-invoice';
@@ -11,7 +11,6 @@ import { STATUS_PAYMENT } from '@App/configs/status-config';
 import { SuppliesInvoicesSchema } from '../utils/suppliesInvoices.schema';
 
 import SuppliesInvoicesTable from './SuppliesInvoicesTable';
-import SuppliesInvoiceInfo from './SuppliesInvoiceInfo';
 
 interface BaseFormSuppliesInvoicesPropType {
    form: UseFormReturn<SuppliesInvoicesSchema>;
@@ -46,14 +45,13 @@ const BaseFormSuppliesInvoices = ({
 
    return (
       <>
-         <Box component="form">
-            <Grid container spacing={2}>
-               <Grid item xs={12} md={9}>
-                  <PageContent sx={{ mt: 0 }}>
-                     <SuppliesInvoicesTable isCheckStatusPayment={isCheckStatusPayment} form={form} />
-                  </PageContent>
-               </Grid>
-               <Grid item xs={12} md={3} height="100% !important">
+         <Button disabled={form.watch('details')?.length === 0} onClick={handleSubmit(handleSubmitSuppliesInvoice)}>
+            Lưu
+         </Button>
+         <PageContent>
+            <Box component="form">
+               <SuppliesInvoicesTable isCheckStatusPayment={isCheckStatusPayment} form={form} />
+               {/* <Grid item xs={12} md={3} height="100% !important">
                   <PageContent sx={{ mt: 0 }}>
                      <Grid container spacing={2}>
                         <Grid item xs={12}>
@@ -77,9 +75,9 @@ const BaseFormSuppliesInvoices = ({
                         )}
                      </Grid>
                   </PageContent>
-               </Grid>
-            </Grid>
-         </Box>
+               </Grid> */}
+            </Box>
+         </PageContent>
       </>
    );
 };

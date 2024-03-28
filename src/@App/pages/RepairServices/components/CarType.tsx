@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
@@ -41,6 +42,13 @@ const CarType = ({ form }: CarTpyeProps) => {
             });
          }) ?? [];
 
+      if (valueRadio === 'all') {
+         setValue(
+            'cars',
+            models.map((item: { key: string }) => item.key),
+         );
+      }
+
       return {
          brands,
          models,
@@ -55,6 +63,10 @@ const CarType = ({ form }: CarTpyeProps) => {
             'cars',
             models.models.map((item: { key: string }) => item.key),
          );
+      }
+
+      if (event.target.value === 'brand') {
+         return setValue('cars', []);
       }
    };
 
@@ -95,7 +107,6 @@ const CarType = ({ form }: CarTpyeProps) => {
             valuePath="key"
             titlePath="name"
             control={control}
-            placeholder="Chọn loại xe sử dụng dịch vụ"
          />
       </Box>
    );

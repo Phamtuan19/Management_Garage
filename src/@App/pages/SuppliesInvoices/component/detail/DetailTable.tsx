@@ -44,32 +44,21 @@ const DetailTable = ({ suppliesinvoices }: { suppliesinvoices: ResponseGetSuppli
                  value: (
                     <Box>
                        <Chip
-                          label={
-                             suppliesInvoiceItem.quantity_received - suppliesInvoiceItem.quantity_sold === 0
-                                ? 'hết hàng'
-                                : 'Còn hàng'
-                          }
-                          color={
-                             suppliesInvoiceItem.quantity_received - suppliesInvoiceItem.quantity_sold === 0
-                                ? 'error'
-                                : 'info'
-                          }
+                          label={suppliesInvoiceItem.quantity_sold === 0 ? 'hết hàng' : 'Còn hàng'}
+                          color={suppliesInvoiceItem.quantity_sold === 0 ? 'error' : 'info'}
                        />
                     </Box>
                  ),
                  border: false,
               },
               {
-                 title: 'Tồn kho',
-                 value:
-                    suppliesInvoiceItem.quantity_received -
-                    suppliesInvoiceItem.quantity_sold +
-                    ` ${suppliesInvoiceItem.supplies_detail.unit}`,
+                 title: 'Số lượng nhập',
+                 value: suppliesInvoiceItem.quantity_received + ' ' + suppliesInvoiceItem.supplies_detail.unit,
                  border: true,
               },
               {
-                 title: 'Số lượng nhập',
-                 value: suppliesInvoiceItem.quantity_received + ' ' + suppliesInvoiceItem.supplies_detail.unit,
+                 title: 'Tồn kho',
+                 value: suppliesInvoiceItem.quantity_sold + ` ${suppliesInvoiceItem.supplies_detail.unit}`,
                  border: true,
               },
               {
@@ -85,11 +74,6 @@ const DetailTable = ({ suppliesinvoices }: { suppliesinvoices: ResponseGetSuppli
               {
                  title: 'Giảm giá',
                  value: suppliesInvoiceItem.discount + '%',
-                 border: true,
-              },
-              {
-                 title: 'Số lượng đã bán',
-                 value: suppliesInvoiceItem.quantity_sold,
                  border: true,
               },
            ]
@@ -125,7 +109,7 @@ const DetailTable = ({ suppliesinvoices }: { suppliesinvoices: ResponseGetSuppli
                <Box sx={{ maxWidth: '350px', textOverflow: 'ellipsis', overflow: 'hidden' }}>{info.getValue()}</Box>
             ),
          }),
-         columnHelper.accessor('status_quantity_sold', {
+         columnHelper.accessor('status', {
             header: () => <Box sx={{ textAlign: 'center' }}>Trạng thái</Box>,
             cell: ({ row }) => {
                const suppliesInvoiceDetails = row.original as SuppliesInvoiceDetails;
@@ -133,12 +117,8 @@ const DetailTable = ({ suppliesinvoices }: { suppliesinvoices: ResponseGetSuppli
                return (
                   <Box sx={{ textAlign: 'center' }}>
                      <Chip
-                        label={
-                           suppliesInvoiceDetails.quantity_received - suppliesInvoiceDetails.quantity_sold === 0
-                              ? 'hết hàng'
-                              : 'Còn hàng'
-                        }
-                        color="info"
+                        label={suppliesInvoiceDetails.quantity_sold === 0 ? 'hết hàng' : 'Còn hàng'}
+                        color={suppliesInvoiceDetails.quantity_sold === 0 ? 'error' : 'info'}
                      />
                   </Box>
                );

@@ -75,29 +75,29 @@ const DetailTableSupplies = () => {
             cell: (info) => <Box textAlign="center">{formatPrice(info.getValue())}</Box>,
          }),
          columnHelper.accessor('quantity_received', {
-            header: 'SL đã nhập',
+            header: 'SL nhập',
             cell: (info) => (
                <Box textAlign="center">
-                  <Chip label={info.getValue()} color="default" />
+                  <Chip label={info.getValue()} color="default" variant="outlined" />
                </Box>
             ),
          }),
          columnHelper.accessor('quantity_sold', {
-            header: 'SL đã bán',
+            header: 'SL tồn',
             cell: (info) => (
                <Box textAlign="center">
-                  <Chip label={info.getValue()} color="success" />
+                  <Chip label={info.getValue()} color="secondary" variant="outlined" />
                </Box>
             ),
          }),
          columnHelper.accessor('stock', {
-            header: 'SL đã bán',
+            header: () => <Box sx={{ textAlign: 'center' }}>SL bán</Box>,
             cell: ({ row }) => {
                const data = row.original as any;
 
                return (
-                  <Box textAlign="center">
-                     <Chip label={data.quantity_received - data.quantity_sold} color="default" />
+                  <Box sx={{ textAlign: 'center' }}>
+                     <Chip label={data.quantity_received - data.quantity_sold} color="warning" variant="outlined" />
                   </Box>
                );
             },
@@ -161,12 +161,20 @@ const DetailTableSupplies = () => {
             ),
          }),
          columnHelper.accessor('quantity_received', {
-            header: () => <Box>SL nhập</Box>,
+            header: () => <Box sx={{ textAlign: 'center' }}>SL nhập</Box>,
             cell: (info) => <Box sx={{ textAlign: 'center' }}>{info.getValue()}</Box>,
          }),
          columnHelper.accessor('quantity_sold', {
-            header: () => <Box>SL bán</Box>,
+            header: () => <Box sx={{ textAlign: 'center' }}>SL tồn</Box>,
             cell: (info) => <Box sx={{ textAlign: 'center' }}>{info.getValue()}</Box>,
+         }),
+         columnHelper.accessor('quantity_export', {
+            header: () => <Box sx={{ textAlign: 'center' }}>SL bán</Box>,
+            cell: ({ row }) => {
+               const data = row.original as any;
+
+               return <Box sx={{ textAlign: 'center' }}>{data.quantity_received - data.quantity_sold}</Box>;
+            },
          }),
          columnHelper.accessor('cost_price', {
             header: 'Giá nhập',

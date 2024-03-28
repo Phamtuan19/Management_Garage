@@ -3,13 +3,8 @@
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import ROUTE_PATH from '@App/configs/router-path';
 import MODULE_PAGE from '@App/configs/module-page';
-import PAGE_ACTION from '@App/configs/page-action';
 import TableCore, { columnHelper } from '@Core/Component/Table';
-import {
-   CoreTableActionDelete,
-   CoreTableActionEdit,
-   CoreTableActionViewDetail,
-} from '@Core/Component/Table/components/CoreTableAction';
+import { CoreTableActionEdit, CoreTableActionViewDetail } from '@Core/Component/Table/components/CoreTableAction';
 import { Box, Button, Chip } from '@mui/material';
 import PermissionAccessRoute from '@App/routes/components/PermissionAccessRoute';
 import { useQuery } from '@tanstack/react-query';
@@ -24,33 +19,29 @@ import FilterTable from '@App/component/common/FilterTable';
 
 const sortOptions = [
    {
-      title: 'Code',
+      title: 'Mã',
       value: 'code',
    },
    {
-      title: 'Tên',
+      title: 'Tên nhà phân phối',
       value: 'name',
    },
    {
-      title: 'SĐT',
+      title: 'Số điện thoại',
       value: 'phone',
-   },
-   {
-      title: 'Ngày Tạo',
-      value: 'createdAt',
    },
 ];
 const sortList = [
    {
-      title: 'Code',
+      title: 'Mã',
       value: 'code',
    },
    {
-      title: 'Tên',
+      title: 'Tên nhà phân phối',
       value: 'name',
    },
    {
-      title: 'SĐT',
+      title: 'Số điện thoại',
       value: 'phone',
    },
    {
@@ -83,6 +74,9 @@ const Distributors = () => {
          }),
          columnHelper.accessor('name', {
             header: 'Tên nhà phân phối',
+            cell: (info) => (
+               <Box sx={{ maxWidth: 300, textOverflow: 'ellipsis', overflow: 'hidden' }}>{info.getValue()}</Box>
+            ),
          }),
          columnHelper.accessor('phone', {
             header: 'Số điện thoại',
@@ -114,10 +108,12 @@ const Distributors = () => {
                            callback={() => navigate(ROUTE_PATH.DISTRIBUTORS + '/' + distributor._id + '/details')}
                         />
                      </PermissionAccessRoute>
-                     <CoreTableActionDelete />
-                     <CoreTableActionEdit
-                        callback={() => navigate(ROUTE_PATH.DISTRIBUTORS + '/' + distributor._id + '/update')}
-                     />
+                     {/* <CoreTableActionDelete /> */}
+                     <PermissionAccessRoute module={MODULE_PAGE.DISTRIBUTORS} action="UPDATE">
+                        <CoreTableActionEdit
+                           callback={() => navigate(ROUTE_PATH.DISTRIBUTORS + '/' + distributor._id + '/update')}
+                        />
+                     </PermissionAccessRoute>
                   </Box>
                );
             },
@@ -128,7 +124,7 @@ const Distributors = () => {
    return (
       <BaseBreadcrumbs arialabel="Nhà phân phối">
          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <PermissionAccessRoute module={MODULE_PAGE.DISTRIBUTORS} action={PAGE_ACTION.CREATE}>
+            <PermissionAccessRoute module={MODULE_PAGE.DISTRIBUTORS} action="CREATE">
                <Button component={Link} to="create" size="medium">
                   Thêm mới
                </Button>

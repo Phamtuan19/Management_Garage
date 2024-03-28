@@ -28,9 +28,14 @@ import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
+const searchType = [
+   { title: 'Mã HĐ', value: 'code' },
+   { title: 'Nhân viên tạo', value: 'personnel.full_name' },
+];
 const sortList = [
    { title: 'Mã HĐ', value: 'code' },
    { title: 'Nhân viên tạo', value: 'personnel.full_name' },
+   { title: 'Ngày tạo', value: 'createdAt' },
 ];
 
 const SuppliesInvoices = () => {
@@ -152,7 +157,7 @@ const SuppliesInvoices = () => {
 
          <PageContent>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-               <FilterTable sortList={sortList} searchType={sortList} />
+               <FilterTable sortList={sortList} searchType={searchType} />
             </Box>
 
             <TableCore columns={columns} {...data} />

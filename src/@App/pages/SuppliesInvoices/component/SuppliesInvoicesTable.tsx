@@ -308,6 +308,7 @@ const SuppliesInvoicesTable = ({ form, isCheckStatusPayment }: SuppliesInvoicesT
             columns={columns as never}
             data={fields ?? []}
             isPagination={false}
+            // height={470}
          />
       </>
    );

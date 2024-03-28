@@ -107,7 +107,10 @@ const MaterialsCatalog = () => {
                         />
                      </PermissionAccessRoute>
                      {/* <CoreTableActionDelete /> */}
-                     <CoreTableActionEdit callback={() => navigate(ROUTE_PATH.CARS + '/' + car._id + '/update')} />
+
+                     <PermissionAccessRoute module={MODULE_PAGE.CARS} action="UPDATE">
+                        <CoreTableActionEdit callback={() => navigate(ROUTE_PATH.CARS + '/' + car._id + '/update')} />
+                     </PermissionAccessRoute>
                   </Box>
                );
             },

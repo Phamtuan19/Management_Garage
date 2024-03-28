@@ -3,24 +3,21 @@
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import ROUTE_PATH from '@App/configs/router-path';
 import useCoreTable from '@App/hooks/useCoreTable';
-import ervice, { RoleResponseData } from '@App/services/role.service';
+import { RoleResponseData } from '@App/services/role.service';
 import TableCore, { columnHelper } from '@Core/Component/Table';
 import {
-   CoreTableActionDelete,
+   // CoreTableActionDelete,
    CoreTableActionEdit,
    CoreTableActionViewDetail,
 } from '@Core/Component/Table/components/CoreTableAction';
 import { Box, Button } from '@mui/material';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import useSearchParamsHook from '@App/hooks/useSearchParamsHook';
 import PermissionAccessRoute from '@App/routes/components/PermissionAccessRoute';
 import MODULE_PAGE from '@App/configs/module-page';
 import PAGE_ACTION from '@App/configs/page-action';
-import { errorMessage, successMessage } from '@Core/Helper/message';
-import { AxiosResponseData, HandleErrorApi } from '@Core/Api/axios-config';
-import { AxiosError } from 'axios';
 import repairServiceService from '@App/services/repairService.service';
 import PageContent from '@App/component/customs/PageContent';
 import FilterTable from '@App/component/common/FilterTable';
@@ -38,7 +35,7 @@ const sortList = [
    },
    {
       title: 'Tên danh mục',
-      value: 'repair_service_category.name',
+      value: 'repair_service_category_id.name',
    },
 ];
 
@@ -72,22 +69,22 @@ const RepairServices = () => {
 
    const data = useCoreTable(queryTable);
 
-   const { mutate: handleDelete } = useMutation({
-      mutationFn: async (id: string) => {
-         const res = await ervice.delete(id);
-         return res;
-      },
-      onSuccess: (data: AxiosResponseData) => {
-         successMessage(data.message || 'Xóa thành công');
-         const refetch = queryTable.refetch;
-         return refetch();
-      },
-      onError: (err: AxiosError) => {
-         const dataError = err.response?.data as HandleErrorApi;
+   // const { mutate: handleDelete } = useMutation({
+   //    mutationFn: async (id: string) => {
+   //       const res = await ervice.delete(id);
+   //       return res;
+   //    },
+   //    onSuccess: (data: AxiosResponseData) => {
+   //       successMessage(data.message || 'Xóa thành công');
+   //       const refetch = queryTable.refetch;
+   //       return refetch();
+   //    },
+   //    onError: (err: AxiosError) => {
+   //       const dataError = err.response?.data as HandleErrorApi;
 
-         return errorMessage((dataError?.message as unknown as string) || 'Xóa thất bại');
-      },
-   });
+   //       return errorMessage((dataError?.message as unknown as string) || 'Xóa thất bại');
+   //    },
+   // });
 
    const columns = useMemo(() => {
       return [
@@ -142,9 +139,9 @@ const RepairServices = () => {
                const repairService = row.original as RoleResponseData;
                return (
                   <Box>
-                     <PermissionAccessRoute module={MODULE_PAGE.REPAIR_SERVICES} action="DELETE">
+                     {/* <PermissionAccessRoute module={MODULE_PAGE.REPAIR_SERVICES} action="DELETE">
                         <CoreTableActionDelete callback={() => handleDelete(repairService._id)} />
-                     </PermissionAccessRoute>
+                     </PermissionAccessRoute> */}
                      <PermissionAccessRoute module={MODULE_PAGE.REPAIR_SERVICES} action="VIEW_ALL">
                         <CoreTableActionEdit
                            callback={() => navigate(ROUTE_PATH.REPAIR_SERVICES + '/' + repairService._id + '/update')}

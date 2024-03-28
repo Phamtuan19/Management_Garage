@@ -34,6 +34,7 @@ interface SuppliesItem {
    createdAt: string;
    updatedAt: string;
    car: Array<string>;
+   total_quantity_sold: number;
 }
 
 const DetailTableSupplies = ({ supplies }: DetailTableSuppliesProps) => {
@@ -73,6 +74,11 @@ const DetailTableSupplies = ({ supplies }: DetailTableSuppliesProps) => {
               {
                  title: 'Giá nhập dự kiến',
                  value: formatPrice(suppliesItem?.imported_price ?? 0),
+                 border: true,
+              },
+              {
+                 title: 'Số lượng tồn kho',
+                 value: suppliesItem?.total_quantity_sold,
                  border: true,
               },
               {
@@ -127,6 +133,14 @@ const DetailTableSupplies = ({ supplies }: DetailTableSuppliesProps) => {
             header: 'Nhà cung cấp',
             cell: (info) => (
                <Box sx={{ maxWidth: 300, overflow: 'hidden', textOverflow: 'ellipsis' }}>{info.getValue()}</Box>
+            ),
+         }),
+         columnHelper.accessor('total_quantity_sold', {
+            header: () => <Box textAlign="center">Số lượng tồn</Box>,
+            cell: (info) => (
+               <Box textAlign="center">
+                  <Chip label={info.getValue()} color="info" />
+               </Box>
             ),
          }),
          columnHelper.accessor('isInStock', {
@@ -202,18 +216,14 @@ const DetailTableSupplies = ({ supplies }: DetailTableSuppliesProps) => {
             ),
          }),
          columnHelper.accessor('quantity_received', {
-            header: () => <Box>SL nhập</Box>,
+            header: () => <Box sx={{ textAlign: 'center' }}>SL nhập</Box>,
             cell: (info) => <Box sx={{ textAlign: 'center' }}>{info.getValue()}</Box>,
          }),
          columnHelper.accessor('quantity_sold', {
-            header: () => <Box>SL bán</Box>,
+            header: () => <Box sx={{ textAlign: 'center' }}>SL tồn</Box>,
             cell: ({ row }) => {
                const supplies = row.original as any;
-               return (
-                  <Box sx={{ textAlign: 'center' }}>
-                     {Number(supplies.quantity_received) - Number(supplies.quantity_sold)}
-                  </Box>
-               );
+               return <Box sx={{ textAlign: 'center' }}>{supplies.quantity_sold}</Box>;
             },
          }),
          columnHelper.accessor('cost_price', {

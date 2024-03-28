@@ -35,7 +35,7 @@ const FormSuppliesDetails = ({ form }: { form: UseFormReturn<SuppliesSchema> }) 
    const materials_catalog_id = watch('materials_catalog_id');
 
    const { data: distributors } = useQuery(
-      ['getDistributors'],
+      ['getDistributors', materials_catalog_id],
       async () => {
          const res = await distributorService.getAllField({ materials_catalog_id });
          return res.data as { _id: string; name: string }[];
@@ -75,6 +75,35 @@ const FormSuppliesDetails = ({ form }: { form: UseFormReturn<SuppliesSchema> }) 
 
    const details = watch('details') ?? [];
 
+   // console.log(distributors);
+   // const newData = useCallback(
+   //    (index: number) => {
+   //       if (distributors && distributors.length > 0) {
+   //          if (details.length > 0) {
+   //             const detail_distributor_id = details[index].distributor_id;
+   //             const a = distributors.filter((item1) => {
+   //                console.log(item1);
+   //                // if (item1._id === detail_distributor_id) {
+   //                //    return item1;
+   //                // }
+
+   //                return item1;
+
+   //                // return details.some((v) => v.distributor_id !== item1._id);
+   //             });
+
+   //             // console.log(a);
+
+   //             return a;
+   //          }
+
+   //          return distributors;
+   //       }
+   //       return [];
+   //    },
+   //    [distributors, details],
+   // );
+
    const newData = useCallback(
       (index: number) => {
          if (distributors) {
@@ -98,6 +127,7 @@ const FormSuppliesDetails = ({ form }: { form: UseFormReturn<SuppliesSchema> }) 
       [distributors, details],
    );
 
+   // console.log(newData(0));
    return (
       <Grid item xs={12}>
          <Box display="flex" justifyContent="space-between" alignItems="center" borderBottom="1px solid #E8EAEB">

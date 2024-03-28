@@ -21,9 +21,28 @@ import FilterTable from '@App/component/common/FilterTable';
 import useSearchParamsHook from '@App/hooks/useSearchParamsHook';
 import formatDateTime from '@Core/Helper/formatDateTime';
 
+const searchType = [
+   {
+      title: 'Mã',
+      value: 'code',
+   },
+   {
+      title: 'Nhóm vật tư',
+      value: 'name_supplie',
+   },
+   {
+      title: 'Tên vật tư',
+      value: 'name_detail',
+   },
+   {
+      title: 'Nhà cung cấp',
+      value: 'name_distributor',
+   },
+];
+
 const sortList = [
    {
-      title: 'Code',
+      title: 'Mã',
       value: 'code',
    },
    {
@@ -35,8 +54,12 @@ const sortList = [
       value: 'name_detail',
    },
    {
-      title: 'Nhà Phân Phối',
+      title: 'Nhà cung cấp',
       value: 'name_distributor',
+   },
+   {
+      title: 'Trạng thái',
+      value: 'isInStock',
    },
    {
       title: 'Thời gian',
@@ -46,11 +69,14 @@ const sortList = [
 
 const Supplies = () => {
    const navigate = useNavigate();
+
    const { searchParams } = useSearchParamsHook();
+
    const queryTable = useQuery(['getListSupplies', searchParams], async () => {
       const res = await suppliesService.get(searchParams);
       return res.data;
    });
+
    const data = useCoreTable(queryTable);
 
    const columns = useMemo(() => {
@@ -64,14 +90,6 @@ const Supplies = () => {
             header: () => <Box sx={{ textAlign: 'center' }}>Mã</Box>,
             cell: (info) => <Box sx={{ textAlign: 'center' }}>#{info.getValue()}</Box>,
          }),
-         // columnHelper.accessor('avatar', {
-         //    header: () => <Box sx={{ textAlign: 'center' }}>Hình ảnh</Box>,
-         //    cell: ({ row }) => (
-         //       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-         //          <LazyLoadingImage src={row.getValue('avatar')} w="35" h="35" style={{ borderRadius: '50%' }} />
-         //       </Box>
-         //    ),
-         // }),
          columnHelper.accessor('name_supplie', {
             header: 'Nhóm vật tư',
          }),
@@ -87,6 +105,16 @@ const Supplies = () => {
                <Box sx={{ textOverflow: 'ellipsis', overflow: 'hidden', maxWidth: '250px' }}>{info.getValue()}</Box>
             ),
          }),
+         columnHelper.accessor('total_quantity_sold', {
+            header: () => <Box textAlign="center">Số lượng tồn</Box>,
+            cell: (info) => {
+               return (
+                  <Box display="flex" justifyContent="center">
+                     <Chip label={info.getValue()} color="info" />
+                  </Box>
+               );
+            },
+         }),
          columnHelper.accessor('unit', {
             header: () => <Box textAlign="center">Dvt</Box>,
             cell: (info) => {
@@ -98,7 +126,7 @@ const Supplies = () => {
             },
          }),
          columnHelper.accessor('isInStock', {
-            header: () => <Box textAlign="center">Mô tả</Box>,
+            header: () => <Box textAlign="center">Trạng thái</Box>,
             cell: ({ row }) => {
                const supplies = row.original as ReadSupplies;
 
@@ -132,9 +160,11 @@ const Supplies = () => {
                      {/* <PermissionAccessRoute module={MODULE_PAGE.SUPPLIES} action="DELETE">
                         <CoreTableActionDelete />
                      </PermissionAccessRoute> */}
-                     <CoreTableActionEdit
-                        callback={() => navigate(ROUTE_PATH.SUPPLIES + '/' + supplies.supplies_id + '/update')}
-                     />
+                     <PermissionAccessRoute module={MODULE_PAGE.SUPPLIES} action="UPDATE">
+                        <CoreTableActionEdit
+                           callback={() => navigate(ROUTE_PATH.SUPPLIES + '/' + supplies.supplies_id + '/update')}
+                        />
+                     </PermissionAccessRoute>
                   </Box>
                );
             },
@@ -163,7 +193,7 @@ const Supplies = () => {
          </Box>
          <PageContent>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-               <FilterTable sortList={sortList} searchType={sortList} />
+               <FilterTable sortList={sortList} searchType={searchType} />
             </Box>
             <TableCore height={380} columns={columns} {...data} />
          </PageContent>
