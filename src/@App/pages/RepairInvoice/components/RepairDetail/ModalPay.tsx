@@ -35,7 +35,7 @@ const ModalPay = ({ open, refetchRepairInvoice, setOpen }: ModalPayProps) => {
    const coreConfirm = useConfirm();
 
    const { data: personnels } = useQuery(['getPersonnelsAllField'], async () => {
-      const res = await personnelService.fieldAll();
+      const res = await personnelService.fieldAll({ position: 'technical' });
       return res.data;
    });
 

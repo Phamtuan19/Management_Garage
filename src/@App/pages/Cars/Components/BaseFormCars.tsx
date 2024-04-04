@@ -74,7 +74,7 @@ const BaseFormCars = ({ form, onSubmitForm, isLoading }: BaseFormCarsPropType) =
          </Box>
          <PageContent>
             <Grid container spacing={2}>
-               <Grid item md={4}>
+               <Grid item md={4} xs={12}>
                   <ControllerLabel title="Chủ xe" required />
                   <ControllerSelect
                      options={customers || []}

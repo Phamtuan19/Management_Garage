@@ -15,7 +15,6 @@ interface BaseType extends ThemeOptions {
       text: {
          main: string;
          primary: string;
-
          white: string;
          black: string;
          gray1: string;

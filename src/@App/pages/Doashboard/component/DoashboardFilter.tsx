@@ -52,8 +52,10 @@ const DoashboardFilter = () => {
                      // defaultValue={[]}
                      format="DD-MM-YYYY"
                      onChange={(e) => {
-                        setParams('start_date', dayjs(e[0]) as unknown as string);
-                        setParams('end_date', dayjs(e[1]) as unknown as string);
+                        if (e && e[0] && e[1]) {
+                           setParams('start_date', dayjs(e[0]) as unknown as string);
+                           setParams('end_date', dayjs(e[1]) as unknown as string);
+                        }
                      }}
                   />
                </DemoContainer>

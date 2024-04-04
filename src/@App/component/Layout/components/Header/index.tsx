@@ -9,6 +9,7 @@ import LazyLoadingImage from '@App/component/customs/LazyLoadingImage';
 import { useConfirm } from '@Core/Component/Comfirm/CoreComfirm';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import ROUTE_PATH from '@App/configs/router-path';
+import ControllerLabel from '@Core/Component/Input/ControllerLabel';
 const logo: string = 'https://react.vristo.sbthemes.com/assets/images/logo.svg';
 
 interface HeaderProps {
@@ -82,7 +83,8 @@ const Header = ({ setisOpenSidebar, isOpenSidebar }: HeaderProps) => {
          {/* hedaer  */}
          <AsideHeader>
             <Stack sx={{ flexDirection: 'row', px: 3 }}>
-               <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+               <Box sx={{ display: 'flex', alignItems: 'flex-end', textAlign: 'center' }}>
+                  <ControllerLabel title={user?.full_name} />
                   <Tooltip title="Account settings">
                      <IconButton
                         onClick={handleClick}

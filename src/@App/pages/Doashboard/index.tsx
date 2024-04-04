@@ -13,17 +13,17 @@ import DirectionsCarFilledRoundedIcon from '@mui/icons-material/DirectionsCarFil
 import ConstructionRoundedIcon from '@mui/icons-material/ConstructionRounded';
 import { useQuery } from '@tanstack/react-query';
 import dashboardService from '@App/services/dashboard-service';
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
+import { useState } from 'react';
 
 import DoashboardPrice from './component/DoashboardPrice';
-import DoashboardFilter from './component/DoashboardFilter';
 import AxisAlignWithTick from './component/AxisAlignWithTick';
-import CharLineSimple from './component/CharLineSimple';
-import { month } from './utils';
-import BarChart from './component/BarChart';
+// import BarChart from './component/BarChart';
 
 const Doashboard = () => {
    const { searchParams } = useSearchParamsHook();
+   const [value1, setValue1] = useState<Dayjs | null>(dayjs());
+   const [value2, setValue2] = useState<Dayjs | null>(dayjs());
 
    // const shortcutsItems: PickersShortcutsItem<DateRange<Dayjs>>[] = [
    //    {
@@ -78,11 +78,21 @@ const Doashboard = () => {
       },
    );
 
+   const { data: doashboardYear } = useQuery(['getDoashboardYear', value1], async () => {
+      const res = await dashboardService.getYear(dayjs(value1).year());
+      return res.data;
+   });
+
+   const { data: repairInvoice } = useQuery(['getDoashboardRepairInvoice', value2], async () => {
+      const res = await dashboardService.getRepairInvoice(dayjs(value2).year());
+      return res.data;
+   });
+
    const dataCategoryNd = [
       {
          bgColor: 'rgba(2, 140, 23, 0.20)',
          bdColor: '#028C17',
-         title: 'Tổng doanh thu',
+         title: 'Doanh thu',
          data: formatPrice(doashboard?.count?.total_price_repair_invoice ?? 0),
          icon: <AttachMoneyIcon sx={{ width: '20px', height: '20px', color: 'white' }} />,
       },
@@ -93,20 +103,20 @@ const Doashboard = () => {
          data: formatPrice(doashboard?.count?.total_price_supplies_invoice ?? 0),
          icon: <AttachMoneyIcon sx={{ width: '20px', height: '20px', color: 'white' }} />,
       },
-      {
-         bgColor: 'rgba(244, 19, 69, 0.20)',
-         bdColor: '#F41345',
-         title: 'Tổng doanh thu',
-         data: formatPrice(1000000000),
-         icon: <AttachMoneyIcon sx={{ width: '20px', height: '20px', color: 'white' }} />,
-      },
-      {
-         bgColor: 'rgba(255, 156, 8, 0.20)',
-         bdColor: '#FF9C09',
-         title: 'Tổng doanh thu',
-         data: formatPrice(1000000000),
-         icon: <AttachMoneyIcon sx={{ width: '20px', height: '20px', color: 'white' }} />,
-      },
+      // {
+      //    bgColor: 'rgba(244, 19, 69, 0.20)',
+      //    bdColor: '#F41345',
+      //    title: 'Tổng doanh thu',
+      //    data: formatPrice(1000000000),
+      //    icon: <AttachMoneyIcon sx={{ width: '20px', height: '20px', color: 'white' }} />,
+      // },
+      // {
+      //    bgColor: 'rgba(255, 156, 8, 0.20)',
+      //    bdColor: '#FF9C09',
+      //    title: 'Tổng doanh thu',
+      //    data: formatPrice(1000000000),
+      //    icon: <AttachMoneyIcon sx={{ width: '20px', height: '20px', color: 'white' }} />,
+      // },
    ];
 
    const dataCategorySt = [
@@ -141,155 +151,139 @@ const Doashboard = () => {
       },
    ];
 
-   const dataLineSimple = {
-      xAxis_data: month,
-      series: {
-         name: 'Xe',
-         data: [150, 230, 224, 218, 135, 147, 260, 150, 230, 224, 218, 135],
-      },
-      title: 'Số lượng xe các tháng trong năm (2024)',
-   };
-   const dataAxisAlignWithTick = {
-      xAxis_data: month,
-      series: {
-         name: 'Xe',
-         data: [
-            1000000, 1550000, 900000, 1000000, 1000000, 1000000, 1000000, 1000000, 100000, 1222222, 1900000, 1222222,
-         ],
-      },
-      title: 'Doanh thu các tháng trong năm (2024)',
-   };
-
-   const dataBarChartService = {
-      title: 'Top 10 Dịch vụ có doanh thu cao nhất',
-      subtext: 'Dịch vụ',
-      data: [
-         {
-            name: 'Gói bảo dưỡng xe ô tô hạng B',
-            value: 50000,
-         },
-         {
-            name: 'Dịch vụ bảo dưỡng xe hạng A',
-            value: 50000,
-         },
-         {
-            name: 'Dịch vụ bảo dưỡng xe hạng C',
-            value: 50000,
-         },
-         {
-            name: 'Gói bảo dưỡng xe ô tô hạng B',
-            value: 50000,
-         },
-         {
-            name: 'Dịch vụ bảo dưỡng xe hạng A',
-            value: 50000,
-         },
-         {
-            name: 'Gói bảo dưỡng xe ô tô hạng B',
-            value: 50000,
-         },
-         {
-            name: 'Dịch vụ bảo dưỡng xe hạng A',
-            value: 50000,
-         },
-         {
-            name: 'Dịch vụ bảo dưỡng xe hạng C',
-            value: 50000,
-         },
-         {
-            name: 'Gói bảo dưỡng xe ô tô hạng B',
-            value: 50000,
-         },
-         {
-            name: 'Dịch vụ bảo dưỡng xe hạng A',
-            value: 50000,
-         },
-         {
-            name: 'Dịch vụ bảo dưỡng xe hạng C',
-            value: 50000,
-         },
-      ],
-   };
-   const dataBarChartSupplies = {
-      title: 'Top 10 vật tư có doanh thu cao nhất',
-      subtext: 'Vật tư',
-      data: [
-         {
-            name: 'Gói bảo dưỡng xe ô tô hạng B',
-            value: 50000,
-         },
-         {
-            name: 'Dịch vụ bảo dưỡng xe hạng A',
-            value: 50000,
-         },
-         {
-            name: 'Dịch vụ bảo dưỡng xe hạng C',
-            value: 50000,
-         },
-         {
-            name: 'Gói bảo dưỡng xe ô tô hạng B',
-            value: 50000,
-         },
-         {
-            name: 'Dịch vụ bảo dưỡng xe hạng A',
-            value: 50000,
-         },
-         {
-            name: 'Gói bảo dưỡng xe ô tô hạng B',
-            value: 50000,
-         },
-         {
-            name: 'Dịch vụ bảo dưỡng xe hạng A',
-            value: 50000,
-         },
-         {
-            name: 'Dịch vụ bảo dưỡng xe hạng C',
-            value: 50000,
-         },
-         {
-            name: 'Gói bảo dưỡng xe ô tô hạng B',
-            value: 50000,
-         },
-         {
-            name: 'Dịch vụ bảo dưỡng xe hạng A',
-            value: 50000,
-         },
-         {
-            name: 'Dịch vụ bảo dưỡng xe hạng C',
-            value: 50000,
-         },
-      ],
-   };
+   // const dataBarChartService = {
+   //    title: 'Top 10 Dịch vụ có doanh thu cao nhất',
+   //    subtext: 'Dịch vụ',
+   //    data: [
+   //       {
+   //          name: 'Gói bảo dưỡng xe ô tô hạng B',
+   //          value: 50000,
+   //       },
+   //       {
+   //          name: 'Dịch vụ bảo dưỡng xe hạng A',
+   //          value: 50000,
+   //       },
+   //       {
+   //          name: 'Dịch vụ bảo dưỡng xe hạng C',
+   //          value: 50000,
+   //       },
+   //       {
+   //          name: 'Gói bảo dưỡng xe ô tô hạng B',
+   //          value: 50000,
+   //       },
+   //       {
+   //          name: 'Dịch vụ bảo dưỡng xe hạng A',
+   //          value: 50000,
+   //       },
+   //       {
+   //          name: 'Gói bảo dưỡng xe ô tô hạng B',
+   //          value: 50000,
+   //       },
+   //       {
+   //          name: 'Dịch vụ bảo dưỡng xe hạng A',
+   //          value: 50000,
+   //       },
+   //       {
+   //          name: 'Dịch vụ bảo dưỡng xe hạng C',
+   //          value: 50000,
+   //       },
+   //       {
+   //          name: 'Gói bảo dưỡng xe ô tô hạng B',
+   //          value: 50000,
+   //       },
+   //       {
+   //          name: 'Dịch vụ bảo dưỡng xe hạng A',
+   //          value: 50000,
+   //       },
+   //       {
+   //          name: 'Dịch vụ bảo dưỡng xe hạng C',
+   //          value: 50000,
+   //       },
+   //    ],
+   // };
+   // const dataBarChartSupplies = {
+   //    title: 'Top 10 vật tư có doanh thu cao nhất',
+   //    subtext: 'Vật tư',
+   //    data: [
+   //       {
+   //          name: 'Gói bảo dưỡng xe ô tô hạng B',
+   //          value: 50000,
+   //       },
+   //       {
+   //          name: 'Dịch vụ bảo dưỡng xe hạng A',
+   //          value: 50000,
+   //       },
+   //       {
+   //          name: 'Dịch vụ bảo dưỡng xe hạng C',
+   //          value: 50000,
+   //       },
+   //       {
+   //          name: 'Gói bảo dưỡng xe ô tô hạng B',
+   //          value: 50000,
+   //       },
+   //       {
+   //          name: 'Dịch vụ bảo dưỡng xe hạng A',
+   //          value: 50000,
+   //       },
+   //       {
+   //          name: 'Gói bảo dưỡng xe ô tô hạng B',
+   //          value: 50000,
+   //       },
+   //       {
+   //          name: 'Dịch vụ bảo dưỡng xe hạng A',
+   //          value: 50000,
+   //       },
+   //       {
+   //          name: 'Dịch vụ bảo dưỡng xe hạng C',
+   //          value: 50000,
+   //       },
+   //       {
+   //          name: 'Gói bảo dưỡng xe ô tô hạng B',
+   //          value: 50000,
+   //       },
+   //       {
+   //          name: 'Dịch vụ bảo dưỡng xe hạng A',
+   //          value: 50000,
+   //       },
+   //       {
+   //          name: 'Dịch vụ bảo dưỡng xe hạng C',
+   //          value: 50000,
+   //       },
+   //    ],
+   // };
 
    return (
       <BaseBreadcrumbs arialabel="Thống kê" isLoading={isLoading}>
-         <DoashboardFilter />
+         {/* <DoashboardFilter /> */}
 
          <PageContent>
             <Grid container spacing={2}>
                {dataCategorySt.map((item, index) => (
-                  <Grid item xs={dataCategoryNd.length - 1} key={index}>
+                  <Grid item xs={3} key={index}>
                      <DoashboardPrice {...item} />
                   </Grid>
                ))}
 
                {dataCategoryNd.map((item, index) => (
-                  <Grid item xs={dataCategoryNd.length - 1} key={index}>
+                  <Grid item xs={6} key={index}>
                      <DoashboardPrice {...item} />
                   </Grid>
                ))}
-               <Grid item xs={6}>
-                  <AxisAlignWithTick {...dataAxisAlignWithTick} />
+               <Grid item xs={12}>
+                  <AxisAlignWithTick value={value1} setValue={setValue1} data={doashboardYear} />
                </Grid>
-               <Grid item xs={6}>
+               <Grid item xs={12}>
+                  <AxisAlignWithTick value={value2} setValue={setValue2} data={repairInvoice} />
+               </Grid>
+               {/* <Grid item xs={6}>
                   <CharLineSimple {...dataLineSimple} />
-               </Grid>
-               <Grid item xs={6}>
+               </Grid> */}
+               {/* <Grid item xs={12}>
                   <BarChart {...dataBarChartSupplies} />
-               </Grid>
-               <Grid item xs={6}>
+               </Grid> */}
+               {/* <Grid item xs={6}>
                   <BarChart {...dataBarChartService} />
-               </Grid>
+               </Grid> */}
             </Grid>
          </PageContent>
       </BaseBreadcrumbs>

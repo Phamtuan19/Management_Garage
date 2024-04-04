@@ -5,7 +5,6 @@ import ControllerTextField from '@Core/Component/Input/ControllerTextField';
 import { Box, Grid, Typography } from '@mui/material';
 import { UseFormReturn } from 'react-hook-form';
 import { DistributorSchema } from '../utils/distributor.schema';
-import FormDistributor from './FormDistributor';
 import ControllerAutoComplate from '@Core/Component/Input/ControllerAutoComplate';
 import { useQuery } from '@tanstack/react-query';
 import materialsCatalogService from '@App/services/materialsCatalog.service';
@@ -94,7 +93,7 @@ const BaseFormDistributor = ({ form }: BaseFormPersonnelPropType) => {
                </Box>
             </Grid>
 
-            <Grid item xs={12}>
+            {/* <Grid item xs={12}>
                <Typography component="h4" sx={{ fontWeight: 600 }}>
                   Địa chỉ:
                </Typography>
@@ -105,7 +104,7 @@ const BaseFormDistributor = ({ form }: BaseFormPersonnelPropType) => {
                   <ControllerLabel title="Địa chỉ cụ thể" />
                   <ControllerTextField name="address.specific" control={control} />
                </Box>
-            </Grid>
+            </Grid> */}
          </Grid>
       </Box>
    );

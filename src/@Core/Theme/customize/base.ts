@@ -14,7 +14,6 @@ const base: BaseType = {
       text: {
          main: '#343a4d',
          primary: '#1976d2',
-
          white: '#FFFFFF',
          black: '#111111',
          gray1: '#DADADA',

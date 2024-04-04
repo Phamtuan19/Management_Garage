@@ -32,6 +32,13 @@ const menuConfig: MenuConfigItem[] = [
             action: PAGE_ACTION.VIEW_ALL,
          },
          {
+            id: 2.4,
+            title: 'Thương hiệu xe',
+            link: ROUTE_PATH.BRAND_CARS,
+            module: MODULE_PAGE.BRAND_CARS,
+            action: PAGE_ACTION.VIEW_ALL,
+         },
+         {
             id: 2.2,
             title: 'Phiếu sửa chữa',
             link: ROUTE_PATH.REPAIR_INVOICE,

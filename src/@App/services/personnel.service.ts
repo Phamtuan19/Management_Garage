@@ -67,8 +67,11 @@ class PersonnelService extends BaseService {
       this.setRequest();
    }
 
-   fieldAll(): Promise<ResponseFieldAll> {
-      return this.request(this.BASE_ENDPOINT + personnelPathUrl.ALL_FIELD);
+   fieldAll(query?: Record<string, string>): Promise<ResponseFieldAll> {
+      const params = {
+         ...query,
+      };
+      return this.request.get(this.BASE_ENDPOINT + personnelPathUrl.ALL_FIELD, { params });
    }
 
    changePassword(id: string, data: { new_password: string; old_password: string }) {

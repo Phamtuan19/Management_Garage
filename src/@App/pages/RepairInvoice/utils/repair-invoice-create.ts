@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
+import messageValidate from '@App/helpers/messageValidate';
 import * as yup from 'yup';
 
 const repairService = yup
@@ -46,19 +47,19 @@ export const repairInvoiceSchema = yup.object({
    personnel_id: yup.string().default(''),
 
    customer: yup.object({
-      customer_id: yup.string().default(''),
-      phone: yup.string().default(''),
+      customer_id: yup.string().required(messageValidate.required('Khách hàng')).default(''),
+      phone: yup.string().required(messageValidate.required('Số điện thoại')).default(''),
       email: yup.string().default(''),
    }),
 
    car: yup.object({
-      car_id: yup.string().default(''),
+      car_id: yup.string().required(messageValidate.required('Xe')).default(''),
       car_name: yup.string().default(''),
       car_color: yup.string().default(''),
       car_type: yup.string().default(''),
       brand_car: yup.string().default(''),
       license_plate: yup.string().default(''),
-      kilometer: yup.number().max(999999, 'Số kilometer không hợp lệ').default(0),
+      kilometer: yup.number().min(0, 'Số kilometer không hợp lệ').max(999999, 'Số kilometer không hợp lệ').default(0),
    }),
 
    suppliesInvoices: suppliesInvoices,

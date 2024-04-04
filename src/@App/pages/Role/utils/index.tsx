@@ -169,6 +169,33 @@ export const ROLES: RolePropsTypeConfig[] = [
          },
       ],
    },
+   // BRAND CAR
+   {
+      name: MODULE_PAGE.BRAND_CARS,
+      title: 'Thương hiệu xe',
+      action: [
+         {
+            name: PAGE_ACTION.VIEW_ALL,
+            title: 'Xem Danh ',
+         },
+         {
+            name: PAGE_ACTION.VIEW_ONE,
+            title: 'Xem Chi tiết',
+         },
+         {
+            name: PAGE_ACTION.CREATE,
+            title: 'Thêm mới ',
+         },
+         {
+            name: PAGE_ACTION.DELETE,
+            title: 'Xóa ',
+         },
+         {
+            name: PAGE_ACTION.UPDATE,
+            title: 'Cập nhật ',
+         },
+      ],
+   },
    // CUSTOMERS
    {
       name: MODULE_PAGE.CUSTOMERS,

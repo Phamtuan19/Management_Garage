@@ -25,6 +25,8 @@ const ROUTE_PATH = {
    // Module sửa chữa FIX
    CARS: '/fix/cars',
 
+   BRAND_CARS: '/fix/band-cars',
+
    REPAIR_INVOICE: '/fix/repair-invoices',
 
    REPAIR_SERVICES: '/fix/repair-services',

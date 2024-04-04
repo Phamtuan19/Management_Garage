@@ -155,7 +155,7 @@ function TableCore<TData = unknown[], TValue = never>(props: TableCoreProps<TDat
                      >
                         <MenuItem value={10}>10</MenuItem>
                         <MenuItem value={20}>20</MenuItem>
-                        <MenuItem value={50}>30</MenuItem>
+                        <MenuItem value={50}>50</MenuItem>
                      </Select>
                   </Box>
                   <Box display="flex" gap="12px" alignItems="center">

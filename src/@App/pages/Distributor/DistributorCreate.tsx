@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable import/order */
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
@@ -8,7 +9,6 @@ import distributorService from '@App/services/distributor.service';
 import { errorMessage, successMessage } from '@Core/Helper/message';
 import { HandleErrorApi } from '@Core/Api/axios-config';
 import { AxiosError } from 'axios';
-import HttpStatusCode from '@Core/Configs/HttpStatusCode';
 import setErrorMessageHookForm from '@App/helpers/setErrorMessageHookForm';
 import { useNavigate } from 'react-router-dom';
 import { DistributorSchema, distributorSchema } from './utils/distributor.schema';
@@ -46,9 +46,7 @@ const DistributorCreate = () => {
       onError: (err: AxiosError) => {
          const dataError = err.response?.data as HandleErrorApi;
 
-         if (Number(dataError.statusCode) === Number(HttpStatusCode.BAD_REQUEST)) {
-            return setErrorMessageHookForm<DistributorSchema>(form.setError, dataError.message);
-         }
+         setErrorMessageHookForm<DistributorSchema>(form.setError, dataError.data.data as never);
 
          return errorMessage(err);
       },
