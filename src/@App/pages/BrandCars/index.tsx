@@ -110,13 +110,13 @@ const index = () => {
 
    return (
       <BaseBreadcrumbs arialabel="Thương hiệu xe">
-         <Box>
-            {/* <PermissionAccessRoute module={MODULE_PAGE.BRAND_CARS} action={PAGE_ACTION.CREATE}>
+         {/* <Box>
+             <PermissionAccessRoute module={MODULE_PAGE.BRAND_CARS} action={PAGE_ACTION.CREATE}>
                <Button component={Link} to="create" size="medium">
                   Thêm mới
                </Button>
-            </PermissionAccessRoute> */}
-         </Box>
+            </PermissionAccessRoute> 
+         </Box> */}
          <PageContent>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                {/* <FilterTable sortList={sortList} searchType={sortList}></FilterTable> */}
