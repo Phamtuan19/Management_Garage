@@ -6,14 +6,16 @@ import { STATUS_REPAIR, STATUS_REPAIR_DETAIL } from '@App/configs/status-config'
 import { ResponseFindOneRepairInvoice } from '@App/types/repair-invoice';
 import { AxiosResponseData } from '@Core/Api/axios-config';
 import { errorMessage, successMessage } from '@Core/Helper/message';
-import { Box, Button } from '@mui/material';
+import { Box, Button, Modal } from '@mui/material';
 import { QueryObserverResult, RefetchOptions, RefetchQueryFilters, useMutation } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import { AxiosError } from 'axios';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { useConfirm } from '@Core/Component/Comfirm/CoreComfirm';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import repairInvoiceService from '@App/services/repair-invoice';
+import PDFExportRepairInvoice from '@App/helpers/export-file-pdf';
+import exportFileExcel from '@App/helpers/export-file-excel';
 
 import { arrowRightOption } from '../../utils';
 
@@ -27,6 +29,9 @@ interface RepairDetailActionProps {
 }
 
 const RepairDetailAction = ({ data, refetchRepairInvoice, setOpen, setOpenModalPay }: RepairDetailActionProps) => {
+   const [openPdf, setOpenPdf] = useState(false);
+   const handleOpen = () => setOpenPdf(true);
+   const handleClose = () => setOpenPdf(false);
    const { id: repairInvoicId } = useParams();
    const status = data?.status;
 
@@ -114,9 +119,45 @@ const RepairDetailAction = ({ data, refetchRepairInvoice, setOpen, setOpenModalP
                   Hủy
                </Button>
             )}
+            {status === STATUS_REPAIR.complete.key && (
+               <>
+                  <Button color="inherit" onClick={handleOpen}>
+                     Xuất File PDF
+                  </Button>
+                  <Button
+                     color="inherit"
+                     onClick={() => {
+                        exportFileExcel({ data });
+                     }}
+                  >
+                     Xuất File Excel
+                  </Button>
+               </>
+            )}
+
+            <Modal
+               open={openPdf}
+               onClose={handleClose}
+               aria-labelledby="modal-modal-title"
+               aria-describedby="modal-modal-description"
+            >
+               <Box sx={style}>
+                  <PDFExportRepairInvoice />
+               </Box>
+            </Modal>
          </Box>
       </Box>
    );
+};
+
+const style = {
+   position: 'absolute',
+   top: '50%',
+   left: '50%',
+   transform: 'translate(-50%, -50%)',
+   width: '1200px',
+   bgcolor: 'background.paper',
+   boxShadow: 24,
 };
 
 export default RepairDetailAction;
