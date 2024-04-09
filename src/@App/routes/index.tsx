@@ -1,14 +1,11 @@
 import Layout from '@App/component/Layout';
 import ROUTE_PATH from '@App/configs/router-path';
-import PAGE_ACTION from '@App/configs/page-action';
-import MODULE_PAGE from '@App/configs/module-page';
 import { RouteObject, useRoutes } from 'react-router-dom';
 import PageNotFound from '@App/pages/error/PageNotFound';
 
 import PublicRouter from './components/PublicRoute';
 import PrivateRouter from './components/PrivateRouter';
 import Loadable from './components/loadable';
-import PermissionAccessRoute from './components/PermissionAccessRoute';
 import carsRoute from './rotue-action/cars';
 import customerRoute from './rotue-action/customer';
 import distributorRoute from './rotue-action/distributor';
@@ -21,10 +18,10 @@ import repairServicesRoutes from './rotue-action/repair-services';
 import profileRoute from './rotue-action/profile';
 import repairInvoiceRoute from './rotue-action/repair-invoice';
 import deliverysRoute from './rotue-action/deliverys';
+import dashboardRoute from './rotue-action/dashboard';
 // import brandCarsRoute from './rotue-action/brand-cars';
 
 const SignIn = Loadable('auth/SignIn');
-const Doashboard = Loadable('Doashboard');
 
 const routes = (): RouteObject[] => {
    return [
@@ -39,14 +36,6 @@ const routes = (): RouteObject[] => {
             </PrivateRouter>
          ),
          children: [
-            {
-               index: true,
-               element: (
-                  <PermissionAccessRoute module={MODULE_PAGE.DOASHBOARD} action={PAGE_ACTION.VIEW_ALL} type="route">
-                     <Doashboard />
-                  </PermissionAccessRoute>
-               ),
-            },
             carsRoute,
             customerRoute,
             distributorRoute,
@@ -60,6 +49,7 @@ const routes = (): RouteObject[] => {
             repairInvoiceRoute,
             deliverysRoute,
             // brandCarsRoute,
+            dashboardRoute,
          ],
       },
 

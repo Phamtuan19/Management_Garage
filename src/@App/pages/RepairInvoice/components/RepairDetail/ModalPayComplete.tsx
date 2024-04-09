@@ -43,14 +43,16 @@ const ModalPayComplete = ({ open, setOpen, repairInvoice, refetchRepairInvoice }
    const coreConfirm = useConfirm();
 
    const data = [
-      ...(repairInvoice?.repairInvoiceService.map((item) => ({
-         name: item.service_name,
-         unit: 'Lần',
-         sl: 1,
-         price: item.price ?? 0,
-         discount: item.discount,
-         total_price: item.price - (item.price * item.discount) / 100,
-      })) ?? []),
+      ...(repairInvoice?.repairInvoiceService.map((item) => {
+         return {
+            name: item.service_name,
+            unit: 'Lần',
+            sl: 1,
+            price: item.price ?? 0,
+            discount: item.discount ?? 0,
+            total_price: item.price - item.discount / 100,
+         };
+      }) ?? []),
 
       ...(repairInvoice?.repairInvoiceSupplies.map((item) => {
          const maxPrice =

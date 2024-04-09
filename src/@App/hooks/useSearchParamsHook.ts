@@ -17,10 +17,17 @@ const useSearchParamsHook = () => {
       return setSearchParams(params);
    };
 
+   const clearParams = () => {
+      return Object.keys(params).map((key) => {
+         return deleteParams(key);
+      });
+   };
+
    return {
       searchParams: params,
       setParams,
       deleteParams,
+      clearParams,
    };
 };
 

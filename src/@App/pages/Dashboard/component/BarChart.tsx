@@ -1,3 +1,4 @@
+import Calendar from '@App/component/common/Calendar';
 import { Box } from '@mui/material';
 import ReactECharts from 'echarts-for-react';
 import React from 'react';
@@ -17,27 +18,26 @@ const BarChart = ({ title, subtext, data }: BarChartPropsType) => {
          text: title,
          subtext: subtext,
          left: 'center',
+         bottom: 'bottom',
       },
       tooltip: {
          trigger: 'item',
       },
-      //   legend: {
-      //      orient: 'vertical',
-      //      left: 'left',
-      //      bottom: 'bottom',
-      //   },
+      legend: {
+         orient: 'vertical',
+         top: 'top',
+         left: 'left',
+         // bottom: 'bottom',
+      },
       series: [
          {
             name: '',
             type: 'pie',
-            radius: '50%',
-            // data: [
-            //    { value: 1048, name: 'Search Engine' },
-            //    { value: 735, name: 'Direct' },
-            //    { value: 580, name: 'Email' },
-            //    { value: 484, name: 'Union Ads' },
-            //    { value: 300, name: 'Video Ads' },
-            // ],
+            radius: '70%',
+            label: {
+               show: false,
+               position: 'center',
+            },
             data: data,
             emphasis: {
                itemStyle: {
@@ -51,12 +51,10 @@ const BarChart = ({ title, subtext, data }: BarChartPropsType) => {
    };
    return (
       <Box mt={3}>
+         <Box mb={2}>
+            <Calendar isReset={true} />
+         </Box>
          <ReactECharts style={{ height: 500, width: '100%' }} option={option} />
-         {/* <Box mt={2}>
-            <Typography color="#555555" fontSize={16} pl={2}>
-               {title}
-            </Typography>
-         </Box> */}
       </Box>
    );
 };

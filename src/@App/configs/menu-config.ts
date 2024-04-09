@@ -15,8 +15,22 @@ const menuConfig: MenuConfigItem[] = [
       title: 'Thống kê',
       link: '/',
       icon: HomeIcon,
-      action: PAGE_ACTION.VIEW_ALL,
-      module: MODULE_PAGE.DOASHBOARD,
+      children: [
+         {
+            id: 1.1,
+            title: 'Tổng quan',
+            link: ROUTE_PATH.DOASHBOARD,
+            module: MODULE_PAGE.DOASHBOARD,
+            action: PAGE_ACTION.VIEW_ALL,
+         },
+         {
+            id: 1.2,
+            title: 'Vật tư',
+            link: ROUTE_PATH.DOASHBOARD_SUPPLIES,
+            module: MODULE_PAGE.DOASHBOARD,
+            action: PAGE_ACTION.VIEW_ALL,
+         },
+      ],
    },
    {
       id: 2,

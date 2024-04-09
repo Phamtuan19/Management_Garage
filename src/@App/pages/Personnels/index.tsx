@@ -131,6 +131,9 @@ export default function Personnels() {
          columnHelper.accessor('phone', {
             header: 'Số điện thoại',
          }),
+         columnHelper.accessor('role_id.name', {
+            header: 'Vai trò',
+         }),
          columnHelper.accessor('gender', {
             header: () => <Box sx={{ textAlign: 'center' }}>Giới tính</Box>,
             cell: ({ row }) => {

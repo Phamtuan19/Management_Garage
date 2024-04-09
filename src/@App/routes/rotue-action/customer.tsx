@@ -9,6 +9,7 @@ import Loadable from '../components/loadable';
 const Customer = Loadable('Customer');
 const CustomerCreate = Loadable('Customer/CustomerCreate');
 const CustomerUpdate = Loadable('Customer/CustomerUpdate');
+const CustomerDetail = Loadable('Customer/CustomerDetail');
 
 const customerRoute: RouteObject = {
    path: ROUTE_PATH.CUSTOMERS,
@@ -35,6 +36,14 @@ const customerRoute: RouteObject = {
          element: (
             <PermissionAccessRoute module={MODULE_PAGE.CUSTOMERS} action={PAGE_ACTION.UPDATE} type="route">
                <CustomerUpdate />
+            </PermissionAccessRoute>
+         ),
+      },
+      {
+         path: ROUTE_PATH.CUSTOMERS + ROUTE_PATH.DETAILS,
+         element: (
+            <PermissionAccessRoute module={MODULE_PAGE.CUSTOMERS} action={PAGE_ACTION.VIEW_ONE} type="route">
+               <CustomerDetail />
             </PermissionAccessRoute>
          ),
       },

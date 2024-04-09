@@ -59,7 +59,7 @@ export const repairInvoiceSchema = yup.object({
       car_type: yup.string().default(''),
       brand_car: yup.string().default(''),
       license_plate: yup.string().default(''),
-      kilometer: yup.number().min(0, 'Số kilometer không hợp lệ').max(999999, 'Số kilometer không hợp lệ').default(0),
+      kilometer: yup.number().min(1, 'Số kilometer không hợp lệ').max(999999, 'Số kilometer không hợp lệ').default(1),
    }),
 
    suppliesInvoices: suppliesInvoices,

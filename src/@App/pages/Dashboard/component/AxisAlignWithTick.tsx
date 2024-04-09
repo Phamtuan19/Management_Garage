@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
@@ -16,7 +17,7 @@ import { useMemo } from 'react';
 
 import { month } from '../utils';
 
-const AxisAlignWithTick = ({ data, value, setValue }: any) => {
+const AxisAlignWithTick = ({ data, label, serie_name, value, setValue }: any) => {
    const option = useMemo(() => {
       const totalRevenue = data?.map((item: { total_price: any }) => item.total_price);
 
@@ -50,7 +51,7 @@ const AxisAlignWithTick = ({ data, value, setValue }: any) => {
          ],
          series: [
             {
-               name: 'Doanh thu',
+               name: { serie_name },
                type: 'bar',
                barWidth: '60%',
                data: totalRevenue,
@@ -64,7 +65,7 @@ const AxisAlignWithTick = ({ data, value, setValue }: any) => {
          <ReactECharts style={{ height: 500, width: '100%' }} option={option} />
          <Box mt={2} display="flex" alignItems="center" gap={1.5}>
             <Typography color="#555555" fontSize={16} pl={2}>
-               Doanh thu các tháng trong năm ({dayjs(value).year()})
+               {label} ({dayjs(value).year()})
             </Typography>
             <Box>
                <LocalizationProvider dateAdapter={AdapterDayjs}>

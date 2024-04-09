@@ -105,7 +105,7 @@ const StyledTableRow = styled(TableRow)(() => ({
       backgroundColor: '#FFFFFF',
    },
    '& .MuiTableCell-root': {
-      padding: '6px 12px',
+      padding: '12px 12px',
    },
 }));
 

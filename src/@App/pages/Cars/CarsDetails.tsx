@@ -170,8 +170,8 @@ const CarsDetails = () => {
 
          <PageContent>
             <Box pb={1} borderBottom="1px solid #DADADA">
-               <Typography variant="h3" fontSize={24}>
-                  Dịch vụ & Vật tư sử dụng
+               <Typography variant="h3" fontSize={18} py={1}>
+                  Lịch sử sửa chữa
                </Typography>
             </Box>
             <TableCore

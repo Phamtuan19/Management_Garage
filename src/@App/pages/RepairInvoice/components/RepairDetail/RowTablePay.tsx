@@ -44,13 +44,17 @@ function RowTablePay(props: {
             <ExtendTableCell>
                <Box display="flex" gap={2}>
                   <Box>{row.name}</Box>
-                  {row.options && <Chip label="Vật tư" color="warning" size="small" />}
+                  <Chip
+                     label={row.options ? 'Vật tư' : 'Dịch vụ'}
+                     color={row.options ? 'warning' : 'secondary'}
+                     size="small"
+                  />
                </Box>
             </ExtendTableCell>
             <ExtendTableCell>{row.unit}</ExtendTableCell>
             <ExtendTableCell align="center">{row.sl}</ExtendTableCell>
             <ExtendTableCell>{formatPrice(row.price)}</ExtendTableCell>
-            <ExtendTableCell>{formatPrice((row.price * row.discount) / 100)}</ExtendTableCell>
+            <ExtendTableCell>{formatPrice(row.discount)}</ExtendTableCell>
             <ExtendTableCell>{formatPrice(row.total_price)}</ExtendTableCell>
          </TableRow>
 
@@ -75,9 +79,7 @@ function RowTablePay(props: {
                                     {option.export_quantity}
                                  </ExtendTableCell>
                                  <ExtendTableCell width={140}>{formatPrice(option.selling_price)}</ExtendTableCell>
-                                 <ExtendTableCell width={140}>
-                                    {formatPrice((option.selling_price * option.discount) / 100)}
-                                 </ExtendTableCell>
+                                 <ExtendTableCell width={140}>{formatPrice(option.discount)}</ExtendTableCell>
                                  <ExtendTableCell width={140}>{formatPrice(option.selling_price)}</ExtendTableCell>
                               </TableRow>
                            ))}

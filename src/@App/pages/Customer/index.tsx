@@ -4,7 +4,7 @@ import { Box, Button, Chip } from '@mui/material';
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import { useQuery } from '@tanstack/react-query';
 import TableCore, { columnHelper } from '@Core/Component/Table';
-import { CoreTableActionEdit } from '@Core/Component/Table/components/CoreTableAction';
+import { CoreTableActionEdit, CoreTableActionViewDetail } from '@Core/Component/Table/components/CoreTableAction';
 import { useMemo } from 'react';
 import useCoreTable from '@App/hooks/useCoreTable';
 import useSearchParamsHook from '@App/hooks/useSearchParamsHook';
@@ -83,10 +83,15 @@ const Customer = () => {
                const customer = row.original as ICustomer;
                return (
                   <Box>
-                     {/* <CoreTableActionDelete /> */}
+                     {/* <CoreTableActionEit /> */}
                      <PermissionAccessRoute module={MODULE_PAGE.CUSTOMERS} action="UPDATE">
                         <CoreTableActionEdit
                            callback={() => navigate(ROUTE_PATH.CUSTOMERS + '/' + customer._id + '/update')}
+                        />
+                     </PermissionAccessRoute>
+                     <PermissionAccessRoute module={MODULE_PAGE.CUSTOMERS} action="VIEW_ONE">
+                        <CoreTableActionViewDetail
+                           callback={() => navigate(ROUTE_PATH.CUSTOMERS + '/' + customer._id + '/details')}
                         />
                      </PermissionAccessRoute>
                   </Box>
@@ -118,7 +123,7 @@ const Customer = () => {
                <FilterTable sortList={sortList} searchType={sortList} />
             </Box>
 
-            <TableCore columns={columns} {...data} />
+            <TableCore columns={columns as never} {...data} />
          </Box>
       </BaseBreadcrumbs>
    );

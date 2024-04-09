@@ -82,7 +82,7 @@ export const repairInvoiceUpdateSchema = yup.object({
       kilometer: yup
          .number()
          .max(999999, 'Số kilometer không hợp lệ')
-         .min(0, messageValidate.minNumber('kilometer', 0))
+         .min(1, messageValidate.minNumber('kilometer', 0))
          .default(0),
    }),
 

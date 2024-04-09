@@ -147,7 +147,7 @@ const MaterialsCatalog = () => {
                   Thêm mới
                </Button> */}
             </Box>
-            <TableCore columns={columns} {...data} />
+            <TableCore columns={columns as never} {...data} />
          </PageContent>
       </BaseBreadcrumbs>
    );

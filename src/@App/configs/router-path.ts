@@ -3,6 +3,8 @@ import * as yup from 'yup';
 const ROUTE_PATH = {
    DOASHBOARD: '/',
 
+   DOASHBOARD_SUPPLIES: '/dashboard-supplies',
+
    // module HR
    PERSONNELS: '/hr/personnels',
 

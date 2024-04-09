@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { UseFormReturn } from 'react-hook-form';
 import { Box, Button, Grid } from '@mui/material';
@@ -52,6 +53,14 @@ const VehicleInformation = ({ form }: VehicleInformationProps) => {
                         placeholder="Chọn xe cần sữa chữa"
                         control={control}
                         onChange={handleChangeCar}
+                        renderOptionChildren={(props, e) => {
+                           return (
+                              <Box sx={{ display: 'flex', gap: 1, px: 2, py: 1, cursor: 'pointer' }} {...props}>
+                                 <Box>{e.name}</Box>
+                                 <Box>{e.license_plate}</Box>
+                              </Box>
+                           );
+                        }}
                      />
                   </Box>
                   <Button sx={{ minWidth: 'auto', px: '12px', maxHeight: '37.6px' }}>

@@ -31,6 +31,7 @@ export interface SuppliesInvoicesResponse {
    };
    total_supplies_details: number;
    total_supplies: number;
+   check_supplies_sold: boolean;
 }
 
 export interface SuppliesInvoiceDetails {

@@ -151,56 +151,6 @@ const Doashboard = () => {
       },
    ];
 
-   // const dataBarChartService = {
-   //    title: 'Top 10 Dịch vụ có doanh thu cao nhất',
-   //    subtext: 'Dịch vụ',
-   //    data: [
-   //       {
-   //          name: 'Gói bảo dưỡng xe ô tô hạng B',
-   //          value: 50000,
-   //       },
-   //       {
-   //          name: 'Dịch vụ bảo dưỡng xe hạng A',
-   //          value: 50000,
-   //       },
-   //       {
-   //          name: 'Dịch vụ bảo dưỡng xe hạng C',
-   //          value: 50000,
-   //       },
-   //       {
-   //          name: 'Gói bảo dưỡng xe ô tô hạng B',
-   //          value: 50000,
-   //       },
-   //       {
-   //          name: 'Dịch vụ bảo dưỡng xe hạng A',
-   //          value: 50000,
-   //       },
-   //       {
-   //          name: 'Gói bảo dưỡng xe ô tô hạng B',
-   //          value: 50000,
-   //       },
-   //       {
-   //          name: 'Dịch vụ bảo dưỡng xe hạng A',
-   //          value: 50000,
-   //       },
-   //       {
-   //          name: 'Dịch vụ bảo dưỡng xe hạng C',
-   //          value: 50000,
-   //       },
-   //       {
-   //          name: 'Gói bảo dưỡng xe ô tô hạng B',
-   //          value: 50000,
-   //       },
-   //       {
-   //          name: 'Dịch vụ bảo dưỡng xe hạng A',
-   //          value: 50000,
-   //       },
-   //       {
-   //          name: 'Dịch vụ bảo dưỡng xe hạng C',
-   //          value: 50000,
-   //       },
-   //    ],
-   // };
    // const dataBarChartSupplies = {
    //    title: 'Top 10 vật tư có doanh thu cao nhất',
    //    subtext: 'Vật tư',
@@ -270,10 +220,20 @@ const Doashboard = () => {
                   </Grid>
                ))}
                <Grid item xs={12}>
-                  <AxisAlignWithTick value={value1} setValue={setValue1} data={doashboardYear} />
+                  <AxisAlignWithTick
+                     label="Doanh thu các tháng trong năm"
+                     value={value1}
+                     setValue={setValue1}
+                     data={doashboardYear}
+                  />
                </Grid>
                <Grid item xs={12}>
-                  <AxisAlignWithTick value={value2} setValue={setValue2} data={repairInvoice} />
+                  <AxisAlignWithTick
+                     label="Chi phí nhập hành các tháng trong năm"
+                     value={value2}
+                     setValue={setValue2}
+                     data={repairInvoice}
+                  />
                </Grid>
                {/* <Grid item xs={6}>
                   <CharLineSimple {...dataLineSimple} />

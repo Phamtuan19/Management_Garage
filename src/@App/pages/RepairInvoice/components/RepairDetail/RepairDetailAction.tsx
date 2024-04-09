@@ -2,7 +2,7 @@
 import ButtonCreate from '@App/component/common/ButtonCreate';
 import ButtonEdit from '@App/component/common/ButtonEdit';
 import ROUTE_PATH from '@App/configs/router-path';
-import { STATUS_REPAIR } from '@App/configs/status-config';
+import { STATUS_REPAIR, STATUS_REPAIR_DETAIL } from '@App/configs/status-config';
 import { ResponseFindOneRepairInvoice } from '@App/types/repair-invoice';
 import { AxiosResponseData } from '@Core/Api/axios-config';
 import { errorMessage, successMessage } from '@Core/Helper/message';
@@ -96,7 +96,10 @@ const RepairDetailAction = ({ data, refetchRepairInvoice, setOpen, setOpenModalP
                )}
             {/* shipped */}
             {isCheckShipped && status === STATUS_REPAIR.shipped.key && (
-               <Button color="warning" onClick={() => setOpenModalPay(true)}>
+               <Button
+                  color="warning"
+                  onClick={() => handleUpdateStatusCheck(arrowRightOption[indexStatusRepairInvoice + 1].name)}
+               >
                   {arrowRightOption[indexStatusRepairInvoice + 1].title}
                </Button>
             )}
@@ -107,7 +110,9 @@ const RepairDetailAction = ({ data, refetchRepairInvoice, setOpen, setOpenModalP
                </Button>
             )}
             {(status === STATUS_REPAIR.create.key || status === STATUS_REPAIR.check.key) && (
-               <Button color="error">Hủy</Button>
+               <Button color="error" onClick={() => handleUpdateStatusCheck(STATUS_REPAIR_DETAIL.close.key)}>
+                  Hủy
+               </Button>
             )}
          </Box>
       </Box>

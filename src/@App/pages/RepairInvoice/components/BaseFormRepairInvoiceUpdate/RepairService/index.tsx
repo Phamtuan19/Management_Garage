@@ -147,12 +147,9 @@ const RepairService = ({ form }: RepairServiceProps) => {
          columnHelper.accessor('discount', {
             header: () => <Box>khuyến mại</Box>,
             cell: ({ row }) => {
-               const price = watch(`repairService.${row.index}.price`);
                const discount = watch(`repairService.${row.index}.discount`);
 
-               const priceKm = (price * discount) / 100;
-
-               return <Box>{formatPrice(priceKm)}</Box>;
+               return <Box>{formatPrice(discount)}</Box>;
             },
          }),
 
@@ -162,7 +159,7 @@ const RepairService = ({ form }: RepairServiceProps) => {
                const price = watch(`repairService.${row.index}.price`);
                const discount = watch(`repairService.${row.index}.discount`);
 
-               const total_price = price - (price * discount) / 100;
+               const total_price = price - discount;
 
                return <Box>{formatPrice(total_price)}</Box>;
             },

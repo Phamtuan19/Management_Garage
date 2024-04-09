@@ -35,6 +35,7 @@ const searchType = [
 const sortList = [
    { title: 'Mã HĐ', value: 'code' },
    { title: 'Nhân viên tạo', value: 'personnel.full_name' },
+   { title: 'Trạng thái', value: 'check_supplies_sold' },
    { title: 'Ngày tạo', value: 'createdAt' },
 ];
 
@@ -91,6 +92,19 @@ const SuppliesInvoices = () => {
             cell: ({ row }) => {
                const suppliesInvoice = row.original as SuppliesInvoicesResponse;
                return <Box textAlign="center">{handlePrice(suppliesInvoice.transaction.total_price)}</Box>;
+            },
+         }),
+         columnHelper.accessor('check_supplies_sold', {
+            header: () => <Box textAlign="center">Trạng thái</Box>,
+            cell: (info) => {
+               return (
+                  <Box textAlign="center">
+                     <Chip
+                        label={info.getValue() ? 'Hết hàng' : 'Còn hàng'}
+                        color={info.getValue() ? 'error' : 'info'}
+                     />
+                  </Box>
+               );
             },
          }),
          columnHelper.accessor('status', {
@@ -157,7 +171,7 @@ const SuppliesInvoices = () => {
 
          <PageContent>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-               <FilterTable sortList={sortList} searchType={searchType} />
+               <FilterTable sortList={sortList} searchType={searchType} isDate={true} />
             </Box>
 
             <TableCore columns={columns} {...data} />

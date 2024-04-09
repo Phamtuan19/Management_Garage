@@ -40,9 +40,7 @@ const SuppliesInvoicesDetails = () => {
          ),
          border: false,
       },
-      { label: 'Chuyển khoản:', value: formatPrice(suppliesinvoices?.transactions.cash_money ?? 0), border: true },
-      { label: 'Mô tả', value: suppliesinvoices?.describe, border: true },
-      { label: 'Tiền mặt:', value: formatPrice(suppliesinvoices?.transactions.transfer_money ?? 0), border: true },
+      { label: 'Ghi chú:', value: suppliesinvoices?.describe, border: true },
    ];
 
    return (

@@ -137,7 +137,7 @@ const FilterService = ({
             _id: '',
             repair_invoice_id: service._id,
             price: service.price,
-            discount: service.discount,
+            discount: (service.price * service.discount) / 100,
             type: 'service',
             describe: '',
             repair_staff_id: '',

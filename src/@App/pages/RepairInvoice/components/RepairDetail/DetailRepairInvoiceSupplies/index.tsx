@@ -67,6 +67,17 @@ const DetailRepairInvoiceSupplies = ({ data }: DetailRepairInvoiceSuppliesProps)
                               <ControllerLabel title="Loại :" />
                               <Chip label="Vật tư" color="secondary" size="small" />
                            </Flex>
+                           <Flex>
+                              <ControllerLabel title="Đvt :" />
+                              <Typography
+                                 sx={{
+                                    pb: '2px',
+                                    textAlign: 'start',
+                                 }}
+                              >
+                                 <Chip label={item.unit} color="default" size="small" />
+                              </Typography>
+                           </Flex>
                         </Box>
                         <Flex>
                            <ControllerLabel title="Tên:" />
@@ -101,17 +112,6 @@ const DetailRepairInvoiceSupplies = ({ data }: DetailRepairInvoiceSuppliesProps)
                            </Typography>
                         </Flex>
                         <Flex>
-                           <Flex>
-                              <ControllerLabel title="Đvt :" />
-                              <Typography
-                                 sx={{
-                                    pb: '2px',
-                                    textAlign: 'start',
-                                 }}
-                              >
-                                 <Chip label={item.unit} color="default" size="small" />
-                              </Typography>
-                           </Flex>
                            <Flex>
                               <ControllerLabel title="Giá :" />
                               <Typography
