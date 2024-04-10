@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
@@ -18,7 +19,7 @@ import {
    Typography,
    styled,
 } from '@mui/material';
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { UseFieldArrayAppend, UseFormReturn } from 'react-hook-form';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import ScrollbarBase from '@App/component/customs/ScrollbarBase';
@@ -30,6 +31,7 @@ import useDebounce from '@App/hooks/useDebounce';
 import repairServiceCategoriesService from '@App/services/repairServiceCategories.service';
 import { errorMessage } from '@Core/Helper/message';
 import { RepairInvoiceSchema } from '@App/pages/RepairInvoice/utils/repair-invoice-create';
+import formatPrice from '@Core/Helper/formatPrice';
 
 interface FilterServiceProps {
    form: UseFormReturn<RepairInvoiceSchema>;
@@ -92,6 +94,7 @@ const FilterService = ({
             car_name: carName,
             ...(category_id ? { repair_service_category_id: category_id } : {}),
          });
+
          return res.data;
       },
    );
@@ -100,6 +103,12 @@ const FilterService = ({
       const res = await repairServiceCategoriesService.get({});
       return res.data;
    });
+
+   useEffect(() => {
+      if (repairServiceCategories && repairServiceCategories?.length > 0) {
+         setCategory_id(repairServiceCategories[0]._id);
+      }
+   }, [repairServiceCategories]);
 
    const dataFilterSupplie = useMemo(() => {
       if (repairService && repairServiceForm) {
@@ -226,6 +235,9 @@ const FilterService = ({
                                              <Box>
                                                 <span>#{item.code}</span>
                                              </Box>
+                                             <Box>
+                                                <span>{formatPrice(item.price)}</span>
+                                             </Box>
                                           </Flex>
                                        </Flex>
                                     </ButtonBase>
@@ -243,7 +255,7 @@ const FilterService = ({
             </Box>
          </Grid>
          <Grid item xs={3}>
-            <Select fullWidth onChange={(e) => setCategory_id(e.target.value)} value={category_id}>
+            <Select fullWidth onChange={(e) => setCategory_id(e.target.value)} defaultValue="" value={category_id}>
                {repairServiceCategories &&
                   repairServiceCategories?.map((item: any) => {
                      return <MenuItem value={item._id}>{item.name}</MenuItem>;

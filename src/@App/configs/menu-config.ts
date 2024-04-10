@@ -25,7 +25,7 @@ const menuConfig: MenuConfigItem[] = [
          },
          {
             id: 1.2,
-            title: 'Vật tư',
+            title: 'Vật tư & Xe',
             link: ROUTE_PATH.DOASHBOARD_SUPPLIES,
             module: MODULE_PAGE.DOASHBOARD,
             action: PAGE_ACTION.VIEW_ALL,

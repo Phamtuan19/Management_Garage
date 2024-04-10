@@ -15,63 +15,22 @@ import { useQuery } from '@tanstack/react-query';
 import dashboardService from '@App/services/dashboard-service';
 import dayjs, { Dayjs } from 'dayjs';
 import { useState } from 'react';
+import Calendar from '@App/component/common/Calendar';
 
 import DoashboardPrice from './component/DoashboardPrice';
 import AxisAlignWithTick from './component/AxisAlignWithTick';
-// import BarChart from './component/BarChart';
 
 const Doashboard = () => {
    const { searchParams } = useSearchParamsHook();
    const [value1, setValue1] = useState<Dayjs | null>(dayjs());
    const [value2, setValue2] = useState<Dayjs | null>(dayjs());
 
-   // const shortcutsItems: PickersShortcutsItem<DateRange<Dayjs>>[] = [
-   //    {
-   //       label: 'This Week',
-   //       getValue: () => {
-   //          const today = dayjs();
-   //          return [today.startOf('week'), today.endOf('week')];
-   //       },
-   //    },
-   //    {
-   //       label: 'Last Week',
-   //       getValue: () => {
-   //          const today = dayjs();
-   //          const prevWeek = today.subtract(7, 'day');
-   //          return [prevWeek.startOf('week'), prevWeek.endOf('week')];
-   //       },
-   //    },
-   //    {
-   //       label: 'Last 7 Days',
-   //       getValue: () => {
-   //          const today = dayjs();
-   //          return [today.subtract(7, 'day'), today];
-   //       },
-   //    },
-   //    {
-   //       label: 'Current Month',
-   //       getValue: () => {
-   //          const today = dayjs();
-   //          return [today.startOf('month'), today.endOf('month')];
-   //       },
-   //    },
-   //    {
-   //       label: 'Next Month',
-   //       getValue: () => {
-   //          const today = dayjs();
-   //          const startOfNextMonth = today.endOf('month').add(1, 'day');
-   //          return [startOfNextMonth, startOfNextMonth.endOf('month')];
-   //       },
-   //    },
-   //    { label: 'Reset', getValue: () => [null, null] },
-   // ];
-
    const { data: doashboard, isLoading } = useQuery(
       ['getDoashboard', searchParams['start_date'], searchParams['end_date']],
       async () => {
          const res = await dashboardService.get({
-            start_date: searchParams['start_date'] ?? new Date(new Date().setDate(1)),
-            end_date: searchParams['end_date'] ?? dayjs().endOf('month'),
+            start_date: searchParams['start_date'],
+            end_date: searchParams['end_date'],
          });
 
          return res.data;
@@ -103,20 +62,6 @@ const Doashboard = () => {
          data: formatPrice(doashboard?.count?.total_price_supplies_invoice ?? 0),
          icon: <AttachMoneyIcon sx={{ width: '20px', height: '20px', color: 'white' }} />,
       },
-      // {
-      //    bgColor: 'rgba(244, 19, 69, 0.20)',
-      //    bdColor: '#F41345',
-      //    title: 'Tổng doanh thu',
-      //    data: formatPrice(1000000000),
-      //    icon: <AttachMoneyIcon sx={{ width: '20px', height: '20px', color: 'white' }} />,
-      // },
-      // {
-      //    bgColor: 'rgba(255, 156, 8, 0.20)',
-      //    bdColor: '#FF9C09',
-      //    title: 'Tổng doanh thu',
-      //    data: formatPrice(1000000000),
-      //    icon: <AttachMoneyIcon sx={{ width: '20px', height: '20px', color: 'white' }} />,
-      // },
    ];
 
    const dataCategorySt = [
@@ -151,61 +96,10 @@ const Doashboard = () => {
       },
    ];
 
-   // const dataBarChartSupplies = {
-   //    title: 'Top 10 vật tư có doanh thu cao nhất',
-   //    subtext: 'Vật tư',
-   //    data: [
-   //       {
-   //          name: 'Gói bảo dưỡng xe ô tô hạng B',
-   //          value: 50000,
-   //       },
-   //       {
-   //          name: 'Dịch vụ bảo dưỡng xe hạng A',
-   //          value: 50000,
-   //       },
-   //       {
-   //          name: 'Dịch vụ bảo dưỡng xe hạng C',
-   //          value: 50000,
-   //       },
-   //       {
-   //          name: 'Gói bảo dưỡng xe ô tô hạng B',
-   //          value: 50000,
-   //       },
-   //       {
-   //          name: 'Dịch vụ bảo dưỡng xe hạng A',
-   //          value: 50000,
-   //       },
-   //       {
-   //          name: 'Gói bảo dưỡng xe ô tô hạng B',
-   //          value: 50000,
-   //       },
-   //       {
-   //          name: 'Dịch vụ bảo dưỡng xe hạng A',
-   //          value: 50000,
-   //       },
-   //       {
-   //          name: 'Dịch vụ bảo dưỡng xe hạng C',
-   //          value: 50000,
-   //       },
-   //       {
-   //          name: 'Gói bảo dưỡng xe ô tô hạng B',
-   //          value: 50000,
-   //       },
-   //       {
-   //          name: 'Dịch vụ bảo dưỡng xe hạng A',
-   //          value: 50000,
-   //       },
-   //       {
-   //          name: 'Dịch vụ bảo dưỡng xe hạng C',
-   //          value: 50000,
-   //       },
-   //    ],
-   // };
-
    return (
       <BaseBreadcrumbs arialabel="Thống kê" isLoading={isLoading}>
          {/* <DoashboardFilter /> */}
-
+         <Calendar isReset={true} />
          <PageContent>
             <Grid container spacing={2}>
                {dataCategorySt.map((item, index) => (

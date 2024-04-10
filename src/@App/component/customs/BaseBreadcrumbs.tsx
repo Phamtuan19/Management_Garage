@@ -3,6 +3,7 @@ import Breadcrumbs from '@mui/material/Breadcrumbs';
 import { Box, CircularProgress, SxProps, Theme, Typography, styled } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 import PageNullData from '@App/pages/error/PageNullData';
+import { useState } from 'react';
 
 interface BaseBreadcrumbsPropsType<TData> {
    arialabel: string;
@@ -23,7 +24,10 @@ function BaseBreadcrumbs<TData>({
    isCheck = false,
    isLoading = false,
 }: BaseBreadcrumbsPropsType<TData>) {
-   if (isLoading) {
+   const [count, setCount] = useState<number>(0);
+
+   if (count === 0 && isLoading) {
+      setCount((prev) => prev + 1);
       return (
          <Box
             sx={({ base }) => ({

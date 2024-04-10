@@ -189,7 +189,7 @@ const RepairInvoice = () => {
          </Box>
          <PageContent>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-               <FilterTable sortList={sortList} searchType={searchType} isDate={true}>
+               <FilterTable sortList={sortList} searchType={searchType} isDate={true} isReset={true}>
                   <Select
                      placeholder=""
                      value={searchParams['status'] ?? statusFilter[0].name}

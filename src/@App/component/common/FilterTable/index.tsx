@@ -9,6 +9,7 @@ const FilterTable = (props: {
    isSearch?: boolean;
    isDate?: boolean;
    children?: React.ReactNode;
+   isReset?: boolean;
 }) => {
    const { sortList } = props;
 

@@ -1,12 +1,11 @@
 /* eslint-disable no-empty */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { Box, Button, ButtonBase, Chip, InputBase, styled } from '@mui/material';
+import { Box, Button, ButtonBase, Chip, IconButton, InputBase, styled } from '@mui/material';
 import { UseFormReturn, useFieldArray } from 'react-hook-form';
 import { useMemo, useState } from 'react';
 // import { useParams } from 'react-router-dom';
 import TableCore, { columnHelper } from '@Core/Component/Table';
-import { CoreTableActionDelete } from '@Core/Component/Table/components/CoreTableAction';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import {
@@ -22,6 +21,8 @@ import { errorMessage, successMessage } from '@Core/Helper/message';
 import { AxiosError } from 'axios';
 import { useConfirm } from '@Core/Component/Comfirm/CoreComfirm';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import LazyLoadingImage from '@App/component/customs/LazyLoadingImage';
+import images from '@App/assets/image';
 
 import FilterSupplies from './FilterSupplies';
 import RenderSubComponent from './RenderSubComponent';
@@ -228,12 +229,17 @@ const RepairSupplies = ({ form, status }: RepairSuppliesProps) => {
                return (
                   <Box display="flex" justifyContent="right" gap="6px">
                      {supplies.status_repair !== STATUS_REPAIR_DETAIL.complete.key && (
-                        <CoreTableActionDelete
-                           isConfirm={false}
-                           callback={() => {
+                        // <CoreTableActionDelete
+                        //    isConfirm={false}
+
+                        // />
+                        <IconButton
+                           onClick={() => {
                               handleDeleteRepiarInvoiceDetail(supplies._id, row.index);
                            }}
-                        />
+                        >
+                           <LazyLoadingImage w="18" src={images.returnImage} />
+                        </IconButton>
                      )}
                   </Box>
                );

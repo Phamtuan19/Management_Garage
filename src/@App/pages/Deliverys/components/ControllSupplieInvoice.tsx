@@ -28,7 +28,6 @@ const ControllSupplieInvoice = ({ form, data, index }: ControllSupplieInvoicePro
          return res.data;
       },
    );
-
    const data_exports = watch('exports');
    const supplies_invoice_code = watch(`exports.${index}.supplies_invoice_code`);
    //    const dataExportIndex = watch(`exports.${index}`);
@@ -80,7 +79,7 @@ const ControllSupplieInvoice = ({ form, data, index }: ControllSupplieInvoicePro
             return data.length > 0
                ? data.map((item) => ({
                     key: item.supplies_invoice_code,
-                    title: `#${item.supplies_invoice_code} - ${formatDateTime(item.createdAt)}`,
+                    title: `#${item.supplies_invoice_code} - ${formatDateTime(item.createdAt)} - ${item.quantity_sold === 0 ? 'Hết hàng' : 'Còn hàng'}`,
                     ...item,
                  }))
                : [];

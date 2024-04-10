@@ -12,6 +12,7 @@ const path = {
    supplies_export: '/supplies-export',
    supplies_export_top_five: '/supplies/top-export',
    supplies_export_top: '/supplies/top',
+   car_top: '/supplies/car-top',
 };
 
 class DashboardService extends BaseService {
@@ -39,6 +40,10 @@ class DashboardService extends BaseService {
 
    getDashboardSuppliesExportTop(params: any): Promise<AxiosResponseData> {
       return this.request(this.BASE_ENDPOINT + path.supplies_export_top, { params });
+   }
+
+   getDashboardCarTop(params: any): Promise<AxiosResponseData> {
+      return this.request(this.BASE_ENDPOINT + path.car_top, { params });
    }
 
    getExportSupplies(params: any): Promise<AxiosResponseData> {

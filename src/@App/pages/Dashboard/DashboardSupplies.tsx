@@ -6,7 +6,7 @@
 import BaseBreadcrumbs from '@App/component/customs/BaseBreadcrumbs';
 import PageContent from '@App/component/customs/PageContent';
 import ConstructionRoundedIcon from '@mui/icons-material/ConstructionRounded';
-import { Box, Grid } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import dashboardService from '@App/services/dashboard-service';
 import formatPrice from '@Core/Helper/formatPrice';
@@ -39,9 +39,9 @@ const DashboardSupplies = () => {
    );
 
    const { data: exportTop } = useQuery(
-      ['getDashboardSuppliesExportTop', searchParams['start_date_top'], searchParams['end_date_top']],
+      ['getDashboardCarTop', searchParams['start_date_top'], searchParams['end_date_top']],
       async () => {
-         const res = await dashboardService.getDashboardSuppliesExportTop({
+         const res = await dashboardService.getDashboardCarTop({
             start_date: searchParams['start_date_top'],
             end_date: searchParams['end_date_top'],
          });
@@ -126,30 +126,30 @@ const DashboardSupplies = () => {
                return <Box textAlign="center">{getValue()}</Box>;
             },
          }),
-         columnHelper.accessor('code_detail', {
-            header: () => <Box textAlign="center">Mã</Box>,
+         columnHelper.accessor('name', {
+            header: () => <Box textAlign="center">Tên xe</Box>,
             cell: (info) => {
                return <Box textAlign="center">#{info.getValue()} </Box>;
             },
          }),
-         columnHelper.accessor('name_detail', {
-            header: () => <Box textAlign="center">Tên vật tư</Box>,
+         columnHelper.accessor('license_plate', {
+            header: () => <Box textAlign="center">Biển số xe</Box>,
             cell: (info) => {
                return (
                   <Box maxWidth={150} textOverflow="ellipsis" overflow="hidden">
-                     {info.getValue()}{' '}
+                     {info.getValue()}
                   </Box>
                );
             },
          }),
-         columnHelper.accessor('supplies_invoice_code', {
-            header: () => <Box textAlign="center">Mã lô hàng</Box>,
+         columnHelper.accessor('brand_car', {
+            header: () => <Box textAlign="center">Thương hiệu</Box>,
             cell: (info) => {
                return <Box textAlign="center">#{info.getValue()} </Box>;
             },
          }),
-         columnHelper.accessor('export_quantity', {
-            header: () => <Box textAlign="center">Mã lô hàng</Box>,
+         columnHelper.accessor('total_repair_invoice', {
+            header: () => <Box textAlign="center">Số lần sửa chữa</Box>,
             cell: (info) => {
                return <Box textAlign="center">{info.getValue()} </Box>;
             },
@@ -173,7 +173,10 @@ const DashboardSupplies = () => {
                <Grid item xs={7}>
                   <Box mt={3}>
                      <Calendar nameStart="start_date_top" nameEnd="end_date_top" isReset={true} />
-                     <TableCore columns={columns as never} data={exportTop ?? []} height={500} isPagination={false} />
+                     <TableCore columns={columns as never} data={exportTop ?? []} height={450} isPagination={false} />
+                     <Typography fontSize={22} mt={2} fontWeight={600}>
+                        Top 10 Xe sửa chữa nhiều nhất
+                     </Typography>
                   </Box>
                </Grid>
             </Grid>

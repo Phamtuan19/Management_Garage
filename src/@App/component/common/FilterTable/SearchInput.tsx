@@ -14,11 +14,13 @@ const SearchInput = ({
    children,
    isDate = false,
    isSearch = true,
+   isReset = false,
 }: {
    isSearch?: boolean;
    isDate?: boolean;
    searchType?: SortList[];
    children?: React.ReactNode;
+   isReset?: boolean;
 }) => {
    const [value, setValue] = useState<string>('');
    const [open, setOpen] = useState<boolean>(false);
@@ -136,7 +138,7 @@ const SearchInput = ({
                </Box>
             )}
             <Box>{children}</Box>
-            {isDate && <Calendar />}
+            {isDate && <Calendar isReset={isReset} />}
          </Box>
 
          <Stack sx={{ flexDirection: 'row', gap: 1, overflow: 'hidden' }}>
