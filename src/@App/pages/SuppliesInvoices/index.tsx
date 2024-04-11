@@ -171,7 +171,7 @@ const SuppliesInvoices = () => {
 
          <PageContent>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-               <FilterTable sortList={sortList} searchType={searchType} isDate={true} />
+               <FilterTable sortList={sortList} searchType={searchType} isDate={true} isReset={true} />
             </Box>
 
             <TableCore columns={columns} {...data} />

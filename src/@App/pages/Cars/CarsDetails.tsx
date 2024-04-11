@@ -116,7 +116,7 @@ const CarsDetails = () => {
    }, []);
 
    return (
-      <BaseBreadcrumbs breadcrumbs={breadcrumbs} arialabel="Chi tiết nhà phân phối">
+      <BaseBreadcrumbs breadcrumbs={breadcrumbs} arialabel="Chi tiết xe">
          <Box>
             <PermissionAccessRoute module={MODULE_PAGE.CARS} action="UPDATE">
                <Button

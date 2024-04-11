@@ -137,7 +137,7 @@ const Deliverys = () => {
       <BaseBreadcrumbs arialabel="Phiếu xuất kho">
          <PageContent>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-               <FilterTable sortList={sortList} searchType={searchType}>
+               <FilterTable sortList={sortList} searchType={searchType} isDate={true} isReset={true}>
                   <Select
                      placeholder=""
                      value={searchParams['status'] ?? 'all'}
