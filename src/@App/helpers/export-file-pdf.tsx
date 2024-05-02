@@ -54,7 +54,7 @@ const PDFExportRepairInvoice = () => {
          value: repairInvoice?.car_id.brand_car,
       },
       {
-         title: 'Tong Tien:',
+         title: 'Tổng tiền:',
          value: formatPrice(transaction?.total_price ?? 0),
       },
    ];

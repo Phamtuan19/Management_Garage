@@ -12,9 +12,12 @@ import { useAuth } from '@App/redux/slices/auth.slice';
 import { useEffect } from 'react';
 import LazyLoadingImage from '@App/component/customs/LazyLoadingImage';
 import svg from '@App/assets/svg';
+import { AxiosError } from 'axios';
+import { HandleErrorApi } from '@Core/Api/axios-config';
+import setErrorMessageHookForm from '@App/helpers/setErrorMessageHookForm';
 
-import { SuppliesInvoicesSchema, suppliesInvoicesSchema } from './utils/suppliesInvoices.schema';
 import BaseFormSuppliesInvoices from './component/BaseFormSuppliesInvoices';
+import { SuppliesInvoicesSchema, suppliesInvoicesSchema } from './utils/suppliesInvoices.schema';
 
 const breadcrumbs = [
    {
@@ -46,7 +49,9 @@ const SuppliesInvoicesCreate = () => {
          successMessage('Tạo mới thành công.');
          return navigate(ROUTE_PATH.SUPPLIES_INVOICES);
       },
-      onError: () => {
+      onError: (err: AxiosError) => {
+         const dataError = err.response?.data as HandleErrorApi;
+         setErrorMessageHookForm<SuppliesInvoicesSchema>(form.setError, dataError.data as never);
          return errorMessage('Đã có lỗi xảy ra');
       },
    });

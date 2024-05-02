@@ -9,11 +9,7 @@ import useCoreTable from '@App/hooks/useCoreTable';
 import PermissionAccessRoute from '@App/routes/components/PermissionAccessRoute';
 import materialsCatalogService, { MaterialsCatalogResponse } from '@App/services/materialsCatalog.service';
 import TableCore, { columnHelper } from '@Core/Component/Table';
-import {
-   CoreTableActionDelete,
-   CoreTableActionEdit,
-   CoreTableActionViewDetail,
-} from '@Core/Component/Table/components/CoreTableAction';
+import { CoreTableActionEdit, CoreTableActionViewDetail } from '@Core/Component/Table/components/CoreTableAction';
 import { Box, Button } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
@@ -62,7 +58,7 @@ const MaterialsCatalog = () => {
 
                return (
                   <Box>
-                     <CoreTableActionDelete />
+                     {/* <CoreTableActionDelete /> */}
                      <CoreTableActionEdit
                         callback={() =>
                            navigate(ROUTE_PATH.MATERIALS_CATALOGS + '/' + materialsCatalog._id + '/update')

@@ -5,7 +5,7 @@ import { Box, Button, ButtonBase, Chip, Grid, InputBase, styled } from '@mui/mat
 import { UseFormReturn, useFieldArray } from 'react-hook-form';
 import RemoveIcon from '@mui/icons-material/Remove';
 import TableCore, { columnHelper } from '@Core/Component/Table';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import Regexs from '@Core/Configs/Regexs';
 import formatPrice from '@Core/Helper/formatPrice';
@@ -27,8 +27,12 @@ interface SuppliesInvoicesTable {
 }
 
 const SuppliesInvoicesTable = ({ form, isCheckStatusPayment }: SuppliesInvoicesTable) => {
-   const { control, watch, setValue } = form;
-
+   const {
+      control,
+      watch,
+      setValue,
+      formState: { errors },
+   } = form;
    const [columnVisibility, setColumnVisibility] = useState({
       stt: true,
       code: true,
@@ -89,6 +93,15 @@ const SuppliesInvoicesTable = ({ form, isCheckStatusPayment }: SuppliesInvoicesT
 
       return remove(index);
    };
+
+   useEffect(() => {
+      if (errors.details) {
+         return errorMessage('Vui lòng kiểm tra thông tin');
+      }
+
+      return;
+   }, [errors]);
+
    const columns = useMemo(() => {
       return [
          columnHelper.accessor('stt', {
@@ -188,6 +201,11 @@ const SuppliesInvoicesTable = ({ form, isCheckStatusPayment }: SuppliesInvoicesT
                            onChange={(e) => {
                               setValue(`details.${row.index}.cost_price`, Number(e.target.value));
                            }}
+                           onInput={(event: React.ChangeEvent<HTMLInputElement>) => {
+                              return (event.target.value = String(
+                                 Number(event.target.value.replace(Regexs.integer, '')),
+                              ));
+                           }}
                         />
                      </>
                   )}
@@ -208,6 +226,11 @@ const SuppliesInvoicesTable = ({ form, isCheckStatusPayment }: SuppliesInvoicesT
                            value={watch(`details.${row.index}.selling_price`)}
                            onChange={(e) => {
                               setValue(`details.${row.index}.selling_price`, Number(e.target.value));
+                           }}
+                           onInput={(event: React.ChangeEvent<HTMLInputElement>) => {
+                              return (event.target.value = String(
+                                 Number(event.target.value.replace(Regexs.integer, '')),
+                              ));
                            }}
                         />
                      </>

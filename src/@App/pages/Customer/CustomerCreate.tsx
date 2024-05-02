@@ -6,7 +6,6 @@ import customerService from '@App/services/customer.service';
 import { errorMessage, successMessage } from '@Core/Helper/message';
 import { HandleErrorApi } from '@Core/Api/axios-config';
 import { AxiosError } from 'axios';
-import HttpStatusCode from '@Core/Configs/HttpStatusCode';
 import setErrorMessageHookForm from '@App/helpers/setErrorMessageHookForm';
 import { useNavigate } from 'react-router-dom';
 import ROUTE_PATH from '@App/configs/router-path';
@@ -37,11 +36,7 @@ const CustomerCreate = () => {
       },
       onError: (err: AxiosError) => {
          const dataError = err.response?.data as HandleErrorApi;
-
-         if (Number(dataError.statusCode) === Number(HttpStatusCode.BAD_REQUEST)) {
-            return setErrorMessageHookForm<CustomerSchema>(form.setError, dataError.message);
-         }
-
+         setErrorMessageHookForm<CustomerSchema>(form.setError, dataError.data as never);
          return errorMessage(err);
       },
    });

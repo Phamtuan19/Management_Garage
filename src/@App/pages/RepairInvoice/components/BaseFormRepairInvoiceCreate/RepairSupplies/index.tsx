@@ -70,7 +70,9 @@ const RepairSupplies = ({ form }: RepairSuppliesProps) => {
          }),
          columnHelper.accessor('supplies_detail_name', {
             header: () => <Box>Tên VT</Box>,
-            cell: (info) => <Box sx={{ width: '180px' }}>{info.getValue()}</Box>,
+            cell: (info) => (
+               <Box sx={{ width: '300px', overflow: 'hidden', textOverflow: 'ellipsis' }}>{info.getValue()}</Box>
+            ),
          }),
          columnHelper.accessor('distributor_name', {
             header: () => <Box>Nhà phân phối</Box>,

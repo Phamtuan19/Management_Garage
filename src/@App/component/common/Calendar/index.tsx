@@ -26,7 +26,7 @@ const Calendar = ({
 }) => {
    const [open, setOpen] = useState<boolean>(false);
 
-   const { setParams, searchParams, deleteParams, clearParams } = useSearchParamsHook();
+   const { setParams, searchParams, deleteParams } = useSearchParamsHook();
 
    const dayPickerRef = useRef<any>(null);
 
@@ -109,7 +109,8 @@ const Calendar = ({
          {isReset && (
             <Button
                onClick={() => {
-                  clearParams();
+                  deleteParams(nameStart);
+                  deleteParams(nameEnd);
                   setRange({
                      from: startReset,
                      to: endReset,

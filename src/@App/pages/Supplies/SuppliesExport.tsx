@@ -92,7 +92,7 @@ const SuppliesExport = () => {
 
    return (
       <>
-         <FilterTable searchType={searchType} sortList={sortList} isDate={true} />
+         <FilterTable searchType={searchType} sortList={sortList} isDate={true} isReset={true} />
          <TableCore height={420} columns={columns as never} {...data} />
       </>
    );

@@ -57,9 +57,9 @@ const SuppliesDetails = () => {
          isLoading={isLoading}
       >
          <Box display="flex" gap="12px">
-            <PermissionAccessRoute module={MODULE_PAGE.SUPPLIES} action="UPDATE">
+            <PermissionAccessRoute module={MODULE_PAGE.SUPPLIES} action="CREATE">
                <Button variant="contained" onClick={() => navigate(ROUTE_PATH.SUPPLIES + ROUTE_PATH.CREATE)}>
-                  Chỉnh sửa
+                  Thêm mới
                </Button>
             </PermissionAccessRoute>
             <PermissionAccessRoute module={MODULE_PAGE.SUPPLIES} action="UPDATE">

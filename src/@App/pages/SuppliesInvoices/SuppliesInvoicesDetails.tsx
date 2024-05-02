@@ -31,7 +31,7 @@ const SuppliesInvoicesDetails = () => {
       { label: 'Người tạo phiếu:', value: suppliesinvoices?.personnel.full_name, border: true },
       { label: 'Tổng tiền:', value: formatPrice(suppliesinvoices?.transactions.total_price ?? 0), border: true },
       {
-         label: 'Hình thứ thanh toán:',
+         label: 'Trạng thái thanh toán:',
          value: (
             <Chip
                label={STATUS_PAYMENT[suppliesinvoices?.transactions.status ?? 'UNPAID'].title}

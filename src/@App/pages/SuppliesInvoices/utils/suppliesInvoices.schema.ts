@@ -32,8 +32,8 @@ export const suppliesInvoicesSchema = yup.object({
                .trim(messageValidate.trim())
                .default(''),
             quantity_received: yup.number().default(0),
-            cost_price: yup.number().default(0),
-            selling_price: yup.number().default(0),
+            cost_price: yup.number().min(1000).default(0),
+            selling_price: yup.number().min(1000).default(0),
             discount: yup.number().default(0),
             describe: yup.string().strict(true).trim(messageValidate.trim()).default(''),
             distributor_name: yup.string().default(''),

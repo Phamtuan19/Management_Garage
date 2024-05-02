@@ -127,13 +127,13 @@ const DashboardSupplies = () => {
             },
          }),
          columnHelper.accessor('name', {
-            header: () => <Box textAlign="center">Tên xe</Box>,
+            header: () => <Box>Tên xe</Box>,
             cell: (info) => {
-               return <Box textAlign="center">#{info.getValue()} </Box>;
+               return <Box>{info.getValue()} </Box>;
             },
          }),
          columnHelper.accessor('license_plate', {
-            header: () => <Box textAlign="center">Biển số xe</Box>,
+            header: () => <Box>Biển số xe</Box>,
             cell: (info) => {
                return (
                   <Box maxWidth={150} textOverflow="ellipsis" overflow="hidden">
@@ -145,7 +145,7 @@ const DashboardSupplies = () => {
          columnHelper.accessor('brand_car', {
             header: () => <Box textAlign="center">Thương hiệu</Box>,
             cell: (info) => {
-               return <Box textAlign="center">#{info.getValue()} </Box>;
+               return <Box textAlign="center">{info.getValue()} </Box>;
             },
          }),
          columnHelper.accessor('total_repair_invoice', {
